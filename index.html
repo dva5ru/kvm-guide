@@ -725,6 +725,10 @@ nav.tabs a{min-height:40px;display:inline-flex;align-items:center}
 .panel{box-shadow:3px 3px 0 var(--line)}
 .ptile,.enc-card,.watch-way,.way{box-shadow:3px 3px 0 var(--line)}
 .legend-link{margin:-4px 0 10px;font-size:14px}.legend-link a{color:var(--muted)}
+
+.version-heading{font-size:14px;font-weight:700;margin:16px 0 8px}.ver-switch{display:flex;flex-wrap:wrap;gap:8px}.ver-switch .season{flex:1 1 140px;white-space:normal;text-align:left;padding:10px 12px}.ver-switch .season i{display:block;font-size:12px;font-weight:400;font-style:normal;opacity:.8;margin-top:4px}
+.episode-cast{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:12px;margin-top:15px}.episode-person{padding:14px}.episode-person a{color:var(--ink)}.episode-person p{margin-top:8px;font-size:14px;line-height:1.5}.ep h3 a{color:inherit;text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--red)}
+@media(max-width:520px){.ver-switch .season{flex:1 1 45%}.episode-cast{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -772,7 +776,7 @@ function norm(s){return String(s).toLowerCase().replace(/ё/g,'е').replace(/[«
 function stBadge(s){return '<span class="st st-'+s+'" title="'+esc(D.st[s][1])+'">'+esc(D.st[s][0])+'</span>'}
 var IMP=['','Полезно к «Судному дню»','Желательно к «Судному дню»','Важно к «Судному дню»'];
 function impBadge(){return ''}
-function cover(p,cls){var L=p.t.length,im=imgSrc('f-'+p.id);return '<span class="cover '+(cls||'')+(L>44?' xl':L>26?' lg':'')+(im?' has-img':'')+' s-'+p.s+'" style="--c:'+p.col+'"'+(im?' data-bg="'+esc(im)+'"':'')+' aria-hidden="true"><span class="cv-y">'+esc(years(p))+'</span><span class="cv-t">'+esc(p.t)+'</span></span>'}
+function cover(p,cls){var L=p.t.length,im=imgSrc('f-'+p.id)||(p.editionOf?imgSrc('f-'+p.editionOf):'');return '<span class="cover '+(cls||'')+(L>44?' xl':L>26?' lg':'')+(im?' has-img':'')+' s-'+p.s+'" style="--c:'+p.col+'"'+(im?' data-bg="'+esc(im)+'"':'')+' aria-hidden="true"><span class="cv-y">'+esc(years(p))+'</span><span class="cv-t">'+esc(p.t)+'</span></span>'}
 function initials(n){var w=n.split('/')[0].replace(/[()«»]/g,'').trim().split(/\s+/);return (w[0][0]+(w[1]?w[1][0]:'')).toUpperCase()}
 function mono(c,big){var im=imgSrc('c-'+c.id);return '<span class="mono'+(big?' big':'')+(im?' has-img':'')+'" style="--c:'+c.col+'"'+(im?' data-bg="'+esc(im)+'"':'')+' aria-hidden="true">'+(im?'':esc(initials(c.n)))+'</span>'}
 function pLink(id){var p=P[id];return p?'<a class="chip" href="#f-'+p.id+'"><span class="dot" style="--c:'+p.col+'"></span>'+esc(p.t)+' <i>'+esc(p.y)+'</i></a>':''}
@@ -1210,6 +1214,15 @@ var NAVT={map:'Карта и места',lines:'Сюжетные линии',sto
 
 // ---------- главная ----------
 
+
+function versionBar(c){var ids=(D.versions||{})[c.verGroup];if(!ids)return '';return '<p class="version-heading">Другие версии персонажа</p><div class="seasons ver-switch">'+ids.map(function(id){var o=C[id];return '<a class="season'+(id===c.id?' on':'')+'" href="#c-'+id+'"'+(id===c.id?' aria-current="page"':'')+'>'+esc(o.verLabel||o.n)+' <i>'+esc(o.a)+'</i></a>'}).join('')+'</div>'}
+function editionBar(p){var ids=(D.editions||{})[p.editionGroup];if(!ids)return '';return '<p class="version-heading">Другие редакции фильма</p><div class="seasons ver-switch">'+ids.map(function(id){var o=P[id];return '<a class="season'+(id===p.id?' on':'')+'" href="#f-'+id+'"'+(id===p.id?' aria-current="page"':'')+'>'+esc(id===p.editionGroup?'Оригинал':'Другая редакция')+' <i>'+esc(o.t)+'</i></a>'}).join('')+'</div>'}
+var EP_LOOKUP={};D.p.forEach(function(p){(p.eps||[]).forEach(function(e,i){EP_LOOKUP[p.id+'-'+e[0]]={p:p,e:e,i:i}})});
+function episodeNote(c,p,e){var specific=((((D.epRoles||{})[p.id]||{})[e[0]]||{})[c.id]);return specific||'Участие отмечено; индивидуальное описание ещё проверяется.'}
+function epNotes(c){var rows=[];c.app.forEach(function(a){var p=P[a[0]];if(!p||!p.eps)return;p.eps.forEach(function(e){if(e[3].indexOf(c.id)>=0)rows.push([p,e])})});if(!rows.length)return '';return '<h2 style="margin-top:32px">Другие версии персонажа в других реальностях <span class="muted">('+rows.length+')</span></h2><ol class="apps">'+rows.map(function(x,i){var p=x[0],e=x[1];return '<li><span class="an">'+(i+1)+'</span><div><div class="ah"><a href="#ep-'+p.id+'-'+e[0]+'">'+esc(p.t)+', серия '+e[0]+'</a></div><p><b>Что, если'+esc(e[1])+'</b></p>'+SPW([p.id],'<p>'+esc(episodeNote(c,p,e))+'</p>')+'</div></li>'}).join('')+'</ol>'}
+function episodeView(p,e,i){var prev=p.eps[i-1],next=p.eps[i+1];return '<button class="back" type="button" data-back>← Назад</button><p class="muted"><a href="#f-'+p.id+'">'+esc(p.t)+'</a> · Сезон '+p.sn+', серия '+e[0]+'</p><h1>Что, если'+esc(e[1])+'</h1><div class="panel pad" style="margin-top:20px"><h2>Сюжет</h2>'+SPW([p.id],'<p class="story">'+esc(e[2])+'</p>')+'</div><h2 style="margin-top:26px">Персонажи серии ('+e[3].length+')</h2><div class="episode-cast">'+e[3].filter(function(id){return C[id]}).map(function(id){return '<div class="panel episode-person"><a href="#c-'+id+'"><b>'+esc(C[id].n)+'</b></a>'+SPW([p.id],'<p>'+esc(episodeNote(C[id],p,e))+'</p>')+'</div>'}).join('')+'</div><div class="navpair" style="margin-top:25px">'+(prev?'<a class="panel" href="#ep-'+p.id+'-'+prev[0]+'">← Серия '+prev[0]+'</a>':'<span></span>')+(next?'<a class="panel nx" href="#ep-'+p.id+'-'+next[0]+'">Серия '+next[0]+' →</a>':'<span></span>')+'</div>'}
+function episodeList(p,cx){if(!p.eps)return '';return '<section class="eps"><h2>Серии <span class="muted">('+p.eps.length+')</span></h2>'+p.eps.map(function(e,i){return '<div class="ep"><div class="ep-n">'+e[0]+'</div><div><h3><a href="#ep-'+p.id+'-'+e[0]+'">Что, если'+esc(e[1])+'</a></h3>'+SPW([p.id],'<p>'+E('ep.'+p.id+'.'+i,e[2],cx)+'</p>')+'<p><a href="#ep-'+p.id+'-'+e[0]+'">Открыть карточку серии →</a></p><div class="chips">'+e[3].filter(function(id){return C[id]}).map(cLink).join('')+'</div></div></div>'}).join('')+'</section>'}
+
 // ---------- страница проекта ----------
 function projectView(p){var pg=p.id,cx=ctxP([p.id]),nb=chronoNeighbors(p),K='p.'+p.id+'.';
   var facts=[[relLabel(p),fdate(p.r)+(p.re?' — '+p.re:'')],['Время действия',p.w],['Студия',D.studios[p.st]],['Тип',D.k[p.k]+(p.sg?', сезон '+p.sn+' из '+D.sg[p.sg].length:'')]];
@@ -1222,15 +1235,15 @@ function projectView(p){var pg=p.id,cx=ctxP([p.id]),nb=chronoNeighbors(p),K='p.'
   var post=p.post==null?'':(p.post.length?'<ul class="keys">'+p.post.map(function(x,i){return '<li><b>'+(p.post.length>1?(i+1)+'-я сцена. ':'')+'</b>'+E(K+'post.'+i,x,cx)+'</li>'}).join('')+'</ul>':'<p class="muted" style="margin-top:8px">Сцен после титров нет.</p>');
   var tlh=(p.tl||[]).map(function(t){var txt=t[3]!=null&&t[3]!==''&&!t[2]?D.tl[t[3]][2]:t[1];return '<li'+(t[2]?' class="k"':'')+'><b>'+esc(t[0])+'</b><span>'+(t[2]?'<a href="#e-'+t[2]+'">'+esc(EV[t[2]]?evName(EV[t[2]]):t[1])+'</a> <span class="kev-tag">ключевое событие</span>':(t[3]!=null&&t[3]!==''?E('tl.'+t[3],txt,cx):lk(txt,cx)))+'</span></li>'}).join('');
   return '<button class="back" type="button" data-back>← Назад</button><div class="dhead"><div class="cvcol">'+cover(p,'big')+imgOneBtn('f-'+p.id)+'</div><div class="info"><h1>'+EH(K+'t',p.t)+'</h1><div class="en">'+esc(p.en)+'</div>'+B('p.seasons',pg,'Сезоны',seasonBar(p))+
-  '<div class="badges">'+stBadge(p.s)+'</div><p class="muted" style="margin-top:8px;font-size:15px">'+esc(D.st[p.s][1])+'</p>'+
+  editionBar(p)+'<div class="badges">'+stBadge(p.s)+'</div><p class="muted" style="margin-top:8px;font-size:15px">'+esc(D.st[p.s][1])+'</p>'+
   B('p.facts',pg,'Факты','<dl class="facts">'+facts.map(function(f){return '<div><dt>'+f[0]+'</dt><dd>'+esc(f[1])+'</dd></div>'}).join('')+'</dl>')+'</div></div>'+
   '<div class="cols"><div>'+B('p.about',pg,'Короткое описание','<p class="about">'+E(K+'ab',p.ab,cx)+'</p>')+
-  B('p.story',pg,'Сюжет',p.sto||ADM.edit?'<h2 style="margin-top:28px">Сюжет</h2>'+SPW([p.id],storyHTML(p,K,cx)):'')+
+  B('p.diff',pg,'Отличия редакции',p.editionDifferences?'<div class="panel pad" style="margin-top:24px"><h2>Чем отличается эта версия</h2><p>'+esc(p.editionDifferences)+'</p>'+(p.editionSource?'<p><a href="'+esc(p.editionSource)+'" target="_blank" rel="noopener noreferrer">Источник</a></p>':'')+'</div>':'')+B('p.story',pg,'Сюжет',p.sto||ADM.edit?'<h2 style="margin-top:28px">Сюжет</h2>'+SPW([p.id],storyHTML(p,K,cx)):'')+
   B('p.key',pg,'Что важно для КВМ',p.imp||(p.key&&p.key.filter(Boolean).length)||ADM.edit?'<h2 style="margin-top:28px">Что важно для КВМ</h2>'+SPW([p.id],(p.imp||ADM.edit?'<p class="impact">'+E(K+'imp',p.imp||'',cx)+'</p>':'')+'<ul class="keys">'+(p.key||[]).map(function(k,i){return k?'<li>'+E(K+'key.'+i,k,cx)+'</li>':''}).join('')+(ADM.edit?'<li>'+E(K+'key.'+(p.key||[]).length,'',cx)+'</li>':'')+'</ul>'):'')+
   B('p.firsts',pg,'Впервые появляются',firsts.length?'<h3 class="sub">Впервые появляются в КВМ ('+firsts.length+')</h3>'+SPW([p.id],'<div class="chips">'+firsts.map(function(f){return cLink(f[0],f[1]?'версия из другой вселенной':'')}).join('')+'</div>'):'')+
   B('p.post',pg,'Сцены после титров',p.post!=null?'<h2 style="margin-top:28px">Сцены после титров</h2>'+SPW([p.id],post):'')+
   B('p.note',pg,'Примечание',p.note||ADM.edit?'<p class="note" style="margin-top:20px">'+E(K+'note',p.note||'',cx)+'</p>':'')+
-  B('p.eps',pg,'Серии',p.eps?'<section class="eps"><h2>Серии <span class="muted">('+p.eps.length+')</span></h2>'+p.eps.map(function(e,i){return '<div class="ep"><div class="ep-n">'+e[0]+'</div><div><h3>Что, если'+esc(e[1])+'</h3>'+SPW([p.id],'<p>'+E('ep.'+p.id+'.'+i,e[2],cx)+'</p>')+'<div class="chips">'+e[3].filter(function(id){return C[id]}).map(function(id){return cLink(id)}).join('')+'</div></div></div>'}).join('')+'</section>':'')+
+  B('p.eps',pg,'Серии',episodeList(p,cx))+
   B('p.tl',pg,'События по хронологии',tlh?'<h2 style="margin-top:28px">События по хронологии</h2>'+SPW([p.id],'<ul class="tlmini">'+tlh+'</ul>'):'')+
   B('p.who',pg,'Все герои',who?'<div class="who" style="margin-top:28px"><h2>Все герои</h2>'+who+'</div>':'')+'</div>'+
   '<div>'+B('p.nav',pg,'Раньше и дальше по хронологии',p.ord?'<h3>Что смотреть дальше</h3>'+((p.next||[]).length?'<ul class="evlist nextl" style="margin:8px 0 12px">'+p.next.filter(function(id){return P[id]}).map(function(id){var q=P[id],sl=p.ln.filter(function(l){return q.ln.indexOf(l)>=0})[0];return '<li>'+pLink(id)+' <span class="muted">'+(sl?'продолжение линии «'+esc(lnName(sl))+'»':'опирается на события этого проекта')+'</span></li>'}).join('')+'</ul>':'')+'<div class="navpair" style="margin-top:10px">'+(nb[0]?'<a class="panel" href="#f-'+nb[0].id+'"><small>← Раньше по хронологии</small><b>'+esc(nb[0].t)+'</b></a>':'<span></span>')+(nb[1]?'<a class="panel nx" href="#f-'+nb[1].id+'"><small>Дальше по хронологии →</small><b>'+esc(nb[1].t)+'</b></a>':'<span></span>')+'</div>':'')+
@@ -1241,18 +1254,18 @@ function projectView(p){var pg=p.id,cx=ctxP([p.id]),nb=chronoNeighbors(p),K='p.'
 }
 // ---------- страница героя ----------
 function charView(c){var pg=c.id,K='c.'+c.id+'.',hcx=ctxP(c.app.map(function(a){return a[0]}));
-  var inM=c.app.filter(function(a){var p=P[a[0]];return MCU[p.s]&&a[1]!=='X'}),other=c.app.filter(function(a){var p=P[a[0]];return !(MCU[p.s]&&a[1]!=='X')});
+  var inM=c.app.filter(function(a){var p=P[a[0]];return !p.eps&&MCU[p.s]&&a[1]!=='X'}),other=c.app.filter(function(a){var p=P[a[0]];return !p.eps&&!(MCU[p.s]&&a[1]!=='X')});
   var first=D.p.filter(function(p){return (p.firsts||[]).some(function(f){return f[0]===c.id})})[0];
   var evs=D.ev.filter(function(e){return e.ch.indexOf(c.id)>=0}),rels=relsOf(c.id);
   var plc={};c.app.forEach(function(a){if(/[LM]/.test(a[1]))P[a[0]].pl.forEach(function(x){plc[x]=(plc[x]||0)+1})});
   var plTop=Object.keys(plc).sort(function(a,b){return plc[b]-plc[a]}).slice(0,12);
   function apps(list,st){return '<ol class="apps">'+list.map(function(a,i){var p=P[a[0]],note=c.notes[a[0]];return '<li><span class="an">'+(i+1)+'</span><div><div class="ah"><a href="#f-'+p.id+'">'+esc(p.t)+'</a><span class="muted">'+esc(years(p))+'</span><span class="rtag r-'+a[1]+'">'+ROLE[a[1]]+'</span>'+(st?stBadge(p.s):'')+'</div>'+(note||ADM.edit?SPW([a[0]],'<p>'+E(K+'note.'+a[0],note||'',ctxP([a[0]]),c.id)+'</p>'):'')+'</div></li>'}).join('')+'</ol>'}
-  return '<button class="back" type="button" data-back>← Назад</button><div class="dhead">'+mono(c,true)+'<div class="info"><h1>'+EH(K+'n',c.n)+'</h1><div class="en">'+esc(c.a)+'</div><div class="badges"><a class="chip" href="#heroes" data-hs-goto="'+esc(c.g)+'">'+esc(c.g)+'</a></div>'+
+  return '<button class="back" type="button" data-back>← Назад</button><div class="dhead">'+mono(c,true)+'<div class="info"><h1>'+EH(K+'n',c.n)+'</h1><div class="en">'+esc(c.a)+'</div>'+versionBar(c)+'<div class="badges"><a class="chip" href="#heroes" data-hs-goto="'+esc(c.g)+'">'+esc(c.g)+'</a></div>'+
   B('c.about',pg,'Описание',charAbout(c,K,hcx))+
   (ADM.on?'<p style="margin-top:12px">'+imgOneBtn('c-'+c.id)+'</p>':'')+
   B('c.first',pg,'Первое появление',first?'<p class="muted" style="margin-top:12px">Первое появление в КВМ: <a href="#f-'+first.id+'">«'+esc(first.t)+'»</a> ('+esc(first.y)+')</p>':'')+'</div></div>'+
   '<div class="cols"><div>'+B('c.apps',pg,'Все появления в КВМ',inM.length?'<h2>Все появления в КВМ <span class="muted">('+inM.length+')</span></h2><p class="muted" style="margin:6px 0 10px">По порядку событий: что герой делает в каждом проекте.</p>'+apps(inM):'')+
-  B('c.other',pg,'Другие версии',other.length?'<h2 style="margin-top:32px">Другие версии и вселенные <span class="muted">('+other.length+')</span></h2><p class="muted" style="margin:6px 0 10px">Фильмы вне КВМ и варианты героя из других вселенных, включая «Что, если…?».</p>'+apps(other,1):'')+'</div>'+
+  B('c.other',pg,'Другие версии',other.length?'<h2 style="margin-top:32px">Другие версии и вселенные <span class="muted">('+other.length+')</span></h2><p class="muted" style="margin:6px 0 10px">Фильмы вне КВМ и другие реальности.</p>'+apps(other,1):'')+epNotes(c)+'</div>'+
   '<div>'+B('c.events',pg,'Ключевые события',evs.length?'<h3>Ключевые события</h3><div class="chips" style="margin-top:10px">'+evs.map(function(e){return evLink(e.id)}).join('')+'</div>':'')+
   B('c.links',pg,'Связи',rels.length?'<h3 style="margin-top:24px">Связи</h3><ul class="evlist" style="margin-top:8px">'+rels.slice(0,8).map(function(r){return '<li><span class="lg-dot" style="background:'+relDot(c.id,r.o,r)+'"></span><a href="#c-'+r.o+'">'+esc(short(r.o))+'</a> '+relLab(c.id,r.o,r.l)+'</li>'}).join('')+'</ul>'+(rels.length>8?'<details class="more-d"><summary>Ещё '+(rels.length-8)+' '+plural(rels.length-8,['связь','связи','связей'])+'</summary><ul class="evlist" style="margin-top:8px">'+rels.slice(8).map(function(r){return '<li><span class="lg-dot" style="background:'+relDot(c.id,r.o,r)+'"></span><a href="#c-'+r.o+'">'+esc(short(r.o))+'</a> '+relLab(c.id,r.o,r.l)+'</li>'}).join('')+'</ul></details>':'')+'<p style="margin-top:8px"><a href="#links" data-lk-go="'+c.id+'">Открыть на схеме связей</a></p>':'')+
   B('c.places',pg,'Места',plTop.length?'<h3 style="margin-top:24px">Места</h3><div class="chips" style="margin-top:10px">'+plTop.map(plLink).join('')+'</div>':'')+'</div></div>';
@@ -1625,7 +1638,7 @@ function evLink(id){var e=EV[id];return e?'<a class="chip" href="#e-'+e.id+'">'+
 // ---------- новая структура: 6 разделов ----------
 var LEGACY={routes:'watch',doomsday:'f-doomsday',rights:'catalog',quiz:'home',deaths:'home'};
 var ENC_KEYS={map:1,lines:1,stones:1,races:1,orgs:1,teams:1,universes:1};
-function navFor(h){if(h==='home')return 'home';if(h==='timeline'||h==='events'||/^e-/.test(h))return 'timeline';if(h==='catalog'||/^f-/.test(h))return 'catalog';
+function navFor(h){if(h==='home')return 'home';if(h==='timeline'||h==='events'||/^e-/.test(h))return 'timeline';if(h==='catalog'||/^f-/.test(h)||/^ep-/.test(h))return 'catalog';
   if(h==='heroes'||h==='links'||/^c-/.test(h))return 'heroes';if(h==='watch'||/^w-/.test(h))return 'watch';if(h==='encyclopedia'||ENC_KEYS[h]||/^[plaro]-/.test(h))return 'encyclopedia';return ''}
 function crumbEnc(){return '<a class="crumb" href="#encyclopedia">← Энциклопедия</a>'}
 function route(){
@@ -1639,7 +1652,8 @@ function route(){
   if(ENC_KEYS[h]&&OVR.nav[h]&&!ADM.on)h='encyclopedia';
   var back=STACK.length>1&&STACK[STACK.length-2]===h;if(CUR&&!KEEP)SCROLL[CUR]=window.scrollY;if(back)STACK.pop();else if(STACK[STACK.length-1]!==h)STACK.push(h);if(STACK.length>60)STACK.shift();CUR=h;NAVBACK=back;
   var html=null,title='',m=h.match(/^([fcpelarwo])-(.+)$/);
-  if(m){var OGI={};D.enc.orgs.forEach(function(o){OGI[o[0]]=o});var RCI={};D.enc.races.forEach(function(r){RCI[r[0]]=r});var AIX={};artAll().forEach(function(a){AIX[a.id]=a});var RTI={};(D.routes||[]).forEach(function(r){RTI[r[0]]=r});
+  if(h.indexOf('ep-')===0&&EP_LOOKUP[h.slice(3)]){var x=EP_LOOKUP[h.slice(3)];html=episodeView(x.p,x.e,x.i);title=x.p.t+' — серия '+x.e[0]}
+  else if(m){var OGI={};D.enc.orgs.forEach(function(o){OGI[o[0]]=o});var RCI={};D.enc.races.forEach(function(r){RCI[r[0]]=r});var AIX={};artAll().forEach(function(a){AIX[a.id]=a});var RTI={};(D.routes||[]).forEach(function(r){RTI[r[0]]=r});
     var src={o:[OGI,orgView],w:[RTI,routeView],f:[P,projectView],c:[C,charView],p:[PL,placeView],e:[EV,eventView],l:[LN,lineView],a:[AIX,artView],r:[RCI,raceView]}[m[1]],o=src[0][m[2]];if(o){html=src[1](o);title=o.t||o.n||o[1]}}
   else{var vh=h==='events'?'timeline':h;if(VIEWS[vh]){html=VIEWS[vh]();if(ENC_KEYS[vh])html=crumbEnc()+html;title=NAV6T[navFor(vh)]||''}}
   if(html==null){html=notFound();title='Не найдено'}
