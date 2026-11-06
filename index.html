@@ -1165,7 +1165,7 @@ var DT_BACK={back:1,fake:1};
 
 
 // ---------- свои картинки ----------
-var IMG={},IDB=null,UNM=[];
+var IMG={},IDB=null,UNM=[],IMG_FAILED=[],IMG_OK=[],IMG_QUEUE=Promise.resolve(),IMG_BUSY=0;
 function idb(){return new Promise(function(res,rej){if(IDB)return res(IDB);try{var r=indexedDB.open('kvm-img',1);r.onupgradeneeded=function(){r.result.createObjectStore('img')};r.onsuccess=function(){IDB=r.result;res(IDB)};r.onerror=function(){rej(r.error)}}catch(e){rej(e)}})}
 
 
@@ -1178,22 +1178,29 @@ function imgIndex(){if(IMX)return IMX;IMX=[];D.p.forEach(function(p){[p.id.repla
 function imgMatch(fname){var f=normF(fname),idx=imgIndex(),best=null,bs=0,i;for(i=0;i<idx.length;i++)if(idx[i][1]===f)return idx[i][0];var ft=f.split(' ');
   idx.forEach(function(e){if(!e[1])return;var et=e[1].split(' '),inter=et.filter(function(w){return ft.indexOf(w)>=0}).length,u={};ft.concat(et).forEach(function(w){u[w]=1});var sc=inter/Object.keys(u).length;if(sc>bs){bs=sc;best=e[0]}});return bs>=0.6?best:null}
 function keyName(k){var id=k.slice(2);return k[0]==='f'?(P[id]?P[id].t:id):(C[id]?C[id].n:id)}
-function imgHandle(files){var res=document.getElementById('img-res');if(res)res.innerHTML='<p class="muted">Обрабатываю '+files.length+'…</p>';var ok=[];UNM=[];
-  var chain=Promise.resolve();Array.prototype.forEach.call(files,function(f){if(!/^image\//.test(f.type))return;chain=chain.then(function(){return shrink(f).then(function(url){var k=imgMatch(f.name);if(k){ok.push(k);return imgPut(k,url)}UNM.push({name:f.name,url:url})}).catch(function(){})})});
-  chain.then(function(){if(document.getElementById('img-res'))document.getElementById('img-res').innerHTML=imgResHTML(ok);var g=document.getElementById('img-have');if(g)g.outerHTML=imgHaveHTML()})}
-function imgResHTML(ok){return (ok.length?'<p class="ok-note">Поставлено автоматически: '+ok.length+'. '+ok.slice(0,12).map(function(k){return esc(keyName(k))}).join(', ')+(ok.length>12?'…':'')+'</p>':'')+
+function imgRefresh(){var r=document.getElementById('img-res');if(r)r.innerHTML=imgResHTML(IMG_OK);var g=document.getElementById('img-have');if(g)g.outerHTML=imgHaveHTML()}
+function imgHandle(files){var items=Array.prototype.slice.call(files||[]).filter(function(f){return /^image\//.test(f.type)});if(!items.length){toast('Выберите изображения');return}
+  IMG_BUSY+=items.length;imgRefresh();
+  items.forEach(function(f){IMG_QUEUE=IMG_QUEUE.then(function(){return shrink(f).then(function(url){
+    var key=imgMatch(f.name);
+    if(!key){UNM.push({name:f.name,url:url,done:false});return}
+    return imgPut(key,url).then(function(){IMG_OK.push(key)})
+  }).catch(function(e){IMG_FAILED.push({name:f.name,error:e&&e.message||'ошибка обработки'})}).then(function(){IMG_BUSY--;imgRefresh()})})});
+  return IMG_QUEUE.then(function(){if(IMG_FAILED.length)toast('Не загружено: '+IMG_FAILED.length+'. Проверьте список ниже.')})}
+
+function imgResHTML(ok){return (IMG_BUSY?'<p class="muted" role="status">Осталось обработать: '+IMG_BUSY+'</p>':'')+(ok.length?'<p class="ok-note">Поставлено автоматически: '+ok.length+'. '+ok.slice(-12).map(function(k){return esc(keyName(k))}).join(', ')+(ok.length>12?'…':'')+'</p>':'')+(IMG_FAILED.length?'<h3 class="sub">Не загружено ('+IMG_FAILED.length+')</h3>'+IMG_FAILED.map(function(f){return '<p class="muted">'+esc(f.name)+': '+esc(f.error)+'</p>'}).join(''):'')+
   (UNM.length?'<h3 class="sub">Не удалось понять, куда поставить ('+UNM.length+')</h3><p class="muted">Напишите название фильма или имя героя и нажмите «Поставить».</p><datalist id="img-targets">'+imgIndex().filter(function(e,i,a){return a.findIndex(function(x){return x[0]===e[0]})===i}).map(function(e){return '<option value="'+esc(e[2])+'">'}).join('')+'</datalist>'+
-   UNM.map(function(u,i){return '<div class="unm"><img src="'+u.url+'" alt=""><span>'+esc(u.name)+'</span><input type="text" list="img-targets" data-unm-in="'+i+'" placeholder="Фильм или герой" aria-label="Куда поставить '+esc(u.name)+'"><button type="button" class="btn" data-unm="'+i+'">Поставить</button></div>'}).join(''):'')}
+   UNM.map(function(u,i){return u.done?'':'<div class="unm"><img src="'+u.url+'" alt=""><span>'+esc(u.name)+'</span><input type="text" list="img-targets" data-unm-in="'+i+'" placeholder="Название или ID фильма / героя" aria-label="Куда поставить '+esc(u.name)+'"><button type="button" class="btn" data-unm="'+i+'">Поставить</button></div>'}).join(''):'')}
 function imgHaveHTML(){var ks=Object.keys(IMG).sort();return '<section id="img-have"><div class="sec-h"><h2>Уже добавлено ('+ks.length+')</h2>'+(ks.length?'<button type="button" class="btn" data-img-clear>Удалить все</button>':'')+'</div>'+(ks.length?'<div class="hgrid">'+ks.map(function(k){return '<div class="panel hcard"><img class="thumb" src="'+IMG[k]+'" alt=""><span><b>'+esc(keyName(k))+'</b><a href="#'+k+'">Открыть</a> · <button type="button" class="linkbtn" data-img-del="'+k+'">Убрать</button></span></div>'}).join('')+'</div>':'<p class="muted">Пока ничего нет.</p>')+'</section>'}
 
 
 
 // ---------- админка: правки, блоки, картинки, публикация ----------
 var ADM={can:false,on:false,edit:false,guest:false,art:null,assets:null};
-var OVR={ts:0,text:{},img:{},hide:{},nav:{}},PUB=null,ORIG={},KEEP=false;
+var OVR={ts:0,text:{},img:{},hide:{},nav:{},copy:{}},PUB=null,ORIG={},KEEP=false;
 var SHELL_HEADER=(document.querySelector('header.top')||{outerHTML:''}).outerHTML;
 try{var emb=document.getElementById('kvm-ovr');if(emb&&emb.textContent.trim().length>2)OVR=normOvr(JSON.parse(emb.textContent))}catch(e){}
-function normOvr(o){o=o||{};return {ts:o.ts||0,text:o.text||{},img:o.img||{},hide:o.hide||{},nav:o.nav||{}}}
+function normOvr(o){o=o||{};return {ts:o.ts||0,text:o.text||{},img:o.img||{},hide:o.hide||{},nav:o.nav||{},copy:o.copy||{}}}
 function clone(o){return JSON.parse(JSON.stringify(o))}
 PUB=clone(OVR);
 var TXT_DEF={'home.title':'Путеводитель по киновселенной Marvel','home.lead':'Что смотреть, в каком порядке и как всё связано — без спойлеров, если вы их не хотите.'};
@@ -1211,10 +1218,31 @@ function ref(key){var k=key.split('.'),t=k[0],o;
 function getT(key){var r=ref(key);return r?r[0][r[1]]:''}
 function applyOVR(){Object.keys(ORIG).forEach(function(k){var r=ref(k);if(r)r[0][r[1]]=ORIG[k]});ORIG={};
   Object.keys(OVR.text).forEach(function(k){var r=ref(k);if(!r)return;ORIG[k]=r[0][r[1]];r[0][r[1]]=OVR.text[k]});IMG=OVR.img;CTXC={};if(typeof buildSearch==='function'&&typeof sIdx!=='undefined')buildSearch()}
-function dirtyCount(){var n=0,a=OVR,b=PUB||{text:{},img:{},hide:{},nav:{}};['text','img','hide','nav'].forEach(function(f){var ks={};Object.keys(a[f]).concat(Object.keys(b[f])).forEach(function(k){ks[k]=1});Object.keys(ks).forEach(function(k){if(JSON.stringify(a[f][k])!==JSON.stringify(b[f][k]))n++})});return n}
+function dirtyCount(){var n=0,a=OVR,b=PUB||{text:{},img:{},hide:{},nav:{},copy:{}};['text','img','hide','nav','copy'].forEach(function(f){var ks={};Object.keys(a[f]).concat(Object.keys(b[f])).forEach(function(k){ks[k]=1});Object.keys(ks).forEach(function(k){if(JSON.stringify(a[f][k])!==JSON.stringify(b[f][k]))n++})});return n}
 function saveDraft(){histPush();ADM.saveErr='';if(ADM.conflict){admBar();return}try{var js0=JSON.stringify(OVR);localStorage.setItem(DRAFT_KEY,js0);ADM.lastSaved=js0;ADM.savedAt=new Date()}catch(e){ADM.saveErr=(e&&e.name==='QuotaExceededError')?'не хватает места в браузере — опубликуйте или скачайте копию':'браузер не дал сохранить черновик';toast('Черновик не сохранён: '+ADM.saveErr)}admBar()}
 var DRAFT_KEY='kvm-draft:'+(location.pathname||'')+':v1';
 function rerender(){KEEP=true;var y=window.scrollY;route();window.scrollTo(0,y);KEEP=false}
+
+function copyScope(el){var a=el.closest('a[href^="#f-"],a[href^="#c-"],a[href^="#ep-"]');return a?a.getAttribute('href').slice(1):CUR}
+function copyKey(scope,text){return scope+'|'+text}
+function applyCopy(){if(!OVR.copy)return;var w=document.createTreeWalker(main,NodeFilter.SHOW_TEXT),n;
+  while(n=w.nextNode()){var p=n.parentElement;if(!p||p.closest('script,style,textarea,button,.ed,.ed-box'))continue;
+    var raw=n.nodeValue.trim();if(!raw)continue;var loc=OVR.copy[copyKey(copyScope(p),raw)],all=OVR.copy[copyKey('*',raw)],val=loc!==undefined?loc:all;
+    if(val!==undefined)n.nodeValue=n.nodeValue.replace(raw,val)}}
+function universalEdit(el){var n=Array.prototype.find.call(el.childNodes,function(x){return x.nodeType===3&&x.nodeValue.trim()});
+  if(!n)return;var current=n.nodeValue.trim(),scope=copyScope(el),original=current;
+  Object.keys(OVR.copy||{}).forEach(function(k){if(OVR.copy[k]===current&&k.endsWith('|'+current)===false){var t=k.slice(k.indexOf('|')+1);if(t&&k.startsWith(scope+'|'))original=t}});
+  var m=document.createElement('div');m.className='modal';m.id='copyedit';m.setAttribute('role','dialog');m.setAttribute('aria-modal','true');m.dataset.scope=scope;m.dataset.original=original;
+  m.innerHTML='<div class="modal-c panel pad"><h2>Изменить текст</h2><textarea class="ed-ta" id="copyvalue" rows="5">'+esc(current)+'</textarea><div style="display:grid;gap:10px;margin:12px 0"><label><input type="radio" name="copy-scope" value="local" checked> Только в этой карточке / на странице</label><label><input type="radio" name="copy-scope" value="all"> Везде на сайте</label></div><button type="button" class="btn primary" data-copy-save>Сохранить</button> <button type="button" class="btn" data-copy-cancel>Отмена</button></div>';
+  document.body.appendChild(m);m.querySelector('textarea').focus()}
+document.addEventListener('click',function(e){var m=document.getElementById('copyedit');
+  if(m&&e.target.closest('[data-copy-save],[data-copy-cancel]')){e.preventDefault();e.stopImmediatePropagation();if(e.target.closest('[data-copy-save]')){var val=m.querySelector('#copyvalue').value.trim(),scope=m.querySelector('[name="copy-scope"]:checked').value==='all'?'*':m.dataset.scope,orig=m.dataset.original;
+    if(!val){toast('Введите текст');return}if(val===orig)delete OVR.copy[copyKey(scope,orig)];else OVR.copy[copyKey(scope,orig)]=val;saveDraft();rerender()}m.remove();return}
+  if(!ADM.edit||ADM.guest||!main.contains(e.target)||e.target.closest('button,input,textarea,select,label,.ed,.ed-box,.blk-bar,.imgone,[data-spid]'))return;
+  var el=e.target.closest('h1,h2,h3,h4,p,span,b,strong,small,dt,dd,li,a');if(!el||!main.contains(el)||el.querySelector('textarea,input,select'))return;
+  if(!Array.prototype.some.call(el.childNodes,function(n){return n.nodeType===3&&n.nodeValue.trim()}))return;
+  e.preventDefault();e.stopImmediatePropagation();universalEdit(el);
+},true);
 // показ текста с возможностью правки
 function E(key,text,ctx,self){if(ADM.edit)return '<span class="ed'+(text?'':' empty')+'" data-ek="'+key+'" title="Нажмите, чтобы изменить">'+(text?lk(text,ctx,self):'＋ добавить текст')+'</span>';return lk(text,ctx,self)}
 function EH(key,text){if(ADM.edit)return '<span class="ed" data-ek="'+key+'" title="Нажмите, чтобы изменить">'+esc(text)+'</span>';return esc(text)}
@@ -1305,12 +1333,12 @@ function deathList(){var L=D.enc.deaths.map(function(d,i){return [d,i]}).filter(
 // ---------- картинки (общие для всех, грузит только админ) ----------
 function dataUrlToBlob(u){var a=u.split(','),m=a[0].match(/:(.*?);/)[1],b=atob(a[1]),n=b.length,arr=new Uint8Array(n);while(n--)arr[n]=b.charCodeAt(n);return new Blob([arr],{type:m})}
 function imgLoadAll(){}
-function imgPut(key,url){if(ADM.gh)return ghImgUpload(key,url);if(ADM.assets){return ADM.assets.upload(dataUrlToBlob(url)).then(function(r){OVR.img[key]=r.url;IMG=OVR.img;saveDraft()}).catch(function(){OVR.img[key]=url;IMG=OVR.img;saveDraft()})}OVR.img[key]=url;IMG=OVR.img;saveDraft();return Promise.resolve()}
+function imgPut(key,url){if(ADM.gh)return ghImgUpload(key,url);if(ADM.assets){return ADM.assets.upload(dataUrlToBlob(url)).then(function(r){OVR.img[key]=r.url;IMG=OVR.img;saveDraft()})}OVR.img[key]=url;IMG=OVR.img;saveDraft();return Promise.resolve()}
 function imgDel(key){delete OVR.img[key];IMG=OVR.img;saveDraft();return Promise.resolve()}
 function imgClear(){OVR.img={};IMG=OVR.img;saveDraft();return Promise.resolve()}
 function imgOneBtn(key){if(!ADM.on)return '';return '<label class="imgone"><input type="file" accept="image/*" data-img-one="'+key+'">'+(IMG[key]?'Заменить картинку':'Своя картинка')+'</label>'+(IMG[key]?' <button type="button" class="linkbtn" data-img-del="'+key+'">Убрать</button>':'')}
 function imagesView(){if(!ADM.on)return home();return '<h1>Картинки</h1><p class="lead" style="margin-top:10px">Картинки, которые вы добавите здесь, увидят все, кто откроет сайт, после того как вы нажмёте «Опубликовать». Назовите файл как фильм или героя, и сайт сам поставит картинку на место: «Мстители Финал.jpg», «endgame.jpg», «Тони Старк.png».</p>'+
-  '<label class="drop" id="drop"><input type="file" accept="image/*" multiple data-img-files><b>Перетащите сюда картинки</b><span>или нажмите, чтобы выбрать. Можно сразу много.</span></label><div id="img-res"></div>'+imgHaveHTML()}
+  '<label class="drop" id="drop"><input type="file" accept="image/*" multiple data-img-files><b>Перетащите сюда картинки</b><span>или нажмите, чтобы выбрать. Можно сразу много. Неопознанные фото сохранятся в очереди до назначения.</span></label><div id="img-res">'+imgResHTML(IMG_OK)+'</div>'+imgHaveHTML()}
 // ---------- панель админки ----------
 function admBar(){var b=document.getElementById('adm');if(!ADM.can){if(b)b.remove();return}
   if(!b){b=document.createElement('div');b.id='adm';b.className='adm';document.body.appendChild(b)}
@@ -1447,7 +1475,7 @@ document.addEventListener('click',function(e){
   if(t.hasAttribute('data-art-go')){ST.art=t.getAttribute('data-art-go');if(location.hash==='#stones'){e.preventDefault();route()}return}
   if(t.hasAttribute('data-img-del')){imgDel(t.getAttribute('data-img-del')).then(route);return}
   if(t.hasAttribute('data-img-clear')){if(confirm('Удалить все свои картинки?'))imgClear().then(route);return}
-  if(t.hasAttribute('data-unm')){var ui=+t.getAttribute('data-unm'),inp=document.querySelector('[data-unm-in="'+ui+'"]'),v=inp?inp.value.trim():'',hit=imgIndex().filter(function(x){return x[2]===v})[0]||(v?[imgMatch(v)]:[]);var key=hit&&hit[0];if(!key){inp&&inp.classList.add('err');return}imgPut(key,UNM[ui].url).then(function(){t.closest('.unm').innerHTML='<span class="ok-note">Поставлено: '+esc(keyName(key))+'</span>';var g=document.getElementById('img-have');if(g)g.outerHTML=imgHaveHTML()});return}
+  if(t.hasAttribute('data-unm')){var ui=+t.getAttribute('data-unm'),u=UNM[ui],inp=document.querySelector('[data-unm-in="'+ui+'"]'),v=inp?inp.value.trim():'',hit=imgIndex().filter(function(x){return x[2]===v||x[0]===v})[0],key=hit?hit[0]:imgMatch(v);if(!u||u.done)return;if(!key){inp&&inp.classList.add('err');toast('Не найден фильм или герой. Выберите название из подсказок.');return}t.disabled=true;imgPut(key,u.url).then(function(){u.done=true;IMG_OK.push(key);imgRefresh()}).catch(function(e){t.disabled=false;IMG_FAILED.push({name:u.name,error:e.message||'ошибка загрузки'});imgRefresh()});return}
   if(t.hasAttribute('data-stone')){ST.stone=t.getAttribute('data-stone');document.querySelectorAll('[data-stone]').forEach(function(b){b.classList.toggle('on',b===t)});document.getElementById('stone-d').innerHTML=stoneDetail();return}
   if(t.hasAttribute('data-art')){ST.art=t.getAttribute('data-art');document.querySelectorAll('[data-art]').forEach(function(b){b.classList.toggle('on',b===t)});document.getElementById('art-d').innerHTML=artDetail();return}
   if(t.hasAttribute('data-lk')){e.preventDefault();setLink(t.getAttribute('data-lk'));return}
@@ -1492,7 +1520,7 @@ document.addEventListener('change',function(e){var t=e.target;
   else if(t.hasAttribute('data-ct-studio2')){CT2.studio=t.value;ctRefresh()}
   else if(t.hasAttribute('data-backup-in')){if(t.files[0])backupImport(t.files[0])}
   else if(t.hasAttribute('data-navt')){var nk=t.getAttribute('data-navt');if(t.checked)delete OVR.nav[nk];else OVR.nav[nk]=1;t.parentNode.classList.toggle('on',t.checked);saveDraft();applyNav()}
-  else if(t.hasAttribute('data-img-files')){imgHandle(t.files)}
+  else if(t.hasAttribute('data-img-files')){imgHandle(t.files);t.value=''}
   else if(t.hasAttribute('data-img-one')){var f1=t.files[0],k1=t.getAttribute('data-img-one');if(f1)shrink(f1).then(function(u){return imgPut(k1,u)}).then(route)}
   else if(t.hasAttribute('data-lk-q')){var v=norm(t.value),f=D.c.filter(function(c){return norm(c.n).indexOf(v)>=0||norm(short(c.id))===v})[0];if(f)setLink(f.id);t.value=''}
   else if(t.hasAttribute('data-mall')){MS.all=t.checked;drawMarkers();var sd=document.getElementById('mside');if(sd)sd.innerHTML=sideHTML()}
@@ -1613,9 +1641,8 @@ function ghEnable(fresh){ADM.can=true;ADM.on=true;ADM.gh=true;ADM.assets=null;
   applyNav();admBar();rerender();if(fresh)toast('Вы вошли в редактор. Правки сохраняются в репозиторий '+GH.repo);ghMigrateCheck()}
 function ghLogout(){if(!confirm('Выйти из редактора на этом устройстве?'))return;try{localStorage.removeItem('kvm-gh')}catch(e){}GH=null;ADM.can=ADM.on=ADM.edit=ADM.gh=false;var b=document.getElementById('adm');if(b)b.remove();applyNav();rerender()}
 // картинки сразу уходят в репозиторий
-function ghImgUpload(key,dataUrl){var path='img/'+safeKey(key)+'.jpg';PREV[key]=dataUrl;rerender();return ghPut(path,dataUrl.split(',')[1],'Картинка: '+keyName(key)).then(function(){OVR.img[key]=path+'?v='+Date.now();IMG=OVR.img;saveDraft()}).catch(function(e){delete PREV[key];toast('Картинка «'+keyName(key)+'» не загрузилась: '+e.message);rerender()})}
-function ghMigrateCheck(){var ks=Object.keys(OVR.img).filter(function(k){return /^data:image\//.test(OVR.img[k])});if(!ks.length)return;toast('Переношу '+ks.length+' встроенных картинок в репозиторий…');
-  var ch=Promise.resolve();ks.forEach(function(k){ch=ch.then(function(){return ghImgUpload(k,OVR.img[k])})});ch.then(function(){toast('Картинки перенесены. Нажмите «Опубликовать».')})}
+function ghImgUpload(key,dataUrl){var path='img/'+safeKey(key)+'.jpg';PREV[key]=dataUrl;return ghPut(path,dataUrl.split(',')[1],'Картинка: '+keyName(key)).then(function(){OVR.img[key]=path+'?v='+Date.now();IMG=OVR.img;delete PREV[key];saveDraft();imgRefresh()}).catch(function(e){delete PREV[key];throw new Error('«'+keyName(key)+'»: '+e.message)})}
+function ghMigrateCheck(){var ks=Object.keys(OVR.img).filter(function(k){return /^data:image\//.test(OVR.img[k])});if(!ks.length)return;toast('Переношу '+ks.length+' встроенных картинок в репозиторий…');var ch=Promise.resolve();ks.forEach(function(k){ch=ch.then(function(){return ghImgUpload(k,OVR.img[k]).catch(function(e){IMG_FAILED.push({name:keyName(k),error:e.message})})})});ch.then(function(){imgRefresh();toast(IMG_FAILED.length?'Часть картинок не перенесена — проверьте список ошибок.':'Картинки перенесены. Нажмите «Опубликовать».')})}
 // ---------- спойлеры: по умолчанию скрыты, текст не попадает в страницу до раскрытия ----------
 var SPO={mode:'all',ord:0};try{var sv2=JSON.parse(localStorage.getItem('kvm-spoil')||'null');if(sv2&&sv2.mode)SPO=sv2}catch(e){}
 var SPK={},SPN=0;
@@ -1672,7 +1699,7 @@ function route(){
     var src={o:[OGI,orgView],w:[RTI,routeView],f:[P,projectView],c:[C,charView],p:[PL,placeView],e:[EV,eventView],l:[LN,lineView],a:[AIX,artView],r:[RCI,raceView]}[m[1]],o=src[0][m[2]];if(o){html=src[1](o);title=o.t||o.n||o[1]}}
   else{var vh=h==='events'?'timeline':h;if(VIEWS[vh]){html=VIEWS[vh]();if(ENC_KEYS[vh])html=crumbEnc()+html;title=NAV6T[navFor(vh)]||''}}
   if(html==null){html=notFound();title='Не найдено'}
-  main.innerHTML=html;applyNav();main.classList.remove('enter');void main.offsetWidth;main.classList.add('enter');document.title=(title&&h!=='home'?title+' — ':'')+'Путеводитель по КВМ';
+  main.innerHTML=html;applyCopy();applyNav();main.classList.remove('enter');void main.offsetWidth;main.classList.add('enter');document.title=(title&&h!=='home'?title+' — ':'')+'Путеводитель по КВМ';
   var nk=navFor(h);document.querySelectorAll('nav.tabs a').forEach(function(a){var on=a.getAttribute('href')==='#'+nk;a.classList.toggle('on',on);if(on)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
   if(!KEEP){if(NAVBACK&&SCROLL[h]!=null){var y0=SCROLL[h];requestAnimationFrame(function(){window.scrollTo(0,y0)})}else window.scrollTo(0,0)}closeSearch();
   if(h==='map'){initTree();initGlobe();MS.vb=D.map.regions[MS.region].slice(0,4);var svg=document.getElementById('kmap');svg.setAttribute('viewBox',MS.vb.join(' '));drawMarkers()}
