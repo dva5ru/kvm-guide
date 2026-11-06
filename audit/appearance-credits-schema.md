@@ -11,3 +11,9 @@ Sources:
 - https://www.tvmaze.com/shows/41750/what-if/cast
 - https://thewaltdisneycompany.org/news/how-marvel-studios-what-if-created-kahhori-a-new-mohawk-super-hero/index.html
 - https://watch.plex.tv/en-GB/show/what-if-1/season/2/episode/6/credits
+
+## Canonical register — migration v2
+
+`kvm-data.appearances` is now the **single canonical list of character–project links**, each represented by `[projectId,characterId,role,orderInCharacterPage]`. Project `p.cs` and character `c.app` are generated at site initialization, preserving legacy component interfaces and their original ordering. They are intentionally **absent from stored JSON**, so editorial additions cannot accidentally update only one side. Episode-specific casts `p.eps[n][3]` are still maintained separately and checked against the derived project cast, as the next migration target.
+
+The validator reconstructs the same mappings and checks IDs, role types, duplicates, and original appearance ordering before running the existing integrity tests. `appearanceCredits` is orthogonal, storing only sourced actor attribution on these canonical links or particular episodes.
