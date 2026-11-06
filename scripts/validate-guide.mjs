@@ -56,3 +56,22 @@ for (const [pid, entries] of Object.entries(db.epRoles || {})) {
 }
 const episodeCount = db.p.reduce((n, p) => n + (p.eps || []).length, 0);
 console.log('Validated:', characters.size, 'characters,', projects.size, 'projects,', episodeCount, 'episodes');
+
+const CREDIT_KINDS = new Set(['voice','on-screen','motion-capture','archival']);
+const CREDIT_STATUSES = new Set(['verified','announced']);
+for(const [pid,info] of Object.entries(db.appearanceCredits||{})){
+  const p=projects.get(pid);if(!p)throw Error('Unknown credit project '+pid);
+  const cast=new Set(p.cs.map(([id])=>id));
+  function check(cid,rec,ep){
+    if(!cast.has(cid)||ep&&!ep[3].includes(cid))throw Error('Unlinked appearance credit '+pid+'/'+cid);
+    if(!rec||typeof rec.performer!=='string'||!rec.performer.trim())throw Error('Missing credit performer '+pid+'/'+cid);
+    if(!CREDIT_KINDS.has(rec.kind)||!CREDIT_STATUSES.has(rec.status))throw Error('Invalid credit kind/status '+pid+'/'+cid);
+    if(typeof rec.source!=='string'||!rec.source.startsWith('https://'))throw Error('Missing credit source '+pid+'/'+cid);
+  }
+  for(const [cid,rec]of Object.entries(info.cast||{}))check(cid,rec);
+  for(const [num,rows]of Object.entries(info.episodes||{})){
+    const ep=(p.eps||[]).find(x=>String(x[0])===num);if(!ep)throw Error('Missing credit episode '+pid+'/'+num);
+    for(const [cid,rec]of Object.entries(rows))check(cid,rec,ep);
+  }
+}
+console.log('Sourced appearance credits verified');
