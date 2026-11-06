@@ -1166,12 +1166,35 @@ var DT_BACK={back:1,fake:1};
 
 
 // ---------- свои картинки ----------
-var IMG={},IDB=null,UNM=[],IMG_FAILED=[],IMG_OK=[],IMG_QUEUE=Promise.resolve(),IMG_BUSY=0;
+var IMG={},IDB=null,UNM=[],IMG_FAILED=[],IMG_OK=[],IMG_QUEUE=Promise.resolve(),IMG_BUSY=0,IMG_STORE=Promise.resolve(),IMG_STORE_WARNED=false;
 function idb(){return new Promise(function(res,rej){if(IDB)return res(IDB);try{var r=indexedDB.open('kvm-img',1);r.onupgradeneeded=function(){r.result.createObjectStore('img')};r.onsuccess=function(){IDB=r.result;res(IDB)};r.onerror=function(){rej(r.error)}}catch(e){rej(e)}})}
 
 
 
 
+function imgQueueSave(){
+  var pending=UNM.filter(function(u){return !u.done}).map(function(u){
+    if(!u.id)u.id='pending-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2);
+    return {id:u.id,name:u.name,url:u.url,target:u.target||''}
+  });
+  IMG_STORE=IMG_STORE.catch(function(){}).then(function(){return idb()}).then(function(db){return new Promise(function(res,rej){
+    var tr=db.transaction('img','readwrite'),req=tr.objectStore('img').put(pending,'pending-v1');
+    tr.oncomplete=function(){res()};tr.onerror=function(){rej(tr.error||req.error)};tr.onabort=function(){rej(tr.error||req.error)}
+  })}).catch(function(){if(!IMG_STORE_WARNED){IMG_STORE_WARNED=true;toast('Очередь фотографий не сохраняется в этом браузере. Не закрывайте вкладку до назначения картинок.')}});
+  return IMG_STORE
+}
+function imgQueueLoad(){
+  IMG_STORE=IMG_STORE.catch(function(){}).then(function(){return idb()}).then(function(db){return new Promise(function(res,rej){
+    var req=db.transaction('img','readonly').objectStore('img').get('pending-v1');
+    req.onsuccess=function(){res(req.result||[])};req.onerror=function(){rej(req.error)}
+  })}).then(function(rows){
+    if(!Array.isArray(rows))return;var seen={};UNM.forEach(function(u){if(u.id)seen[u.id]=1});
+    rows.forEach(function(u){if(!u||!u.name||!/^data:image\//.test(u.url||'')||seen[u.id])return;
+      UNM.push({id:u.id||'restored-'+Math.random().toString(36).slice(2),name:u.name,url:u.url,target:u.target||'',done:false,pending:false})
+    });imgRefresh()
+  }).catch(function(){});
+  return IMG_STORE
+}
 function shrink(file){return new Promise(function(res,rej){var fr=new FileReader();fr.onload=function(){var im=new Image();im.onload=function(){var mx=560,s=Math.min(1,mx/Math.max(im.width,im.height)),w=Math.round(im.width*s),h=Math.round(im.height*s),cv=document.createElement('canvas');cv.width=w;cv.height=h;cv.getContext('2d').drawImage(im,0,0,w,h);res(cv.toDataURL('image/jpeg',.86))};im.onerror=rej;im.src=fr.result};fr.onerror=rej;fr.readAsDataURL(file)})}
 function normF(s){return String(s||'').toLowerCase().replace(/ё/g,'е').replace(/\.(jpe?g|png|webp|gif|avif|bmp)$/,'').replace(/[_\-.,:!?«»"’'()*…–—]/g,' ').replace(/(^|\s)(poster|постер|official|кадр|img|image|фото|photo|hd|final|ru|en)(?=\s|$)/g,' ').replace(/\s+/g,' ').trim()}
 var IMX=null;
@@ -1179,23 +1202,33 @@ function imgIndex(){if(IMX)return IMX;IMX=[];function add(key,names,label){[key]
 function imgMatch(fname){var f=normF(fname),idx=imgIndex(),exact={};if(!f)return null;idx.forEach(function(e){if(e[1]===f)exact[e[0]]=1});var keys=Object.keys(exact);if(keys.length)return keys.length===1?keys[0]:null;var ft=f.split(' '),best={},bs=0;idx.forEach(function(e){if(!e[1])return;var et=e[1].split(' '),inter=et.filter(function(w){return ft.indexOf(w)>=0}).length,u={};ft.concat(et).forEach(function(w){u[w]=1});var sc=inter/Object.keys(u).length;if(sc>bs){bs=sc;best={};best[e[0]]=1}else if(sc===bs)best[e[0]]=1});keys=Object.keys(best);return bs>=0.6&&keys.length===1?keys[0]:null}
 function imgTarget(value){var m=String(value||'').match(/\[([fca]-[a-z0-9-]+)\]$/i),key=m?m[1]:value;return imgIndex().some(function(e){return e[0]===key})?key:imgMatch(value)}
 function keyName(k){var id=k.slice(2);if(k[0]==='f')return P[id]?P[id].t:id;if(k[0]==='a'){var a=artGet(id);return a?a.n:id}return C[id]?C[id].n:id}
-function imgRefresh(){var r=document.getElementById('img-res');if(r)r.innerHTML=imgResHTML(IMG_OK);var g=document.getElementById('img-have');if(g)g.outerHTML=imgHaveHTML()}
+function imgRefresh(){
+  var active=document.activeElement,idx=active&&active.getAttribute&&active.getAttribute('data-unm-in'),selection=null;
+  if(idx!==null&&idx!==undefined)try{selection=[active.selectionStart,active.selectionEnd]}catch(e){}
+  document.querySelectorAll('[data-unm-in]').forEach(function(el){var u=UNM[+el.getAttribute('data-unm-in')];if(u&&!u.done)u.target=el.value});
+  var r=document.getElementById('img-res');if(r)r.innerHTML=imgResHTML(IMG_OK);
+  var g=document.getElementById('img-have');if(g)g.outerHTML=imgHaveHTML();
+  if(r&&idx!==null&&idx!==undefined){var next=r.querySelector('[data-unm-in="'+idx+'"]');if(next&&!next.disabled){next.focus();if(selection&&selection[0]!==null)try{next.setSelectionRange(selection[0],selection[1])}catch(e){}}}
+}
 function imgEnqueue(task){var job=IMG_QUEUE.then(task);IMG_QUEUE=job.catch(function(){});return job}
 function imgUploadOne(input){var file=input.files[0],key=input.getAttribute('data-img-one'),page=CUR;if(!file)return;input.value='';input.disabled=true;IMG_BUSY++;imgRefresh();return imgEnqueue(function(){return shrink(file).then(function(url){return imgPut(key,url)})}).then(function(){toast('Картинка добавлена. Нажмите «Опубликовать».');if(CUR===page)rerender()}).catch(function(e){toast('Картинка не добавлена: '+(e&&e.message||'не удалось прочитать файл'));IMG_FAILED.push({name:file.name,error:e&&e.message||'ошибка обработки'})}).then(function(){IMG_BUSY--;input.disabled=false;imgRefresh()})}
-function imgAssign(index){var u=UNM[index],input=document.querySelector('[data-unm-in="'+index+'"]');if(!u||u.done||u.pending)return;var value=input?input.value.trim():u.target||'',key=imgTarget(value);u.target=value;if(!key){if(input)input.classList.add('err');toast('Выберите точную карточку из подсказок: фильм, героя, артефакт или материал.');return}u.pending=true;IMG_BUSY++;imgRefresh();return imgEnqueue(function(){return imgPut(key,u.url)}).then(function(){u.done=true;IMG_OK.push(key)}).catch(function(e){IMG_FAILED.push({name:u.name,error:e&&e.message||'ошибка загрузки'})}).then(function(){u.pending=false;IMG_BUSY--;imgRefresh()})}
+function imgAssign(index){var u=UNM[index],input=document.querySelector('[data-unm-in="'+index+'"]');if(!u||u.done||u.pending)return;var value=input?input.value.trim():u.target||'',key=imgTarget(value);u.target=value;imgQueueSave();if(!key){if(input)input.classList.add('err');toast('Выберите точную карточку из подсказок: фильм, героя, артефакт или материал.');return}u.pending=true;IMG_BUSY++;imgRefresh();return imgEnqueue(function(){return imgPut(key,u.url)}).then(function(){u.done=true;IMG_OK.push(key);return imgQueueSave()}).catch(function(e){IMG_FAILED.push({name:u.name,error:e&&e.message||'ошибка загрузки'})}).then(function(){u.pending=false;IMG_BUSY--;imgRefresh()})}
 function imgHandle(files){var items=Array.prototype.slice.call(files||[]).filter(function(f){return /^image\//.test(f.type)});if(!items.length){toast('Выберите изображения');return}
   IMG_BUSY+=items.length;imgRefresh();
   items.forEach(function(f){imgEnqueue(function(){return shrink(f).then(function(url){
     var key=imgMatch(f.name);
-    if(!key){UNM.push({name:f.name,url:url,done:false,target:''});return}
+    if(!key){UNM.push({id:'pending-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2),name:f.name,url:url,done:false,target:''});return imgQueueSave()}
     return imgPut(key,url).then(function(){IMG_OK.push(key)})
   }).catch(function(e){IMG_FAILED.push({name:f.name,error:e&&e.message||'ошибка обработки'})}).then(function(){IMG_BUSY--;imgRefresh()})})});
   return IMG_QUEUE.then(function(){if(IMG_FAILED.length)toast('Не загружено: '+IMG_FAILED.length+'. Проверьте список ниже.')})}
 
+document.addEventListener('input',function(e){var el=e.target&&e.target.closest&&e.target.closest('[data-unm-in]');
+  if(!el)return;var u=UNM[+el.getAttribute('data-unm-in')];if(u&&!u.done){u.target=el.value;imgQueueSave()}
+});
 function imgResHTML(ok){return (IMG_BUSY?'<p class="muted" role="status">Осталось обработать: '+IMG_BUSY+'</p>':'')+(ok.length?'<p class="ok-note">Поставлено автоматически: '+ok.length+'. '+ok.slice(-12).map(function(k){return esc(keyName(k))}).join(', ')+(ok.length>12?'…':'')+'</p>':'')+(IMG_FAILED.length?'<h3 class="sub">Не загружено ('+IMG_FAILED.length+')</h3>'+IMG_FAILED.map(function(f){return '<p class="muted">'+esc(f.name)+': '+esc(f.error)+'</p>'}).join(''):'')+
   (UNM.some(function(u){return !u.done})?'<h3 class="sub">Выберите, куда поставить ('+UNM.filter(function(u){return !u.done}).length+')</h3><p class="muted">Выберите фильм, героя, артефакт или материал из подсказок. ID в скобках определяет точную карточку.</p><datalist id="img-targets">'+imgIndex().filter(function(e,i,a){return a.findIndex(function(x){return x[0]===e[0]})===i}).map(function(e){return '<option value="'+esc(e[2]+' ['+e[0]+']')+'">'}).join('')+'</datalist>'+
    UNM.map(function(u,i){return u.done?'':'<div class="unm"><img src="'+u.url+'" alt=""><span>'+esc(u.name)+'</span><input type="text" list="img-targets" data-unm-in="'+i+'" value="'+esc(u.target||'')+'" placeholder="Название или ID карточки" aria-label="Куда поставить '+esc(u.name)+'"'+(u.pending?' disabled':'')+'><button type="button" class="btn" data-unm="'+i+'"'+(u.pending?' disabled':'')+'>'+(u.pending?'Сохраняю…':'Поставить')+'</button></div>'}).join(''):'')}
-function imgHaveHTML(){var ks=Object.keys(IMG).sort();return '<section id="img-have"><div class="sec-h"><h2>Уже добавлено ('+ks.length+')</h2>'+(ks.length?'<button type="button" class="btn" data-img-clear>Удалить все</button>':'')+'</div>'+(ks.length?'<div class="hgrid">'+ks.map(function(k){return '<div class="panel hcard"><img class="thumb" src="'+IMG[k]+'" alt=""><span><b>'+esc(keyName(k))+'</b><a href="#'+k+'">Открыть</a> · <button type="button" class="linkbtn" data-img-del="'+k+'">Убрать</button></span></div>'}).join('')+'</div>':'<p class="muted">Пока ничего нет.</p>')+'</section>'}
+function imgHaveHTML(){var ks=Object.keys(IMG).sort();return '<section id="img-have"><div class="sec-h"><h2>Уже добавлено ('+ks.length+')</h2>'+(ks.length?'<button type="button" class="btn" data-img-clear>Удалить все</button>':'')+'</div>'+(ks.length?'<div class="hgrid">'+ks.map(function(k){return '<div class="panel hcard"><img class="thumb" src="'+esc(IMG[k])+'" alt=""><span><b>'+esc(keyName(k))+'</b><a href="#'+k+'">Открыть</a> · <button type="button" class="linkbtn" data-img-del="'+k+'">Убрать</button></span></div>'}).join('')+'</div>':'<p class="muted">Пока ничего нет.</p>')+'</section>'}
 
 
 
@@ -1225,6 +1258,26 @@ function applyOVR(){Object.keys(ORIG).forEach(function(k){var r=ref(k);if(r)r[0]
 function dirtyCount(){var n=0,a=OVR,b=PUB||{text:{},img:{},hide:{},nav:{},copy:{}};['text','img','hide','nav','copy'].forEach(function(f){var ks={};Object.keys(a[f]).concat(Object.keys(b[f])).forEach(function(k){ks[k]=1});Object.keys(ks).forEach(function(k){if(JSON.stringify(a[f][k])!==JSON.stringify(b[f][k]))n++})});return n}
 function saveDraft(){histPush();ADM.saveErr='';if(ADM.conflict){admBar();return}try{var js0=JSON.stringify(OVR);localStorage.setItem(DRAFT_KEY,js0);ADM.lastSaved=js0;ADM.savedAt=new Date()}catch(e){ADM.saveErr=(e&&e.name==='QuotaExceededError')?'не хватает места в браузере — опубликуйте или скачайте копию':'браузер не дал сохранить черновик';toast('Черновик не сохранён: '+ADM.saveErr)}admBar()}
 var DRAFT_KEY='kvm-draft:'+(location.pathname||'')+':v1';
+function draftRead(){try{var d=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');return d&&typeof d==='object'&&!Array.isArray(d)?normOvr(d):null}catch(e){return null}}
+function overrideEqual(a,b){return ['text','img','hide','nav','copy'].every(function(k){return JSON.stringify(a[k]||{})===JSON.stringify(b[k]||{})})}
+function acceptPublished(pub){
+  var latest=normOvr(pub),base=PUB||normOvr({}),local=OVR,dirty=!overrideEqual(local,base);
+  if((latest.ts||0)<(base.ts||0))return;
+  PUB=clone(latest);
+  if(dirty){
+    var merged=clone(latest);
+    ['text','img','hide','nav','copy'].forEach(function(k){var keys={};
+      Object.keys(base[k]||{}).concat(Object.keys(local[k]||{})).forEach(function(x){keys[x]=1});
+      Object.keys(keys).forEach(function(x){
+        if(JSON.stringify(local[k][x])===JSON.stringify(base[k][x]))return;
+        if(Object.prototype.hasOwnProperty.call(local[k],x))merged[k][x]=local[k][x];else delete merged[k][x]
+      })
+    });
+    OVR=merged;
+    try{localStorage.setItem(DRAFT_KEY,JSON.stringify(OVR))}catch(e){ADM.saveErr='Не удалось сохранить объединённый черновик';toast(ADM.saveErr)}
+  }else OVR=clone(latest);
+  applyOVR();applyNav();rerender();admBar()
+}
 function rerender(){KEEP=true;var y=window.scrollY;route();window.scrollTo(0,y);KEEP=false}
 
 function copyScope(el){var a=el.closest('a[href^="#f-"],a[href^="#c-"],a[href^="#ep-"]');return a?a.getAttribute('href').slice(1):CUR}
@@ -1318,8 +1371,8 @@ function charView(c){var pg=c.id,K='c.'+c.id+'.',hcx=ctxP(c.app.map(function(a){
   B('c.places',pg,'Места',plTop.length?'<h3 style="margin-top:24px">Места</h3><div class="chips" style="margin-top:10px">'+plTop.map(plLink).join('')+'</div>':'')+'</div></div>';
 }
 // ---------- события, места, смерти с правкой ----------
-function evDetail(){var items=D.ev.map(function(e){return {y:e.y,l:e.w,k:1,e:e}});
-  if(EVS.mode==='all')D.tl.forEach(function(t,i){items.push({y:t[0],l:t[1],k:0,t:t,i:i})});
+function evDetail(rows,events){var items=(events||D.ev).map(function(e){return {y:e.y,l:e.w,k:1,e:e}});
+  if(EVS.mode==='all')(rows||D.tl).forEach(function(t){items.push({y:t[0],l:t[1],k:0,t:t,i:D.tl.indexOf(t)})});
   items.sort(function(a,b){return a.y-b.y||b.k-a.k});var out='',last=null;
   items.forEach(function(it){var g=evGroup(it.y,it.l);if(g!==last){if(last!==null)out+='</ul>';out+='<h3 class="yh">'+esc(g)+'</h3><ul class="tld">';last=g}
     if(it.k){var e=it.e;out+='<li class="kev-item"><div><span class="kev-tag">Ключевое событие</span><a class="kev-name" href="#e-'+e.id+'">'+esc(evName(e))+'</a>'+SPW(e.pr,'<p>'+E('e.'+e.id+'.ab',e.ab,ctxP(e.pr))+'</p>')+'<div class="chips">'+(PL[e.pl]?plLink(e.pl):'')+e.pr.map(pLink).join('')+'</div></div></li>'}
@@ -1397,12 +1450,14 @@ function ctFromQS(o){CT2.kind=o.k||'all';CT2.sort=o.s||'release';CT2.q=o.q||'';C
 function syncURL(base,qs){var h='#'+base+(qs?'?'+qs:'');if(location.hash!==h){try{history.replaceState(null,'',h);CUR=base}catch(e){}}}
 function toast(t){var x=document.createElement('div');x.className='toast';x.textContent=t;document.body.appendChild(x);setTimeout(function(){x.classList.add('out')},3200);setTimeout(function(){x.remove()},3800)}
 function admInit(){
-  fetch('content.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j&&(j.ts||0)>=(OVR.ts||0)){OVR=normOvr(j);PUB=clone(OVR);applyOVR();applyNav();rerender()}}).catch(function(){}).then(admCaps);
+  var draft=draftRead();if(draft&&!overrideEqual(draft,PUB))OVR=draft;
   applyOVR();applyNav();
+  fetch('content.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null})
+    .then(function(j){if(j)acceptPublished(j)}).catch(function(){}).then(admCaps)
 }
 function admCaps(){if(window.KVM_PUBLIC||!window.claude||!window.claude.use)return;
   window.claude.use('user').then(function(u){return u?u.canEdit():false}).then(function(ok){if(!ok)return;ADM.can=true;ADM.on=true;window.__kvmAdmin={setImg:function(k,u){OVR.img[k]=u;IMG=OVR.img;saveDraft()},setText:function(k,v){OVR.text[k]=v;applyOVR();saveDraft()}};
-    try{var dr=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');if(dr&&(dr.ts||0)>=(PUB.ts||0)&&JSON.stringify(normOvr(dr))!==JSON.stringify(PUB)){OVR=normOvr(dr);applyOVR()}}catch(e){}
+    // Draft is restored by admInit; capability detection cannot reset it.
     LASTSNAP=JSON.stringify(OVR);window.claude.use('artifact').then(function(a){ADM.art=a}).catch(function(){});window.claude.use('assets').then(function(a){ADM.assets=a}).catch(function(){});
     applyNav();admBar();rerender()}).catch(function(){})}
 
@@ -1640,14 +1695,13 @@ function ghLogin(){var repo=(document.getElementById('ghRepo').value||'').trim()
 function openGhLogin(err){var m=document.getElementById('admset');if(m)m.remove();document.body.insertAdjacentHTML('beforeend',ghLoginHTML(err));var f=document.getElementById(GH&&GH.repo?'ghToken':'ghRepo');if(f)f.focus()}
 function ghEnable(fresh){ADM.can=true;ADM.on=true;ADM.gh=true;ADM.assets=null;
   ADM.art={publish:function(x){if(typeof x==='string')return Promise.reject({code:'not_supported'});var json=x['content.json'].content;return ghPut('content.json',b64utf8(json),'Публикация правок путеводителя')}};
-  try{var dr=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');if(dr&&(dr.ts||0)>=(PUB.ts||0)&&JSON.stringify(normOvr(dr))!==JSON.stringify(PUB)){OVR=normOvr(dr);applyOVR()}}catch(e){}
   LASTSNAP=JSON.stringify(OVR);
-  ghGet('content.json').then(function(j){if(!j||!j.content)return;var o=normOvr(JSON.parse(utf8b64(j.content)));if((o.ts||0)>(PUB.ts||0)){PUB=clone(o);if(!dirtyCount()||(OVR.ts||0)<o.ts){OVR=clone(o)}applyOVR();applyNav();rerender()}admBar()}).catch(function(){});
+  ghGet('content.json').then(function(j){if(j&&j.content)acceptPublished(JSON.parse(utf8b64(j.content)))}).catch(function(){});
   applyNav();admBar();rerender();if(fresh)toast('Вы вошли в редактор. Правки сохраняются в репозиторий '+GH.repo);ghMigrateCheck()}
 function ghLogout(){if(!confirm('Выйти из редактора на этом устройстве?'))return;try{localStorage.removeItem('kvm-gh')}catch(e){}GH=null;ADM.can=ADM.on=ADM.edit=ADM.gh=false;var b=document.getElementById('adm');if(b)b.remove();applyNav();rerender()}
 // картинки сразу уходят в репозиторий
 function ghImgUpload(key,dataUrl){var path='img/'+safeKey(key)+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8)+'.jpg';PREV[key]=dataUrl;return ghPut(path,dataUrl.split(',')[1],'Картинка: '+keyName(key)).then(function(){OVR.img[key]=path+'?v='+Date.now();IMG=OVR.img;delete PREV[key];saveDraft();imgRefresh()}).catch(function(e){delete PREV[key];throw new Error('«'+keyName(key)+'»: '+e.message)})}
-function ghMigrateCheck(){var ks=Object.keys(OVR.img).filter(function(k){return /^data:image\//.test(OVR.img[k])});if(!ks.length)return;toast('Переношу '+ks.length+' встроенных картинок в репозиторий…');var ch=Promise.resolve();ks.forEach(function(k){ch=ch.then(function(){return imgEnqueue(function(){return ghImgUpload(k,OVR.img[k])}).catch(function(e){IMG_FAILED.push({name:keyName(k),error:e.message})})})});ch.then(function(){imgRefresh();toast(IMG_FAILED.length?'Часть картинок не перенесена — проверьте список ошибок.':'Картинки перенесены. Нажмите «Опубликовать».')})}
+function ghMigrateCheck(){var ks=Object.keys(OVR.img).filter(function(k){return /^data:image\//.test(OVR.img[k])});if(!ks.length)return;toast('Переношу '+ks.length+' встроенных картинок в репозиторий…');IMG_BUSY+=ks.length;imgRefresh();var ch=Promise.resolve();ks.forEach(function(k){ch=ch.then(function(){return imgEnqueue(function(){return ghImgUpload(k,OVR.img[k])}).catch(function(e){IMG_FAILED.push({name:keyName(k),error:e.message})}).then(function(){IMG_BUSY--;imgRefresh()})})});ch.then(function(){imgRefresh();toast(IMG_FAILED.length?'Часть картинок не перенесена — проверьте список ошибок.':'Картинки перенесены. Нажмите «Опубликовать».')})}
 // ---------- спойлеры: по умолчанию скрыты, текст не попадает в страницу до раскрытия ----------
 var SPO={mode:'all',ord:0};try{var sv2=JSON.parse(localStorage.getItem('kvm-spoil')||'null');if(sv2&&sv2.mode)SPO=sv2}catch(e){}
 var SPK={},SPN=0;
@@ -1730,7 +1784,7 @@ function tlList(){var out='';
   var G=[['soon','Объявленные проекты','Анонсированы официально, но дата выхода ещё не названа.'],['linked','Связанные сериалы вне официального порядка','Сериалы Marvel Television и другие проекты, которые связаны с фильмами, но в официальный список не входят.'],['alt','Другие вселенные КВМ','Альтернативные миры: «Что, если…?» и «Зомби Marvel».'],['variant','Экранизации Fox и Sony','Отдельные киновселенные. Некоторые герои отсюда пересекались с КВМ через мультивселенную.'],['non','Отдельные экранизации','Мультфильмы и фильмы, не входящие в основную историю КВМ.']];
   G.forEach(function(g){var it=rest.filter(function(p){return p.s===g[0]&&(g[0]==='soon'||p.r)||(g[0]!=='soon'&&!p.r&&p.s===g[0])}).sort(function(a,b){return relDate(a)<relDate(b)?-1:1});if(!it.length)return;out+='<div class="era era-x"><div class="era-h"><h2>'+g[1]+'</h2><small>'+it.length+'</small></div><p class="muted era-note">'+g[2]+'</p><ul class="rows">'+it.map(function(p){return tlRow(p,'')}).join('')+'</ul></div>'});
   return out}
-function tlEvents(){var off=TLV.scope==='official';if(!off)return evDetail();var save=D.tl,saveEv=D.ev;D.tl=D.tl.filter(function(t){return t[3].some(function(id){return P[id]&&isOfficial(P[id])})});D.ev=D.ev.filter(function(e){return e.pr.some(function(id){return P[id]&&isOfficial(P[id])})});var h=evDetail();D.tl=save;D.ev=saveEv;return h}
+function tlEvents(){if(TLV.scope!=='official')return evDetail();return evDetail(D.tl.filter(function(t){return t[3].some(function(id){return P[id]&&isOfficial(P[id])})}),D.ev.filter(function(e){return e.pr.some(function(id){return P[id]&&isOfficial(P[id])})}))}
 function timeline(){var off=TLV.scope==='official',ev=TLV.view==='events';EVS.mode=TLV.evk;
   return '<h1>Хронология</h1><div class="tl-switch" role="group" aria-label="Какая хронология">'+
   '<button type="button" data-tls="official" aria-pressed="'+off+'" class="'+(off?'on':'')+'"><b>Официальная КВМ</b><span>Порядок Marvel и Disney+</span></button>'+
@@ -1796,6 +1850,7 @@ setThemeBtn();setSpoilBtn();
 admInit();
 if((window.KVM_PUBLIC||!window.claude)&&GH&&GH.token)ghEnable(false);
 route();
+imgQueueLoad();
 })();
 </script>
 </body>

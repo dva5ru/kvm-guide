@@ -29,7 +29,7 @@ function load() {
     window:{addEventListener:empty,innerWidth:1200,scrollY:0,scrollTo:empty},
     MutationObserver:class {observe(){}},
   };
-  const app = originalApp.replace(/setThemeBtn\(\);setSpoilBtn\(\);\s*admInit\(\);[\s\S]*?\nroute\(\);\s*\}\)\(\);\s*$/,`
+  const app = originalApp.replace(/setThemeBtn\(\);setSpoilBtn\(\);\s*admInit\(\);[\s\S]*?\nroute\(\);\s*(?:imgQueueLoad\(\);\s*)?\}\)\(\);\s*$/,`
     globalThis.guide={D,ITEM_CATS,VIEWS,ADM,OVR,IMG,artAll,artGet,artView,artCard,encView,route,imgMatch,imgTarget,imgIndex,buildSearch,linkRx,lk,SPK,SPO,LK,RT,getSearch:()=>sIdx};
   })();`);
   assert.notEqual(app, originalApp, 'test bootstrap replaces only final initialization');
