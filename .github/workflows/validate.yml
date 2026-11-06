@@ -1,0 +1,16 @@
+name: Validate Marvel Guide
+on:
+  push:
+    branches: [main, 'feature/**']
+  pull_request:
+    branches: [main]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check embedded JSON, JavaScript, and character connections
+        run: node scripts/validate-guide.mjs
