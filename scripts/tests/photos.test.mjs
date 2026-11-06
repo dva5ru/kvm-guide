@@ -11,14 +11,14 @@ function setup() {
   const context = createContext({
     D: structuredClone(data), P: Object.fromEntries(data.p.map(p => [p.id, p])),
     C: Object.fromEntries(data.c.map(c => [c.id, c])), IMX: null,
-    sIdx: [], evName: e => e.n, years: p => p.y, ITEM_CATS: [{id:'materials',name:'Материалы и вещества'},{id:'artifacts',name:'Артефакты и устройства'}], IMG: {}, PREV: {}, OVR: { img: {} }, ADM: { on: true }, GH: {repo:'test/repo',token:'test'},
+    sIdx: [], evName: e => e.n, years: p => p.y, ITEM_CATS: [{id:'materials',name:'Материалы и вещества'},{id:'artifacts',name:'Артефакты и устройства'}], IMG: {}, PREV: {}, OVR: { img: {}, copy: {} }, ADM: { on: true }, GH: {repo:'test/repo',token:'test'},
     IMG_QUEUE: Promise.resolve(), IMG_BUSY: 0, IMG_FAILED: [], IMG_OK: [], UNM: [],
     CUR: 'a-vibranium', saveDraft() {}, imgRefresh() {}, rerender() {}, toast() {},
     shrink: async f => { if (f.name === 'broken.png') throw Error('broken'); return 'data:image/jpeg;base64,eA=='; },
     imgQueueSave: async () => {},
   });
   const names = ['esc','norm','normF','normOvr','artAll','artGet','artPhoto','imgSrc','imgOneBtn',
-    'imgIndex','imgMatch','imgTarget','keyName','imgEnqueue','imgUploadOne','imgAssign','imgHandle','imgResHTML','ghImgUpload','ghApi','safeKey','itemCategory','buildSearch'];
+    'imgIndex','imgMatch','imgTarget','keyName','imgEnqueue','imgUploadOne','imgAssign','imgHandle','imgResHTML','ghImgUpload','ghApi','safeKey','itemCategory','copyKey','copyValue','buildSearch'];
   for (const name of names) {
     const start = app.indexOf('function '+name+'(');
     assert.notEqual(start, -1, name);
