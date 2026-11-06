@@ -787,7 +787,7 @@ function fwhen(r){if(!r)return 'дата не объявлена';var a=r.split(
 function years(p){return p.re&&p.re!==p.y?p.y+'–'+p.re:p.y}
 var ROLE={L:'Главная роль',M:'Важная роль',S:'Второй план',C:'Камео',P:'Сцена после титров',V:'Голос',X:'Другая версия'};
 var ROLE_ORDER='LMSVCPX';
-function norm(s){return String(s).toLowerCase().replace(/ё/g,'е').replace(/[«»"’'.,:!?()*…\-–—]/g,' ').replace(/\s+/g,' ').trim()}
+function norm(s){return String(s==null?'':s).normalize('NFKC').toLowerCase().replace(/ё/g,'е').replace(/[^\p{L}\p{N}]+/gu,' ').replace(/\s+/g,' ').trim()}
 function stBadge(s){return '<span class="st st-'+s+'" title="'+esc(D.st[s][1])+'">'+esc(D.st[s][0])+'</span>'}
 var IMP=['','Полезно к «Судному дню»','Желательно к «Судному дню»','Важно к «Судному дню»'];
 function impBadge(){return ''}
@@ -874,7 +874,7 @@ function cnt(pl){return pl.pr.filter(function(id){return MS.all||MCU[P[id].s]||P
 function nycList(){return D.pl.filter(function(x){return x.grp==='nyc'})}
 function mapView(){
   var R=D.map.regions,earth=D.pl.filter(function(x){return x.t==='e'}).sort(function(a,b){return b.pr.length-a.pr.length});
-  function tilesOf(t,h){var l=D.pl.filter(function(x){return x.t===t});return '<section><h2>'+h+'</h2><div class="ptiles" style="margin-top:14px">'+l.map(function(x){return '<a class="panel ptile" href="#p-'+x.id+'"><b>'+esc(x.n)+'</b><span>'+esc(x.ab)+'</span><span>'+x.pr.length+' '+plural(x.pr.length,['проект','проекта','проектов'])+'</span></a>'}).join('')+'</div></section>'}
+  function tilesOf(t,h){var l=D.pl.filter(function(x){return x.t===t});return '<section><h2>'+h+'</h2><div class="ptiles" style="margin-top:14px">'+l.map(function(x){return '<a class="panel ptile" href="#p-'+x.id+'"><b>'+esc(x.n)+'</b>'+SPW(x.pr,'<span>'+esc(x.ab)+'</span>',true)+'<span>'+x.pr.length+' '+plural(x.pr.length,['проект','проекта','проектов'])+'</span></a>'}).join('')+'</div></section>'}
   return '<h1>Карта мест</h1><p class="lead" style="margin-top:12px">Где происходили события фильмов и сериалов. Нажмите на точку — увидите, что там было и в каких проектах. Синяя точка — Нью-Йорк и окрестности.</p>'+
   '<div class="ctrl"><div class="seg" role="group" aria-label="Регион">'+Object.keys(R).map(function(k){return '<button type="button" data-mr="'+k+'" class="'+(MS.region===k?'on':'')+'">'+esc(R[k][4])+'</button>'}).join('')+'</div>'+
   '<label><input type="checkbox" data-mall'+(MS.all?' checked':'')+'> Учитывать фильмы вне КВМ</label></div>'+
@@ -1002,7 +1002,7 @@ function selectPlace(id){MS.sel=id;var sd=document.getElementById('mside');if(sd
 
 
 // ---------- events ----------
-function evItem(e){if(typeof e==='string')e=EV[e];return '<li><span class="yr">'+esc(e.w)+'</span><div><h3><a href="#e-'+e.id+'">'+esc(e.n)+'</a></h3><p>'+lk(e.ab,ctxP(e.pr))+'</p><div class="chips">'+(PL[e.pl]?plLink(e.pl):'')+e.pr.map(pLink).join('')+'</div></div></li>'}
+function evItem(e){if(typeof e==='string')e=EV[e];return '<li><span class="yr">'+esc(e.w)+'</span><div><h3><a href="#e-'+e.id+'">'+esc(evName(e))+'</a></h3>'+SPW(e.pr,'<p>'+lk(e.ab,ctxP(e.pr))+'</p>')+'<div class="chips">'+(PL[e.pl]?plLink(e.pl):'')+e.pr.map(pLink).join('')+'</div></div></li>'}
 var EVS={mode:'all'};
 function eventsView(){
   return '<h1>События КВМ</h1><div class="ctrl"><div class="seg" role="group" aria-label="Что показывать"><button type="button" data-evm="all" class="'+(EVS.mode==='all'?'on':'')+'">Подробная хронология</button><button type="button" data-evm="key" class="'+(EVS.mode==='key'?'on':'')+'">Только ключевые события</button></div></div><div id="evd">'+evDetail()+'</div>';
@@ -1029,7 +1029,7 @@ function notFound(){return '<h1>Страница не найдена</h1><p clas
 // ---------- камни и артефакты ----------
 var ST={stone:'space',art:'shield'};
 function gem(col,big){return '<span class="gem'+(big?' big':'')+'" style="--g:'+col+'" aria-hidden="true"></span>'}
-function pathList(list){return '<ol class="spath">'+list.map(function(s,i){return '<li style="animation-delay:'+(i*0.05).toFixed(2)+'s"><span class="sw">'+esc(s[0])+'</span><div>'+SPW(s[2].split(','),'<p>'+lk(s[1],ctxP(s[2].split(',')))+'</p>')+'<div class="chips">'+s[2].split(',').filter(Boolean).map(pLink).join('')+'</div></div></li>'}).join('')+'</ol>'}
+function pathList(list){return '<ol class="spath">'+list.map(function(s,i){return '<li style="animation-delay:'+(i*0.05).toFixed(2)+'s"><span class="sw">'+SPW(s[2].split(','),esc(s[0]),true)+'</span><div>'+SPW(s[2].split(','),'<p>'+lk(s[1],ctxP(s[2].split(',')))+'</p>')+'<div class="chips">'+s[2].split(',').filter(Boolean).map(pLink).join('')+'</div></div></li>'}).join('')+'</ol>'}
 function stoneDetail(){var a=artGet(ST.stone);return a?artView(a):notFound()}
 function artDetail(){var a=artGet(ST.art);return a?artView(a):notFound()}
 // ---------- связи ----------
@@ -1057,7 +1057,7 @@ function linksView(){var ids=relIds(),top=Object.keys(ids).sort(function(a,b){re
 function setLink(id){if(!C[id])return;LK.c=id;var g=document.getElementById('lk-graph');if(!g){location.hash='links';return}g.innerHTML=linkGraph();document.getElementById('lk-side').innerHTML=linkSide();document.querySelectorAll('#lk-top [data-lk]').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-lk')===id)});if(window.innerWidth<900)g.scrollIntoView({behavior:'smooth',block:'start'})}
 // ---------- команды ----------
 function teamsView(){return '<h1>Команды</h1>'+D.enc.teams.map(function(t){return '<section class="team"><div class="team-h" style="--c:'+t[2]+'"><h2>'+esc(t[1])+'</h2><p class="muted">'+esc(t[3])+'</p></div>'+
-  t[4].map(function(ph){return '<div class="phase panel"><div class="ph-h"><b>'+esc(ph[0])+'</b>'+pLink(ph[1])+'</div><div class="mem">'+ph[2].split(',').filter(function(id){return C[id]}).map(function(id){return '<a class="mchip" href="#c-'+id+'">'+mono(C[id])+'<span>'+esc(short(id))+'</span></a>'}).join('')+'</div>'+(ph[3]?SPW([ph[1]],'<p class="muted" style="margin-top:10px">'+lk(ph[3],ctxP([ph[1]]))+'</p>'):'')+'</div>'}).join('')+'</section>'}).join('')}
+  t[4].map(function(ph){return '<div class="phase panel">'+pLink(ph[1])+SPW([ph[1]],'<div class="ph-h"><b>'+esc(ph[0])+'</b></div><div class="mem">'+ph[2].split(',').filter(function(id){return C[id]}).map(function(id){return '<a class="mchip" href="#c-'+id+'">'+mono(C[id])+'<span>'+esc(short(id))+'</span></a>'}).join('')+'</div>')+(ph[3]?SPW([ph[1]],'<p class="muted" style="margin-top:10px">'+lk(ph[3],ctxP([ph[1]]))+'</p>'):'')+'</div>'}).join('')+'</section>'}).join('')}
 // ---------- вселенные ----------
 function universesView(){var U=D.enc.universes,W=800,H=470,cx=400,cy=235,s='',others=U.slice(1);
   others.forEach(function(u,i){var a=i/others.length*Math.PI*2-Math.PI/2,x=cx+Math.cos(a)*300,y=cy+Math.sin(a)*185;
@@ -1065,9 +1065,9 @@ function universesView(){var U=D.enc.universes,W=800,H=470,cx=400,cy=235,s='',ot
     s+='<g class="uv-n" data-scroll="uc-'+u[0]+'" aria-label="'+esc(u[1])+'" transform="translate('+x.toFixed(1)+' '+y.toFixed(1)+')" tabindex="0" role="button" style="animation-delay:'+(0.2+i*0.06).toFixed(2)+'s"><circle r="17" fill="'+u[2]+'"/><text y="34" text-anchor="middle">'+esc(u[1].split(' — ')[0].replace('Вселенная ','').replace('Человека-паука ',''))+'</text></g>'});
   s+='<g class="uv-n uv-c" data-scroll="uc-u616" aria-label="Земля-616" transform="translate('+cx+' '+cy+')" tabindex="0" role="button"><circle r="40" fill="'+U[0][2]+'"/><text y="6" text-anchor="middle" class="uv-ct">616</text><text y="62" text-anchor="middle">Основная вселенная</text></g>';
   return '<h1>Вселенные</h1><p class="lead" style="margin-top:10px">Миры, которые есть в КВМ и рядом с ним. Нажмите на мир на схеме, чтобы перейти к нему.</p><div class="panel mapbox" style="margin-top:18px"><svg class="uvmap" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Схема вселенных">'+s+'</svg></div>'+
-  U.map(function(u){var pr=u[4].split(',').filter(Boolean);return '<section class="panel pad ucard" id="uc-'+u[0]+'" style="border-left:8px solid '+u[2]+'"><h2>'+esc(u[1])+'</h2><p style="margin-top:8px;max-width:72ch">'+lk(u[3],ctxP(pr))+'</p>'+
+  U.map(function(u){var pr=u[4].split(',').filter(Boolean);return '<section class="panel pad ucard" id="uc-'+u[0]+'" style="border-left:8px solid '+u[2]+'"><h2>'+esc(u[1])+'</h2>'+SPW(pr,'<p style="margin-top:8px;max-width:72ch">'+lk(u[3],ctxP(pr))+'</p>')+''+
     '<h3 class="sub">Проекты ('+pr.length+')</h3>'+(u[0]==='u616'?'<p>Почти все фильмы и сериалы КВМ — смотрите <a href="#timeline">хронологию</a>.</p>':'<div class="chips">'+pr.map(pLink).join('')+'</div>')+
-    '<h3 class="sub">Герои</h3><div class="chips">'+u[5].split(',').filter(function(id){return C[id]}).map(function(id){return cLink(id)}).join('')+'</div>'+
+    '<h3 class="sub">Герои</h3>'+SPW(pr,'<div class="chips">'+u[5].split(',').filter(function(id){return C[id]}).map(function(id){return cLink(id)}).join('')+'</div>')+
     '<h3 class="sub">Переходы между мирами</h3>'+SPW(pr,'<p style="max-width:72ch">'+lk(u[6],ctxP(pr))+'</p>')+'</section>'}).join('');
 }
 // ---------- смерти ----------
@@ -1242,6 +1242,10 @@ function clone(o){return JSON.parse(JSON.stringify(o))}
 PUB=clone(OVR);
 var TXT_DEF={'home.title':'Путеводитель по киновселенной Marvel','home.lead':'Что смотреть, в каком порядке и как всё связано — без спойлеров, если вы их не хотите.'};
 function ref(key){var k=key.split('.'),t=k[0],o;
+  if(t==='json'){try{var path=JSON.parse(decodeURIComponent(key.slice(5))),node=D;
+    if(!Array.isArray(path)||!path.length||path.some(function(x){return x==='__proto__'||x==='constructor'||x==='prototype'}))return null;
+    for(var j=0;j<path.length-1;j++){if(!node||!Object.prototype.hasOwnProperty.call(node,path[j]))return null;node=node[path[j]]}
+    return node&&typeof node[path[path.length-1]]==='string'?[node,path[path.length-1]]:null}catch(e){return null}}
   if(t==='home')return [TXT_DEF,key];
   if(t==='p'){o=P[k[1]];if(!o)return null;if(k.length===4){if(!Array.isArray(o[k[2]]))o[k[2]]=[];return [o[k[2]],+k[3]]}return [o,k[2]]}
   if(t==='egg'){o=D.enc.eggs[k[1]];return o?[o,+k[2]]:null}
@@ -1280,26 +1284,54 @@ function acceptPublished(pub){
 }
 function rerender(){KEEP=true;var y=window.scrollY;route();window.scrollTo(0,y);KEEP=false}
 
-function copyScope(el){var a=el.closest('a[href^="#f-"],a[href^="#c-"],a[href^="#ep-"]');return a?a.getAttribute('href').slice(1):CUR}
+// Keep source identity on the actual node; edited values are never used as keys.
+var COPY_NODES=new WeakMap(),COPY_ATTRS=new WeakMap();
+var COPY_SKIP='script,style,textarea,input,select,option,.ed-box,.blk-bar,.item-photo-controls,.imgone,[data-spk],[data-sphide]';
+function copyScope(el){var a=el.closest('a[href^="#f-"],a[href^="#c-"],a[href^="#ep-"],a[href^="#a-"],a[href^="#p-"],a[href^="#w-"],a[href^="#l-"],a[href^="#e-"],a[href^="#r-"],a[href^="#o-"]');return a?a.getAttribute('href').slice(1):CUR}
 function copyKey(scope,text){return scope+'|'+text}
-function applyCopy(){if(!OVR.copy)return;var w=document.createTreeWalker(main,NodeFilter.SHOW_TEXT),n;
-  while(n=w.nextNode()){var p=n.parentElement;if(!p||p.closest('script,style,textarea,button,.ed,.ed-box'))continue;
-    var raw=n.nodeValue.trim();if(!raw)continue;var loc=OVR.copy[copyKey(copyScope(p),raw)],all=OVR.copy[copyKey('*',raw)],val=loc!==undefined?loc:all;
-    if(val!==undefined)n.nodeValue=n.nodeValue.replace(raw,val)}}
-function universalEdit(el){var n=Array.prototype.find.call(el.childNodes,function(x){return x.nodeType===3&&x.nodeValue.trim()});
-  if(!n)return;var current=n.nodeValue.trim(),scope=copyScope(el),original=current;
-  Object.keys(OVR.copy||{}).forEach(function(k){if(OVR.copy[k]===current&&k.endsWith('|'+current)===false){var t=k.slice(k.indexOf('|')+1);if(t&&k.startsWith(scope+'|'))original=t}});
-  var m=document.createElement('div');m.className='modal';m.id='copyedit';m.setAttribute('role','dialog');m.setAttribute('aria-modal','true');m.dataset.scope=scope;m.dataset.original=original;
-  m.innerHTML='<div class="modal-c panel pad"><h2>Изменить текст</h2><textarea class="ed-ta" id="copyvalue" rows="5">'+esc(current)+'</textarea><div style="display:grid;gap:10px;margin:12px 0"><label><input type="radio" name="copy-scope" value="local" checked> Только в этой карточке / на странице</label><label><input type="radio" name="copy-scope" value="all"> Везде на сайте</label></div><button type="button" class="btn primary" data-copy-save>Сохранить</button> <button type="button" class="btn" data-copy-cancel>Отмена</button></div>';
+function copyValue(scope,source){var local=OVR.copy[copyKey(scope,source)],all=OVR.copy[copyKey('*',source)];return local!==undefined?local:all!==undefined?all:source}
+function applyCopy(root){root=root||main;if(!root||!OVR.copy)return;copyAttributes(root);var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT),n;
+  while(n=w.nextNode()){var p=n.parentElement;if(!p||p.closest(COPY_SKIP))continue;
+    var raw=n.nodeValue.trim();if(!raw)continue;var info=COPY_NODES.get(n);
+    if(!info){info={source:raw,scope:copyScope(p)};COPY_NODES.set(n,info)}
+    var val=copyValue(info.scope,info.source);n.nodeValue=n.nodeValue.replace(raw,function(){return val})}}
+function copyAttributes(root){var elements=[];if(root.nodeType===1)elements.push(root);if(root.querySelectorAll)elements=elements.concat(Array.prototype.slice.call(root.querySelectorAll('[title],[placeholder],[aria-label],[alt]')));
+  elements.forEach(function(el){if(el.closest('.ed-box,.blk-bar,.item-photo-controls,.imgone'))return;
+    var attrs=COPY_ATTRS.get(el)||{};['title','placeholder','aria-label','alt'].forEach(function(attr){var raw=el.getAttribute(attr);if(!raw)return;
+      var info=attrs[attr];if(!info||(info.last!==undefined&&raw!==info.last&&raw!==info.source))info=attrs[attr]={source:raw,scope:copyScope(el)};
+      var value=copyValue(info.scope,info.source);el.setAttribute(attr,value);info.last=value
+    });COPY_ATTRS.set(el,attrs)
+  })
+}
+function interfaceTexts(){var rows=[],seen={};function add(source,scope,value,label){var key=copyKey(scope,source);if(!source||seen[key])return;seen[key]=1;rows.push({source:source,scope:scope,value:value,label:label})}
+  document.querySelectorAll('main,header.top,footer').forEach(function(root){copyAttributes(root);var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT),n;
+    while(n=w.nextNode()){var el=n.parentElement,raw=n.nodeValue.trim();if(!raw||el.closest(COPY_SKIP+',.ed,#adm'))continue;var info=COPY_NODES.get(n)||{source:raw,scope:copyScope(el)};add(info.source,info.scope,raw,'Текст на текущей странице')}
+    var elements=[root].concat(Array.prototype.slice.call(root.querySelectorAll('[title],[placeholder],[aria-label],[alt]')));elements.forEach(function(el){var attrs=COPY_ATTRS.get(el)||{};Object.keys(attrs).forEach(function(k){var info=attrs[k];add(info.source,info.scope,el.getAttribute(k),{title:'Всплывающая подсказка',placeholder:'Подсказка в поле',alt:'Описание картинки','aria-label':'Подпись элемента'}[k])})})
+  });return rows
+}
+function clearCopyLocals(source){Object.keys(OVR.copy).forEach(function(k){if(k.slice(0,k.indexOf('|'))!=='*'&&k.slice(k.indexOf('|')+1)===source)delete OVR.copy[k]})}
+function copySave(scope,source,value){if(scope==='*')clearCopyLocals(source);var global=OVR.copy[copyKey('*',source)];
+  if(value===source&&(scope==='*'||global===undefined))delete OVR.copy[copyKey(scope,source)];else OVR.copy[copyKey(scope,source)]=value;saveDraft();buildSearch();rerender();var results=document.querySelector('[data-content-results]');if(results)results.innerHTML=contentResults(document.querySelector('[data-content-query]').value)}
+function universalEdit(el,node){var n=node||Array.prototype.find.call(el.childNodes,function(x){return x.nodeType===3&&x.nodeValue.trim()});
+  if(!n)return;var info=COPY_NODES.get(n)||{source:n.nodeValue.trim(),scope:copyScope(el)};openCopyEditor(info.source,info.scope,n.nodeValue.trim())}
+function openCopyEditor(source,scope,current){var info={source:source,scope:scope};var previous=document.getElementById('copyedit');if(previous)previous.remove();
+  var m=document.createElement('div');m.className='modal';m.id='copyedit';m.setAttribute('role','dialog');m.setAttribute('aria-modal','true');m.setAttribute('aria-label','Изменить текст');m.dataset.scope=info.scope;m.dataset.original=info.source;
+  m.innerHTML='<div class="modal-c panel pad"><h2>Изменить текст</h2><textarea class="ed-ta" id="copyvalue" rows="5">'+esc(current)+'</textarea><div style="display:grid;gap:10px;margin:12px 0"><label><input type="radio" name="copy-scope" value="local" checked> Только в этой карточке / на странице</label><label><input type="radio" name="copy-scope" value="all"> Везде, где используется этот текст</label></div><button type="button" class="btn primary" data-copy-save>Сохранить</button> <button type="button" class="btn" data-copy-reset>Вернуть исходный</button> <button type="button" class="btn" data-copy-cancel>Отмена</button></div>';
   document.body.appendChild(m);m.querySelector('textarea').focus()}
-document.addEventListener('click',function(e){var m=document.getElementById('copyedit');
-  if(m&&e.target.closest('[data-copy-save],[data-copy-cancel]')){e.preventDefault();e.stopImmediatePropagation();if(e.target.closest('[data-copy-save]')){var val=m.querySelector('#copyvalue').value.trim(),scope=m.querySelector('[name="copy-scope"]:checked').value==='all'?'*':m.dataset.scope,orig=m.dataset.original;
-    if(!val){toast('Введите текст');return}if(val===orig)delete OVR.copy[copyKey(scope,orig)];else OVR.copy[copyKey(scope,orig)]=val;saveDraft();rerender()}m.remove();return}
-  if(!ADM.edit||ADM.guest||!main.contains(e.target)||e.target.closest('button,input,textarea,select,label,.ed,.ed-box,.blk-bar,.imgone,[data-spid]'))return;
-  var el=e.target.closest('h1,h2,h3,h4,p,span,b,strong,small,dt,dd,li,a');if(!el||!main.contains(el)||el.querySelector('textarea,input,select'))return;
-  if(!Array.prototype.some.call(el.childNodes,function(n){return n.nodeType===3&&n.nodeValue.trim()}))return;
-  e.preventDefault();e.stopImmediatePropagation();universalEdit(el);
+document.addEventListener('click',function(e){var textButton=e.target.closest('[data-content-copy]');if(textButton&&ADM.can&&!ADM.guest){e.preventDefault();e.stopImmediatePropagation();openCopyEditor(textButton.dataset.source,textButton.dataset.scope,textButton.textContent);return}var m=document.getElementById('copyedit');
+  if(m&&e.target.closest('[data-copy-save],[data-copy-cancel],[data-copy-reset]')){e.preventDefault();e.stopImmediatePropagation();
+    if(!e.target.closest('[data-copy-cancel]')){var scope=m.querySelector('[name="copy-scope"]:checked').value==='all'?'*':m.dataset.scope;
+      var value=e.target.closest('[data-copy-reset]')?m.dataset.original:m.querySelector('#copyvalue').value.trim();if(!value){toast('Введите текст или скройте блок');return}copySave(scope,m.dataset.original,value)}m.remove();return}
+  var shell=e.target.closest('header.top,footer');
+  if(!ADM.edit||ADM.guest||(!main.contains(e.target)&&!shell)||e.target.closest(COPY_SKIP+',.ed,#adm,.search,#spoilPanel'))return;
+  var el=e.target.closest('h1,h2,h3,h4,p,span,b,strong,small,dt,dd,li,a,button,label,summary,text');if(!el||el.querySelector('textarea,input,select'))return;
+  var n=Array.prototype.find.call(el.childNodes,function(x){return x.nodeType===3&&x.nodeValue.trim()});if(!n)return;
+  e.preventDefault();e.stopImmediatePropagation();universalEdit(el,n);
 },true);
+document.addEventListener('keydown',function(e){var m=document.getElementById('copyedit');if(m&&e.key==='Escape'){e.preventDefault();m.remove()}});
+// New DOM produced by filters, maps and spoiler reveal receives the same overrides.
+var CONTENT_OBSERVER=new MutationObserver(function(records){records.forEach(function(r){r.addedNodes.forEach(function(n){if(n.nodeType===1&&main.contains(n))applyCopy(n)})});applyBlocks()});
+CONTENT_OBSERVER.observe(main,{childList:true,subtree:true});
 // показ текста с возможностью правки
 function E(key,text,ctx,self){if(ADM.edit)return '<span class="ed'+(text?'':' empty')+'" data-ek="'+key+'" title="Нажмите, чтобы изменить">'+(text?lk(text,ctx,self):'＋ добавить текст')+'</span>';return lk(text,ctx,self)}
 function EH(key,text){if(ADM.edit)return '<span class="ed" data-ek="'+key+'" title="Нажмите, чтобы изменить">'+esc(text)+'</span>';return esc(text)}
@@ -1307,7 +1339,17 @@ function EH(key,text){if(ADM.edit)return '<span class="ed" data-ek="'+key+'" tit
 function isHid(id,pg){var l=OVR.hide[id+'@'+pg];if(l===-1)return false;return !!(OVR.hide[id]||l===1)}
 function B(id,pg,label,html){if(!html)return '';var hid=isHid(id,pg);
   if(!ADM.edit)return hid?'':html;
-  return '<div class="blk'+(hid?' is-hidden':'')+'" data-bk="'+id+'" data-bp="'+pg+'"><div class="blk-bar"><span>'+(hid?'Скрыто: ':'')+esc(label)+'</span>'+(hid?(OVR.hide[id]?'<button type="button" data-bshow="page">Показать здесь</button><button type="button" data-bshow="all">Показать везде</button>':'<button type="button" data-bshow="page">Показать</button>'):'<button type="button" data-bhide="page">Скрыть здесь</button>'+(OVR.hide[id+'@'+pg]===-1?'':'<button type="button" data-bhide="all">Скрыть везде</button>'))+'</div>'+html+'</div>'}
+  return '<div class="blk'+(hid?' is-hidden':'')+'" data-bk="'+esc(id)+'" data-bp="'+esc(pg)+'"><div class="blk-bar"><span>'+(hid?'Скрыто: ':'')+esc(label)+'</span>'+(hid?(OVR.hide[id]?'<button type="button" data-bshow="page">Показать здесь</button><button type="button" data-bshow="all">Показать везде</button>':'<button type="button" data-bshow="page">Показать</button>'):'<button type="button" data-bhide="page">Скрыть здесь</button>'+(OVR.hide[id+'@'+pg]===-1?'':'<button type="button" data-bhide="all">Скрыть везде</button>'))+'</div>'+html+'</div>'}
+function applyBlocks(){if(!main.querySelectorAll)return;var kind=CUR.replace(/-.*/,''),seen={};
+  var groups=main.querySelectorAll('section,.panel.pad,.sdet,.spath,.episode-cast,.eps,.team,.ucard,.about,.lead,.facts,.watch-ways,.ptiles,.enc-grid,.hgrid,.grid,.apps,.route-list,.ctrl,.seasons,.badges,.story');
+  Array.prototype.forEach.call(groups,function(el,i){if(el.closest('.blk')||el.closest('.blk-bar')||el.hasAttribute('data-auto-block'))return;
+    var heading=el.querySelector('h2,h3'),label=(heading||{}).textContent||el.getAttribute('class')||'Блок';
+    var classes=['sdet','spath','episode-cast','eps','team','ucard','about','lead','facts','watch-ways','ptiles','enc-grid','hgrid','grid','apps','route-list','ctrl','seasons','badges','story'],semantic=classes.filter(function(c){return el.classList.contains(c)})[0];
+    var signature=el.tagName.toLowerCase()+'.'+(semantic||'block'),count=seen[signature]||0;seen[signature]=count+1;var id='auto.'+kind+'.'+signature+'.'+count,hidden=isHid(id,CUR);el.setAttribute('data-auto-block',id);
+    if(!ADM.edit){if(hidden)el.remove();return}
+    var wrapper=document.createElement('div');wrapper.innerHTML=B(id,CUR,label,'<span data-block-slot></span>');var block=wrapper.firstElementChild;if(block){el.replaceWith(block);block.querySelector('[data-block-slot]').replaceWith(el)}
+  })
+}
 var NAVT={map:'Карта и места',lines:'Сюжетные линии',stones:'Все предметы','infinity-stones':'Камни бесконечности',artifacts:'Артефакты и устройства',weapons:'Оружие',armor:'Броня и костюмы',materials:'Материалы и вещества',races:'Расы',orgs:'Организации',teams:'Команды',universes:'Вселенные'};
 
 // ---------- главная ----------
@@ -1408,11 +1450,57 @@ function settingsHTML(){var hid=Object.keys(OVR.hide).filter(function(k){return 
   '<h3 class="sub">Категории энциклопедии</h3><div class="chips">'+Object.keys(NAVT).map(function(k){return '<label class="chip'+(OVR.nav[k]?'':' on')+'"><input type="checkbox" data-navt="'+k+'"'+(OVR.nav[k]?'':' checked')+'> '+NAVT[k]+'</label>'}).join('')+'</div><p class="muted" style="margin-top:6px">Главное меню из шести разделов не меняется. Снимите галочку, чтобы спрятать от гостей категорию энциклопедии и её страницу. Карточки внутри (места, артефакты, расы) остаются доступны по ссылкам и через поиск.</p>'+
   '<h3 class="sub">Скрытые блоки ('+hid.length+')</h3>'+(hid.length?'<ul class="evlist">'+hid.map(function(k){var a=k.split('@');return '<li>'+esc(a[0])+(a[1]?' <span class="muted">на странице '+esc((P[a[1]]||C[a[1]]||{}).t||(C[a[1]]||{}).n||a[1])+'</span>':' <span class="muted">везде</span>')+' <button type="button" class="linkbtn" data-unhide="'+esc(k)+'">Показать</button></li>'}).join('')+'</ul>':'<p class="muted">Нет. Включите «Править», и у каждого блока появятся кнопки «Скрыть здесь» и «Скрыть везде».</p>')+
   '<h3 class="sub">Резервная копия правок</h3><p class="muted">Все правки, скрытые блоки, разделы и ссылки на картинки — одним файлом. Его можно хранить у себя и загрузить обратно.</p><div class="hero-actions" style="margin-top:8px"><button type="button" class="btn" data-adm="backup">Скачать копию</button><label class="btn" style="cursor:pointer">Загрузить из файла<input type="file" accept="application/json,.json" data-backup-in hidden></label></div>'+
-  '<h3 class="sub">Изменённые тексты: '+Object.keys(OVR.text).length+'</h3><p class="muted">Чтобы вернуть исходный текст, нажмите на него в режиме правки и выберите «Вернуть исходный».</p></div></div>'}
+  '<p><button type="button" class="btn" data-adm="texts">Все тексты сайта</button></p><h3 class="sub">Изменённые тексты: '+Object.keys(OVR.text).length+'</h3><p class="muted">Чтобы вернуть исходный текст, нажмите на него в режиме правки и выберите «Вернуть исходный».</p></div></div>'}
 function openEditor(el){var key=el.getAttribute('data-ek'),cur=getT(key)||'',orig=key in ORIG?ORIG[key]:cur;
-  el.outerHTML='<span class="ed-box" data-ek-box="'+key+'"><textarea class="ed-ta" rows="'+Math.max(2,Math.ceil(cur.length/70))+'">'+esc(cur)+'</textarea><span class="ed-btns"><button type="button" class="btn primary" data-ed-save>Сохранить</button><button type="button" class="btn" data-ed-cancel>Отмена</button>'+(key in ORIG?'<button type="button" class="linkbtn" data-ed-reset>Вернуть исходный</button>':'')+'</span></span>';
+  el.outerHTML='<span class="ed-box" data-ek-box="'+key+'"><textarea class="ed-ta" rows="'+Math.max(2,Math.ceil(cur.length/70))+'">'+esc(cur)+'</textarea><span class="ed-btns"><button type="button" class="btn primary" data-ed-save>Сохранить</button><button type="button" class="btn" data-ed-cancel>Отмена</button>'+(key in ORIG?'<button type="button" class="linkbtn" data-ed-reset>Вернуть исходный</button>':'')+'</span><label><input type="radio" data-edit-scope name="edit-scope-'+esc(key)+'" value="local" checked> Только эта карточка</label> <label><input type="radio" data-edit-scope name="edit-scope-'+esc(key)+'" value="all"> Везде, где используется этот текст</label></span>';
   var box=document.querySelector('[data-ek-box="'+key+'"] textarea');if(box){box.focus();box.setSelectionRange(box.value.length,box.value.length)}}
-function setText(key,val){var r=ref(key);if(!r)return;if(!val&&/\.(t|n)$/.test(key)){toast('Название не может быть пустым');return}var orig=key in ORIG?ORIG[key]:r[0][r[1]];if(val===orig)delete OVR.text[key];else OVR.text[key]=val;applyOVR();saveDraft();rerender()}
+function textFieldKey(path){var root=path[0],entity=D[root]&&D[root][path[1]],field=path[2];
+  if(root==='p'&&entity){if(path.length===3)return 'p.'+entity.id+'.'+field;if(path.length===4&&['key','post'].indexOf(field)>=0)return 'p.'+entity.id+'.'+field+'.'+path[3];if(field==='eps'&&path[4]==='2')return 'ep.'+entity.id+'.'+path[3]}
+  if(root==='c'&&entity){if(path.length===3)return 'c.'+entity.id+'.'+field;if(field==='notes'&&path.length===4)return 'c.'+entity.id+'.note.'+path[3]}
+  if((root==='pl'||root==='ev')&&entity&&path.length===3)return (root==='ev'?'e':'pl')+'.'+entity.id+'.'+field;
+  if(root==='tl'&&path[2]==='2')return 'tl.'+path[1];
+  if(root==='enc'&&path[1]==='eggs'&&path.length===4)return 'egg.'+path[2]+'.'+path[3];
+  return 'json.'+encodeURIComponent(JSON.stringify(path))
+}
+function textFieldLabel(path){var root=path[0],obj=D[root]&&D[root][path[1]],field=path[2];
+  var labels={t:'Название',n:'Имя или название',en:'Название на английском',a:'Исполнитель',ab:'Описание',ab2:'Подробное описание',sto:'Сюжет',imp:'Что важно для КВМ',key:'Ключевые моменты',post:'Сцены после титров',note:'Примечание',notes:'Появление',w:'Время действия',y:'Год',r:'Дата выхода',g:'Группа',eps:'Серия',verLabel:'Версия персонажа',editionDifferences:'Отличия редакции'};
+  if(['p','c','pl','ev','ln','eras'].indexOf(root)>=0&&obj)return ({p:'Проект',c:'Персонаж',pl:'Место',ev:'Событие',ln:'Сюжетная линия',eras:'Эпоха'})[root]+' — '+(obj.t||obj.n||'')+' · '+(labels[field]||'Дополнительный текст')+(path.length>3?' · '+(field==='notes'&&P[path[3]]?P[path[3]].t:'фрагмент '+(+path[3]+1||'')):'');
+  if(root==='routes'){var r=D.routes[path[1]];return 'Маршрут — '+(r&&r[1]||'')+' · '+(path[2]==='1'?'Название':path[2]==='2'?'Описание':'Пояснение к проекту')}
+  if(root==='enc'){var category=path[1],row=D.enc[category]&&D.enc[category][path[2]],names={stones:'Камень бесконечности',artifacts:'Артефакт',materials:'Материал',gauntlets:'Перчатка',races:'Раса',orgs:'Организация',teams:'Команда',universes:'Вселенная'};
+    if(names[category]&&row)return names[category]+' — '+(row[category==='gauntlets'?0:1]||'')+' · '+(path[3]==='1'&&category!=='gauntlets'?'Название':'Текст карточки');
+    if(category==='eggs')return 'Пасхалка — '+(P[path[2]]?P[path[2]].t:'проект');
+    return 'Энциклопедия · Дополнительный текст'}
+  if(root==='epRoles')return 'Участник серии — '+(P[path[1]]?P[path[1]].t:'')+' · серия '+path[2]+' · '+(C[path[3]]?C[path[3]].n:'');
+  return 'Дополнительный текст сайта'
+}
+function textFields(){var rows=[];
+  function walk(node,path){if(!node||typeof node!=='object')return;Object.keys(node).forEach(function(k){var v=node[k],p=path.concat(k);
+    if(typeof v==='string'){if(!v.trim()||/^(?:https?:|img\/|#)/i.test(v)||/^[a-z0-9_.:,/\-]+$/.test(v))return;
+      if(['id','col'].indexOf(k)>=0||path[0]==='alias'||path[0]==='appearances')return;
+      rows.push({key:textFieldKey(p),value:v,label:textFieldLabel(p)})
+    }else walk(v,p)})}
+  walk(D,[]);return rows
+}
+function textScope(key){var k=key.split('.'),prefix={p:'f',c:'c',e:'e',pl:'p',ep:'ep'};
+  if(prefix[k[0]])return prefix[k[0]]+'-'+k[1]+(k[0]==='ep'&&P[k[1]]&&P[k[1]].eps[+k[2]]?'-'+P[k[1]].eps[+k[2]][0]:'');
+  if(k[0]==='json')try{var path=JSON.parse(decodeURIComponent(key.slice(5)));if(path[0]==='enc'){var row=D.enc[path[1]][path[2]],type={stones:'a',artifacts:'a',materials:'a',gauntlets:'a',races:'r',orgs:'o'}[path[1]];if(type&&row)return type+'-'+row[path[1]==='gauntlets'?3:0]}if(path[0]==='routes')return 'w-'+D.routes[path[1]][0]}catch(e){}
+  return CUR
+}
+function setText(key,val,everywhere){var r=ref(key);if(!r)return;if(!val&&/\.(t|n)$/.test(key)){toast('Название не может быть пустым');return}
+  var orig=key in ORIG?ORIG[key]:r[0][r[1]],current=r[0][r[1]];
+  if(everywhere){clearCopyLocals(orig);var fields=textFields();if(!fields.some(function(f){return f.key===key}))fields.push({key:key,value:current});fields.forEach(function(f){var rr=ref(f.key);if(!rr)return;
+      var baseline=f.key in ORIG?ORIG[f.key]:rr[0][rr[1]];
+      if(baseline===orig||rr[0][rr[1]]===current){if(val===baseline)delete OVR.text[f.key];else OVR.text[f.key]=val}});
+    if(val===orig)delete OVR.copy[copyKey('*',orig)];else OVR.copy[copyKey('*',orig)]=val;
+  }else{if(val===orig){delete OVR.text[key];if(OVR.copy[copyKey('*',orig)]!==undefined)OVR.copy[copyKey(textScope(key),orig)]=orig}else OVR.text[key]=val}
+  applyOVR();saveDraft();rerender();var results=document.querySelector('[data-content-results]');if(results){var q=document.querySelector('[data-content-query]');results.innerHTML=contentResults(q?q.value:'')}
+}
+function contentEditor(){return '<div class="modal" id="admset" role="dialog" aria-modal="true" aria-label="Все тексты"><div class="modal-c panel pad"><div class="sec-h"><h2>Все тексты сайта</h2><button class="btn" type="button" data-adm="close">Закрыть</button></div><p class="muted">Найдите название, описание, текст серии или маршрута. Здесь также доступны подписи и подсказки элементов текущей страницы. Показаны первые 80 совпадений в каждом списке — уточните запрос, чтобы найти нужный текст.</p><input class="ed-ta" type="search" data-content-query placeholder="Поиск по текстам" aria-label="Поиск по текстам"><div data-content-results>'+contentResults('')+'</div></div></div>'}
+function contentResults(q){q=norm(q);var data=textFields().filter(function(f){return !q||norm(f.value).indexOf(q)>=0}).slice(0,80).map(function(f){return '<div class="panel pad" style="margin-top:12px"><small class="muted">'+esc(f.label)+'</small><p><span class="ed" data-ek="'+esc(f.key)+'">'+esc(f.value)+'</span></p></div>'}).join('');
+  var ui=interfaceTexts().filter(function(f){return !q||norm(f.value).indexOf(q)>=0}).slice(0,80).map(function(f){return '<div class="panel pad" style="margin-top:12px"><small class="muted">'+esc(f.label)+'</small><p><button type="button" class="linkbtn" data-content-copy data-source="'+esc(f.source)+'" data-scope="'+esc(f.scope)+'">'+esc(f.value)+'</button></p></div>'}).join('');
+  return (data?'<h3>Содержание карточек</h3>'+data:'')+(ui?'<h3>Подписи текущей страницы</h3>'+ui:'')||'<p>Ничего не найдено</p>'
+}
+document.addEventListener('input',function(e){if(e.target.hasAttribute('data-content-query')){var out=document.querySelector('[data-content-results]');if(out)out.innerHTML=contentResults(e.target.value)}});
 function admPublish(){if(ADM.publishing)return;if(IMG_BUSY){toast('Дождитесь загрузки картинок, затем нажмите «Опубликовать».');return}ADM.publishing=true;var btn=document.querySelector('[data-adm="publish"]');if(btn){btn.disabled=true;btn.textContent='Публикую…'}
   var out=clone(OVR);out.ts=Date.now();var json=JSON.stringify(out),snap=JSON.stringify(OVR);
   function done(){ADM.publishing=false;PUB=clone(out);var changed=JSON.stringify(OVR)!==snap;OVR.ts=out.ts;if(!changed){try{localStorage.removeItem(DRAFT_KEY)}catch(e){}ADM.lastSaved=null}else saveDraft();admBar();toast(changed?'Опубликована версия на момент нажатия. Новые правки остались в черновике.':(ADM.gh?'Опубликовано в репозиторий. На сайте обновится через 1–2 минуты.':'Опубликовано. Гости уже видят новую версию.'))}
@@ -1430,7 +1518,7 @@ function admExport(btn){var old=btn.textContent;btn.disabled=true;btn.textConten
     return use.then(function(dl){if(dl)return dl.save({filename:'index.html',data:blob});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='index.html';document.body.appendChild(a);a.click();a.remove()})})
   .then(function(){toast(failed.length?'Файл готов, но '+failed.length+' картинок не встроено: '+failed.slice(0,3).join('; ')+(failed.length>3?'…':''):'Файл index.html готов. Загрузите его на GitHub.')}).catch(function(e){toast('Не получилось скачать: '+(e&&e.code||'ошибка'))}).then(function(){btn.disabled=false;btn.textContent=old})}
 function closeModal(){var m=document.getElementById('admset');if(m)m.remove();if(ADM.retFocus&&document.body.contains(ADM.retFocus))ADM.retFocus.focus()}
-document.addEventListener('keydown',function(e){var m=document.getElementById('admset');if(!m)return;if(e.key==='Enter'&&e.target&&/^gh(Repo|Branch|Token)$/.test(e.target.id)){e.preventDefault();ghLogin();return}if(e.key==='Escape'){e.preventDefault();closeModal();return}
+document.addEventListener('keydown',function(e){var m=document.getElementById('admset');if(!m||document.getElementById('copyedit'))return;if(e.key==='Enter'&&e.target&&/^gh(Repo|Branch|Token)$/.test(e.target.id)){e.preventDefault();ghLogin();return}if(e.key==='Escape'){e.preventDefault();closeModal();return}
   if(e.key==='Tab'){var f=m.querySelectorAll('button,input,a[href],[tabindex]:not([tabindex="-1"])');if(!f.length)return;var a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}else if(!m.contains(document.activeElement)){e.preventDefault();a.focus()}}});
 function fetchImg(u){if(/^data:image\//.test(u))return Promise.resolve(u);return Promise.race([fetchImg0(u),new Promise(function(_,rej){setTimeout(function(){rej(new Error('превышено время ожидания (20 с)'))},20000)})])}
 function fetchImg0(u){var ctl=window.AbortController?new AbortController():null,tm=setTimeout(function(){if(ctl)ctl.abort()},15000);
@@ -1444,9 +1532,10 @@ var LAZY=window.IntersectionObserver?new IntersectionObserver(function(en){en.fo
 function lazyBg(root){(root||document).querySelectorAll('[data-bg]').forEach(function(el){if(LAZY)LAZY.observe(el);else{el.style.backgroundImage='url('+el.getAttribute('data-bg')+')';el.removeAttribute('data-bg')}})}
 new MutationObserver(function(){lazyBg(main)}).observe(main,{childList:true,subtree:true});
 // состояние фильтров в адресе
-function qsParse(q){var o={};(q||'').split('&').forEach(function(kv){if(!kv)return;var a=kv.split('=');o[decodeURIComponent(a[0])]=decodeURIComponent(a[1]||'')});return o}
+function qsParse(q){var o={};function dec(s){try{return decodeURIComponent(s.replace(/\+/g,' '))}catch(e){return s}}
+  (q||'').split('&').forEach(function(kv){if(!kv)return;var eq=kv.indexOf('='),k=dec(eq<0?kv:kv.slice(0,eq));if(k==='__proto__'||k==='constructor'||k==='prototype')return;o[k]=dec(eq<0?'':kv.slice(eq+1))});return o}
 function ctToQS(){var q=[];if(CT2.kind!=='all')q.push('k='+CT2.kind);if(CT2.sort!=='release')q.push('s='+CT2.sort);if(CT2.q)q.push('q='+encodeURIComponent(CT2.q));var hidden=['mcu','linked','other'].filter(function(a){return !CT2.aff[a]});if(hidden.length)q.push('no='+hidden.join(','));if(CT2.uni!=='all')q.push('u='+CT2.uni);if(CT2.stage!=='all')q.push('st='+CT2.stage);if(CT2.studio!=='all')q.push('studio='+CT2.studio);return q.join('&')}
-function ctFromQS(o){CT2.kind=o.k||'all';CT2.sort=o.s||'release';CT2.q=o.q||'';CT2.aff={mcu:1,linked:1,other:1};(o.no||'').split(',').forEach(function(a){if(a in CT2.aff)CT2.aff[a]=0});CT2.uni=o.u||'all';CT2.stage=o.st||'all';CT2.studio=o.studio||'all';if(ctActive())CT2.open=true}
+function ctFromQS(o){CT2.kind=['all','film','series','other'].indexOf(o.k)>=0?o.k:'all';CT2.sort=['release','story','abc'].indexOf(o.s)>=0?o.s:'release';CT2.q=o.q||'';CT2.aff={mcu:1,linked:1,other:1};(o.no||'').split(',').forEach(function(a){if(Object.prototype.hasOwnProperty.call(CT2.aff,a))CT2.aff[a]=0});CT2.uni=['all','main','other'].indexOf(o.u)>=0?o.u:'all';CT2.stage=['all','out','soon'].indexOf(o.st)>=0?o.st:'all';CT2.studio=Object.prototype.hasOwnProperty.call(D.studios,o.studio)?o.studio:'all';if(ctActive())CT2.open=true}
 function syncURL(base,qs){var h='#'+base+(qs?'?'+qs:'');if(location.hash!==h){try{history.replaceState(null,'',h);CUR=base}catch(e){}}}
 function toast(t){var x=document.createElement('div');x.className='toast';x.textContent=t;document.body.appendChild(x);setTimeout(function(){x.classList.add('out')},3200);setTimeout(function(){x.remove()},3800)}
 function admInit(){
@@ -1472,11 +1561,12 @@ function itemCategory(id){return ITEM_CATS.filter(function(c){return c.id===id})
 function itemCategoryNav(current){return '<nav class="chips item-categories" aria-label="Категории предметов"><a class="chip" href="#stones"'+(!current?' aria-current="page"':'')+'>Все предметы</a>'+ITEM_CATS.filter(function(c){return !OVR.nav[c.route]||ADM.on}).map(function(c){return '<a class="chip" href="#'+c.route+'"'+(current===c.id?' aria-current="page"':'')+'>'+esc(c.name)+'</a>'}).join('')+'</nav>'}
 function itemCategoryView(id){var c=itemCategory(id);if(!c)return notFound();var items=artAll().filter(function(a){return a.category===id});return '<h1>'+esc(c.name)+'</h1><p class="lead" style="margin-top:10px">'+esc(c.lead)+'</p>'+itemCategoryNav(id)+'<p class="muted" style="margin-top:14px">Карточек: '+items.length+'</p><div class="gems">'+items.map(artCard).join('')+'</div>'}
 function stonesView(){var all=artAll();return '<h1>Предметы и материалы</h1><p class="lead" style="margin-top:10px">Артефакты, оружие, костюмы и вещества из экранных историй Marvel.</p>'+itemCategoryNav('')+ITEM_CATS.filter(function(c){return !OVR.nav[c.route]||ADM.on}).map(function(c){var items=all.filter(function(a){return a.category===c.id});return '<section><div class="sec-h"><h2><a href="#'+c.route+'">'+esc(c.name)+'</a></h2><span class="muted">'+items.length+' '+plural(items.length,['карточка','карточки','карточек'])+'</span></div><div class="gems">'+items.map(artCard).join('')+'</div></section>'}).join('')}
-function artView(a){var pids={};a.path.forEach(function(s){s[2].split(',').forEach(function(x){if(x&&P[x])pids[x]=1})});var pr=Object.keys(pids).sort(function(x,y){return (P[x].ord||900)-(P[y].ord||900)}),cat=itemCategory(a.category),related=a.related.map(artGet).filter(Boolean);return '<button class="back" type="button" data-back>← Назад</button>'+(cat?'<p class="muted"><a href="#encyclopedia">Энциклопедия</a> / <a href="#'+cat.route+'">'+esc(cat.name)+'</a></p>':'')+'<div class="panel pad sdet" style="--g:'+a.col+';margin-top:14px"><div class="sdh">'+(artPhoto(a,1)||(a.stone?gem(a.col,1):'<span class="art-dot" style="--g:'+a.col+'"></span>'))+'<div><h1 style="font-size:clamp(28px,4vw,44px)">'+esc(a.n)+'</h1>'+(a.sub?'<p class="muted">'+esc(a.sub)+'</p>':'')+(a.context?'<p class="muted" style="margin-top:8px">'+esc(a.context)+'</p>':'')+SPW(pr,'<p class="about" style="margin-top:8px">'+lk(a.ab,ctxP(pr))+'</p>')+(ADM.on?'<p style="margin-top:12px">'+imgOneBtn('a-'+a.id)+'</p>':'')+'</div></div><h2 style="margin-top:22px">История и появления</h2>'+pathList(a.path)+'</div>'+(related.length?'<section><h2>Связанные предметы и материалы</h2><div class="gems">'+related.map(artCard).join('')+'</div></section>':'')+'<section><h2>Где появляется</h2><div class="grid" style="margin-top:14px">'+pr.map(card).join('')+'</div></section>'}
+function artView(a){var pids={};a.path.forEach(function(s){s[2].split(',').forEach(function(x){if(x&&P[x])pids[x]=1})});var pr=Object.keys(pids).sort(function(x,y){return (P[x].ord||900)-(P[y].ord||900)}),cat=itemCategory(a.category),related=a.related.map(artGet).filter(Boolean);return '<button class="back" type="button" data-back>← Назад</button>'+(cat?'<p class="muted"><a href="#encyclopedia">Энциклопедия</a> / <a href="#'+cat.route+'">'+esc(cat.name)+'</a></p>':'')+'<div class="panel pad sdet" style="--g:'+a.col+';margin-top:14px"><div class="sdh">'+(artPhoto(a,1)||(a.stone?gem(a.col,1):'<span class="art-dot" style="--g:'+a.col+'"></span>'))+'<div><h1 style="font-size:clamp(28px,4vw,44px)">'+esc(a.n)+'</h1>'+(a.sub?'<p class="muted">'+esc(a.sub)+'</p>':'')+(a.context?'<p class="muted" style="margin-top:8px">'+esc(a.context)+'</p>':'')+B('a.about',a.id,'Описание',SPW(pr,'<p class="about" style="margin-top:8px">'+lk(a.ab,ctxP(pr))+'</p>'))+(ADM.on?'<p style="margin-top:12px">'+imgOneBtn('a-'+a.id)+'</p>':'')+'</div></div>'+B('a.history',a.id,'История и появления','<h2 style="margin-top:22px">История и появления</h2>'+pathList(a.path))+'</div>'+(related.length?'<section><h2>Связанные предметы и материалы</h2><div class="gems">'+related.map(artCard).join('')+'</div></section>':'')+'<section><h2>Где появляется</h2><div class="grid" style="margin-top:14px">'+pr.map(card).join('')+'</div></section>'}
+function projectCount(ids){var n=String(ids||'').split(',').filter(Boolean).length;return n+' '+plural(n,['проект','проекта','проектов'])}
 function raceView(r){var mem=r[5].split(',').filter(function(x){return C[x]}),pr=r[6].split(',').filter(function(x){return P[x]});
-  return '<button class="back" type="button" data-back>← Назад</button><h1>'+esc(r[1])+'</h1>'+(r[4]&&PL[r[4]]?'<div class="badges"><span class="muted">Родина:</span>'+plLink(r[4])+'</div>':'')+'<p class="about" style="margin-top:16px">'+lk(r[3],ctxP(pr),r[0])+'</p>'+
-  (mem.length?'<section><h2>Известные представители</h2><div class="hgrid" style="margin-top:14px">'+mem.map(function(id){return hcard(C[id])}).join('')+'</div></section>':'')+(pr.length?'<section><h2>Где появляются</h2><div class="grid" style="margin-top:14px">'+pr.map(card).join('')+'</div></section>':'')}
-function racesView(){return '<h1>Расы и народы</h1><p class="lead" style="margin-top:10px">Инопланетяне, древние народы и необычные существа КВМ.</p><div class="ptiles" style="margin-top:20px">'+D.enc.races.map(function(r){return '<a class="panel ptile" href="#r-'+r[0]+'"><b>'+esc(r[1])+'</b><span>'+esc(safeHead(r[3]))+'</span></a>'}).join('')+'</div>'}
+  return '<button class="back" type="button" data-back>← Назад</button><h1>'+esc(r[1])+'</h1>'+(r[4]&&PL[r[4]]?'<div class="badges"><span class="muted">Родина:</span>'+plLink(r[4])+'</div>':'')+SPW(pr,'<p class="about" style="margin-top:16px">'+lk(r[3],ctxP(pr),r[0])+'</p>')+
+  (mem.length?'<section><h2>Известные представители</h2>'+SPW(pr,'<div class="hgrid" style="margin-top:14px">'+mem.map(function(id){return hcard(C[id])}).join('')+'</div>')+'</section>':'')+(pr.length?'<section><h2>Где появляются</h2><div class="grid" style="margin-top:14px">'+pr.map(card).join('')+'</div></section>':'')}
+function racesView(){return '<h1>Расы и народы</h1><p class="lead" style="margin-top:10px">Инопланетяне, древние народы и необычные существа КВМ.</p><div class="ptiles" style="margin-top:20px">'+D.enc.races.map(function(r){return '<a class="panel ptile" href="#r-'+r[0]+'"><b>'+esc(r[1])+'</b><span>'+projectCount(r[6])+'</span></a>'}).join('')+'</div>'}
 
 function relLabel(p){var r=String(p.r||''),now=new Date(),today=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
   if(!r)return 'Ожидается';var full=r.length>=10;if(full)return r<=today?'Вышел':'Премьера';var cut=today.slice(0,r.length);return r<cut?'Вышел':(r===cut?'Премьера':'Ожидается')}
@@ -1495,17 +1585,18 @@ document.addEventListener('click',function(e){
   if(e.target.closest('#spoilBtn')){var sp0=document.getElementById('spoilPanel');if(sp0)sp0.remove();else{document.getElementById('spoilBtn').insertAdjacentHTML('afterend',spoilPanel());var r0=document.querySelector('#spoilPanel input:checked');if(r0)r0.focus()}setSpoilBtn();return}
   if(!e.target.closest('#spoilPanel')){var sp1=document.getElementById('spoilPanel');if(sp1){sp1.remove();setSpoilBtn()}}
   var spb=e.target.closest('[data-spk]');if(spb){e.preventDefault();spRevealEl(spb);return}var sph=e.target.closest('[data-sphide]');if(sph){e.preventDefault();spHideEl(sph);return}
-  if(ADM.edit){var edl=e.target.closest('.ed');if(edl){e.preventDefault();openEditor(edl);return}}
+  if(ADM.edit||e.target.closest('[data-content-results]')){var edl=e.target.closest('.ed');if(edl){e.preventDefault();openEditor(edl);return}}
   var at=e.target.closest('[data-ed-save],[data-ed-cancel],[data-ed-reset],[data-bhide],[data-bshow],[data-adm],[data-unhide]');
   if(at){e.preventDefault();
-    if(at.hasAttribute('data-ed-save')){var bx=at.closest('[data-ek-box]');setText(bx.getAttribute('data-ek-box'),bx.querySelector('textarea').value.trim());return}
-    if(at.hasAttribute('data-ed-cancel')){rerender();return}
-    if(at.hasAttribute('data-ed-reset')){var bx2=at.closest('[data-ek-box]'),k2=bx2.getAttribute('data-ek-box');setText(k2,ORIG[k2]);return}
+    if(at.hasAttribute('data-ed-save')){var bx=at.closest('[data-ek-box]');setText(bx.getAttribute('data-ek-box'),bx.querySelector('textarea').value.trim(),bx.querySelector('[data-edit-scope]:checked').value==='all');return}
+    if(at.hasAttribute('data-ed-cancel')){rerender();var cr=document.querySelector('[data-content-results]');if(cr)cr.innerHTML=contentResults(document.querySelector('[data-content-query]').value);return}
+    if(at.hasAttribute('data-ed-reset')){var bx2=at.closest('[data-ek-box]'),k2=bx2.getAttribute('data-ek-box');setText(k2,ORIG[k2],bx2.querySelector('[data-edit-scope]:checked').value==='all');return}
     if(at.hasAttribute('data-bhide')){var bl=at.closest('.blk'),bk1=bl.getAttribute('data-bk'),lk1=bk1+'@'+bl.getAttribute('data-bp');if(at.getAttribute('data-bhide')==='all')OVR.hide[bk1]=1;else{if(OVR.hide[lk1]===-1)delete OVR.hide[lk1];else OVR.hide[lk1]=1}saveDraft();rerender();return}
     if(at.hasAttribute('data-bshow')){var bl2=at.closest('.blk'),bk=bl2.getAttribute('data-bk'),lk2=bk+'@'+bl2.getAttribute('data-bp');if(at.getAttribute('data-bshow')==='all')delete OVR.hide[bk];else if(OVR.hide[bk])OVR.hide[lk2]=-1;else delete OVR.hide[lk2];saveDraft();rerender();return}
     if(at.hasAttribute('data-unhide')){delete OVR.hide[at.getAttribute('data-unhide')];saveDraft();var m0=document.getElementById('admset');if(m0)m0.outerHTML=settingsHTML();rerender();return}
     var act=at.getAttribute('data-adm');
     if(act==='edit'){ADM.edit=!ADM.edit;admBar();rerender();return}
+    if(act==='texts'){closeModal();document.body.insertAdjacentHTML('beforeend',contentEditor());return}
     if(act==='settings'){var m1=document.getElementById('admset');if(m1)m1.remove();ADM.retFocus=at;document.body.insertAdjacentHTML('beforeend',settingsHTML());var mc=document.querySelector('#admset [data-adm="close"]');if(mc)mc.focus();return}
     if(act==='close'){closeModal();return}
     if(act==='guest'){ADM.guest=!ADM.guest;ADM.on=!ADM.guest;if(ADM.guest)ADM.edit=false;applyNav();admBar();rerender();return}
@@ -1623,10 +1714,10 @@ function buildSearch(){sIdx=[];IMX=null;var E=D.en||{c:{},p:{},pl:{},a:{}};
   D.ln.forEach(function(x){sIdx.push({h:'#l-'+x.id,t:x.n,k:'Линия',s:norm(x.n)})});
   D.enc.races.forEach(function(r){sIdx.push({h:'#r-'+r[0],t:r[1],k:'Раса',s:norm(r[1])})});
   D.enc.orgs.forEach(function(o){sIdx.push({h:'#o-'+o[0],t:o[1],k:'Организация',s:norm(o[1])})});
-  artAll().forEach(function(a){sIdx.push({h:'#a-'+a.id,t:a.n,k:(itemCategory(a.category)||{name:'Артефакт'}).name,s:norm(a.n+' '+a.sub+' '+a.aliases.join(' ')+' '+(E.a[a.id]||''))})});
+  artAll().forEach(function(a){sIdx.push({h:'#a-'+a.id,t:a.n,k:(itemCategory(a.category)||{name:'Артефакт'}).name,s:norm(a.n+' '+a.sub+' '+a.aliases.join(' ')+' '+(E.a[a.id]||'')+' '+(itemCategory(a.category)||{name:''}).name)})});
   (D.routes||[]).forEach(function(r){sIdx.push({h:'#w-'+r[0],t:r[1],k:'Маршрут',s:norm(r[1]+' маршрут')})});
-  sIdx.forEach(function(o){o.w=o.s.split(' ')})}
-function matchScore(o,q,w){if(w.every(function(x){return o.s.indexOf(x)>=0}))return o.s.indexOf(q)===0?0:(' '+o.s).indexOf(' '+w[0])>=0?1:2;
+  sIdx.forEach(function(o){var old=o.t,scope=o.h.slice(1);o.t=copyValue(scope,o.t);o.s=norm(o.s+' '+o.t+' '+copyValue(scope,old.replace(/ \(.*\)$/,'')));o.w=o.s.split(' ');o.compact=o.s.replace(/\s/g,'')})}
+function matchScore(o,q,w){if(w.every(function(x){return o.s.indexOf(x)>=0}))return o.s.indexOf(q)===0?0:(' '+o.s).indexOf(' '+w[0])>=0?1:2;if(o.compact&&o.compact.indexOf(q.replace(/\s/g,''))>=0)return 2;
   var tot=0;for(var i=0;i<w.length;i++){var x=w[i];if(o.s.indexOf(x)>=0)continue;if(x.length<4)return -1;var lim=x.length>=7?2:1,best=9;
     for(var j=0;j<o.w.length;j++){var t=o.w[j];if(t.length<3)continue;var d=Math.min(dl(x,t,lim),t.length>x.length?dl(x,t.slice(0,x.length),lim):9);if(d<best)best=d;if(best===0)break}
     if(best>lim)return -1;tot+=best}return 3+tot}
@@ -1634,7 +1725,7 @@ function runSearch(){var raw=norm(sIn.value);if(raw.length<2){closeSearch();retu
   var found={},list=[];vars.forEach(function(q,vi){var w=q.split(' ');sIdx.forEach(function(o){var sc=matchScore(o,q,w);if(sc<0)return;sc+=vi?0.5:0;if(found[o.h]==null||sc<found[o.h].sc){if(found[o.h]==null)list.push(o.h);found[o.h]={o:o,sc:sc}}})});
   var r=list.map(function(h){return found[h]}).sort(function(a,b){return a.sc-b.sc}).slice(0,12),fuzzy=r.length&&r[0].sc>=3;
   sRes.innerHTML=r.length?(fuzzy?'<div class="none hint">Точных совпадений нет — возможно, вы искали:</div>':'')+r.map(function(x,i){return '<a href="'+x.o.h+'" role="option" id="sr'+i+'"><small>'+esc(x.o.k)+'</small><span>'+esc(x.o.t)+'</span></a>'}).join(''):'<div class="none">Ничего не нашлось. Попробуйте другое слово — имя героя, актёра или название по-английски.</div>';
-  sRes.classList.add('open');sIn.setAttribute('aria-expanded','true');sSel=-1}
+  applyCopy(sRes);sRes.classList.add('open');sIn.setAttribute('aria-expanded','true');sSel=-1}
 // ---------- недавно вышло и скоро ----------
 function todayStr(){var n=new Date();return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0')}
 function relDate(p){var r=String(p.r||'');if(!r)return '9999-12-31';if(r.length===4)r+='-12-31';else if(r.length===7)r+='-28';return r}
@@ -1645,7 +1736,7 @@ function recentList(){var cut=new Date();cut.setMonth(cut.getMonth()-12);var cs=
 function soonList(){return D.p.filter(function(p){return !released(p)}).sort(function(a,b){return relDate(a)<relDate(b)?-1:1}).slice(0,8)}
 // ---------- маршруты просмотра ----------
 function routesView(){return '<h1>Маршруты просмотра</h1><p class="lead" style="margin-top:10px">Готовые подборки: что смотреть и в каком порядке, если не хочется всё подряд.</p><div class="ptiles" style="margin-top:20px">'+(D.routes||[]).map(function(r){return '<a class="panel ptile route-tile" href="#w-'+r[0]+'"><b>'+esc(r[1])+'</b><span>'+esc(r[2])+'</span><span class="muted">'+r[3].length+' '+plural(r[3].length,['проект','проекта','проектов'])+'</span></a>'}).join('')+'</div>'}
-function routeView(r){return '<button class="back" type="button" data-back>← Назад</button><h1>'+esc(r[1])+'</h1><p class="lead" style="margin-top:10px">'+esc(r[2])+'</p><ol class="route-list">'+r[3].filter(function(x){return P[x[0]]}).map(function(x,i){var p=P[x[0]];return '<li><span class="an">'+(i+1)+'</span><a class="route-cv" href="#f-'+p.id+'" tabindex="-1" aria-hidden="true">'+cover(p,'mini')+'</a><div><a class="route-t" href="#f-'+p.id+'">'+esc(p.t)+'</a> <span class="muted">'+esc(years(p))+'</span><p>'+esc(x[1])+'</p></div></li>'}).join('')+'</ol>'}
+function routeView(r){return '<button class="back" type="button" data-back>← Назад</button><h1>'+esc(r[1])+'</h1><p class="lead" style="margin-top:10px">'+esc(r[2])+'</p><ol class="route-list">'+r[3].filter(function(x){return P[x[0]]}).map(function(x,i){var p=P[x[0]];return '<li><span class="an">'+(i+1)+'</span><a class="route-cv" href="#f-'+p.id+'" tabindex="-1" aria-hidden="true">'+cover(p,'mini')+'</a><div><a class="route-t" href="#f-'+p.id+'">'+esc(p.t)+'</a> <span class="muted">'+esc(years(p))+'</span>'+SPW([p.id],'<p>'+esc(x[1])+'</p>')+'</div></li>'}).join('')+'</ol>'}
 // ---------- режим без спойлеров ----------
 var SPO={mode:'off',ord:0};try{var sv=JSON.parse(localStorage.getItem('kvm-spoil')||'null');if(sv&&sv.mode)SPO=sv}catch(e){}
 function spoilerOrd(){if(SPO.mode!=='upto')return 0;return SPO.ord||0}
@@ -1712,7 +1803,7 @@ function spoilOn(){return typeof SPO!=='undefined'&&SPO&&SPO.mode!=='off'&&!ADM.
 function SPW(pids,html,inline){if(!html||!isSpoil(pids))return html;var id='s'+(++SPN);SPK[id]=html;var tag=inline?'span':'div';
   return '<'+tag+' class="spoil'+(inline?' inl':'')+'" data-spid="'+id+'"><button type="button" class="spoil-btn" data-spk="'+id+'" aria-expanded="false">Показать спойлер</button></'+tag+'>'}
 function spRevealEl(btn){var id=btn.getAttribute('data-spk'),box=btn.closest('[data-spid]');if(!box||!(id in SPK))return;var inl=box.classList.contains('inl');
-  box.innerHTML=(inl?'':'<div class="spoil-open">')+SPK[id]+(inl?' ':'')+'<button type="button" class="spoil-hide" data-sphide="'+id+'" aria-label="Скрыть спойлер снова">Скрыть</button>'+(inl?'':'</div>');box.classList.add('open');var f=box.querySelector('.spoil-hide');if(f&&!inl)f.focus()}
+  box.innerHTML=(inl?'':'<div class="spoil-open">')+SPK[id]+(inl?' ':'')+'<button type="button" class="spoil-hide" data-sphide="'+id+'" aria-label="Скрыть спойлер снова">Скрыть</button>'+(inl?'':'</div>');box.classList.add('open');applyCopy(box);var f=box.querySelector('.spoil-hide');if(f&&!inl)f.focus()}
 function spHideEl(btn){var id=btn.getAttribute('data-sphide'),box=btn.closest('[data-spid]');if(!box)return;box.classList.remove('open');box.innerHTML='<button type="button" class="spoil-btn" data-spk="'+id+'" aria-expanded="false">Показать спойлер</button>';box.querySelector('button').focus()}
 function safeHead(t){var m=String(t||'').match(/^.+?[.!?](?=\s|$)/);return m?m[0]:String(t||'')}
 function safeRest(t){var h=safeHead(t);return String(t||'').slice(h.length).trim()}
@@ -1732,20 +1823,20 @@ function relLab(a,b,l){var h='<span class="muted">'+esc(l)+'</span>';return relI
 function relDot(a,b,r){return relIsSpoil(a,b,r.l)&&spoilOn()?'#8A8F99':RT[r.t][1]}
 var SAFE_HEAD={loki:'Локи — бог обмана, брат Тора.','green-goblin':'Злодей из первого «Человека-паука» Сэма Рэйми.','doc-ock':'Злодей из «Человека-паука 2».',electro:'Злодей из «Нового Человека-паука 2».',billy:'Персонаж «ВандаВижн» и «Агаты».',tommy:'Персонаж «ВандаВижн» и «ВижнКвеста».',rio:'Ведьма Рио Видаль, давняя знакомая Агаты.',killmonger:'Эрик Стивенс по прозвищу Киллмонгер, выросший в Окленде.',giah:'Скрулл, дочь Талоса.',ego:'Живая планета, которая называет себя Эго.',eros:'Персонаж из сцены после титров «Вечных».',ikaris:'Самый сильный из Вечных.',valkyrie:'Валькирия — последняя из отряда воительниц Асгарда.',gorr:'Человек, потерявший дочь и взявший в руки Некромеч.',killian:'Олдрич Киллиан — создатель вируса Экстремис.',taskmaster:'Наёмница, которая копирует любые приёмы.',frank:'Фрэнк Касл, Каратель — бывший морпех, который мстит преступникам.',sylvie:'Сильвия — беглянка, которую разыскивает УВИ.',kang:'Завоеватель, изгнанный в Квантовый мир.','victor-timely':'Изобретатель из 1890-х.','cassandra-nova':'Правительница Пустоты.',x23:'Девочка-мутант с когтями.',laufey:'Король ледяных великанов.',sitwell:'Агент Щ.И.Т.а.',liz:'Девушка, которая нравилась Питеру.',skurge:'Страж Асгарда.','pietro-fake':'Житель Уэствью в облике брата Ванды.',battlestar:'Напарник Джона Уокера.',soren:'Скрулл, жена Талоса.',natalie:'Подруга Рири Уильямс.',varra:'Жена Ника Фьюри.',alice:'Ведьма-защитница из ковена Агаты.','white-tiger':'Линчеватель из Нью-Йорка.',njobu:'Брат короля Т’Чаки.',raava:'Скрулл из «Секретного вторжения».',hela:'Богиня смерти из «Рагнарёка».',love:'Девочка из «Любви и грома».',toussaint:'Персонаж сцены после титров «Ваканды навеки».',skaar:'Персонаж финала «Женщины-Халк».','todd-phelps':'Клиент Дженнифер Уолтерс.'};
 function charAbout(c,K,hcx){var pids=c.app.map(function(a){return a[0]});
-  if(spoilOn()&&isSpoil(pids)){var sh=SAFE_HEAD[c.id],rest=sh?c.ab:safeRest(c.ab),more=(rest?'<p class="about" style="margin-top:6px">'+lk(rest,hcx,c.id)+'</p>':'')+(c.ab2?'<p class="about" style="margin-top:10px">'+lk(c.ab2,hcx,c.id)+'</p>':'');
-    return '<p class="about" style="margin-top:16px">'+lk(sh||safeHead(c.ab),hcx,c.id)+'</p>'+(more?SPW(pids,more):'')}
+  if(spoilOn()&&isSpoil(pids)){var sh=SAFE_HEAD[c.id],rest=c.ab,more=(rest?'<p class="about" style="margin-top:6px">'+lk(rest,hcx,c.id)+'</p>':'')+(c.ab2?'<p class="about" style="margin-top:10px">'+lk(c.ab2,hcx,c.id)+'</p>':'');
+    return '<p class="about" style="margin-top:16px">'+lk(sh||'Описание персонажа скрыто до раскрытия спойлеров.',hcx,c.id)+'</p>'+(more?SPW(pids,more):'')}
   return '<p class="about" style="margin-top:16px">'+E(K+'ab',c.ab,hcx,c.id)+'</p>'+(c.ab2||ADM.edit?'<p class="about" style="margin-top:10px">'+E(K+'ab2',c.ab2||'',hcx,c.id)+'</p>':'')}
 function evLink(id){var e=EV[id];return e?'<a class="chip" href="#e-'+e.id+'">'+esc(evName(e))+' <i>'+esc(e.w)+'</i></a>':''}
 // ---------- новая структура: 6 разделов ----------
-var LEGACY={'routes-list':'watch',routes:'watch',doomsday:'f-doomsday',rights:'catalog',quiz:'home',deaths:'home'};
+var LEGACY={'routes-list':'watch',routes:'watch','thematic-routes':'watch',doomsday:'f-doomsday',rights:'catalog',quiz:'home',deaths:'home'};
 var ENC_KEYS={map:1,lines:1,stones:1,'infinity-stones':1,artifacts:1,weapons:1,armor:1,materials:1,races:1,orgs:1,teams:1,universes:1};
 function navFor(h){if(h==='home')return 'home';if(h==='timeline'||h==='events'||/^e-/.test(h))return 'timeline';if(h==='catalog'||/^f-/.test(h)||/^ep-/.test(h))return 'catalog';
   if(h==='heroes'||h==='links'||/^c-/.test(h))return 'heroes';if(h==='watch'||/^w-/.test(h))return 'watch';if(h==='encyclopedia'||ENC_KEYS[h]||/^[plaro]-/.test(h))return 'encyclopedia';return ''}
 function crumbEnc(){return '<a class="crumb" href="#encyclopedia">← Энциклопедия</a>'}
 function route(){
   SPK={};SPN=0;
-  var h=location.hash.replace(/^#/,'');try{h=decodeURIComponent(h)}catch(e){}
-  var qi=h.indexOf('?'),QP={};if(qi>=0){QP=qsParse(h.slice(qi+1));h=h.slice(0,qi)}
+  var h=location.hash.replace(/^#/,''),qi=h.indexOf('?'),QP={};if(qi>=0){QP=qsParse(h.slice(qi+1));h=h.slice(0,qi)}
+  try{h=decodeURIComponent(h)}catch(e){}
   if(!h)h='home';if(LEGACY[h])h=LEGACY[h];
   if(h==='catalog'&&qi>=0)ctFromQS(QP);if(h==='timeline'&&qi>=0){if(QP.scope)TLV.scope=QP.scope;if(QP.view)TLV.view=QP.view;if(QP.order)TLV.order=QP.order}
   if(h==='admin'){if(window.claude&&!window.KVM_PUBLIC)h='home';else{if(GH&&GH.token){if(!ADM.gh)setTimeout(function(){ghEnable(false)},0)}else setTimeout(function(){openGhLogin()},0);h='home'}}
@@ -1758,7 +1849,7 @@ function route(){
     var src={o:[OGI,orgView],w:[RTI,routeView],f:[P,projectView],c:[C,charView],p:[PL,placeView],e:[EV,eventView],l:[LN,lineView],a:[AIX,artView],r:[RCI,raceView]}[m[1]],o=src[0][m[2]];if(o){html=src[1](o);title=o.t||o.n||o[1]}}
   else{var vh=h==='events'?'timeline':h;if(VIEWS[vh]){html=VIEWS[vh]();if(ENC_KEYS[vh])html=crumbEnc()+html;title=NAV6T[navFor(vh)]||''}}
   if(html==null){html=notFound();title='Не найдено'}
-  main.innerHTML=html;applyCopy();applyNav();main.classList.remove('enter');void main.offsetWidth;main.classList.add('enter');document.title=(title&&h!=='home'?title+' — ':'')+'Путеводитель по КВМ';
+  main.innerHTML=html;applyCopy();document.querySelectorAll('header.top,footer').forEach(function(el){applyCopy(el)});applyBlocks();applyNav();main.classList.remove('enter');void main.offsetWidth;main.classList.add('enter');document.title=(title&&h!=='home'?title+' — ':'')+'Путеводитель по КВМ';
   var nk=navFor(h);document.querySelectorAll('nav.tabs a').forEach(function(a){var on=a.getAttribute('href')==='#'+nk;a.classList.toggle('on',on);if(on)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
   if(!KEEP){if(NAVBACK&&SCROLL[h]!=null){var y0=SCROLL[h];requestAnimationFrame(function(){window.scrollTo(0,y0)})}else window.scrollTo(0,0)}closeSearch();
   if(h==='map'){initTree();initGlobe();MS.vb=D.map.regions[MS.region].slice(0,4);var svg=document.getElementById('kmap');svg.setAttribute('viewBox',MS.vb.join(' '));drawMarkers()}
@@ -1833,7 +1924,7 @@ function watchView(){return '<h1>Как смотреть</h1><div class="watch-w
 function home(){var pg='home',rec=recentList().slice(0,4),soon=soonList().slice(0,4);
   var dm=P['doomsday'],dd=dm?daysUntil(dm.r):null,cd=dd!=null&&dd>0?'<a class="cd-chip" href="#f-doomsday">До «Мстителей: Судный день» — '+dd+' '+plural(dd,['день','дня','дней'])+'</a>':'';
   return B('h.hero',pg,'Первый экран','<section class="hero2"><h1>'+EH('home.title',TXT_DEF['home.title'])+'</h1><p class="lead">'+EH('home.lead',TXT_DEF['home.lead'])+'</p><div class="hero-actions"><a class="btn primary" href="#watch">Как смотреть</a><a class="btn" href="#timeline">Открыть хронологию</a></div>'+cd+'</section>')+
-  B('h.ways',pg,'Быстрые сценарии','<p class="legend-link"><a href="#catalog" data-legend>Что значат пометки?</a></p><section class="ways"><a class="panel way" href="#watch"><b>Начать знакомство</b><span>Порядок просмотра и короткие маршруты для новичка.</span></a><a class="panel way" href="#catalog"><b>Найти фильм или сериал</b><span>Все 133 проекта с фильтрами и поиском.</span></a><a class="panel way" href="#timeline"><b>Разобраться в истории</b><span>Официальная и расширенная хронология, ключевые события.</span></a></section>')+
+  B('h.ways',pg,'Быстрые сценарии','<p class="legend-link"><a href="#catalog" data-legend>Что значат пометки?</a></p><section class="ways"><a class="panel way" href="#watch"><b>Начать знакомство</b><span>Порядок просмотра и короткие маршруты для новичка.</span></a><a class="panel way" href="#catalog"><b>Найти фильм или сериал</b><span>Все '+D.p.length+' '+plural(D.p.length,['проект','проекта','проектов'])+' с фильтрами и поиском.</span></a><a class="panel way" href="#timeline"><b>Разобраться в истории</b><span>Официальная и расширенная хронология, ключевые события.</span></a></section>')+
   B('h.ribbon',pg,'Линия времени','<section><div class="sec-h"><h2>Линия времени КВМ</h2><p class="muted">Каждая точка — проект в порядке событий. Линию можно прокрутить вбок.</p></div><div class="panel pad ribbon-box">'+ribbon()+'</div></section>')+
   B('h.recent',pg,'Недавно вышло',rec.length?'<section><div class="sec-h"><h2>Недавно вышло</h2><a class="muted" href="#catalog">Все проекты</a></div><div class="grid g4">'+rec.map(function(p){return relCard(p,0)}).join('')+'</div></section>':'')+
   B('h.soon',pg,'Скоро',soon.length?'<section><div class="sec-h"><h2>Скоро</h2></div><div class="grid g4">'+soon.map(function(p){return relCard(p,1)}).join('')+'</div></section>':'')+
@@ -1841,10 +1932,10 @@ function home(){var pg='home',rec=recentList().slice(0,4),soon=soonList().slice(
 var VIEWS={home:home,timeline:timeline,catalog:catalog,heroes:heroes,encyclopedia:encView,watch:watchView,map:mapView,lines:linesView,stones:stonesView,races:racesView,teams:teamsView,universes:universesView,links:linksView,images:imagesView,orgs:orgsView};
 ITEM_CATS.forEach(function(c){VIEWS[c.route]=function(){return itemCategoryView(c.id)}});
 // ---------- организации ----------
-function orgView(o){var pr=o[3].split(',').filter(function(x){return P[x]}),mem=o[4].split(',').filter(function(x){return C[x]}),rest=safeRest(o[2]);
-  return '<button class="back" type="button" data-back>← Назад</button><h1>'+esc(o[1])+'</h1><p class="about" style="margin-top:16px">'+lk(safeHead(o[2]),ctxP(pr),o[0])+'</p>'+(rest?SPW(pr,'<p class="about" style="margin-top:6px">'+lk(rest,ctxP(pr),o[0])+'</p>'):'')+
-  (mem.length?'<section><h2>Известные участники</h2><div class="hgrid" style="margin-top:14px">'+mem.map(function(id){return hcard(C[id])}).join('')+'</div></section>':'')+(pr.length?'<section><h2>Где появляется</h2><div class="grid" style="margin-top:14px">'+pr.map(card).join('')+'</div></section>':'')}
-function orgsView(){return '<h1>Организации</h1><p class="lead" style="margin-top:10px">Спецслужбы, тайные общества и другие организации КВМ.</p><div class="ptiles" style="margin-top:20px">'+D.enc.orgs.map(function(o){return '<a class="panel ptile" href="#o-'+o[0]+'"><b>'+esc(o[1])+'</b><span>'+esc(safeHead(o[2]))+'</span></a>'}).join('')+'</div>'}
+function orgView(o){var pr=o[3].split(',').filter(function(x){return P[x]}),mem=o[4].split(',').filter(function(x){return C[x]});
+  return '<button class="back" type="button" data-back>← Назад</button><h1>'+esc(o[1])+'</h1>'+SPW(pr,'<p class="about" style="margin-top:16px">'+lk(o[2],ctxP(pr),o[0])+'</p>')+
+  (mem.length?'<section><h2>Известные участники</h2>'+SPW(pr,'<div class="hgrid" style="margin-top:14px">'+mem.map(function(id){return hcard(C[id])}).join('')+'</div>')+'</section>':'')+(pr.length?'<section><h2>Где появляется</h2><div class="grid" style="margin-top:14px">'+pr.map(card).join('')+'</div></section>':'')}
+function orgsView(){return '<h1>Организации</h1><p class="lead" style="margin-top:10px">Спецслужбы, тайные общества и другие организации КВМ.</p><div class="ptiles" style="margin-top:20px">'+D.enc.orgs.map(function(o){return '<a class="panel ptile" href="#o-'+o[0]+'"><b>'+esc(o[1])+'</b><span>'+projectCount(o[3])+'</span></a>'}).join('')+'</div>'}
 
 setThemeBtn();setSpoilBtn();
 admInit();
