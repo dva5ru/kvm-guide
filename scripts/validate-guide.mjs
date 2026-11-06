@@ -94,3 +94,26 @@ for(const [pid,info] of Object.entries(db.appearanceCredits||{})){
   }
 }
 console.log('Sourced appearance credits verified');
+
+// Item IDs are shared by routes, uploads, search, categories and related-item links.
+const itemRows = db.enc.stones.map(s=>[s[0],s[1],s[4],s[5]])
+  .concat(db.enc.artifacts.map(a=>[a[0],a[1],a[3],a[4]]),
+    (db.enc.materials||[]).map(a=>[a[0],a[1],a[3],a[4]]),
+    db.enc.gauntlets.map(g=>[g[3],g[0],g[1],[['History',g[1],g[2]]]]));
+const itemIds = new Set(itemRows.map(a=>a[0]));
+const itemCategories = new Set(['stones','artifacts','weapons','armor','materials']);
+if(itemIds.size!==itemRows.length)throw Error('Duplicate encyclopedia item ID');
+if(Object.keys(db.enc.itemMeta||{}).length!==itemRows.length)throw Error('Encyclopedia item metadata mismatch');
+for(const [id,name,description,history]of itemRows){
+  const meta=db.enc.itemMeta[id];
+  if(!/^[a-z0-9-]+$/.test(id)||!name||!description||!history.length)throw Error('Incomplete encyclopedia item '+id);
+  if(!meta||!itemCategories.has(meta.category))throw Error('Missing item category '+id);
+  for(const alias of meta.aliases||[])if(typeof alias!=='string'||!alias.trim())throw Error('Invalid item alias '+id);
+  for(const related of meta.related||[])if(related===id||!itemIds.has(related))throw Error('Broken related item '+id+'/'+related);
+  for(const step of history){
+    if(step.length!==3||!step[0]||!step[1]||typeof step[2]!=='string')throw Error('Invalid item history '+id);
+    for(const pid of step[2].split(','))if(!projects.has(pid))throw Error('Unknown item appearance '+id+'/'+pid);
+  }
+}
+for(const id of Object.keys(db.enc.itemMeta))if(!itemIds.has(id))throw Error('Orphan item metadata '+id);
+console.log('Validated:',itemRows.length,'categorized encyclopedia items');

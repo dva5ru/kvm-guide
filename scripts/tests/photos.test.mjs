@@ -11,13 +11,13 @@ function setup() {
   const context = createContext({
     D: structuredClone(data), P: Object.fromEntries(data.p.map(p => [p.id, p])),
     C: Object.fromEntries(data.c.map(c => [c.id, c])), IMX: null,
-    sIdx: [], evName: e => e.n, years: p => p.y, IMG: {}, PREV: {}, OVR: { img: {} }, ADM: { on: true }, GH: {repo:'test/repo',token:'test'},
+    sIdx: [], evName: e => e.n, years: p => p.y, ITEM_CATS: [{id:'materials',name:'Материалы и вещества'},{id:'artifacts',name:'Артефакты и устройства'}], IMG: {}, PREV: {}, OVR: { img: {} }, ADM: { on: true }, GH: {repo:'test/repo',token:'test'},
     IMG_QUEUE: Promise.resolve(), IMG_BUSY: 0, IMG_FAILED: [], IMG_OK: [], UNM: [],
     CUR: 'a-vibranium', saveDraft() {}, imgRefresh() {}, rerender() {}, toast() {},
     shrink: async f => { if (f.name === 'broken.png') throw Error('broken'); return 'data:image/jpeg;base64,eA=='; },
   });
   const names = ['esc','norm','normF','normOvr','artAll','artGet','artPhoto','imgSrc','imgOneBtn',
-    'imgIndex','imgMatch','imgTarget','keyName','imgEnqueue','imgUploadOne','imgAssign','imgHandle','imgResHTML','ghImgUpload','ghApi','safeKey','buildSearch'];
+    'imgIndex','imgMatch','imgTarget','keyName','imgEnqueue','imgUploadOne','imgAssign','imgHandle','imgResHTML','ghImgUpload','ghApi','safeKey','itemCategory','buildSearch'];
   for (const name of names) {
     const start = app.indexOf('function '+name+'(');
     assert.notEqual(start, -1, name);
@@ -32,7 +32,7 @@ function setup() {
 
 test('every material, stone, artifact and gauntlet has a unique upload target', () => {
   const c = setup(), all = c.artAll();
-  assert.equal(all.length, 41);
+  assert.equal(all.length, Object.keys(data.enc.itemMeta).length);
   assert.equal(new Set(all.map(a => a.id)).size, all.length);
   for (const a of all) {
     assert.equal(c.imgTarget('a-'+a.id), 'a-'+a.id);
@@ -40,8 +40,8 @@ test('every material, stone, artifact and gauntlet has a unique upload target', 
     for (const step of a.path) for (const pid of step[2].split(',')) assert.ok(c.P[pid], pid);
   }
   c.buildSearch();
-  assert.equal(c.sIdx.find(x => x.h === '#a-vibranium').k, 'Материал');
-  assert.equal(c.sIdx.find(x => x.h === '#a-thanos-gauntlet').k, 'Артефакт');
+  assert.equal(c.sIdx.find(x => x.h === '#a-vibranium').k, 'Материалы и вещества');
+  assert.equal(c.sIdx.find(x => x.h === '#a-thanos-gauntlet').k, 'Артефакты и устройства');
   assert.equal(c.imgMatch('Вибраниум.jpg'), 'a-vibranium');
   assert.equal(c.imgMatch('a-thanos-gauntlet.jpg'), 'a-thanos-gauntlet');
   assert.equal(c.imgTarget('Перчатка Таноса [a-thanos-gauntlet]'), 'a-thanos-gauntlet');
