@@ -7,6 +7,25 @@ const scriptMatch = html.match(/<script id="kvm-app">([\s\S]*?)<\/script>/);
 if (!dataMatch || !scriptMatch) throw new Error('Missing embedded application or data');
 new Script(scriptMatch[1], { filename: 'kvm-app.js' });
 const db = JSON.parse(dataMatch[1]);
+
+if(!Array.isArray(db.appearances))throw Error('Missing canonical appearances registry');
+const pidMap=new Map(db.p.map(p=>[p.id,p])),cidMap=new Map(db.c.map(c=>[c.id,c]));
+for(const p of db.p)if(p.cs!==undefined)throw Error('Legacy project cast must be generated: '+p.id);else p.cs=[];
+for(const c of db.c)if(c.app!==undefined)throw Error('Legacy character appearances must be generated: '+c.id);else c.app=[];
+const uniqueAppearances=new Set();
+for(const a of db.appearances){
+  if(!Array.isArray(a)||a.length!==4)throw Error('Invalid appearance record');
+  const [pid,cid,role,index]=a,p=pidMap.get(pid),c=cidMap.get(cid);
+  if(!p||!c||!['L','M','S','C','P','V','X'].includes(role)||!Number.isInteger(index)||index<0)throw Error('Invalid appearance tuple: '+a.join('/'));
+  const id=pid+'::'+cid;if(uniqueAppearances.has(id))throw Error('Duplicate appearance: '+id);uniqueAppearances.add(id);
+  p.cs.push([cid,role]);c.app.push([pid,role,index]);
+}
+for(const c of db.c){
+  c.app.sort((a,b)=>a[2]-b[2]);
+  if(c.app.some((a,i)=>a[2]!==i))throw Error('Character appearance order gap: '+c.id);
+  c.app.forEach(a=>a.pop());
+}
+
 const projects = new Map(db.p.map(p => [p.id, p]));
 const characters = new Map(db.c.map(c => [c.id, c]));
 if (projects.size !== db.p.length || characters.size !== db.c.length) throw new Error('Duplicate entity IDs');
@@ -56,3 +75,22 @@ for (const [pid, entries] of Object.entries(db.epRoles || {})) {
 }
 const episodeCount = db.p.reduce((n, p) => n + (p.eps || []).length, 0);
 console.log('Validated:', characters.size, 'characters,', projects.size, 'projects,', episodeCount, 'episodes');
+
+const CREDIT_KINDS = new Set(['voice','on-screen','motion-capture','archival']);
+const CREDIT_STATUSES = new Set(['verified','announced']);
+for(const [pid,info] of Object.entries(db.appearanceCredits||{})){
+  const p=projects.get(pid);if(!p)throw Error('Unknown credit project '+pid);
+  const cast=new Set(p.cs.map(([id])=>id));
+  function check(cid,rec,ep){
+    if(!cast.has(cid)||ep&&!ep[3].includes(cid))throw Error('Unlinked appearance credit '+pid+'/'+cid);
+    if(!rec||typeof rec.performer!=='string'||!rec.performer.trim())throw Error('Missing credit performer '+pid+'/'+cid);
+    if(!CREDIT_KINDS.has(rec.kind)||!CREDIT_STATUSES.has(rec.status))throw Error('Invalid credit kind/status '+pid+'/'+cid);
+    if(typeof rec.source!=='string'||!rec.source.startsWith('https://'))throw Error('Missing credit source '+pid+'/'+cid);
+  }
+  for(const [cid,rec]of Object.entries(info.cast||{}))check(cid,rec);
+  for(const [num,rows]of Object.entries(info.episodes||{})){
+    const ep=(p.eps||[]).find(x=>String(x[0])===num);if(!ep)throw Error('Missing credit episode '+pid+'/'+num);
+    for(const [cid,rec]of Object.entries(rows))check(cid,rec,ep);
+  }
+}
+console.log('Sourced appearance credits verified');
