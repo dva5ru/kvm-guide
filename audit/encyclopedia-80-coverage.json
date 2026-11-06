@@ -1,0 +1,531 @@
+{
+  "requestedCount": 80,
+  "existingCount": 41,
+  "addedCount": 49,
+  "totalCount": 90,
+  "entries": [
+    {
+      "number": 1,
+      "requestedName": "Камень Пространства",
+      "id": "space",
+      "category": "stones"
+    },
+    {
+      "number": 2,
+      "requestedName": "Камень Разума",
+      "id": "mind",
+      "category": "stones"
+    },
+    {
+      "number": 3,
+      "requestedName": "Камень Реальности",
+      "id": "reality",
+      "category": "stones"
+    },
+    {
+      "number": 4,
+      "requestedName": "Камень Силы",
+      "id": "power",
+      "category": "stones"
+    },
+    {
+      "number": 5,
+      "requestedName": "Камень Времени",
+      "id": "time",
+      "category": "stones"
+    },
+    {
+      "number": 6,
+      "requestedName": "Камень Души",
+      "id": "soul",
+      "category": "stones"
+    },
+    {
+      "number": 7,
+      "requestedName": "Тессеракт",
+      "id": "tesseract",
+      "category": "artifacts"
+    },
+    {
+      "number": 8,
+      "requestedName": "Сфера",
+      "id": "orb",
+      "category": "artifacts"
+    },
+    {
+      "number": 9,
+      "requestedName": "Глаз Агамотто",
+      "id": "eye-agamotto",
+      "category": "artifacts"
+    },
+    {
+      "number": 10,
+      "requestedName": "Эфир",
+      "id": "aether",
+      "category": "artifacts"
+    },
+    {
+      "number": 11,
+      "requestedName": "Перчатка Бесконечности",
+      "id": "thanos-gauntlet",
+      "category": "artifacts"
+    },
+    {
+      "number": 12,
+      "requestedName": "Наноперчатка",
+      "id": "nano-gauntlet",
+      "category": "artifacts"
+    },
+    {
+      "number": 13,
+      "requestedName": "Даркхолд",
+      "id": "darkhold",
+      "category": "artifacts"
+    },
+    {
+      "number": 14,
+      "requestedName": "Книга Вишанти",
+      "id": "book-vishanti",
+      "category": "artifacts"
+    },
+    {
+      "number": 15,
+      "requestedName": "Плащ левитации",
+      "id": "cloak-levitation",
+      "category": "artifacts"
+    },
+    {
+      "number": 16,
+      "requestedName": "Двойное кольцо",
+      "id": "sling-ring",
+      "category": "artifacts"
+    },
+    {
+      "number": 17,
+      "requestedName": "Монолит Кри",
+      "id": "kree-monolith",
+      "category": "artifacts"
+    },
+    {
+      "number": 18,
+      "requestedName": "Кровавый камень",
+      "id": "bloodstone",
+      "category": "artifacts"
+    },
+    {
+      "number": 19,
+      "requestedName": "Браслет Камалы Хан",
+      "id": "bangle",
+      "category": "artifacts"
+    },
+    {
+      "number": 20,
+      "requestedName": "Десять колец",
+      "id": "rings",
+      "category": "artifacts"
+    },
+    {
+      "number": 21,
+      "requestedName": "Темпад УВИ",
+      "id": "tva-tempad",
+      "category": "artifacts"
+    },
+    {
+      "number": 22,
+      "requestedName": "Дуговой реактор",
+      "id": "arc-reactor",
+      "category": "artifacts"
+    },
+    {
+      "number": 23,
+      "requestedName": "Корона Суртура",
+      "id": "surtur-crown",
+      "category": "artifacts"
+    },
+    {
+      "number": 24,
+      "requestedName": "Скипетр Локи",
+      "id": "loki-scepter",
+      "category": "weapons"
+    },
+    {
+      "number": 25,
+      "requestedName": "Мьёльнир",
+      "id": "mjolnir",
+      "category": "weapons"
+    },
+    {
+      "number": 26,
+      "requestedName": "Громсекира",
+      "id": "stormbreaker",
+      "category": "weapons"
+    },
+    {
+      "number": 27,
+      "requestedName": "Гунгнир",
+      "id": "gungnir",
+      "category": "weapons"
+    },
+    {
+      "number": 28,
+      "requestedName": "Двулезвийный меч Таноса",
+      "id": "thanos-double-sword",
+      "category": "weapons"
+    },
+    {
+      "number": 29,
+      "requestedName": "Щит Капитана Америки",
+      "id": "shield",
+      "category": "weapons"
+    },
+    {
+      "number": 30,
+      "requestedName": "Щит Таскмастера",
+      "id": "taskmaster-shield",
+      "category": "weapons"
+    },
+    {
+      "number": 31,
+      "requestedName": "Тяжёлая пушка Ракеты",
+      "id": "rocket-heavy-gun",
+      "category": "weapons"
+    },
+    {
+      "number": 32,
+      "requestedName": "Стрела Йонду",
+      "id": "yaka-arrow",
+      "category": "weapons"
+    },
+    {
+      "number": 33,
+      "requestedName": "Копьё Окойе",
+      "id": "okoye-spear",
+      "category": "weapons"
+    },
+    {
+      "number": 34,
+      "requestedName": "Звуковые перчатки Шури",
+      "id": "shuri-sonic-gauntlets",
+      "category": "weapons"
+    },
+    {
+      "number": 35,
+      "requestedName": "Бластер Звёздного Лорда",
+      "id": "star-lord-blasters",
+      "category": "weapons"
+    },
+    {
+      "number": 36,
+      "requestedName": "Электрические дубинки Чёрной вдовы",
+      "id": "black-widow-batons",
+      "category": "weapons"
+    },
+    {
+      "number": 37,
+      "requestedName": "Укус вдовы",
+      "id": "widow-bites",
+      "category": "weapons"
+    },
+    {
+      "number": 38,
+      "requestedName": "Лук Соколиного глаза",
+      "id": "hawkeye-bow",
+      "category": "weapons"
+    },
+    {
+      "number": 39,
+      "requestedName": "Меч Ронина",
+      "id": "ronin-sword",
+      "category": "weapons"
+    },
+    {
+      "number": 40,
+      "requestedName": "Некромеч",
+      "id": "all-black-necrosword",
+      "category": "weapons"
+    },
+    {
+      "number": 41,
+      "requestedName": "Эбонитовый клинок",
+      "id": "ebony-blade",
+      "category": "weapons"
+    },
+    {
+      "number": 42,
+      "requestedName": "Драконий клык",
+      "id": "dragonfang",
+      "category": "weapons"
+    },
+    {
+      "number": 43,
+      "requestedName": "Меч Хеймдалля",
+      "id": "hofund",
+      "category": "weapons"
+    },
+    {
+      "number": 44,
+      "requestedName": "Молот Ронана",
+      "id": "ronan-hammer",
+      "category": "weapons"
+    },
+    {
+      "number": 45,
+      "requestedName": "Жезл стирания УВИ",
+      "id": "tva-pruning-stick",
+      "category": "weapons"
+    },
+    {
+      "number": 46,
+      "requestedName": "Катаны Дэдпула",
+      "id": "deadpool-katanas",
+      "category": "weapons"
+    },
+    {
+      "number": 47,
+      "requestedName": "Костюм Железного человека Марк III",
+      "id": "iron-man-mark-3",
+      "category": "armor"
+    },
+    {
+      "number": 48,
+      "requestedName": "Костюм Железного человека Марк XLII",
+      "id": "iron-man-mark-42",
+      "category": "armor"
+    },
+    {
+      "number": 49,
+      "requestedName": "Костюм Железного человека Марк L",
+      "id": "iron-man-mark-50",
+      "category": "armor"
+    },
+    {
+      "number": 50,
+      "requestedName": "Костюм Железного человека Марк LXXXV",
+      "id": "iron-man-mark-85",
+      "category": "armor"
+    },
+    {
+      "number": 51,
+      "requestedName": "Халкбастер",
+      "id": "hulkbuster",
+      "category": "armor"
+    },
+    {
+      "number": 52,
+      "requestedName": "Броня Воителя",
+      "id": "war-machine-armor",
+      "category": "armor"
+    },
+    {
+      "number": 53,
+      "requestedName": "Броня Спасительницы",
+      "id": "rescue-armor",
+      "category": "armor"
+    },
+    {
+      "number": 54,
+      "requestedName": "Железный паук",
+      "id": "iron-spider",
+      "category": "armor"
+    },
+    {
+      "number": 55,
+      "requestedName": "Костюм Чёрной пантеры",
+      "id": "black-panther-suit",
+      "category": "armor"
+    },
+    {
+      "number": 56,
+      "requestedName": "Костюм Человека-муравья",
+      "id": "ant-man-suit",
+      "category": "armor"
+    },
+    {
+      "number": 57,
+      "requestedName": "Костюм Осы",
+      "id": "wasp-suit",
+      "category": "armor"
+    },
+    {
+      "number": 58,
+      "requestedName": "Костюм Призрака",
+      "id": "ghost-suit",
+      "category": "armor"
+    },
+    {
+      "number": 59,
+      "requestedName": "Броня Таскмастера",
+      "id": "taskmaster-armor",
+      "category": "armor"
+    },
+    {
+      "number": 60,
+      "requestedName": "Броня Разрушителя",
+      "id": "destroyer-armor",
+      "category": "armor"
+    },
+    {
+      "number": 61,
+      "requestedName": "Броня Железного торговца",
+      "id": "iron-monger-armor",
+      "category": "armor"
+    },
+    {
+      "number": 62,
+      "requestedName": "Костюм Жёлтого жакета",
+      "id": "yellowjacket-suit",
+      "category": "armor"
+    },
+    {
+      "number": 63,
+      "requestedName": "Костюм Лунного рыцаря",
+      "id": "moon-knight-suit",
+      "category": "armor"
+    },
+    {
+      "number": 64,
+      "requestedName": "Броня Алой Скарабей",
+      "id": "scarlet-scarab-armor",
+      "category": "armor"
+    },
+    {
+      "number": 65,
+      "requestedName": "Костюм Капитана Америки Сэма Уилсона",
+      "id": "sam-captain-america-suit",
+      "category": "armor"
+    },
+    {
+      "number": 66,
+      "requestedName": "Нанотехнологическая броня",
+      "id": "nanotech-armor",
+      "category": "armor"
+    },
+    {
+      "number": 67,
+      "requestedName": "Вибраниум",
+      "id": "vibranium",
+      "category": "materials"
+    },
+    {
+      "number": 68,
+      "requestedName": "Адамантий",
+      "id": "adamantium",
+      "category": "materials"
+    },
+    {
+      "number": 69,
+      "requestedName": "Уру",
+      "id": "uru",
+      "category": "materials"
+    },
+    {
+      "number": 70,
+      "requestedName": "Частицы Пима",
+      "id": "pym-particles",
+      "category": "materials"
+    },
+    {
+      "number": 71,
+      "requestedName": "Сыворотка суперсолдата",
+      "id": "super-soldier-serum",
+      "category": "materials"
+    },
+    {
+      "number": 72,
+      "requestedName": "Экстремис",
+      "id": "extremis",
+      "category": "materials"
+    },
+    {
+      "number": 73,
+      "requestedName": "Сердцевидная трава",
+      "id": "heart-shaped-herb",
+      "category": "materials"
+    },
+    {
+      "number": 74,
+      "requestedName": "Новый элемент Старка",
+      "id": "stark-new-element",
+      "category": "materials"
+    },
+    {
+      "number": 75,
+      "requestedName": "Гравитоний",
+      "id": "gravitonium",
+      "category": "materials"
+    },
+    {
+      "number": 76,
+      "requestedName": "Кристаллы Терригена",
+      "id": "terrigen-crystals",
+      "category": "materials"
+    },
+    {
+      "number": 77,
+      "requestedName": "Нулевая материя",
+      "id": "zero-matter",
+      "category": "materials"
+    },
+    {
+      "number": 78,
+      "requestedName": "Чешуя Великой Защитницы",
+      "id": "great-protector-scales",
+      "category": "materials"
+    },
+    {
+      "number": 79,
+      "requestedName": "Палладий",
+      "id": "palladium",
+      "category": "materials"
+    },
+    {
+      "number": 80,
+      "requestedName": "Симбиот Веном",
+      "id": "venom-symbiote",
+      "category": "materials"
+    }
+  ],
+  "preservedIds": [
+    "space",
+    "mind",
+    "reality",
+    "power",
+    "time",
+    "soul",
+    "shield",
+    "mjolnir",
+    "stormbreaker",
+    "darkhold",
+    "rings",
+    "bangle",
+    "armor",
+    "casket",
+    "eye-agamotto",
+    "cloak-levitation",
+    "sling-ring",
+    "book-vishanti",
+    "ebony-blade",
+    "all-black-necrosword",
+    "pym-particles",
+    "tva-tempad",
+    "temporal-loom",
+    "super-soldier-serum",
+    "heart-shaped-herb",
+    "kimoyo-beads",
+    "yaka-arrow",
+    "moon-ushabti",
+    "golden-scarab",
+    "widow-bites",
+    "red-room-dust",
+    "tva-pruning-stick",
+    "wakanda-midnight-armor",
+    "wakandan-vibranium-axe",
+    "vibranium",
+    "adamantium",
+    "uru",
+    "gravitonium",
+    "vault-gauntlet",
+    "thanos-gauntlet",
+    "nano-gauntlet"
+  ]
+}
