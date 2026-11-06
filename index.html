@@ -1197,10 +1197,10 @@ function imgHaveHTML(){var ks=Object.keys(IMG).sort();return '<section id="img-h
 
 // ---------- админка: правки, блоки, картинки, публикация ----------
 var ADM={can:false,on:false,edit:false,guest:false,art:null,assets:null};
-var OVR={ts:0,text:{},img:{},hide:{},nav:{}},PUB=null,ORIG={},KEEP=false;
+var OVR={ts:0,text:{},img:{},hide:{},nav:{},copy:{}},PUB=null,ORIG={},KEEP=false;
 var SHELL_HEADER=(document.querySelector('header.top')||{outerHTML:''}).outerHTML;
 try{var emb=document.getElementById('kvm-ovr');if(emb&&emb.textContent.trim().length>2)OVR=normOvr(JSON.parse(emb.textContent))}catch(e){}
-function normOvr(o){o=o||{};return {ts:o.ts||0,text:o.text||{},img:o.img||{},hide:o.hide||{},nav:o.nav||{}}}
+function normOvr(o){o=o||{};return {ts:o.ts||0,text:o.text||{},img:o.img||{},hide:o.hide||{},nav:o.nav||{},copy:o.copy||{}}}
 function clone(o){return JSON.parse(JSON.stringify(o))}
 PUB=clone(OVR);
 var TXT_DEF={'home.title':'Путеводитель по киновселенной Marvel','home.lead':'Что смотреть, в каком порядке и как всё связано — без спойлеров, если вы их не хотите.'};
@@ -1218,10 +1218,31 @@ function ref(key){var k=key.split('.'),t=k[0],o;
 function getT(key){var r=ref(key);return r?r[0][r[1]]:''}
 function applyOVR(){Object.keys(ORIG).forEach(function(k){var r=ref(k);if(r)r[0][r[1]]=ORIG[k]});ORIG={};
   Object.keys(OVR.text).forEach(function(k){var r=ref(k);if(!r)return;ORIG[k]=r[0][r[1]];r[0][r[1]]=OVR.text[k]});IMG=OVR.img;CTXC={};if(typeof buildSearch==='function'&&typeof sIdx!=='undefined')buildSearch()}
-function dirtyCount(){var n=0,a=OVR,b=PUB||{text:{},img:{},hide:{},nav:{}};['text','img','hide','nav'].forEach(function(f){var ks={};Object.keys(a[f]).concat(Object.keys(b[f])).forEach(function(k){ks[k]=1});Object.keys(ks).forEach(function(k){if(JSON.stringify(a[f][k])!==JSON.stringify(b[f][k]))n++})});return n}
+function dirtyCount(){var n=0,a=OVR,b=PUB||{text:{},img:{},hide:{},nav:{},copy:{}};['text','img','hide','nav','copy'].forEach(function(f){var ks={};Object.keys(a[f]).concat(Object.keys(b[f])).forEach(function(k){ks[k]=1});Object.keys(ks).forEach(function(k){if(JSON.stringify(a[f][k])!==JSON.stringify(b[f][k]))n++})});return n}
 function saveDraft(){histPush();ADM.saveErr='';if(ADM.conflict){admBar();return}try{var js0=JSON.stringify(OVR);localStorage.setItem(DRAFT_KEY,js0);ADM.lastSaved=js0;ADM.savedAt=new Date()}catch(e){ADM.saveErr=(e&&e.name==='QuotaExceededError')?'не хватает места в браузере — опубликуйте или скачайте копию':'браузер не дал сохранить черновик';toast('Черновик не сохранён: '+ADM.saveErr)}admBar()}
 var DRAFT_KEY='kvm-draft:'+(location.pathname||'')+':v1';
 function rerender(){KEEP=true;var y=window.scrollY;route();window.scrollTo(0,y);KEEP=false}
+
+function copyScope(el){var a=el.closest('a[href^="#f-"],a[href^="#c-"],a[href^="#ep-"]');return a?a.getAttribute('href').slice(1):CUR}
+function copyKey(scope,text){return scope+'|'+text}
+function applyCopy(){if(!OVR.copy)return;var w=document.createTreeWalker(main,NodeFilter.SHOW_TEXT),n;
+  while(n=w.nextNode()){var p=n.parentElement;if(!p||p.closest('script,style,textarea,button,.ed,.ed-box'))continue;
+    var raw=n.nodeValue.trim();if(!raw)continue;var loc=OVR.copy[copyKey(copyScope(p),raw)],all=OVR.copy[copyKey('*',raw)],val=loc!==undefined?loc:all;
+    if(val!==undefined)n.nodeValue=n.nodeValue.replace(raw,val)}}
+function universalEdit(el){var n=Array.prototype.find.call(el.childNodes,function(x){return x.nodeType===3&&x.nodeValue.trim()});
+  if(!n)return;var current=n.nodeValue.trim(),scope=copyScope(el),original=current;
+  Object.keys(OVR.copy||{}).forEach(function(k){if(OVR.copy[k]===current&&k.endsWith('|'+current)===false){var t=k.slice(k.indexOf('|')+1);if(t&&k.startsWith(scope+'|'))original=t}});
+  var m=document.createElement('div');m.className='modal';m.id='copyedit';m.setAttribute('role','dialog');m.setAttribute('aria-modal','true');m.dataset.scope=scope;m.dataset.original=original;
+  m.innerHTML='<div class="modal-c panel pad"><h2>Изменить текст</h2><textarea class="ed-ta" id="copyvalue" rows="5">'+esc(current)+'</textarea><div style="display:grid;gap:10px;margin:12px 0"><label><input type="radio" name="copy-scope" value="local" checked> Только в этой карточке / на странице</label><label><input type="radio" name="copy-scope" value="all"> Везде на сайте</label></div><button type="button" class="btn primary" data-copy-save>Сохранить</button> <button type="button" class="btn" data-copy-cancel>Отмена</button></div>';
+  document.body.appendChild(m);m.querySelector('textarea').focus()}
+document.addEventListener('click',function(e){var m=document.getElementById('copyedit');
+  if(m&&e.target.closest('[data-copy-save],[data-copy-cancel]')){e.preventDefault();e.stopImmediatePropagation();if(e.target.closest('[data-copy-save]')){var val=m.querySelector('#copyvalue').value.trim(),scope=m.querySelector('[name="copy-scope"]:checked').value==='all'?'*':m.dataset.scope,orig=m.dataset.original;
+    if(!val){toast('Введите текст');return}if(val===orig)delete OVR.copy[copyKey(scope,orig)];else OVR.copy[copyKey(scope,orig)]=val;saveDraft();rerender()}m.remove();return}
+  if(!ADM.edit||ADM.guest||!main.contains(e.target)||e.target.closest('button,input,textarea,select,label,.ed,.ed-box,.blk-bar,.imgone,[data-spid]'))return;
+  var el=e.target.closest('h1,h2,h3,h4,p,span,b,strong,small,dt,dd,li,a');if(!el||!main.contains(el)||el.querySelector('textarea,input,select'))return;
+  if(!Array.prototype.some.call(el.childNodes,function(n){return n.nodeType===3&&n.nodeValue.trim()}))return;
+  e.preventDefault();e.stopImmediatePropagation();universalEdit(el);
+},true);
 // показ текста с возможностью правки
 function E(key,text,ctx,self){if(ADM.edit)return '<span class="ed'+(text?'':' empty')+'" data-ek="'+key+'" title="Нажмите, чтобы изменить">'+(text?lk(text,ctx,self):'＋ добавить текст')+'</span>';return lk(text,ctx,self)}
 function EH(key,text){if(ADM.edit)return '<span class="ed" data-ek="'+key+'" title="Нажмите, чтобы изменить">'+esc(text)+'</span>';return esc(text)}
@@ -1678,7 +1699,7 @@ function route(){
     var src={o:[OGI,orgView],w:[RTI,routeView],f:[P,projectView],c:[C,charView],p:[PL,placeView],e:[EV,eventView],l:[LN,lineView],a:[AIX,artView],r:[RCI,raceView]}[m[1]],o=src[0][m[2]];if(o){html=src[1](o);title=o.t||o.n||o[1]}}
   else{var vh=h==='events'?'timeline':h;if(VIEWS[vh]){html=VIEWS[vh]();if(ENC_KEYS[vh])html=crumbEnc()+html;title=NAV6T[navFor(vh)]||''}}
   if(html==null){html=notFound();title='Не найдено'}
-  main.innerHTML=html;applyNav();main.classList.remove('enter');void main.offsetWidth;main.classList.add('enter');document.title=(title&&h!=='home'?title+' — ':'')+'Путеводитель по КВМ';
+  main.innerHTML=html;applyCopy();applyNav();main.classList.remove('enter');void main.offsetWidth;main.classList.add('enter');document.title=(title&&h!=='home'?title+' — ':'')+'Путеводитель по КВМ';
   var nk=navFor(h);document.querySelectorAll('nav.tabs a').forEach(function(a){var on=a.getAttribute('href')==='#'+nk;a.classList.toggle('on',on);if(on)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
   if(!KEEP){if(NAVBACK&&SCROLL[h]!=null){var y0=SCROLL[h];requestAnimationFrame(function(){window.scrollTo(0,y0)})}else window.scrollTo(0,0)}closeSearch();
   if(h==='map'){initTree();initGlobe();MS.vb=D.map.regions[MS.region].slice(0,4);var svg=document.getElementById('kmap');svg.setAttribute('viewBox',MS.vb.join(' '));drawMarkers()}
