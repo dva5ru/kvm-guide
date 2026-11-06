@@ -1,0 +1,764 @@
+{
+  "asOf": "2026-11-06",
+  "scope": "Все сериалы и мультсериалы, уже включённые в репозиторий; два фильма Spider-Verse исключены из телевизионного плана.",
+  "projectCount": 49,
+  "projectsWithEpisodes": 3,
+  "projectsWithoutEpisodes": 46,
+  "totalKnownEpisodeCount": null,
+  "totalCountNote": "Сначала проверить сезоны, вышедшие серии и анонсы. Не выдавать число карточек за число сезонов или эпизодов.",
+  "projects": [
+    {
+      "projectId": "wandavision",
+      "title": "ВандаВижн",
+      "batch": 1,
+      "existingEpisodes": 0,
+      "expectedEpisodes": 9,
+      "episodeCountStatus": "official-index",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2021-01-15",
+      "sources": [
+        "https://www.marvel.com/tv-shows/wandavision/1?cache=update1"
+      ]
+    },
+    {
+      "projectId": "loki-1",
+      "title": "Локи (сезон 1)",
+      "batch": 1,
+      "existingEpisodes": 0,
+      "expectedEpisodes": 6,
+      "episodeCountStatus": "official-index",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2021-06-09",
+      "sources": [
+        "https://www.marvel.com/articles/tv-shows/loki-he-who-remains-jonathan-majors?linkId=124368231"
+      ]
+    },
+    {
+      "projectId": "loki-2",
+      "title": "Локи (сезон 2)",
+      "batch": 1,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        2
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2023-10-05",
+      "sources": []
+    },
+    {
+      "projectId": "agatha",
+      "title": "Агата: Всё это время",
+      "batch": 1,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2024-09-18",
+      "sources": []
+    },
+    {
+      "projectId": "visionquest",
+      "title": "ВижнКвест",
+      "batch": 1,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2026-10-14",
+      "sources": []
+    },
+    {
+      "projectId": "fws",
+      "title": "Сокол и Зимний солдат",
+      "batch": 2,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2021-03-19",
+      "sources": []
+    },
+    {
+      "projectId": "hawkeye",
+      "title": "Соколиный глаз",
+      "batch": 2,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2021-11-24",
+      "sources": []
+    },
+    {
+      "projectId": "moon-knight",
+      "title": "Лунный рыцарь",
+      "batch": 2,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2022-03-30",
+      "sources": []
+    },
+    {
+      "projectId": "echo",
+      "title": "Эхо",
+      "batch": 2,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2024-01-09",
+      "sources": []
+    },
+    {
+      "projectId": "she-hulk",
+      "title": "Женщина-Халк: Адвокат",
+      "batch": 2,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2022-08-18",
+      "sources": []
+    },
+    {
+      "projectId": "ms-marvel",
+      "title": "Мисс Марвел",
+      "batch": 2,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2022-06-08",
+      "sources": []
+    },
+    {
+      "projectId": "ironheart",
+      "title": "Железное сердце",
+      "batch": 2,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2025-06-24",
+      "sources": []
+    },
+    {
+      "projectId": "secret-invasion",
+      "title": "Секретное вторжение",
+      "batch": 2,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2023-06-21",
+      "sources": []
+    },
+    {
+      "projectId": "wonder-man",
+      "title": "Чудо-человек",
+      "batch": 2,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2026-01-27",
+      "sources": []
+    },
+    {
+      "projectId": "dd-ba-1",
+      "title": "Сорвиголова: Рождённый заново (сезон 1)",
+      "batch": 2,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2025-03-04",
+      "sources": []
+    },
+    {
+      "projectId": "dd-ba-2",
+      "title": "Сорвиголова: Рождённый заново (сезон 2)",
+      "batch": 2,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        2
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2026-03-24",
+      "sources": []
+    },
+    {
+      "projectId": "what-if-1",
+      "title": "Что, если…? (сезон 1)",
+      "batch": 3,
+      "existingEpisodes": 9,
+      "expectedEpisodes": 9,
+      "episodeCountStatus": "existing-guide",
+      "status": "editorial-review",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2021-08-11",
+      "sources": []
+    },
+    {
+      "projectId": "what-if-2",
+      "title": "Что, если…? (сезон 2)",
+      "batch": 3,
+      "existingEpisodes": 9,
+      "expectedEpisodes": 9,
+      "episodeCountStatus": "existing-guide",
+      "status": "editorial-review",
+      "seasonsToInventory": [
+        2
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2023-12-22",
+      "sources": []
+    },
+    {
+      "projectId": "what-if-3",
+      "title": "Что, если…? (сезон 3)",
+      "batch": 3,
+      "existingEpisodes": 8,
+      "expectedEpisodes": 8,
+      "episodeCountStatus": "existing-guide",
+      "status": "editorial-review",
+      "seasonsToInventory": [
+        3
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2024-12-22",
+      "sources": []
+    },
+    {
+      "projectId": "eyes-of-wakanda",
+      "title": "Глаза Ваканды",
+      "batch": 3,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2025-08-01",
+      "sources": []
+    },
+    {
+      "projectId": "i-am-groot",
+      "title": "Я есть Грут (сезоны 1–2)",
+      "batch": 3,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1,
+        2
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2022-08-10",
+      "sources": []
+    },
+    {
+      "projectId": "marvel-zombies",
+      "title": "Зомби Marvel",
+      "batch": 3,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2025-09-24",
+      "sources": []
+    },
+    {
+      "projectId": "yfnsm",
+      "title": "Ваш дружелюбный сосед Человек-паук",
+      "batch": 3,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2025-01-29",
+      "sources": []
+    },
+    {
+      "projectId": "yfnsm-2",
+      "title": "Ваш дружелюбный сосед Человек-паук (сезон 2)",
+      "batch": 3,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "await-release-verification",
+      "seasonsToInventory": [
+        2
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "",
+      "sources": []
+    },
+    {
+      "projectId": "x-men-97",
+      "title": "Люди Икс ’97",
+      "batch": 3,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2024-03-20",
+      "sources": []
+    },
+    {
+      "projectId": "x-men-97-2",
+      "title": "Люди Икс ’97 (сезон 2)",
+      "batch": 3,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "await-release-verification",
+      "seasonsToInventory": [
+        2
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "",
+      "sources": []
+    },
+    {
+      "projectId": "dd-1",
+      "title": "Сорвиголова (сезон 1)",
+      "batch": 4,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2015-04-10",
+      "sources": []
+    },
+    {
+      "projectId": "dd-2",
+      "title": "Сорвиголова (сезон 2)",
+      "batch": 4,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        2
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2016-03-18",
+      "sources": []
+    },
+    {
+      "projectId": "dd-3",
+      "title": "Сорвиголова (сезон 3)",
+      "batch": 4,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        3
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2018-10-19",
+      "sources": []
+    },
+    {
+      "projectId": "jj-1",
+      "title": "Джессика Джонс (сезон 1)",
+      "batch": 4,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2015-11-20",
+      "sources": []
+    },
+    {
+      "projectId": "jj-2",
+      "title": "Джессика Джонс (сезон 2)",
+      "batch": 4,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        2
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2018-03-08",
+      "sources": []
+    },
+    {
+      "projectId": "jj-3",
+      "title": "Джессика Джонс (сезон 3)",
+      "batch": 4,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        3
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2019-06-14",
+      "sources": []
+    },
+    {
+      "projectId": "lc-1",
+      "title": "Люк Кейдж (сезон 1)",
+      "batch": 4,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2016-09-30",
+      "sources": []
+    },
+    {
+      "projectId": "lc-2",
+      "title": "Люк Кейдж (сезон 2)",
+      "batch": 4,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        2
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2018-06-22",
+      "sources": []
+    },
+    {
+      "projectId": "if-1",
+      "title": "Железный кулак (сезон 1)",
+      "batch": 4,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2017-03-17",
+      "sources": []
+    },
+    {
+      "projectId": "if-2",
+      "title": "Железный кулак (сезон 2)",
+      "batch": 4,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        2
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2018-09-07",
+      "sources": []
+    },
+    {
+      "projectId": "punisher-1",
+      "title": "Каратель (сезон 1)",
+      "batch": 4,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2017-11-17",
+      "sources": []
+    },
+    {
+      "projectId": "punisher-2",
+      "title": "Каратель (сезон 2)",
+      "batch": 4,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        2
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2019-01-18",
+      "sources": []
+    },
+    {
+      "projectId": "defenders",
+      "title": "Защитники",
+      "batch": 4,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2017-08-18",
+      "sources": []
+    },
+    {
+      "projectId": "aos",
+      "title": "Агенты Щ.И.Т.",
+      "batch": 5,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2013-09-24",
+      "sources": []
+    },
+    {
+      "projectId": "agent-carter-series",
+      "title": "Агент Картер (сериал)",
+      "batch": 5,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1,
+        2
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2015-01-06",
+      "sources": []
+    },
+    {
+      "projectId": "inhumans",
+      "title": "Нелюди",
+      "batch": 5,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2017-09-29",
+      "sources": []
+    },
+    {
+      "projectId": "runaways",
+      "title": "Беглецы",
+      "batch": 5,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1,
+        2,
+        3
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2017-11-21",
+      "sources": []
+    },
+    {
+      "projectId": "cloak-dagger",
+      "title": "Плащ и Кинжал",
+      "batch": 5,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1,
+        2
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2018-06-07",
+      "sources": []
+    },
+    {
+      "projectId": "helstrom",
+      "title": "Хелстром",
+      "batch": 5,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2020-10-16",
+      "sources": []
+    },
+    {
+      "projectId": "legion",
+      "title": "Легион",
+      "batch": 6,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1,
+        2,
+        3
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2017-02-08",
+      "sources": []
+    },
+    {
+      "projectId": "the-gifted",
+      "title": "Одарённые",
+      "batch": 6,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "needs-inventory",
+      "seasonsToInventory": [
+        1,
+        2
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "2017-10-02",
+      "sources": []
+    },
+    {
+      "projectId": "dd-ba-3",
+      "title": "Сорвиголова: Рождённый заново (сезон 3)",
+      "batch": 7,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "await-release-verification",
+      "seasonsToInventory": [
+        3
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "",
+      "sources": []
+    },
+    {
+      "projectId": "wonder-man-2",
+      "title": "Чудо-человек (сезон 2)",
+      "batch": 7,
+      "existingEpisodes": 0,
+      "expectedEpisodes": null,
+      "episodeCountStatus": "needs-inventory",
+      "status": "await-release-verification",
+      "seasonsToInventory": [
+        2
+      ],
+      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "releaseDateInGuide": "",
+      "sources": []
+    }
+  ]
+}
