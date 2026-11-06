@@ -8,7 +8,7 @@ const app=html.match(/<script id="kvm-app">([\s\S]*?)<\/script>/)[1];
 function add(c,name){
   const start=app.indexOf('function '+name+'(');
   assert.notEqual(start,-1,name);
-  const tail=app.slice(start),end=tail.slice(1).search(/\n(?:function |var |\/\/|document\.|window\.)/);
+  const tail=app.slice(start),end=tail.slice(1).search(/\n(?:function |var |PUB=|\/\/|document\.|window\.)/);
   runInContext(end<0?tail:tail.slice(0,end+1),c);
 }
 const empty=()=>({ts:1,text:{},img:{},hide:{},nav:{},copy:{}});
