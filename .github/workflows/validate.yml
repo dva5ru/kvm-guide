@@ -11,7 +11,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
+          cache: npm
+      - name: Install DOM test dependencies
+        run: npm ci --ignore-scripts
       - name: Check embedded JSON, JavaScript, and character connections
         run: node scripts/validate-guide.mjs
       - name: Check artifact and material photo workflows
@@ -20,3 +23,5 @@ jobs:
         run: node --test scripts/tests/admin-critical.test.mjs
       - name: Check encyclopedia coverage, categories, routes and image targets
         run: node --test scripts/tests/encyclopedia.test.mjs
+      - name: Check text editing, search, all routes, blocks and spoilers
+        run: node --test scripts/tests/interface-stage2.test.mjs
