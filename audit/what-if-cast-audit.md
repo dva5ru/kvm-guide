@@ -3,7 +3,7 @@
 ## Область проверки
 
 - 26 серий, три сезона; базовый список до этого изменения — 233 эпизодических записей.
-- После проверенных дополнений — 253 записей, 156 индивидуальных пояснений.
+- После проверенных дополнений — 251 записей, 154 индивидуальных пояснений.
 - Все связи персонаж ↔ сезон и сезон ↔ эпизод прошли структурную проверку в этой редакции.
 - **Не считать полным фактологическим аудитом всех 26 серий:** титры и основные сюжетные роли третьего сезона сверены; по первым двум сезонам остаётся поимённая сверка и проверка немых камео. Визуальная проверка кадров не проведена.
 
@@ -11,14 +11,14 @@
 
 - Эп. 3: добавлены рейнджер Моралес и Василий Карпов. Источник: https://www.rottentomatoes.com/tv/what_if_/s03/e03/cast-and-crew
 - Эп. 4: Карина (озвучка Кэри Уолгрен), Бирбот-5000 (Хэмиш Паркинсон), а также новорождённая Бёрди как *немое появление*. Источник: https://comicbookclublive.com/2024/12/25/what-if-season-3-episode-4-voice-cast-whos-who/
-- Эп. 5–8: три Наблюдателя — Эминенция (Джейсон Айзекс), Инкарнат (Ди Си Дуглас) и Палач (Дарин де Пол). Участие в эпизоде 6 включает появление группы в конце серии. Источники: https://comicbookclublive.com/2024/12/26/what-if-season-3-episode-5-voice-cast-whos-who/ ; https://comicbookclublive.com/2024/12/27/what-if-season-3-episode-6-voice-cast-whos-who/ ; https://comicbookclublive.com/2024/12/28/what-if-season-3-episode-7-voice-cast-whos-who/ ; https://comicbookclublive.com/2024/12/29/what-if-season-3-episode-8-voice-cast-whos-who-series-finale/
-- Эп. 6: Квай Джун-Фан (Аллен Дэн). Источник: https://comicbookclublive.com/2024/12/27/what-if-season-3-episode-6-voice-cast-whos-who/
+- Эп. 6–8: три Наблюдателя — Эминенция (Джейсон Айзекс), Инкарнат (Ди Си Дуглас) и Палач (Дарин де Пол). В шестом эпизоде Эминенция озвучен Джейсоном Айзексом; появление группы остальных Наблюдателей требует дополнительной покадровой проверки. Эпизод 5 исключён до подтверждения. Источники: https://comicbookclublive.com/2024/12/26/what-if-season-3-episode-5-voice-cast-whos-who/ ; https://comicbookclublive.com/2024/12/27/what-if-season-3-episode-6-voice-cast-whos-who/ ; https://comicbookclublive.com/2024/12/28/what-if-season-3-episode-7-voice-cast-whos-who/ ; https://comicbookclublive.com/2024/12/29/what-if-season-3-episode-8-voice-cast-whos-who-series-finale/
+- Эп. 6: Квай Джун-Фан (Аллен Дэн, также Дэн Лунь). Источник: https://comicbookclublive.com/2024/12/27/what-if-season-3-episode-6-voice-cast-whos-who/
 - Эп. 7–8: взрослая Бёрди (Наташа Лионн) в составе команды. Источники: https://www.thewrap.com/what-if-season-3-voice-cast-characters-episode-list/ ; https://comicbookclublive.com/2024/12/29/what-if-season-3-episode-8-voice-cast-whos-who-series-finale/
 - Шторм: озвучиваемая Алисон Сили-Смит Богиня грома отделена от киноверсии Холли Берри; к киносписку добавлена молодая версия Александры Шипп, включая краткое появление в «Дэдпуле 2». Источники: https://ew.com/what-if-storm-mcu-debut-teams-up-with-captain-carter-exclusive-video-8766832 ; https://www.wmagazine.com/story/junejuly-opener-alexandra-shipp ; https://en.wikipedia.org/wiki/Storm_in_other_media
 
 ## Проверка составов полнометражных фильмов — начало
 
-- «Стражи Галактики» (2014): добавлена Карина — Офелия Ловибонд; отделена от версии в «Что, если…?». Источник: https://www.imdb.com/title/tt2015381/fullcredits/cast
+- «Стражи Галактики» (2014) и «Что, если…?» (сезон 1, серия 2): добавлена Карина — Офелия Ловибонд; отделена от версии в «Что, если…?». Источник: https://www.imdb.com/title/tt2015381/fullcredits/cast
 - «Люди Икс: Апокалипсис» / «Тёмный Феникс» / «Дэдпул 2»: уточнена молодая версия Шторм (Александра Шипп), без приписывания этой версии Холли Берри.
 
 ## Очередь дальнейшей проверки
