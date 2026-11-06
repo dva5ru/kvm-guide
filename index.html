@@ -1165,7 +1165,7 @@ var DT_BACK={back:1,fake:1};
 
 
 // ---------- свои картинки ----------
-var IMG={},IDB=null,UNM=[];
+var IMG={},IDB=null,UNM=[],IMG_FAILED=[],IMG_OK=[],IMG_QUEUE=Promise.resolve(),IMG_BUSY=0;
 function idb(){return new Promise(function(res,rej){if(IDB)return res(IDB);try{var r=indexedDB.open('kvm-img',1);r.onupgradeneeded=function(){r.result.createObjectStore('img')};r.onsuccess=function(){IDB=r.result;res(IDB)};r.onerror=function(){rej(r.error)}}catch(e){rej(e)}})}
 
 
@@ -1178,12 +1178,19 @@ function imgIndex(){if(IMX)return IMX;IMX=[];D.p.forEach(function(p){[p.id.repla
 function imgMatch(fname){var f=normF(fname),idx=imgIndex(),best=null,bs=0,i;for(i=0;i<idx.length;i++)if(idx[i][1]===f)return idx[i][0];var ft=f.split(' ');
   idx.forEach(function(e){if(!e[1])return;var et=e[1].split(' '),inter=et.filter(function(w){return ft.indexOf(w)>=0}).length,u={};ft.concat(et).forEach(function(w){u[w]=1});var sc=inter/Object.keys(u).length;if(sc>bs){bs=sc;best=e[0]}});return bs>=0.6?best:null}
 function keyName(k){var id=k.slice(2);return k[0]==='f'?(P[id]?P[id].t:id):(C[id]?C[id].n:id)}
-function imgHandle(files){var res=document.getElementById('img-res');if(res)res.innerHTML='<p class="muted">Обрабатываю '+files.length+'…</p>';var ok=[];UNM=[];
-  var chain=Promise.resolve();Array.prototype.forEach.call(files,function(f){if(!/^image\//.test(f.type))return;chain=chain.then(function(){return shrink(f).then(function(url){var k=imgMatch(f.name);if(k){ok.push(k);return imgPut(k,url)}UNM.push({name:f.name,url:url})}).catch(function(){})})});
-  chain.then(function(){if(document.getElementById('img-res'))document.getElementById('img-res').innerHTML=imgResHTML(ok);var g=document.getElementById('img-have');if(g)g.outerHTML=imgHaveHTML()})}
-function imgResHTML(ok){return (ok.length?'<p class="ok-note">Поставлено автоматически: '+ok.length+'. '+ok.slice(0,12).map(function(k){return esc(keyName(k))}).join(', ')+(ok.length>12?'…':'')+'</p>':'')+
+function imgRefresh(){var r=document.getElementById('img-res');if(r)r.innerHTML=imgResHTML(IMG_OK);var g=document.getElementById('img-have');if(g)g.outerHTML=imgHaveHTML()}
+function imgHandle(files){var items=Array.prototype.slice.call(files||[]).filter(function(f){return /^image\//.test(f.type)});if(!items.length){toast('Выберите изображения');return}
+  IMG_BUSY+=items.length;imgRefresh();
+  items.forEach(function(f){IMG_QUEUE=IMG_QUEUE.then(function(){return shrink(f).then(function(url){
+    var key=imgMatch(f.name);
+    if(!key){UNM.push({name:f.name,url:url,done:false});return}
+    return imgPut(key,url).then(function(){IMG_OK.push(key)})
+  }).catch(function(e){IMG_FAILED.push({name:f.name,error:e&&e.message||'ошибка обработки'})}).then(function(){IMG_BUSY--;imgRefresh()})})});
+  return IMG_QUEUE.then(function(){if(IMG_FAILED.length)toast('Не загружено: '+IMG_FAILED.length+'. Проверьте список ниже.')})}
+
+function imgResHTML(ok){return (IMG_BUSY?'<p class="muted" role="status">Осталось обработать: '+IMG_BUSY+'</p>':'')+(ok.length?'<p class="ok-note">Поставлено автоматически: '+ok.length+'. '+ok.slice(-12).map(function(k){return esc(keyName(k))}).join(', ')+(ok.length>12?'…':'')+'</p>':'')+(IMG_FAILED.length?'<h3 class="sub">Не загружено ('+IMG_FAILED.length+')</h3>'+IMG_FAILED.map(function(f){return '<p class="muted">'+esc(f.name)+': '+esc(f.error)+'</p>'}).join(''):'')+
   (UNM.length?'<h3 class="sub">Не удалось понять, куда поставить ('+UNM.length+')</h3><p class="muted">Напишите название фильма или имя героя и нажмите «Поставить».</p><datalist id="img-targets">'+imgIndex().filter(function(e,i,a){return a.findIndex(function(x){return x[0]===e[0]})===i}).map(function(e){return '<option value="'+esc(e[2])+'">'}).join('')+'</datalist>'+
-   UNM.map(function(u,i){return '<div class="unm"><img src="'+u.url+'" alt=""><span>'+esc(u.name)+'</span><input type="text" list="img-targets" data-unm-in="'+i+'" placeholder="Фильм или герой" aria-label="Куда поставить '+esc(u.name)+'"><button type="button" class="btn" data-unm="'+i+'">Поставить</button></div>'}).join(''):'')}
+   UNM.map(function(u,i){return u.done?'':'<div class="unm"><img src="'+u.url+'" alt=""><span>'+esc(u.name)+'</span><input type="text" list="img-targets" data-unm-in="'+i+'" placeholder="Название или ID фильма / героя" aria-label="Куда поставить '+esc(u.name)+'"><button type="button" class="btn" data-unm="'+i+'">Поставить</button></div>'}).join(''):'')}
 function imgHaveHTML(){var ks=Object.keys(IMG).sort();return '<section id="img-have"><div class="sec-h"><h2>Уже добавлено ('+ks.length+')</h2>'+(ks.length?'<button type="button" class="btn" data-img-clear>Удалить все</button>':'')+'</div>'+(ks.length?'<div class="hgrid">'+ks.map(function(k){return '<div class="panel hcard"><img class="thumb" src="'+IMG[k]+'" alt=""><span><b>'+esc(keyName(k))+'</b><a href="#'+k+'">Открыть</a> · <button type="button" class="linkbtn" data-img-del="'+k+'">Убрать</button></span></div>'}).join('')+'</div>':'<p class="muted">Пока ничего нет.</p>')+'</section>'}
 
 
@@ -1305,12 +1312,12 @@ function deathList(){var L=D.enc.deaths.map(function(d,i){return [d,i]}).filter(
 // ---------- картинки (общие для всех, грузит только админ) ----------
 function dataUrlToBlob(u){var a=u.split(','),m=a[0].match(/:(.*?);/)[1],b=atob(a[1]),n=b.length,arr=new Uint8Array(n);while(n--)arr[n]=b.charCodeAt(n);return new Blob([arr],{type:m})}
 function imgLoadAll(){}
-function imgPut(key,url){if(ADM.gh)return ghImgUpload(key,url);if(ADM.assets){return ADM.assets.upload(dataUrlToBlob(url)).then(function(r){OVR.img[key]=r.url;IMG=OVR.img;saveDraft()}).catch(function(){OVR.img[key]=url;IMG=OVR.img;saveDraft()})}OVR.img[key]=url;IMG=OVR.img;saveDraft();return Promise.resolve()}
+function imgPut(key,url){if(ADM.gh)return ghImgUpload(key,url);if(ADM.assets){return ADM.assets.upload(dataUrlToBlob(url)).then(function(r){OVR.img[key]=r.url;IMG=OVR.img;saveDraft()})}OVR.img[key]=url;IMG=OVR.img;saveDraft();return Promise.resolve()}
 function imgDel(key){delete OVR.img[key];IMG=OVR.img;saveDraft();return Promise.resolve()}
 function imgClear(){OVR.img={};IMG=OVR.img;saveDraft();return Promise.resolve()}
 function imgOneBtn(key){if(!ADM.on)return '';return '<label class="imgone"><input type="file" accept="image/*" data-img-one="'+key+'">'+(IMG[key]?'Заменить картинку':'Своя картинка')+'</label>'+(IMG[key]?' <button type="button" class="linkbtn" data-img-del="'+key+'">Убрать</button>':'')}
 function imagesView(){if(!ADM.on)return home();return '<h1>Картинки</h1><p class="lead" style="margin-top:10px">Картинки, которые вы добавите здесь, увидят все, кто откроет сайт, после того как вы нажмёте «Опубликовать». Назовите файл как фильм или героя, и сайт сам поставит картинку на место: «Мстители Финал.jpg», «endgame.jpg», «Тони Старк.png».</p>'+
-  '<label class="drop" id="drop"><input type="file" accept="image/*" multiple data-img-files><b>Перетащите сюда картинки</b><span>или нажмите, чтобы выбрать. Можно сразу много.</span></label><div id="img-res"></div>'+imgHaveHTML()}
+  '<label class="drop" id="drop"><input type="file" accept="image/*" multiple data-img-files><b>Перетащите сюда картинки</b><span>или нажмите, чтобы выбрать. Можно сразу много. Неопознанные фото сохранятся в очереди до назначения.</span></label><div id="img-res">'+imgResHTML(IMG_OK)+'</div>'+imgHaveHTML()}
 // ---------- панель админки ----------
 function admBar(){var b=document.getElementById('adm');if(!ADM.can){if(b)b.remove();return}
   if(!b){b=document.createElement('div');b.id='adm';b.className='adm';document.body.appendChild(b)}
@@ -1447,7 +1454,7 @@ document.addEventListener('click',function(e){
   if(t.hasAttribute('data-art-go')){ST.art=t.getAttribute('data-art-go');if(location.hash==='#stones'){e.preventDefault();route()}return}
   if(t.hasAttribute('data-img-del')){imgDel(t.getAttribute('data-img-del')).then(route);return}
   if(t.hasAttribute('data-img-clear')){if(confirm('Удалить все свои картинки?'))imgClear().then(route);return}
-  if(t.hasAttribute('data-unm')){var ui=+t.getAttribute('data-unm'),inp=document.querySelector('[data-unm-in="'+ui+'"]'),v=inp?inp.value.trim():'',hit=imgIndex().filter(function(x){return x[2]===v})[0]||(v?[imgMatch(v)]:[]);var key=hit&&hit[0];if(!key){inp&&inp.classList.add('err');return}imgPut(key,UNM[ui].url).then(function(){t.closest('.unm').innerHTML='<span class="ok-note">Поставлено: '+esc(keyName(key))+'</span>';var g=document.getElementById('img-have');if(g)g.outerHTML=imgHaveHTML()});return}
+  if(t.hasAttribute('data-unm')){var ui=+t.getAttribute('data-unm'),u=UNM[ui],inp=document.querySelector('[data-unm-in="'+ui+'"]'),v=inp?inp.value.trim():'',hit=imgIndex().filter(function(x){return x[2]===v||x[0]===v})[0],key=hit?hit[0]:imgMatch(v);if(!u||u.done)return;if(!key){inp&&inp.classList.add('err');toast('Не найден фильм или герой. Выберите название из подсказок.');return}t.disabled=true;imgPut(key,u.url).then(function(){u.done=true;IMG_OK.push(key);imgRefresh()}).catch(function(e){t.disabled=false;IMG_FAILED.push({name:u.name,error:e.message||'ошибка загрузки'});imgRefresh()});return}
   if(t.hasAttribute('data-stone')){ST.stone=t.getAttribute('data-stone');document.querySelectorAll('[data-stone]').forEach(function(b){b.classList.toggle('on',b===t)});document.getElementById('stone-d').innerHTML=stoneDetail();return}
   if(t.hasAttribute('data-art')){ST.art=t.getAttribute('data-art');document.querySelectorAll('[data-art]').forEach(function(b){b.classList.toggle('on',b===t)});document.getElementById('art-d').innerHTML=artDetail();return}
   if(t.hasAttribute('data-lk')){e.preventDefault();setLink(t.getAttribute('data-lk'));return}
@@ -1492,7 +1499,7 @@ document.addEventListener('change',function(e){var t=e.target;
   else if(t.hasAttribute('data-ct-studio2')){CT2.studio=t.value;ctRefresh()}
   else if(t.hasAttribute('data-backup-in')){if(t.files[0])backupImport(t.files[0])}
   else if(t.hasAttribute('data-navt')){var nk=t.getAttribute('data-navt');if(t.checked)delete OVR.nav[nk];else OVR.nav[nk]=1;t.parentNode.classList.toggle('on',t.checked);saveDraft();applyNav()}
-  else if(t.hasAttribute('data-img-files')){imgHandle(t.files)}
+  else if(t.hasAttribute('data-img-files')){imgHandle(t.files);t.value=''}
   else if(t.hasAttribute('data-img-one')){var f1=t.files[0],k1=t.getAttribute('data-img-one');if(f1)shrink(f1).then(function(u){return imgPut(k1,u)}).then(route)}
   else if(t.hasAttribute('data-lk-q')){var v=norm(t.value),f=D.c.filter(function(c){return norm(c.n).indexOf(v)>=0||norm(short(c.id))===v})[0];if(f)setLink(f.id);t.value=''}
   else if(t.hasAttribute('data-mall')){MS.all=t.checked;drawMarkers();var sd=document.getElementById('mside');if(sd)sd.innerHTML=sideHTML()}
@@ -1613,9 +1620,8 @@ function ghEnable(fresh){ADM.can=true;ADM.on=true;ADM.gh=true;ADM.assets=null;
   applyNav();admBar();rerender();if(fresh)toast('Вы вошли в редактор. Правки сохраняются в репозиторий '+GH.repo);ghMigrateCheck()}
 function ghLogout(){if(!confirm('Выйти из редактора на этом устройстве?'))return;try{localStorage.removeItem('kvm-gh')}catch(e){}GH=null;ADM.can=ADM.on=ADM.edit=ADM.gh=false;var b=document.getElementById('adm');if(b)b.remove();applyNav();rerender()}
 // картинки сразу уходят в репозиторий
-function ghImgUpload(key,dataUrl){var path='img/'+safeKey(key)+'.jpg';PREV[key]=dataUrl;rerender();return ghPut(path,dataUrl.split(',')[1],'Картинка: '+keyName(key)).then(function(){OVR.img[key]=path+'?v='+Date.now();IMG=OVR.img;saveDraft()}).catch(function(e){delete PREV[key];toast('Картинка «'+keyName(key)+'» не загрузилась: '+e.message);rerender()})}
-function ghMigrateCheck(){var ks=Object.keys(OVR.img).filter(function(k){return /^data:image\//.test(OVR.img[k])});if(!ks.length)return;toast('Переношу '+ks.length+' встроенных картинок в репозиторий…');
-  var ch=Promise.resolve();ks.forEach(function(k){ch=ch.then(function(){return ghImgUpload(k,OVR.img[k])})});ch.then(function(){toast('Картинки перенесены. Нажмите «Опубликовать».')})}
+function ghImgUpload(key,dataUrl){var path='img/'+safeKey(key)+'.jpg';PREV[key]=dataUrl;return ghPut(path,dataUrl.split(',')[1],'Картинка: '+keyName(key)).then(function(){OVR.img[key]=path+'?v='+Date.now();IMG=OVR.img;delete PREV[key];saveDraft();imgRefresh()}).catch(function(e){delete PREV[key];throw new Error('«'+keyName(key)+'»: '+e.message)})}
+function ghMigrateCheck(){var ks=Object.keys(OVR.img).filter(function(k){return /^data:image\//.test(OVR.img[k])});if(!ks.length)return;toast('Переношу '+ks.length+' встроенных картинок в репозиторий…');var ch=Promise.resolve();ks.forEach(function(k){ch=ch.then(function(){return ghImgUpload(k,OVR.img[k]).catch(function(e){IMG_FAILED.push({name:keyName(k),error:e.message})})})});ch.then(function(){imgRefresh();toast(IMG_FAILED.length?'Часть картинок не перенесена — проверьте список ошибок.':'Картинки перенесены. Нажмите «Опубликовать».')})}
 // ---------- спойлеры: по умолчанию скрыты, текст не попадает в страницу до раскрытия ----------
 var SPO={mode:'all',ord:0};try{var sv2=JSON.parse(localStorage.getItem('kvm-spoil')||'null');if(sv2&&sv2.mode)SPO=sv2}catch(e){}
 var SPK={},SPN=0;
