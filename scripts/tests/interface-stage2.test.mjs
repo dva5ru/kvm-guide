@@ -123,10 +123,11 @@ test('block controls cover encyclopedia and respect local hiding and guest previ
 });
 
 test('spoilers conceal item descriptions, path headings, participant notes and late team membership',t=>{
-  const s=loadGuide();t.after(s.close);const {g,doc}=s;
+  const s=loadGuide();t.after(s.close);const {g,doc}=s;g.SPO.level='strict';
   for(const a of g.artAll()){
     g.go('a-'+a.id);const text=doc.getElementById('main').textContent;
-    assert.ok(!text.includes(a.ab),`hidden description ${a.id}`);
+    const tags=s.w.KVM_SPOILER_INDEX.entries['art.'+a.id+'.ab']?.[1]||[];
+    if(tags.some(x=>x[0]>0))assert.ok(!text.includes(a.ab),`hidden narrative description ${a.id}`);
     for(const step of a.path)assert.ok(!text.includes(step[1]),`hidden history ${a.id}`);
   }
   const p=g.D.p.find(p=>p.eps?.length),e=p.eps[0];g.go('ep-'+p.id+'-'+e[0]);
@@ -221,7 +222,7 @@ test('Sacred Timeline lives inside encyclopedia and preserves spoiler controls',
   g.go('sacred-timeline');
   assert.match(doc.querySelector('main h1').textContent,/Священная линия времени/);
   assert.equal(doc.querySelectorAll('.sacred-card').length,3);
-  g.SPO.mode='upto';g.SPO.ord=1;g.go('sacred-timeline');
+  g.SPO.mode='upto';g.SPO.order='chronological';g.SPO.ord=1;g.go('sacred-timeline');
   assert.ok(doc.querySelector('.sacred-card .spoil-btn'));
 });
 
