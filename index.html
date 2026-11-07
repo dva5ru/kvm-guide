@@ -731,6 +731,11 @@ nav.tabs a{min-height:40px;display:inline-flex;align-items:center}
 @media(max-width:520px){.ver-switch .season{flex:1 1 45%}.episode-cast{grid-template-columns:1fr}}
 
 .art-photo{display:block;width:100%;height:132px;object-fit:contain;background:var(--bg);border-radius:8px;margin-bottom:6px}.art-photo.big{width:170px;height:170px;max-width:40vw;flex:none}.watch-way{cursor:pointer;text-align:left}.item-admin-card{display:flex;flex-direction:column;min-width:0}.item-admin-card>.art-card{flex:1}.item-photo-controls{padding:8px 4px;font-size:13px}.item-categories{margin-top:18px}.item-categories [aria-current="page"]{background:var(--ink);color:var(--bg)}
+
+.sacred-section{margin:22px 0 28px}.sacred-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:20px 0}
+.sacred-card{padding:16px;min-width:0}.sacred-card h3{font-size:17px;margin:8px 0 12px;line-height:1.35}
+.sacred-card p{font-size:14px;line-height:1.5}.sacred-card p:last-child{margin-top:12px}.sacred-svg{width:100%;height:auto;display:block;margin:10px 0}
+@media(max-width:760px){.sacred-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -1380,7 +1385,7 @@ function applyBlocks(){if(!main.querySelectorAll)return;var kind=CUR.replace(/-.
     var wrapper=document.createElement('div');wrapper.innerHTML=B(id,CUR,label,'<span data-block-slot></span>');var block=wrapper.firstElementChild;if(block){el.replaceWith(block);block.querySelector('[data-block-slot]').replaceWith(el)}
   })
 }
-var NAVT={map:'Карта и места',lines:'Сюжетные линии',stones:'Все предметы','infinity-stones':'Камни бесконечности',artifacts:'Артефакты и устройства',weapons:'Оружие',armor:'Броня и костюмы',materials:'Материалы и вещества',races:'Расы',orgs:'Организации',teams:'Команды',universes:'Вселенные'};
+var NAVT={'sacred-timeline':'Священная линия времени',map:'Карта и места',lines:'Сюжетные линии',stones:'Все предметы','infinity-stones':'Камни бесконечности',artifacts:'Артефакты и устройства',weapons:'Оружие',armor:'Броня и костюмы',materials:'Материалы и вещества',races:'Расы',orgs:'Организации',teams:'Команды',universes:'Вселенные'};
 
 // ---------- главная ----------
 
@@ -1591,7 +1596,7 @@ new MutationObserver(function(){lazyBg(main)}).observe(main,{childList:true,subt
 function qsParse(q){var o={};function dec(s){try{return decodeURIComponent(s.replace(/\+/g,' '))}catch(e){return s}}
   (q||'').split('&').forEach(function(kv){if(!kv)return;var eq=kv.indexOf('='),k=dec(eq<0?kv:kv.slice(0,eq));if(k==='__proto__'||k==='constructor'||k==='prototype')return;o[k]=dec(eq<0?'':kv.slice(eq+1))});return o}
 function ctToQS(){var q=[];if(CT2.kind!=='all')q.push('k='+CT2.kind);if(CT2.sort!=='release')q.push('s='+CT2.sort);if(CT2.q)q.push('q='+encodeURIComponent(CT2.q));var hidden=['mcu','linked','other'].filter(function(a){return !CT2.aff[a]});if(hidden.length)q.push('no='+hidden.join(','));if(CT2.uni!=='all')q.push('u='+CT2.uni);if(CT2.stage!=='all')q.push('st='+CT2.stage);if(CT2.studio!=='all')q.push('studio='+CT2.studio);return q.join('&')}
-function ctFromQS(o){CT2.kind=['all','film','series','other'].indexOf(o.k)>=0?o.k:'all';CT2.sort=['release','story','abc'].indexOf(o.s)>=0?o.s:'release';CT2.q=o.q||'';CT2.aff={mcu:1,linked:1,other:1};(o.no||'').split(',').forEach(function(a){if(Object.prototype.hasOwnProperty.call(CT2.aff,a))CT2.aff[a]=0});CT2.uni=['all','main','other'].indexOf(o.u)>=0?o.u:'all';CT2.stage=['all','out','soon'].indexOf(o.st)>=0?o.st:'all';CT2.studio=Object.prototype.hasOwnProperty.call(D.studios,o.studio)?o.studio:'all';if(ctActive())CT2.open=true}
+function ctFromQS(o){CT2.kind=['all','film','series','other'].indexOf(o.k)>=0?o.k:'film';CT2.sort=['release','story','abc'].indexOf(o.s)>=0?o.s:'release';CT2.q=o.q||'';CT2.aff={mcu:1,linked:1,other:1};(o.no||'').split(',').forEach(function(a){if(Object.prototype.hasOwnProperty.call(CT2.aff,a))CT2.aff[a]=0});CT2.uni=['all','main','other'].indexOf(o.u)>=0?o.u:'all';CT2.stage=['all','out','soon'].indexOf(o.st)>=0?o.st:'all';CT2.studio=Object.prototype.hasOwnProperty.call(D.studios,o.studio)?o.studio:'all';if(ctActive())CT2.open=true}
 function syncURL(base,qs){var h='#'+base+(qs?'?'+qs:'');if(location.hash!==h){try{history.replaceState(null,'',h);CUR=base}catch(e){}}}
 function toast(t){var x=document.createElement('div');x.className='toast';x.textContent=t;document.body.appendChild(x);setTimeout(function(){x.classList.add('out')},3200);setTimeout(function(){x.remove()},3800)}
 function admInit(){
@@ -1675,7 +1680,7 @@ document.addEventListener('click',function(e){
   if(t.hasAttribute('data-ct-kind2')){CT2.kind=t.getAttribute('data-ct-kind2');main.querySelectorAll('[data-ct-kind2]').forEach(function(b){var on=b===t;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});ctRefresh();return}
   if(t.hasAttribute('data-ct-sort2')){CT2.sort=t.getAttribute('data-ct-sort2');main.querySelectorAll('[data-ct-sort2]').forEach(function(b){var on=b===t;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});ctRefresh();return}
   if(t.hasAttribute('data-ct-open')){CT2.open=!CT2.open;var pn=document.getElementById('ctPanel');if(pn)pn.hidden=!CT2.open;t.setAttribute('aria-expanded',CT2.open);return}
-  if(t.hasAttribute('data-ct-reset')){CT2.q='';CT2.kind='all';CT2.aff={mcu:1,linked:1,other:1};CT2.uni='all';CT2.stage='all';CT2.studio='all';ctRefresh(true);return}
+  if(t.hasAttribute('data-ct-reset')){CT2.q='';CT2.kind='film';CT2.aff={mcu:1,linked:0,other:0};CT2.uni='all';CT2.stage='all';CT2.studio='all';ctRefresh(true);return}
   if(t.hasAttribute('data-lkview')){LKV=t.getAttribute('data-lkview');var w0=document.getElementById('lk-wrap');if(w0){w0.className='mapwrap lk-'+LKV}main.querySelectorAll('[data-lkview]').forEach(function(b){b.classList.toggle('on',b===t)});return}
   if(t.hasAttribute('data-stone-go')){var sg=t.getAttribute('data-stone-go');if(sg)ST.stone=sg;if(location.hash==='#stones'){e.preventDefault();route()}return}
   if(t.hasAttribute('data-art-go')){ST.art=t.getAttribute('data-art-go');if(location.hash==='#stones'){e.preventDefault();route()}return}
@@ -1778,8 +1783,16 @@ function matchScore(o,q,w){if(w.every(function(x){return o.s.indexOf(x)>=0}))ret
   var tot=0;for(var i=0;i<w.length;i++){var x=w[i];if(o.s.indexOf(x)>=0)continue;if(x.length<4)return -1;var lim=x.length>=7?2:1,best=9;
     for(var j=0;j<o.w.length;j++){var t=o.w[j];if(t.length<3)continue;var d=Math.min(dl(x,t,lim),t.length>x.length?dl(x,t.slice(0,x.length),lim):9);if(d<best)best=d;if(best===0)break}
     if(best>lim)return -1;tot+=best}return 3+tot}
+// Public search respects published section visibility; never index inaccessible navigation.
+function searchEntryVisible(o){
+  var h=o.h.slice(1),head=h.split('-')[0],sec={f:'catalog',ep:'catalog',c:'heroes',p:'map',e:'timeline',l:'lines',a:'stones',r:'races',o:'orgs',w:'watch'}[head];
+  if(sec&&OVR.nav[sec]&&!ADM.edit)return false;
+  if(head==='a'){var item=artGet(h.slice(2)),cat=itemCategory(item&&item.category);
+    if(cat&&OVR.nav[cat.route]&&!ADM.edit)return false}
+  return !['search.item@'+h,'search.item','search.'+h,'search.'+h+'@'+h].some(function(k){return OVR.hide[k]===1});
+}
 function runSearch(){var raw=norm(sIn.value);if(raw.length<2){closeSearch();return}var vars=[raw],sw=norm(swapLayout(sIn.value.toLowerCase()));if(sw!==raw)vars.push(sw);
-  var found={},list=[];vars.forEach(function(q,vi){var w=q.split(' ');sIdx.forEach(function(o){var sc=matchScore(o,q,w);if(sc<0)return;sc+=vi?0.5:0;if(found[o.h]==null||sc<found[o.h].sc){if(found[o.h]==null)list.push(o.h);found[o.h]={o:o,sc:sc}}})});
+  var found={},list=[];vars.forEach(function(q,vi){var w=q.split(' ');sIdx.forEach(function(o){if(!searchEntryVisible(o))return;var sc=matchScore(o,q,w);if(sc<0)return;sc+=vi?0.5:0;if(found[o.h]==null||sc<found[o.h].sc){if(found[o.h]==null)list.push(o.h);found[o.h]={o:o,sc:sc}}})});
   var r=list.map(function(h){return found[h]}).sort(function(a,b){return a.sc-b.sc}).slice(0,12),fuzzy=r.length&&r[0].sc>=3;
   sRes.innerHTML=r.length?(fuzzy?'<div class="none hint">Точных совпадений нет — возможно, вы искали:</div>':'')+r.map(function(x,i){return '<a href="'+x.o.h+'" role="option" id="sr'+i+'"><small>'+esc(x.o.k)+'</small><span>'+esc(x.o.t)+'</span></a>'}).join(''):'<div class="none">Ничего не нашлось. Попробуйте другое слово — имя героя, актёра или название по-английски.</div>';
   applyCopy(sRes);sRes.classList.add('open');sIn.setAttribute('aria-expanded','true');sSel=-1}
@@ -1886,7 +1899,7 @@ function charAbout(c,K,hcx){var pids=c.app.map(function(a){return a[0]});
 function evLink(id){var e=EV[id];return e?'<a class="chip" href="#e-'+e.id+'">'+esc(evName(e))+' <i>'+esc(e.w)+'</i></a>':''}
 // ---------- новая структура: 6 разделов ----------
 var LEGACY={'routes-list':'watch',routes:'watch','thematic-routes':'watch',doomsday:'f-doomsday',rights:'catalog',quiz:'home',deaths:'home'};
-var ENC_KEYS={map:1,lines:1,stones:1,'infinity-stones':1,artifacts:1,weapons:1,armor:1,materials:1,races:1,orgs:1,teams:1,universes:1};
+var ENC_KEYS={'sacred-timeline':1,map:1,lines:1,stones:1,'infinity-stones':1,artifacts:1,weapons:1,armor:1,materials:1,races:1,orgs:1,teams:1,universes:1};
 function navFor(h){if(h==='home')return 'home';if(h==='timeline'||h==='events'||/^e-/.test(h))return 'timeline';if(h==='catalog'||/^f-/.test(h)||/^ep-/.test(h))return 'catalog';
   if(h==='heroes'||h==='links'||/^c-/.test(h))return 'heroes';if(h==='watch'||/^w-/.test(h))return 'watch';if(h==='encyclopedia'||ENC_KEYS[h]||/^[plaro]-/.test(h))return 'encyclopedia';return ''}
 function crumbEnc(){return '<a class="crumb" href="#encyclopedia">← Энциклопедия</a>'}
@@ -1944,7 +1957,7 @@ function timeline(){var off=TLV.scope==='official',ev=TLV.view==='events';EVS.mo
     :(ev?'Все события, включая другие вселенные и время вне времени. Параллельные реальности не выстраиваются в одну линию — они вынесены отдельно.':'Авторский путеводитель: основная линия КВМ, затем связанные сериалы, другие вселенные КВМ и экранизации Fox и Sony. Пометки показывают, где происходит действие.'))+'</p>'+
   '<div id="tl-list">'+(ev?tlEvents():tlList())+'</div>'}
 // ---------- каталог ----------
-var CT2={q:'',kind:'all',sort:'release',open:false,aff:{mcu:1,linked:1,other:1},uni:'all',stage:'all',studio:'all'};
+var CT2={q:'',kind:'film',sort:'release',open:false,aff:{mcu:1,linked:0,other:0},uni:'all',stage:'all',studio:'all'};
 function affOf(p){return /canon|alt|soon/.test(p.s)?'mcu':p.s==='linked'?'linked':'other'}
 function inMain(p){var u=D.enc.universes[0];if(!u.__set){u.__set={};u[4].split(',').forEach(function(x){u.__set[x]=1})}return !!u.__set[p.id]}
 function ctActive(){var n=0;if(!CT2.aff.mcu||!CT2.aff.linked||!CT2.aff.other)n++;if(CT2.uni!=='all')n++;if(CT2.stage!=='all')n++;if(CT2.studio!=='all')n++;return n}
@@ -1969,8 +1982,27 @@ function catalog(){var n=ctActive();
   '<div class="seg" role="group" aria-label="Порядок">'+[['release','По дате'],['story','По хронологии'],['abc','По названию']].map(function(x){return '<button type="button" data-ct-sort2="'+x[0]+'" class="'+(CT2.sort===x[0]?'on':'')+'" aria-pressed="'+(CT2.sort===x[0])+'">'+x[1]+'</button>'}).join('')+'</div>'+
   '<button type="button" class="btn ct-fbtn" data-ct-open aria-expanded="'+CT2.open+'" aria-controls="ctPanel">Фильтры'+(n?' <i class="cnt">'+n+'</i>':'')+'</button></div>'+ctPanel()+'<div id="ct-list">'+ctList()+'</div>'}
 function ctRefresh(full){syncURL('catalog',ctToQS());if(full){var y=window.scrollY;main.innerHTML=catalog();window.scrollTo(0,y)}else{var l=document.getElementById('ct-list');if(l)l.innerHTML=ctList();var b=document.querySelector('[data-ct-open]');if(b){var n=ctActive();b.innerHTML='Фильтры'+(n?' <i class="cnt">'+n+'</i>':'')}}}
+
+// Схема условная: Земля-616 не равна Священной линии в целом.
+var SACRED_STAGES=[
+ ['До Того, кто остаётся','До его победы существовало множество линий и вариантов Канга, которые вели межвселенскую войну. Точная форма тех линий не показана.','loki-1'],
+ ['Под контролем УВИ','Тот, кто остаётся организовал контроль разветвлений, а УВИ удаляло отклонения. Ткацкий станок был страховкой, а не доказательством, что существует только одна Земля.','loki-1'],
+ ['После второго сезона «Локи»','Локи разрушает Ткацкий станок и поддерживает расходящиеся ветви, похожие на живое древо Иггдрасиль. УВИ следит за опасными вариантами вместо автоматической обрезки линий.','loki-2']
+];
+function sacredGraphic(i){
+ var ds=i===0?['M6 14 Q85 98 166 20 T414 31','M6 40 Q100 3 166 67 T414 82','M6 88 Q102 12 200 45 T414 15']:
+ i===1?['M6 46 Q190 42 414 46','M6 53 Q190 54 414 53','M115 46 Q140 18 166 9','M300 52 Q332 80 355 85']:
+ ['M212 94 L212 8','M212 55 Q135 31 61 8','M212 60 Q280 27 360 7','M212 78 Q150 83 34 94','M212 74 Q312 95 402 70','M212 34 Q250 11 265 3'];
+ return '<svg class="sacred-svg" viewBox="0 0 420 100" role="img" aria-label="'+esc(['Множество ветвей','Контролируемая линия','Древо ветвей'][i])+'">'+ds.map(function(d,j){return '<path d="'+d+'" fill="none" stroke="'+(i===2?'#63B98B':i===1&&j>1?'#B35B57':'#7F98BD')+'" stroke-width="3" stroke-linecap="round"'+(i===1&&j>1?' stroke-dasharray="5 6"':'')+'/>'}).join('')+'</svg>';
+}
+function sacredCard(x,i){return '<article class="panel sacred-card"><small class="muted">Этап '+(i+1)+'</small><h3>'+esc(x[0])+'</h3>'+sacredGraphic(i)+(i?SPW([x[2]],'<p>'+esc(x[1])+'</p>'):'<p>'+esc(x[1])+'</p>')+'<p><a href="#f-'+x[2]+'">«Локи» — первоисточник сюжета</a></p></article>'}
+function sacredPreview(){if(OVR.nav['sacred-timeline']&&!ADM.edit)return '';return B('enc.sacred','encyclopedia','Священная линия','<section class="sacred-section"><div class="sec-h"><h2>Устройство Священной линии времени</h2><a href="#sacred-timeline">Подробнее</a></div><p class="muted">Три состояния времени: до Канга, контроль УВИ, древо Локи. Схема условная.</p><div class="sacred-grid">'+SACRED_STAGES.map(sacredCard).join('')+'</div></section>')}
+function sacredView(){return '<h1>Священная линия времени</h1><p class="lead">Как менялось устройство временных линий: до Того, кто остаётся, при УВИ и после финала «Локи».</p>'+
+ B('sacred.stages','sacred-timeline','Три этапа','<section class="sacred-grid">'+SACRED_STAGES.map(sacredCard).join('')+'</section>')+
+ B('sacred.explain','sacred-timeline','Пояснение','<section class="panel pad"><h2>Что важно различать</h2><p>Ветвь времени — альтернативное развитие событий. Вселенная — отдельная реальность: это не всегда одно и то же. На схеме показан принцип управления, а не полная карта всех Земель.</p><p style="margin-top:12px"><a href="#universes">Справочник вселенных</a></p></section>')}
+
 // ---------- энциклопедия ----------
-function encView(){var all=artAll(),cats=[['map','Карта и места','Где происходили события: Земля, космос и Девять миров. Есть список мест текстом.',D.pl.length+' мест'],['lines','Сюжетные линии','Истории отдельных героев и тем по порядку.',D.ln.length+' линий']].concat(ITEM_CATS.map(function(c){var count=all.filter(function(a){return a.category===c.id}).length;return [c.route,c.name,c.lead,count+' '+plural(count,['карточка','карточки','карточек'])]}),[['races','Расы','Кри, скруллы, Вечные, асгардцы и другие народы.',D.enc.races.length+' рас'],['orgs','Организации','Щ.И.Т., Гидра, УВИ, Красная комната и другие.',D.enc.orgs.length+' организаций'],['teams','Команды','Составы Мстителей, Стражей и других команд по годам.',D.enc.teams.length+' команд'],['universes','Вселенные','Основная вселенная, другие Земли и миры вне времени.',D.enc.universes.length+' миров']]);return '<h1>Энциклопедия</h1><p class="lead" style="margin-top:10px">Справочник по миру Marvel: места, предметы, материалы, народы и связи между вселенными.</p><div class="enc-grid">'+cats.filter(function(c){return !OVR.nav[c[0]]||ADM.on}).map(function(c){return '<a class="panel enc-card" href="#'+c[0]+'"><b>'+esc(c[1])+'</b><span>'+esc(c[2])+'</span><small class="muted">'+esc(c[3])+'</small></a>'}).join('')+'</div>'}
+function encView(){var all=artAll(),cats=[['sacred-timeline','Священная линия времени','До Канга, при УВИ и после второго сезона «Локи».','3 этапа'],['map','Карта и места','Где происходили события: Земля, космос и Девять миров. Есть список мест текстом.',D.pl.length+' мест'],['lines','Сюжетные линии','Истории отдельных героев и тем по порядку.',D.ln.length+' линий']].concat(ITEM_CATS.map(function(c){var count=all.filter(function(a){return a.category===c.id}).length;return [c.route,c.name,c.lead,count+' '+plural(count,['карточка','карточки','карточек'])]}),[['races','Расы','Кри, скруллы, Вечные, асгардцы и другие народы.',D.enc.races.length+' рас'],['orgs','Организации','Щ.И.Т., Гидра, УВИ, Красная комната и другие.',D.enc.orgs.length+' организаций'],['teams','Команды','Составы Мстителей, Стражей и других команд по годам.',D.enc.teams.length+' команд'],['universes','Вселенные','Основная вселенная, другие Земли и миры вне времени.',D.enc.universes.length+' миров']]);return '<h1>Энциклопедия</h1><p class="lead" style="margin-top:10px">Справочник по миру Marvel: места, предметы, материалы, народы и связи между вселенными.</p>'+sacredPreview()+'<div class="enc-grid">'+cats.filter(function(c){return !OVR.nav[c[0]]||ADM.on}).map(function(c){return '<a class="panel enc-card" href="#'+c[0]+'"><b>'+esc(c[1])+'</b><span>'+esc(c[2])+'</span><small class="muted">'+esc(c[3])+'</small></a>'}).join('')+'</div>'}
 function watchView(){return '<h1>Как смотреть</h1><div class="watch-ways">'+
   '<a class="panel watch-way" href="#timeline" data-go-tl="release"><b>По дате выхода</b><span>Стандартный вариант для первого знакомства: фильмы и сериалы в том порядке, в каком они выходили.</span></a>'+
   '<a class="panel watch-way" href="#timeline" data-go-tl="story"><b>По событиям</b><span>Для повторного просмотра: история КВМ по порядку событий, от Второй мировой до наших дней.</span></a>'+
@@ -1986,7 +2018,7 @@ function home(){var pg='home',rec=recentList().slice(0,4),soon=soonList().slice(
   B('h.recent',pg,'Недавно вышло',rec.length?'<section><div class="sec-h"><h2>Недавно вышло</h2><a class="muted" href="#catalog">Все проекты</a></div><div class="grid g4">'+rec.map(function(p){return relCard(p,0)}).join('')+'</div></section>':'')+
   B('h.soon',pg,'Скоро',soon.length?'<section><div class="sec-h"><h2>Скоро</h2></div><div class="grid g4">'+soon.map(function(p){return relCard(p,1)}).join('')+'</div></section>':'')+
   B('h.routes',pg,'Маршруты просмотра','<section><div class="sec-h"><h2>Маршруты просмотра</h2><a class="muted" href="#watch">Все маршруты</a></div><div class="ptiles">'+(D.routes||[]).slice(0,4).map(function(r){return '<a class="panel ptile route-tile" href="#w-'+r[0]+'"><b>'+esc(r[1])+'</b><span>'+esc(r[2])+'</span></a>'}).join('')+'</div></section>')}
-var VIEWS={home:home,timeline:timeline,catalog:catalog,heroes:heroes,encyclopedia:encView,watch:watchView,map:mapView,lines:linesView,stones:stonesView,races:racesView,teams:teamsView,universes:universesView,links:linksView,images:imagesView,orgs:orgsView};
+var VIEWS={home:home,timeline:timeline,catalog:catalog,heroes:heroes,encyclopedia:encView,'sacred-timeline':sacredView,watch:watchView,map:mapView,lines:linesView,stones:stonesView,races:racesView,teams:teamsView,universes:universesView,links:linksView,images:imagesView,orgs:orgsView};
 ITEM_CATS.forEach(function(c){VIEWS[c.route]=function(){return itemCategoryView(c.id)}});
 // ---------- организации ----------
 function orgView(o){var pr=o[3].split(',').filter(function(x){return P[x]}),mem=o[4].split(',').filter(function(x){return C[x]});
