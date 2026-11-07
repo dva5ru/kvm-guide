@@ -232,7 +232,7 @@ test('previously unmatched batch can be assigned in one action after refresh wit
   ];
   c.document = {querySelector: () => null};
   assert.equal(c.imgRecoverable().length, 2);
-  assert.match(c.imgResHTML([]), /Поставить распознанные \\(2\\)/);
+  assert.match(c.imgResHTML([]), /Поставить распознанные \(2\)/);
   await c.imgRecoverQueue();
   assert.deepEqual(Array.from(c.IMG_OK), ['c-kaecilius','c-dar-benn']);
   assert.equal(c.UNM[0].done,true);
