@@ -1,0 +1,197 @@
+{
+  "base": "064f047e0588593c14d857473d84515846f7ead7",
+  "reviewDate": "2026-11-07",
+  "titles": "Русские названия — рабочие переводы; оригинальные названия и даты сверены по Marvel/Disney+ и TVmaze.",
+  "scope": "Подробные девять серий, ключевые и именованные участники в гайде. Упоминания не выдаются за появления; полнота всех фоновых статистов и рекламы не заявляется.",
+  "episodes": [
+    {
+      "id": "wandavision-s1-e1",
+      "sources": [
+        "https://www.marvel.com/tv-shows/wandavision/1/episode-1/",
+        "https://www.tvmaze.com/episodes/1969172/wandavision-1x01-filmed-before-a-live-studio-audience",
+        "https://www.techradar.com/news/wandavision-episode-1-recap-review"
+      ],
+      "postCreditScenes": 0,
+      "participants": [
+        "wanda",
+        "vision",
+        "agatha",
+        "mr-hart",
+        "mrs-hart",
+        "norm-wv"
+      ]
+    },
+    {
+      "id": "wandavision-s1-e2",
+      "sources": [
+        "https://www.marvel.com/tv-shows/wandavision/1/episode-2/",
+        "https://www.tvmaze.com/episodes/2001015/wandavision-1x02-dont-touch-that-dial",
+        "https://www.techradar.com/news/wandavision-episode-2-recap-review"
+      ],
+      "postCreditScenes": 0,
+      "participants": [
+        "wanda",
+        "vision",
+        "agatha",
+        "monica",
+        "dottie-wv",
+        "herb-wv",
+        "norm-wv",
+        "jimmy",
+        "agent-franklin"
+      ]
+    },
+    {
+      "id": "wandavision-s1-e3",
+      "sources": [
+        "https://www.marvel.com/tv-shows/wandavision/1/episode-3/",
+        "https://www.tvmaze.com/episodes/2004701/wandavision-1x03-now-in-color",
+        "https://www.techradar.com/news/wandavision-episode-3-recap-review"
+      ],
+      "postCreditScenes": 0,
+      "participants": [
+        "wanda",
+        "vision",
+        "agatha",
+        "monica",
+        "billy",
+        "tommy",
+        "herb-wv",
+        "dr-nielsen"
+      ]
+    },
+    {
+      "id": "wandavision-s1-e4",
+      "sources": [
+        "https://www.marvel.com/tv-shows/wandavision/1/episode-4/",
+        "https://www.tvmaze.com/episodes/2008161/wandavision-1x04-we-interrupt-this-program",
+        "https://stanforddaily.com/2021/02/04/wondering-about-wandavision-season-1-episode-4-recap/"
+      ],
+      "postCreditScenes": 0,
+      "participants": [
+        "monica",
+        "darcy",
+        "jimmy",
+        "hayward",
+        "agent-franklin",
+        "wanda",
+        "vision"
+      ]
+    },
+    {
+      "id": "wandavision-s1-e5",
+      "sources": [
+        "https://www.marvel.com/tv-shows/wandavision/1/episode-5/",
+        "https://www.tvmaze.com/episodes/2008163/wandavision-1x05-on-a-very-special-episode",
+        "https://www.tvline.com/recaps/wandavision-recap-season-1-episode-5-1980s-very-special-episode-1234636412/"
+      ],
+      "postCreditScenes": 0,
+      "participants": [
+        "wanda",
+        "vision",
+        "agatha",
+        "monica",
+        "darcy",
+        "jimmy",
+        "hayward",
+        "billy",
+        "tommy",
+        "norm-wv",
+        "pietro-fake"
+      ]
+    },
+    {
+      "id": "wandavision-s1-e6",
+      "sources": [
+        "https://www.marvel.com/tv-shows/wandavision/1/episode-6/",
+        "https://www.tvmaze.com/episodes/2008164/wandavision-1x06-all-new-halloween-spooktacular",
+        "https://www.tvline.com/recaps/wandavision-recap-episode-6-all-new-halloween-special-1234639308/"
+      ],
+      "postCreditScenes": 0,
+      "participants": [
+        "wanda",
+        "vision",
+        "agatha",
+        "monica",
+        "darcy",
+        "jimmy",
+        "hayward",
+        "billy",
+        "tommy",
+        "herb-wv",
+        "pietro-fake",
+        "pietro"
+      ]
+    },
+    {
+      "id": "wandavision-s1-e7",
+      "sources": [
+        "https://www.marvel.com/tv-shows/wandavision/1/episode-7/",
+        "https://www.tvmaze.com/episodes/2008165/wandavision-1x07-breaking-the-fourth-wall",
+        "https://www.tvline.com/recaps/wandavision-recap-episode-7-agnes-identity-revealed-agatha-harkness-1234641611/"
+      ],
+      "postCreditScenes": 1,
+      "participants": [
+        "wanda",
+        "vision",
+        "agatha",
+        "monica",
+        "darcy",
+        "billy",
+        "tommy",
+        "pietro-fake",
+        "major-goodner"
+      ]
+    },
+    {
+      "id": "wandavision-s1-e8",
+      "sources": [
+        "https://www.marvel.com/tv-shows/wandavision/1/episode-8/",
+        "https://www.tvmaze.com/episodes/2008166/wandavision-1x08-previously-on",
+        "https://www.tvline.com/recaps/wandavision-recap-episode-8-wanda-flashbacks-sword-plan-for-vision-1234644196/",
+        "https://f004.backblazeb2.com/file/screenplays/posts/wandavision-2021/episodes/WandaVision%20108%20-%20Production%20-%20Sep%209%202020.pdf"
+      ],
+      "postCreditScenes": 1,
+      "participants": [
+        "wanda",
+        "vision",
+        "agatha",
+        "hayward",
+        "billy",
+        "tommy",
+        "white-vision",
+        "pietro",
+        "oleg-maximoff",
+        "irina-maximoff",
+        "evanora-harkness"
+      ]
+    },
+    {
+      "id": "wandavision-s1-e9",
+      "sources": [
+        "https://www.marvel.com/tv-shows/wandavision/1/episode-9/",
+        "https://www.tvmaze.com/episodes/2008167/wandavision-1x09-the-series-finale",
+        "https://www.tvline.com/recaps/wandavision-recap-season-1-finale-episode-9-scarlet-witch-1234646595/"
+      ],
+      "postCreditScenes": 2,
+      "participants": [
+        "wanda",
+        "vision",
+        "agatha",
+        "monica",
+        "darcy",
+        "jimmy",
+        "hayward",
+        "billy",
+        "tommy",
+        "pietro-fake",
+        "white-vision",
+        "norm-wv",
+        "herb-wv",
+        "dottie-wv",
+        "mrs-hart",
+        "skrull-agent-wv"
+      ]
+    }
+  ]
+}

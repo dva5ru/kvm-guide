@@ -122,7 +122,8 @@ test('spoilers conceal item descriptions, path headings, participant notes and l
   }
   const p=g.D.p.find(p=>p.eps?.length),e=p.eps[0];g.go('ep-'+p.id+'-'+e[0]);
   const note=g.D.epRoles[p.id][e[0]][e[3][0]];assert.ok(!doc.querySelector('main').textContent.includes(note));
-  const btn=doc.querySelector('.episode-person [data-spk]');click(s.w,btn);assert.ok(doc.querySelector('.episode-person .open'));
+  const cast=doc.querySelector('[data-bk="ep.cast"]')||[...doc.querySelectorAll('main section')].find(x=>x.textContent.includes('Персонажи в гайде'));
+  const btn=cast.querySelector('[data-spk]');click(s.w,btn);assert.ok(cast.querySelector('.episode-person'));assert.ok(cast.textContent.includes(note));
   g.go('teams');assert.equal(doc.querySelector('.mem'),null);
   g.SPO.mode='off';g.go('teams');assert.ok(doc.querySelector('.mem'));
   g.SPO.mode='upto';g.SPO.ord=1;assert.equal(g.isSpoil([g.D.p.find(p=>p.ord===1).id]),false);assert.equal(g.isSpoil([g.D.p.find(p=>p.ord===2).id]),true);

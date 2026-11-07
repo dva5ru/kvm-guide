@@ -51,7 +51,7 @@ for (const [pid, entries] of Object.entries(db.epRoles || {})) {
   const p = projects.get(pid);
   if (!p || !p.eps) throw new Error('Unknown episode project: ' + pid);
   for (const [num, notes] of Object.entries(entries)) {
-    const ep = p.eps.find(x => String(x[0]) === num);
+    const ep = p.eps.find(x => x.id===num || String(x[0]) === num);
     if (!ep) throw new Error('Unknown episode: ' + pid + '/' + num);
     for (const cid of Object.keys(notes)) if (!ep[3].includes(cid)) {
       throw new Error('Episode note references absent actor: ' + pid + '/' + num + '/' + cid);
@@ -74,7 +74,7 @@ for(const [pid,info] of Object.entries(db.appearanceCredits||{})){
   }
   for(const [cid,rec]of Object.entries(info.cast||{}))check(cid,rec);
   for(const [num,rows]of Object.entries(info.episodes||{})){
-    const ep=(p.eps||[]).find(x=>String(x[0])===num);if(!ep)throw Error('Missing credit episode '+pid+'/'+num);
+    const ep=(p.eps||[]).find(x=>x.id===num||String(x[0])===num);if(!ep)throw Error('Missing credit episode '+pid+'/'+num);
     for(const [cid,rec]of Object.entries(rows))check(cid,rec,ep);
   }
 }

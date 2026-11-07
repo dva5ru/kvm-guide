@@ -1,9 +1,9 @@
 {
-  "asOf": "2026-11-06",
+  "asOf": "2026-11-07",
   "scope": "Все сериалы и мультсериалы, уже включённые в репозиторий; два фильма Spider-Verse исключены из телевизионного плана.",
   "projectCount": 49,
-  "projectsWithEpisodes": 3,
-  "projectsWithoutEpisodes": 46,
+  "projectsWithEpisodes": 4,
+  "projectsWithoutEpisodes": 45,
   "totalKnownEpisodeCount": null,
   "totalCountNote": "Сначала проверить сезоны, вышедшие серии и анонсы. Не выдавать число карточек за число сезонов или эпизодов.",
   "projects": [
@@ -11,18 +11,20 @@
       "projectId": "wandavision",
       "title": "ВандаВижн",
       "batch": 1,
-      "existingEpisodes": 0,
+      "existingEpisodes": 9,
       "expectedEpisodes": 9,
       "episodeCountStatus": "official-index",
-      "status": "needs-inventory",
+      "status": "pilot-ready-in-branch",
       "seasonsToInventory": [
         1
       ],
-      "seasonInventoryStatus": "existing-guide-needs-source-check",
+      "seasonInventoryStatus": "source-checked-pilot",
       "releaseDateInGuide": "2021-01-15",
       "sources": [
-        "https://www.marvel.com/tv-shows/wandavision/1?cache=update1"
-      ]
+        "https://www.marvel.com/tv-shows/wandavision/1/",
+        "https://www.tvmaze.com/shows/41748/wandavision/episodeguide"
+      ],
+      "review": "audit/wandavision-season-1-review.json"
     },
     {
       "projectId": "loki-1",
