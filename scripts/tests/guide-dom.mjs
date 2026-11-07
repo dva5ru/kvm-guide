@@ -4,17 +4,18 @@ import {JSDOM,VirtualConsole} from 'jsdom';
 
 export const html=readFileSync(new URL('../../index.html',import.meta.url),'utf8');
 const app=html.match(/<script id="kvm-app">([\s\S]*?)<\/script>/)[1];
-export function loadGuide(){
+export function loadGuide(options={}){
   const errors=[],vc=new VirtualConsole();
   vc.on('jsdomError',e=>errors.push(e.message));
-  const dom=new JSDOM(html,{url:'https://example.test/kvm-guide/',runScripts:'outside-only',virtualConsole:vc});
+  const source=options.data?html.replace(/(id="kvm-data">)[\s\S]*?(<\/script>)/,(_,a,b)=>a+JSON.stringify(options.data).replace(/</g,'\\u003c')+b):html;
+  const dom=new JSDOM(source,{url:'https://example.test/kvm-guide/',runScripts:'outside-only',virtualConsole:vc});
   const w=dom.window;
   w.scrollTo=()=>{};w.requestAnimationFrame=()=>0;w.matchMedia=()=>({matches:true,addListener(){},removeListener(){}});
   w.HTMLElement.prototype.scrollIntoView=()=>{};
   w.HTMLCanvasElement.prototype.getContext=function(){return new Proxy({canvas:this},{get:(t,k)=>k in t?t[k]:k==='createLinearGradient'||k==='createRadialGradient'?()=>({addColorStop(){}}):()=>{}})};
   const instrumented=app.replace(/setThemeBtn\(\);setSpoilBtn\(\);\s*admInit\(\);[\s\S]*?\nroute\(\);\s*(?:imgQueueLoad\(\);\s*)?\}\)\(\);\s*$/,`
     globalThis.guide={D,P,C,PL,EV,LN,ADM,SPO,VIEWS,LEGACY,ITEM_CATS,SPK,
-      route,buildSearch,runSearch,artAll,artGet,artView,episodeView,teamsView,orgView,raceView,appearanceCredit,creditTag,
+      EP_LOOKUP,EP_ALIAS,EREG,episodeList,episodeNote,episodeHref,route,buildSearch,runSearch,artAll,artGet,artView,episodeView,teamsView,orgView,raceView,appearanceCredit,creditTag,
       applyCopy,copyKey,copyValue,copySave,universalEdit,applyOVR,setText,getT,ref,textFields,contentResults,
       openEditor,settingsHTML,home,qsParse,ctToQS,ctFromQS,CT2,applyBlocks,SPW,isSpoil,spRevealEl,
       histGo,saveDraft,dirtyCount,backupImport,selfHTML,norm,

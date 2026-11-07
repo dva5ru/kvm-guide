@@ -9,7 +9,7 @@ const clone=()=>structuredClone(raw);
 
 test('one canonical registry preserves project links and derives episode casts, descriptions and credits',t=>{
   const db=clone(),{records}=hydrateAppearances(db),s=loadGuide();t.after(s.close);
-  assert.equal(records.size,1257);assert.equal(raw.appearances.reduce((n,a)=>n+a.episodes.length,0),260);
+  assert.equal(records.size,1271);assert.equal(raw.appearances.reduce((n,a)=>n+a.episodes.length,0),349);
   assert.equal(raw.epRoles,undefined);assert.equal(raw.appearanceCredits,undefined);
   assert.ok(raw.c.every(c=>c.notes===undefined&&c.app===undefined));assert.ok(raw.p.every(p=>p.cs===undefined));
   for(const p of db.p){
@@ -24,7 +24,7 @@ test('one canonical registry preserves project links and derives episode casts, 
 
 test('registry validation rejects duplicate links, missing episodes, bad references and unsourced performers',()=>{
   let d=clone();d.appearances.push(structuredClone(d.appearances[0]));assert.throws(()=>hydrateAppearances(d),/Invalid appearance/);
-  d=clone();d.appearances.find(a=>a.episodes.length).episodes[0].number=999;assert.throws(()=>hydrateAppearances(d),/Invalid episode appearance/);
+  d=clone();d.appearances.find(a=>a.episodes.length).episodes[0].episodeId='missing-episode';assert.throws(()=>hydrateAppearances(d),/Invalid episode appearance/);
   d=clone();d.appearances.find(a=>a.descriptionFrom).descriptionFrom='endgame::unknown';assert.throws(()=>hydrateAppearances(d),/Invalid edition description/);
   d=clone();delete d.appearances.find(a=>a.credit).credit.source;assert.throws(()=>hydrateAppearances(d),/Invalid sourced credit/);
 });

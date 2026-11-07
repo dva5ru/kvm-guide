@@ -27,3 +27,5 @@ jobs:
         run: node --test scripts/tests/interface-stage2.test.mjs
       - name: Check factual corrections and unified project and episode appearances
         run: node --test scripts/tests/facts-appearances.test.mjs
+      - name: Check generic episodes, WandaVision and legacy editing compatibility
+        run: node --test scripts/tests/episodes.test.mjs
