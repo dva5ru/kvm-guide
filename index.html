@@ -748,6 +748,7 @@ nav.tabs a{min-height:40px;display:inline-flex;align-items:center}
 .bio-events{margin:24px 0}.bio-event{padding:10px 0;border-bottom:1px solid var(--border,rgba(140,140,140,.2));font-size:14px}
 .bio-event a{font-weight:600}.bio-event p{margin:7px 0 0}
 .film-series-entry{min-width:0}.film-series-entry.current>.card{outline:2px solid var(--red);outline-offset:2px}
+.character-looks{margin-top:16px}.character-looks h3{margin-bottom:10px}.character-looks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin:12px 0}.character-look{display:flex;flex-direction:column;gap:6px;min-width:0}.character-look img{display:block;width:100%;height:120px;object-fit:cover;border-radius:8px}.character-look .portrait-trigger{width:100%}.character-look input{min-width:0;width:100%;font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:7px;background:var(--bg);color:inherit}.character-look span{font-size:13px}
 </style>
 </head>
 <body>
@@ -1241,7 +1242,7 @@ var IMX=null;
 function imgIndex(){if(IMX)return IMX;IMX=[];function add(key,names,label){[key].concat(names).forEach(function(n){if(n)IMX.push([key,normF(n),label])})}D.p.forEach(function(p){add('f-'+p.id,[p.id.replace(/-/g,' '),p.t,p.en],p.t)});D.c.forEach(function(c){var nm=c.n.split(' / ');add('c-'+c.id,[c.id.replace(/-/g,' '),nm[0].replace(/\(.*?\)/g,''),nm[1]||''],c.n)});artAll().forEach(function(a){add('a-'+a.id,[a.n,a.stone?'':a.sub,a.id.replace(/-/g,' ')].concat(a.aliases||[]),a.n)});D.pl.forEach(function(p){add('pl-'+p.id,[p.n,p.id.replace(/-/g,' ')],p.n+' (место)')});return IMX}
 function imgMatch(fname){var f=normF(fname),idx=imgIndex(),exact={};if(!f)return null;idx.forEach(function(e){if(e[1]===f)exact[e[0]]=1});var keys=Object.keys(exact);if(keys.length)return keys.length===1?keys[0]:null;var ft=f.split(' '),best={},bs=0;idx.forEach(function(e){if(!e[1])return;var et=e[1].split(' '),inter=et.filter(function(w){return ft.indexOf(w)>=0}).length,u={};ft.concat(et).forEach(function(w){u[w]=1});var sc=inter/Object.keys(u).length;if(sc>bs){bs=sc;best={};best[e[0]]=1}else if(sc===bs)best[e[0]]=1});keys=Object.keys(best);return bs>=0.6&&keys.length===1?keys[0]:null}
 function imgTarget(value){var m=String(value||'').match(/\[((?:f|c|a|pl)-[a-z0-9-]+)\]$/i),key=m?m[1]:value;return imgIndex().some(function(e){return e[0]===key})?key:imgMatch(value)}
-function keyName(k){var id=k.slice(2);if(k.slice(0,3)==='pl-'){id=k.slice(3);return PL[id]?PL[id].n:id}if(k[0]==='f')return P[id]?P[id].t:id;if(k[0]==='a'){var a=artGet(id);return a?a.n:id}return C[id]?C[id].n:id}
+function keyName(k){if(k.indexOf('--look-')>=0){var cid=k.slice(2,k.indexOf('--look-'));return (C[cid]?C[cid].n:cid)+' — '+charLookLabel(k)}var id=k.slice(2);if(k.slice(0,3)==='pl-'){id=k.slice(3);return PL[id]?PL[id].n:id}if(k[0]==='f')return P[id]?P[id].t:id;if(k[0]==='a'){var a=artGet(id);return a?a.n:id}return C[id]?C[id].n:id}
 function imgRefresh(){
   var active=document.activeElement,idx=active&&active.getAttribute&&active.getAttribute('data-unm-in'),selection=null;
   if(idx!==null&&idx!==undefined)try{selection=[active.selectionStart,active.selectionEnd]}catch(e){}
@@ -1271,7 +1272,7 @@ function imgResHTML(ok){return (IMG_BUSY?'<p class="muted" role="status">Ост�
 var IMG_FOLDERS=[['heroes','Герои'],['places','Места'],['posters','Постеры'],['artifacts','Артефакты']];
 function imgFolder(k){return k.slice(0,3)==='pl-'?'places':k.slice(0,2)==='c-'?'heroes':k.slice(0,2)==='f-'?'posters':'artifacts'}
 function imgHaveHTML(){var ks=Object.keys(IMG).sort();return '<section id="img-have"><div class="sec-h"><h2>Мои картинки ('+ks.length+')</h2>'+(ks.length?'<button type="button" class="btn" data-img-clear>Удалить все</button>':'')+'</div>'+
- IMG_FOLDERS.map(function(f){var sub=ks.filter(function(k){return imgFolder(k)===f[0]});return '<section class="img-folder"><h3>'+f[1]+' <span class="muted">('+sub.length+')</span></h3>'+(sub.length?'<div class="hgrid">'+sub.map(function(k){var dest=k.slice(0,3)==='pl-'?'p-'+k.slice(3):k;return '<div class="panel hcard"><img class="thumb" src="'+esc(IMG[k])+'" alt=""><span><b>'+esc(keyName(k))+'</b><a href="#'+dest+'">Открыть</a> · <button type="button" class="linkbtn" data-img-del="'+k+'">Убрать</button></span></div>'}).join('')+'</div>':'<p class="muted">Пока пусто.</p>')+'</section>'}).join('')+'</section>'}
+ IMG_FOLDERS.map(function(f){var sub=ks.filter(function(k){return imgFolder(k)===f[0]});return '<section class="img-folder"><h3>'+f[1]+' <span class="muted">('+sub.length+')</span></h3>'+(sub.length?'<div class="hgrid">'+sub.map(function(k){var base=k.split('--look-')[0],dest=base.slice(0,3)==='pl-'?'p-'+base.slice(3):base;return '<div class="panel hcard"><img class="thumb" src="'+esc(IMG[k])+'" alt=""><span><b>'+esc(keyName(k))+'</b><a href="#'+dest+'">Открыть</a> · <button type="button" class="linkbtn" data-img-del="'+k+'">Убрать</button></span></div>'}).join('')+'</div>':'<p class="muted">Пока пусто.</p>')+'</section>'}).join('')+'</section>'}
 
 
 
@@ -1488,7 +1489,7 @@ function charView(c){var pg=c.id,K='c.'+c.id+'.',hcx=ctxP(c.app.map(function(a){
   function apps(list,st){return '<ol class="apps">'+list.map(function(a,i){var p=P[a[0]],note=c.notes[a[0]];return '<li><span class="an">'+(i+1)+'</span><div><div class="ah"><a href="#f-'+p.id+'">'+esc(p.t)+'</a><span class="muted">'+esc(years(p))+'</span><span class="rtag r-'+a[1]+'">'+ROLE[a[1]]+'</span>'+creditTag(p,c.id)+(st?stBadge(p.s):'')+'</div>'+(note||ADM.edit?SPW([a[0]],'<p>'+E(K+'note.'+a[0],note||'',ctxP([a[0]]),c.id)+'</p>'):'')+'</div></li>'}).join('')+'</ol>'}
   return '<button class="back" type="button" data-back>← Назад</button><div class="dhead">'+(imgSrc('c-'+c.id)?'<button type="button" class="portrait-trigger" data-zoom-key="c-'+c.id+'" aria-label="Увеличить фото персонажа">'+mono(c,true)+'</button>':mono(c,true))+'<div class="info"><h1>'+EH(K+'n',c.n)+'</h1><div class="en">Исполнитель базовой версии: '+esc(c.a)+'</div>'+versionBar(c)+'<div class="badges"><a class="chip" href="#heroes" data-hs-goto="'+esc(c.g)+'">'+esc(c.g)+'</a></div>'+
   B('c.about',pg,'Описание',charAbout(c,K,hcx))+
-  (ADM.on?'<p style="margin-top:12px">'+imgOneBtn('c-'+c.id)+'</p>':'')+
+  (ADM.on?'<p style="margin-top:12px">'+imgOneBtn('c-'+c.id)+'</p>':'')+charLookGallery(c)+
   B('c.first',pg,'Первое появление',first?'<p class="muted" style="margin-top:12px">Первое появление в КВМ: <a href="#f-'+first.id+'">«'+esc(first.t)+'»</a> ('+esc(first.y)+')</p>':'')+'</div></div>'+
   '<div class="cols"><div>'+B('c.apps',pg,'Все появления в КВМ',inM.length?'<h2>Все появления в КВМ <span class="muted">('+inM.length+')</span></h2><p class="muted" style="margin:6px 0 10px">По порядку событий: что герой делает в каждом проекте.</p>'+apps(inM):'')+
   B('c.other',pg,'Другие версии',other.length?'<h2 style="margin-top:32px">Другие версии и вселенные <span class="muted">('+other.length+')</span></h2><p class="muted" style="margin:6px 0 10px">Фильмы вне КВМ и другие реальности.</p>'+apps(other,1):'')+epNotes(c)+'</div>'+
@@ -1517,8 +1518,34 @@ function deathList(){var L=D.enc.deaths.map(function(d,i){return [d,i]}).filter(
 function dataUrlToBlob(u){var a=u.split(','),m=a[0].match(/:(.*?);/)[1],b=atob(a[1]),n=b.length,arr=new Uint8Array(n);while(n--)arr[n]=b.charCodeAt(n);return new Blob([arr],{type:m})}
 function imgLoadAll(){}
 function imgPut(key,url){if(ADM.gh)return ghImgUpload(key,url);if(ADM.assets){return ADM.assets.upload(dataUrlToBlob(url)).then(function(r){OVR.img[key]=r.url;IMG=OVR.img;saveDraft()})}OVR.img[key]=url;IMG=OVR.img;saveDraft();return Promise.resolve()}
-function imgDel(key){delete OVR.img[key];IMG=OVR.img;saveDraft();return Promise.resolve()}
-function imgClear(){OVR.img={};IMG=OVR.img;saveDraft();return Promise.resolve()}
+function imgDel(key){delete OVR.img[key];delete OVR.copy['look:'+key];IMG=OVR.img;saveDraft();return Promise.resolve()}
+function imgClear(){OVR.img={};Object.keys(OVR.copy).forEach(function(k){if(k.indexOf('look:')===0)delete OVR.copy[k]});IMG=OVR.img;saveDraft();return Promise.resolve()}
+// A character can have several appearances: one main portrait and additional named images.
+function charLookKeys(id){var prefix='c-'+id+'--look-';return Object.keys(IMG).filter(function(k){return k.indexOf(prefix)===0}).sort(function(a,b){return +a.slice(prefix.length)-+b.slice(prefix.length)})}
+function nextCharLookKey(id){var prefix='c-'+id+'--look-',n=1;while(IMG[prefix+n]||PREV[prefix+n])n++;return prefix+n}
+function charLookLabel(key){return String(OVR.copy['look:'+key]||(key.indexOf('--look-')>=0?'Дополнительный облик':'Основной облик'))}
+function charLookGallery(c){
+ var base='c-'+c.id,keys=(imgSrc(base)?[base]:[]).concat(charLookKeys(c.id));
+ if(!ADM.on&&!keys.length)return '';
+ return '<section class="character-looks"><h3>Облики персонажа</h3>'+
+ (keys.length?'<div class="character-looks-grid">'+keys.map(function(key){
+  return '<div class="character-look"><button type="button" class="portrait-trigger" data-zoom-key="'+esc(key)+'" aria-label="Увеличить фото облика"><img loading="lazy" src="'+esc(imgSrc(key))+'" alt="'+esc(charLookLabel(key))+'"></button>'+
+  (ADM.on?'<input type="text" maxlength="80" data-look-caption="'+esc(key)+'" aria-label="Название облика" value="'+esc(charLookLabel(key))+'">':'<span>'+esc(charLookLabel(key))+'</span>')+
+  (ADM.on&&key!==base?'<button type="button" class="linkbtn" data-img-del="'+esc(key)+'">Удалить фото</button>':'')+'</div>'
+ }).join('')+'</div>':'')+
+ (ADM.on?'<label class="imgone"><input type="file" accept="image/*" multiple data-img-looks="'+esc(c.id)+'">+ Добавить другие облики</label><p class="muted">Выберите сразу несколько фотографий. Подписи обликов можно изменить.</p>':'')+
+ '</section>'
+}
+function imgLooksUpload(input){
+ var id=input.getAttribute('data-img-looks'),files=Array.prototype.slice.call(input.files||[]).filter(function(f){return /^image\//.test(f.type)});
+ input.value='';if(!C[id]||!files.length)return;
+ input.disabled=true;IMG_BUSY+=files.length;imgRefresh();
+ files.forEach(function(file){imgEnqueue(function(){return shrink(file).then(function(url){
+  var key=nextCharLookKey(id),caption=file.name.replace(/\.[^.]+$/,'').replace(/[_-]+/g,' ').trim().slice(0,80);
+  return imgPut(key,url).then(function(){OVR.copy['look:'+key]=caption||'Дополнительный облик';saveDraft();IMG_OK.push(key)})
+ }).catch(function(e){IMG_FAILED.push({name:file.name,error:e&&e.message||'ошибка обработки'})}).then(function(){IMG_BUSY--;imgRefresh()})})});
+ IMG_QUEUE.then(function(){input.disabled=false;rerender();toast(IMG_FAILED.length?'Проверьте ошибки загрузки':'Облики добавлены. Нажмите «Опубликовать».')})
+}
 function imgOneBtn(key){if(!ADM.on)return '';return '<label class="imgone"><input type="file" accept="image/*" data-img-one="'+key+'">'+(IMG[key]?'Заменить картинку':'Своя картинка')+'</label>'+(IMG[key]?' <button type="button" class="linkbtn" data-img-del="'+key+'">Убрать</button>':'')}
 function imagesView(){if(!ADM.on)return home();return '<h1>Картинки</h1><p class="lead" style="margin-top:10px">Картинки, которые вы добавите здесь, увидят все, кто откроет сайт, после того как вы нажмёте «Опубликовать». Фотографии можно добавить героям, местам, постерам фильмов, артефактам и материалам. Назовите файл как карточку: «Вибраниум.jpg», «Мьёльнир.png» или «a-thanos-gauntlet.jpg». Для неоднозначных названий выберите точную карточку из подсказок. На странице каждого предмета есть кнопка «Своя картинка».</p>'+
   '<label class="drop" id="drop"><input type="file" accept="image/*" multiple data-img-files><b>Перетащите сюда картинки</b><span>или нажмите, чтобы выбрать. Можно сразу много. Неопознанные фото сохранятся в очереди до назначения.</span></label><div id="img-res">'+imgResHTML(IMG_OK)+'</div>'+imgHaveHTML()}
@@ -1761,6 +1788,8 @@ document.addEventListener('change',function(e){var t=e.target;
   else if(t.hasAttribute('data-navt')){var nk=t.getAttribute('data-navt');if(t.checked)delete OVR.nav[nk];else OVR.nav[nk]=1;t.parentNode.classList.toggle('on',t.checked);saveDraft();applyNav()}
   else if(t.hasAttribute('data-img-files')){imgHandle(t.files);t.value=''}
   else if(t.hasAttribute('data-img-one')){imgUploadOne(t)}
+  else if(t.hasAttribute('data-img-looks')){imgLooksUpload(t)}
+  else if(t.hasAttribute('data-look-caption')){OVR.copy['look:'+t.getAttribute('data-look-caption')]=t.value.trim().slice(0,80);saveDraft();rerender()}
   else if(t.hasAttribute('data-lk-q')){var v=norm(t.value),f=D.c.filter(function(c){return norm(c.n).indexOf(v)>=0||norm(short(c.id))===v})[0];if(f)setLink(f.id);t.value=''}
   else if(t.hasAttribute('data-mall')){MS.all=t.checked;drawMarkers();var sd=document.getElementById('mside');if(sd)sd.innerHTML=sideHTML()}
 });
