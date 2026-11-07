@@ -9,9 +9,18 @@ function copyEdit(s,el,value,scope='local'){
 
 test('home count follows data, including plural forms after adding a project',t=>{
   const s=loadGuide();t.after(s.close);const {g,doc}=s;
-  assert.match(doc.querySelector('.ways').textContent,/Все 140 проектов/);
-  g.D.p.push({...g.D.p[0],id:'test-project'});g.go('home');
-  assert.match(doc.querySelector('.ways').textContent,/Все 141 проект с/);
+  const checkCount=(count,word)=>{
+    assert.match(doc.querySelector('.ways').textContent,new RegExp('Все '+count+' '+word+'(?:\\\\s|$)'));
+  };
+  const base=g.D.p.length;
+  const baseForm=(n)=>n%100>=11&&n%100<=14?'проектов':n%10===1?'проект':n%10>=2&&n%10<=4?'проекта':'проектов';
+  checkCount(base,baseForm(base));
+  let counter=0;
+  for (const [end,word] of [[1,'проект'],[2,'проекта'],[5,'проектов']]){
+    do {g.D.p.push({...g.D.p[0],id:'test-project-'+(++counter)});} while (g.D.p.length%100>=11&&g.D.p.length%100<=14||g.D.p.length%10!==end);
+    g.go('home');
+    checkCount(g.D.p.length,word);
+  }
 });
 
 test('local and global copies retain source identity across repeat edits and value collisions',t=>{
