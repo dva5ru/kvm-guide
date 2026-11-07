@@ -44,10 +44,18 @@ for (const c of db.c) {
   }
   for (const pid of Object.keys(c.notes || {})) if (!local.has(pid)) throw new Error('Orphan character note: ' + c.id + '/' + pid);
 }
+const groupedCharacters = new Set();
 for (const [group, ids] of Object.entries(db.versions || {})) {
+  if(!Array.isArray(ids)||ids.length<2||new Set(ids).size!==ids.length)throw Error('Invalid version group: '+group);
   for (const id of ids) if (!characters.has(id) || characters.get(id).verGroup !== group) {
     throw new Error('Broken version group: ' + group + '/' + id);
   }
+  for(const id of ids){if(groupedCharacters.has(id))throw Error('Duplicate version membership: '+id);groupedCharacters.add(id)}
+}
+for(const c of db.c)if(c.verGroup&&!groupedCharacters.has(c.id))throw Error('Orphan version card: '+c.id);
+for(const [old,target]of Object.entries(db.characterAppearanceAliases||{})){
+  const [pid,cid]=old.split('::');
+  if(!projects.has(pid)||!characters.has(cid)||cid===target||!db.appearances.some(a=>a.projectId===pid&&a.characterId===target))throw Error('Invalid appearance migration: '+old);
 }
 for (const [group, ids] of Object.entries(db.editions || {})) {
   for (const id of ids) if (!projects.has(id) || projects.get(id).editionGroup !== group) {
@@ -106,6 +114,8 @@ for(const [id,name,description,history]of itemRows){
     if(step.length!==3||!step[0]||!step[1]||typeof step[2]!=='string')throw Error('Invalid item history '+id);
     for(const pid of step[2].split(','))if(!projects.has(pid))throw Error('Unknown item appearance '+id+'/'+pid);
   }
+  const historicalProjects=new Set(history.flatMap(step=>step[2].split(',')));
+  if(meta.excludedProjects&&(!Array.isArray(meta.excludedProjects)||new Set(meta.excludedProjects).size!==meta.excludedProjects.length||meta.excludedProjects.some(pid=>!historicalProjects.has(pid))||meta.excludedProjects.length===historicalProjects.size))throw Error('Invalid contextual item projects: '+id);
 }
 for(const id of Object.keys(db.enc.itemMeta))if(!itemIds.has(id))throw Error('Orphan item metadata '+id);
 console.log('Validated:',itemRows.length,'categorized encyclopedia items');

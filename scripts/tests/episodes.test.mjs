@@ -29,7 +29,8 @@ test('all 26 existing episode URLs, plots, casts and legacy text keys remain int
   for(const b of baseline.episodes){
     g.go('ep-'+b.id);assert.equal(doc.querySelector('main h1').textContent,g.D.episodes[b.id].title);
     assert.equal(createHash('sha256').update(g.D.episodes[b.id].plot).digest('hex'),b.plotSHA256);
-    assert.deepEqual(Array.from(g.EREG[b.id][3]),b.cast,b.id);
+    const migratedCast=b.cast.map(cid=>g.D.characterAppearanceAliases[g.D.episodes[b.id].projectId+'::'+cid]||cid);
+    assert.deepEqual(Array.from(g.EREG[b.id][3]),migratedCast,b.id);
     assert.equal(g.ref(b.legacyKey)[0],g.D.episodes[b.id]);assert.equal(g.ref(b.legacyKey)[1],'plot');
   }
 });
