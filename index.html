@@ -782,6 +782,11 @@ nav.tabs a{min-height:40px;display:inline-flex;align-items:center}
 .sp-fragment .spoil-btn{vertical-align:baseline;white-space:normal;text-align:left}
 .sp-story{line-height:1.75;margin:10px 0 20px}
 </style>
+<style id="spoiler-editor-css">
+.sp-edit-fact{margin:12px 0}.sp-edit-sentence{padding:10px 0;border-top:1px solid var(--soft)}
+.sp-edit-sentence p{font-size:14px}.sp-edit-sentence label{font-size:12px;display:inline-block;width:min(49%,240px);vertical-align:top;margin:6px 1% 3px 0}
+.sp-edit-sentence select,.sp-edit-sentence input{width:100%;padding:8px;margin-top:4px;border-radius:7px;border:1px solid var(--soft);background:var(--surface);color:var(--ink)}
+</style>
 </head>
 <body>
 <header class="top">
@@ -1371,10 +1376,10 @@ function imgHaveHTML(){var ks=Object.keys(IMG).sort();return '<section id="img-h
 
 // ---------- админка: правки, блоки, картинки, публикация ----------
 var ADM={can:false,on:false,edit:false,guest:false,art:null,assets:null};
-var OVR={ts:0,text:{},img:{},hide:{},nav:{},copy:{}},PUB=null,ORIG={},KEEP=false;
+var OVR={ts:0,text:{},img:{},hide:{},nav:{},copy:{},spoilers:{}},PUB=null,ORIG={},KEEP=false;
 var SHELL_HEADER=(document.querySelector('header.top')||{outerHTML:''}).outerHTML;
 try{var emb=document.getElementById('kvm-ovr');if(emb&&emb.textContent.trim().length>2)OVR=normOvr(JSON.parse(emb.textContent))}catch(e){}
-function normOvr(o){o=o||{};var imgs=Object.assign({},o.img||{});Object.keys(imgs).forEach(function(k){if(k.indexOf('a-')===0&&/^(?:https?:)?\/\/(?:[^/]+\.)?(?:wikipedia\.org|wikimedia\.org)(?:[/:]|$)/i.test(imgs[k]))delete imgs[k]});return {ts:o.ts||0,text:o.text||{},img:imgs,hide:o.hide||{},nav:o.nav||{},copy:o.copy||{}}}
+function normOvr(o){o=o||{};var imgs=Object.assign({},o.img||{});Object.keys(imgs).forEach(function(k){if(k.indexOf('a-')===0&&/^(?:https?:)?\/\/(?:[^/]+\.)?(?:wikipedia\.org|wikimedia\.org)(?:[/:]|$)/i.test(imgs[k]))delete imgs[k]});return {ts:o.ts||0,text:o.text||{},img:imgs,hide:o.hide||{},nav:o.nav||{},copy:o.copy||{},spoilers:o.spoilers||{}}}
 function clone(o){return JSON.parse(JSON.stringify(o))}
 PUB=clone(OVR);
 var TXT_DEF={'home.title':'Путеводитель по киновселенной Marvel','home.lead':'Что смотреть, в каком порядке и как всё связано — без спойлеров, если вы их не хотите.'};
@@ -1413,18 +1418,18 @@ function applyOVR(){Object.keys(ORIG).forEach(function(k){var r=ref(k);if(r)r[0]
   Object.keys(OVR.text).forEach(function(k){var r=ref(k);if(!r)return;var parts=appearanceTextKey(k).split('.'),id=parts[0]==='c'&&parts[2]==='note'?parts.slice(3).join('.')+'::'+parts[1]:parts[0]==='project-appearance'?parts[1]+'::'+parts[2]:null;
     if(id&&AREG[id]&&!Object.prototype.hasOwnProperty.call(ORIGINAL_APPEARANCE_TEXT,id))ORIGINAL_APPEARANCE_TEXT[id]=AREG[id].description;
     ORIG[k]=r[0][r[1]];r[0][r[1]]=OVR.text[k]});IMG=OVR.img;CTXC={};if(typeof buildSearch==='function'&&typeof sIdx!=='undefined')buildSearch()}
-function dirtyCount(){var n=0,a=OVR,b=PUB||{text:{},img:{},hide:{},nav:{},copy:{}};['text','img','hide','nav','copy'].forEach(function(f){var ks={};Object.keys(a[f]).concat(Object.keys(b[f])).forEach(function(k){ks[k]=1});Object.keys(ks).forEach(function(k){if(JSON.stringify(a[f][k])!==JSON.stringify(b[f][k]))n++})});return n}
+function dirtyCount(){var n=0,a=OVR,b=PUB||{text:{},img:{},hide:{},nav:{},copy:{},spoilers:{}};['text','img','hide','nav','copy','spoilers'].forEach(function(f){var ks={};Object.keys(a[f]).concat(Object.keys(b[f])).forEach(function(k){ks[k]=1});Object.keys(ks).forEach(function(k){if(JSON.stringify(a[f][k])!==JSON.stringify(b[f][k]))n++})});return n}
 function saveDraft(){histPush();ADM.saveErr='';if(ADM.conflict){admBar();return}try{var js0=JSON.stringify(OVR);localStorage.setItem(DRAFT_KEY,js0);ADM.lastSaved=js0;ADM.savedAt=new Date()}catch(e){ADM.saveErr=(e&&e.name==='QuotaExceededError')?'не хватает места в браузере — опубликуйте или скачайте копию':'браузер не дал сохранить черновик';toast('Черновик не сохранён: '+ADM.saveErr)}admBar()}
 var DRAFT_KEY='kvm-draft:'+(location.pathname||'')+':v1';
 function draftRead(){try{var d=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');return d&&typeof d==='object'&&!Array.isArray(d)?normOvr(d):null}catch(e){return null}}
-function overrideEqual(a,b){return ['text','img','hide','nav','copy'].every(function(k){return JSON.stringify(a[k]||{})===JSON.stringify(b[k]||{})})}
+function overrideEqual(a,b){return ['text','img','hide','nav','copy','spoilers'].every(function(k){return JSON.stringify(a[k]||{})===JSON.stringify(b[k]||{})})}
 function acceptPublished(pub){
   var latest=normOvr(pub),base=PUB||normOvr({}),local=OVR,dirty=!overrideEqual(local,base);
   if((latest.ts||0)<(base.ts||0))return;
   PUB=clone(latest);
   if(dirty){
     var merged=clone(latest);
-    ['text','img','hide','nav','copy'].forEach(function(k){var keys={};
+    ['text','img','hide','nav','copy','spoilers'].forEach(function(k){var keys={};
       Object.keys(base[k]||{}).concat(Object.keys(local[k]||{})).forEach(function(x){keys[x]=1});
       Object.keys(keys).forEach(function(x){
         if(JSON.stringify(local[k][x])===JSON.stringify(base[k][x]))return;
@@ -1657,7 +1662,7 @@ function admBar(){var b=document.getElementById('adm');if(!ADM.can){if(b)b.remov
   if(!b){b=document.createElement('div');b.id='adm';b.className='adm';document.body.appendChild(b)}
   var n=dirtyCount();
   if(ADM.guest){b.innerHTML='<span class="adm-t">Вы смотрите как гость</span><button type="button" data-adm="guest">Вернуться в админку</button>';return}
-  b.innerHTML='<span class="adm-t">Админка</span><button type="button" data-adm="edit" class="'+(ADM.edit?'on':'')+'">'+(ADM.edit?'✓ Режим правки':'✎ Править')+'</button><button type="button" data-adm="undo" title="Отменить (Ctrl+Z)"'+(HIST.length?'':' disabled')+'>↶</button><button type="button" data-adm="redo" title="Вернуть (Ctrl+Shift+Z)"'+(FUT.length?'':' disabled')+'>↷</button><a href="#images" class="adm-l">Картинки</a><button type="button" data-adm="settings">Разделы и блоки</button><button type="button" data-adm="guest">Как видит гость</button>'+(ADM.gh?'<button type="button" data-adm="logout">Выйти</button>':'<button type="button" data-adm="export">Скачать для GitHub</button>')+''+
+  b.innerHTML='<span class="adm-t">Админка</span><button type="button" data-adm="edit" class="'+(ADM.edit?'on':'')+'">'+(ADM.edit?'✓ Режим правки':'✎ Править')+'</button><button type="button" data-adm="undo" title="Отменить (Ctrl+Z)"'+(HIST.length?'':' disabled')+'>↶</button><button type="button" data-adm="redo" title="Вернуть (Ctrl+Shift+Z)"'+(FUT.length?'':' disabled')+'>↷</button><a href="#images" class="adm-l">Картинки</a><button type="button" data-adm="spoilers">Сюжетные метки</button><button type="button" data-adm="settings">Разделы и блоки</button><button type="button" data-adm="guest">Как видит гость</button>'+(ADM.gh?'<button type="button" data-adm="logout">Выйти</button>':'<button type="button" data-adm="export">Скачать для GitHub</button>')+''+
   '<span class="adm-s">'+(ADM.conflict?'⚠ Черновик изменён в другой вкладке — обновите страницу':ADM.saveErr?'⚠ '+esc(ADM.saveErr):(n?'Не опубликовано: '+n+(ADM.savedAt?' (черновик сохранён в '+String(ADM.savedAt.getHours()).padStart(2,'0')+':'+String(ADM.savedAt.getMinutes()).padStart(2,'0')+')':''):'Всё опубликовано'))+'</span><button type="button" data-adm="publish" class="pub"'+(n?'':' disabled')+'>Опубликовать</button>'+(n?'<button type="button" data-adm="discard" class="adm-x">Отменить</button>':'')}
 function settingsHTML(){var hid=Object.keys(OVR.hide).filter(function(k){return OVR.hide[k]===1});
   return '<div class="modal" id="admset" role="dialog" aria-modal="true" aria-label="Разделы и блоки"><div class="modal-c panel pad"><div class="sec-h"><h2>Разделы и блоки</h2><button type="button" class="btn" data-adm="close">Закрыть</button></div>'+
@@ -1823,6 +1828,7 @@ document.addEventListener('click',function(e){
     if(at.hasAttribute('data-unhide')){delete OVR.hide[at.getAttribute('data-unhide')];saveDraft();var m0=document.getElementById('admset');if(m0)m0.outerHTML=settingsHTML();rerender();return}
     var act=at.getAttribute('data-adm');
     if(act==='edit'){ADM.edit=!ADM.edit;admBar();rerender();return}
+    if(act==='spoilers'){closeModal();document.body.insertAdjacentHTML('beforeend',spAdminModal());return}
     if(act==='texts'){closeModal();document.body.insertAdjacentHTML('beforeend',contentEditor());return}
     if(act==='settings'){var m1=document.getElementById('admset');if(m1)m1.remove();ADM.retFocus=at;document.body.insertAdjacentHTML('beforeend',settingsHTML());var mc=document.querySelector('#admset [data-adm="close"]');if(mc)mc.focus();return}
     if(act==='close'){closeModal();return}
@@ -2245,7 +2251,7 @@ function spSplit(s){return (String(s||'').match(/[^.!?…]+(?:[.!?…]+[»"”]?
 function spField(key,txt,projects,ctx,self){
   if(!txt)return '';
   if(!spoilOn())return lk(txt,ctx,self);
-  var entry=SP_INDEX[key],parts=spSplit(txt);
+  var entry=(OVR.spoilers||{})[key]||SP_INDEX[key],parts=spSplit(txt);
   // Если редактор изменил текст, не считаем старую разметку безопасной.
   if(!entry||entry[0]!==spHash(txt)||entry[1].length!==parts.length){
     return SPW(projects,'<span>'+lk(txt,ctx,self)+'</span>',true);
@@ -2340,6 +2346,59 @@ document.addEventListener('input',function(e){if(e.target.id!=='spSmartFind')ret
     el.hidden=!!q&&el.getAttribute('data-sp-watch-label').indexOf(q)<0
   });
 });
+
+function spAdminText(key){
+  var a=key.split('.'),id=a[1],o;
+  if(a[0]==='tl')return (D.tl[+id]||[])[2]||'';
+  if(a[0]==='ev')return EV[id]&&EV[id].ab||'';
+  if(a[0]==='c')return C[id]&&(a[2]==='ab2'?C[id].ab2:C[id].ab)||'';
+  if(a[0]==='pl')return PL[id]&&PL[id].ab||'';
+  if(a[0]==='p'){o=P[id];if(!o)return '';return a[2]==='key'?(o.key||[])[+a[3]]||'':a[2]==='post'?(o.post||[])[+a[3]]||'':o[a[2]]||''}
+  if(a[0]==='art'){o=artGet(id);return o?(a[2]==='path'?((o.path||[])[+a[3]]||[])[1]||'':o.ab):''}
+  if(a[0]==='app')return AREG[id]&&AREG[id].description||'';
+  if(a[0]==='episode'){o=D.episodes[id];if(!o)return '';var v=a[3]!=null?(o[a[2]]||[])[+a[3]]:o[a[2]];return typeof v==='string'?v:v&&v.text||''}
+  if(a[0]==='org'){o=D.enc.orgs.find(function(v){return v[0]===id});return o&&o[2]||''}
+  if(a[0]==='race'){o=D.enc.races.find(function(v){return v[0]===id});return o&&o[3]||''}
+  return '';
+}
+function spAdminRows(query){
+  var q=norm(query||''),keys=Object.keys(SP_INDEX);
+  if(q)keys=keys.filter(function(k){return norm(k+' '+spAdminText(k)).indexOf(q)>=0});
+  else{var prefix=CUR&&CUR.slice(0,2)==='f-'?'p.'+CUR.slice(2)+'.':CUR&&CUR.slice(0,2)==='c-'?'c.'+CUR.slice(2):CUR&&CUR.slice(0,2)==='e-'?'ev.'+CUR.slice(2):'tl.';
+    keys=keys.filter(function(k){return k.indexOf(prefix)===0})}
+  keys=keys.filter(function(k){return !!spAdminText(k)}).slice(0,6);
+  if(!keys.length)return '<p class="muted">Ничего не найдено. Введите часть текста или ID записи.</p>';
+  return keys.map(function(key){
+    var txt=spAdminText(key),parts=spSplit(txt),e=(OVR.spoilers||{})[key]||SP_INDEX[key];
+    if(!e||e[0]!==spHash(txt)||e[1].length!==parts.length)e=[spHash(txt),parts.map(function(){return [2,'']})];
+    return '<div class="panel pad sp-edit-fact" data-sp-edit-key="'+esc(key)+'"><b>'+esc(key)+'</b>'+parts.map(function(sentence,i){
+      var rule=e[1][i];
+      return '<div class="sp-edit-sentence"><p>'+esc(sentence)+'</p><label>Тип<select data-sp-tag-level="'+i+'">'+
+        [[0,'Открытый факт'],[1,'Сюжетная подробность'],[2,'Важный спойлер']].map(function(v){return '<option value="'+v[0]+'"'+(v[0]===rule[0]?' selected':'')+'>'+v[1]+'</option>'}).join('')+
+        '</select></label><label>Проект первого раскрытия<input type="text" list="spTagProjects" data-sp-tag-source="'+i+'" value="'+esc(rule[1]||'')+'" placeholder="ID проекта"></label></div>'
+    }).join('')+'</div>';
+  }).join('');
+}
+function spAdminModal(){return '<div class="modal" id="admset" role="dialog" aria-modal="true" aria-label="Сюжетные метки"><div class="modal-c panel pad">'+
+  '<div class="sec-h"><h2>Сюжетные метки</h2><button class="btn" type="button" data-adm="close">Закрыть</button></div>'+
+  '<p class="muted">Для каждого предложения укажите, нужно ли его скрывать и в каком проекте факт впервые раскрывается. Изменения сохраняются в черновике и публикуются вместе с правками сайта.</p>'+
+  '<input class="ed-ta" data-sp-tag-query type="search" placeholder="Поиск по текстам или ID">'+
+  '<datalist id="spTagProjects">'+D.p.map(function(p){return '<option value="'+esc(p.id)+'" label="'+esc(p.t)+'"></option>'}).join('')+'</datalist>'+
+  '<div data-sp-tag-results>'+spAdminRows('')+'</div></div></div>'}
+document.addEventListener('input',function(e){if(!e.target.hasAttribute('data-sp-tag-query'))return;
+  var root=document.querySelector('[data-sp-tag-results]');if(root)root.innerHTML=spAdminRows(e.target.value)});
+document.addEventListener('change',function(e){
+  var t=e.target,lv=t.hasAttribute('data-sp-tag-level'),pr=t.hasAttribute('data-sp-tag-source');
+  if(!lv&&!pr)return;
+  var row=t.closest('[data-sp-edit-key]'),key=row&&row.getAttribute('data-sp-edit-key');if(!key)return;
+  var txt=spAdminText(key),parts=spSplit(txt),previous=(OVR.spoilers||{})[key]||SP_INDEX[key];
+  var next=previous&&previous[0]===spHash(txt)&&previous[1].length===parts.length?clone(previous):[spHash(txt),parts.map(function(){return [2,'']})];
+  var i=Number(t.getAttribute(lv?'data-sp-tag-level':'data-sp-tag-source'));if(!next[1][i])return;
+  if(lv)next[1][i][0]=Math.max(0,Math.min(2,Number(t.value)));
+  else{if(t.value&&!P[t.value]){toast('Выберите существующий ID проекта');return}next[1][i][1]=t.value}
+  OVR.spoilers[key]=next;saveDraft();rerender();
+});
+
 // ===== Конец движка защиты =====
 
 setThemeBtn();setSpoilBtn();
