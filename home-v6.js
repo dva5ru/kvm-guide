@@ -29,7 +29,7 @@
   function validDate(d){return /^\d{4}-\d{2}-\d{2}$/.test(String(d||''))}
   function visibleProject(p){return !!(p&&p.id&&p.s!=='non'&&p.s!=='linked'&&p.s!=='alt'&&p.s!=='hidden'&&!p.editionOf)}
   function film(p){return visibleProject(p)&&p.k==='film'&&!/encore|re.?release|reissue|повтор/i.test(p.id)}
-  function already(p,day){return film(p)&&validDate(p.r)&&p.r<=day&&p.s!=='soon'&&p.s!=='dev'}
+  function already(p,day){return film(p)&&validDate(p.r)&&p.r<=day&&p.s!=='dev'}
   function coming(p,day){return film(p)&&(p.s==='soon'||p.s==='dev'||(validDate(p.r)&&p.r>day))&&(!validDate(p.r)||p.r>day)}
   function releaseDate(p){return VERIFIED_DATES[p.id]&&validDate(p.r)?p.r:''}
   function recent(ctx){var day=ctx.todayStr();return ctx.D.p.filter(function(p){return already(p,day)}).sort(function(a,b){return b.r.localeCompare(a.r)}).slice(0,3)}
@@ -94,7 +94,7 @@
   function focusSlide(ctx,x){
     var ids=x.project&&ctx.P[x.project]?[x.project]:[];
     var target=String(x.target).replace(/^#/,'');
-    return '<div class="h6-feature-media">'+photoPanel(ctx,x.image||'c-loki',x.title,'h6-feature-img')+'</div>'+
+    return '<div class="h6-feature-media">'+photoPanel(ctx,x.image||'',x.title,'h6-feature-img')+'</div>'+
       '<div class="h6-feature-copy"><span class="h6-kicker">ТЕМА В ФОКУСЕ</span><h3>'+esc(x.title)+'</h3>'+synopsis(ctx,x.text,ids)+
       '<a class="h6-inline-link" href="#'+esc(target)+'">Исследовать тему <span aria-hidden="true">↗</span></a></div>';
   }
@@ -167,7 +167,7 @@
       if(ctx.SPO.mode==='upto'&&ctx.isSpoil(proj))return;
       o.push({route:route,id:id,name:name,ab:String(ab||''),key:key,projects:proj,category:category});
     }
-    ctx.artAll().forEach(function(a){var meta=(ctx.D.enc.itemMeta||{})[a.id]||{};var projects=(a.path||[]).map(function(v){return Array.isArray(v)?v[2]:''}).join(',').split(',').filter(Boolean);put('artifacts','a-'+a.id,a.n,a.ab,'a-'+a.id,projects,'Предмет')});
+    ctx.artAll().forEach(function(a){var meta=(ctx.D.enc.itemMeta||{})[a.id]||{};var projects=(a.path||[]).map(function(v){return Array.isArray(v)?v[2]:''}).join(',').split(',').filter(Boolean);put(({stones:'infinity-stones',artifacts:'artifacts',weapons:'weapons',armor:'armor',materials:'materials'})[a.category]||'artifacts','a-'+a.id,a.n,a.ab,'a-'+a.id,projects,'Предмет')});
     ctx.D.pl.forEach(function(p){put('map','p-'+p.id,p.n,p.ab,'p-'+p.id,p.pr,'Место')});
     ctx.D.enc.orgs.forEach(function(x){put('orgs','o-'+x[0],x[1],x[2],'o-'+x[0],x[3],'Организация')});
     ctx.D.enc.races.forEach(function(x){put('races','r-'+x[0],x[1],x[2],'r-'+x[0],x[3],'Раса')});
@@ -236,6 +236,13 @@
       }
       var btn=root.querySelector('[data-h6-toggle]');if(btn&&reduced){btn.textContent='▶';btn.setAttribute('aria-pressed','true');btn.setAttribute('aria-label','Возобновить автоматическое переключение')}
     });
+    if(!reduced&&'IntersectionObserver' in window){
+      var reveal=new IntersectionObserver(function(entries){entries.forEach(function(entry){
+        if(entry.isIntersecting){entry.target.classList.add('h6-visible');reveal.unobserve(entry.target)}
+      })},{threshold:.05});
+      document.querySelectorAll('.h6-page .h6-section').forEach(function(el){el.classList.add('h6-reveal');reveal.observe(el)});
+      observers.push(reveal);
+    }
     ticker=setInterval(tick,250);
   }
   function targetOptions(ctx){
@@ -315,5 +322,14 @@
     if(target.hasAttribute('data-h6-save'))editSave(target.dataset.h6Save);
   }
   document.addEventListener('click',click);
+  document.addEventListener('click',function(e){
+    var btn=e.target.closest('#h6-menu'),header=document.querySelector('header.top-v6');
+    if(!header)return;
+    if(btn){var opened=header.classList.toggle('nav-open');btn.setAttribute('aria-expanded',String(opened));return}
+    if(e.target.closest('nav.tabs a')&&header.classList.contains('nav-open')){
+      header.classList.remove('nav-open');
+      var toggle=header.querySelector('#h6-menu');if(toggle)toggle.setAttribute('aria-expanded','false');
+    }
+  });
   window.KVMHome6={render:render,mount:mount,unmount:unmount,recent:recent,future:future};
 })();
