@@ -3,9 +3,13 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
 const html = readFileSync(new URL('../../index.html', import.meta.url), 'utf8');
-const match = html.match(/<script type="application\\/json" id="kvm-data">([\\s\\S]*?)<\\/script>/);
-assert.ok(match, 'embedded KVM dataset exists');
-const db = JSON.parse(match[1]);
+const marker = '<script type="application/json" id="kvm-data">';
+const from = html.indexOf(marker);
+assert.ok(from >= 0, 'embedded KVM dataset exists');
+const start = from + marker.length;
+const to = html.indexOf('</script>', start);
+assert.ok(to > start);
+const db = JSON.parse(html.slice(start, to));
 const projects = new Map(db.p.map(p => [p.id, p]));
 const people = new Set(db.c.map(c => c.id));
 
