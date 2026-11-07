@@ -736,6 +736,14 @@ nav.tabs a{min-height:40px;display:inline-flex;align-items:center}
 .sacred-card{padding:16px;min-width:0}.sacred-card h3{font-size:17px;margin:8px 0 12px;line-height:1.35}
 .sacred-card p{font-size:14px;line-height:1.5}.sacred-card p:last-child{margin-top:12px}.sacred-svg{width:100%;height:auto;display:block;margin:10px 0}
 @media(max-width:760px){.sacred-grid{grid-template-columns:1fr}}
+
+.cast-chip{display:inline-flex;align-items:center;gap:7px}.cast-chip .mono{width:27px;height:27px;min-width:27px;font-size:10px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center}
+.img-folder{margin-top:24px}.img-folder h3{margin-bottom:12px}
+.place-image{margin:18px 0}.place-image img{display:block;max-width:100%;max-height:420px;object-fit:contain;border-radius:10px}
+.portrait-trigger{border:0;background:transparent;padding:0;cursor:zoom-in;color:inherit}
+.photo-lightbox{position:fixed;inset:0;z-index:10000;background:rgba(5,8,12,.94);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;padding:28px}
+.photo-lightbox img{max-width:min(96vw,1200px);max-height:80vh;object-fit:contain}.photo-lightbox p{color:#eee}
+.photo-lightbox button{position:absolute;top:20px;right:24px;padding:12px;border:1px solid #999;border-radius:50%;background:#171b21;color:white;cursor:pointer}
 </style>
 </head>
 <body>
@@ -823,6 +831,7 @@ function initials(n){var w=n.split('/')[0].replace(/[()«»]/g,'').trim().split(
 function mono(c,big){var im=imgSrc('c-'+c.id);return '<span class="mono'+(big?' big':'')+(im?' has-img':'')+'" style="--c:'+c.col+'"'+(im?' data-bg="'+esc(im)+'"':'')+' aria-hidden="true">'+(im?'':esc(initials(c.n)))+'</span>'}
 function pLink(id){var p=P[id];return p?'<a class="chip" href="#f-'+p.id+'"><span class="dot" style="--c:'+p.col+'"></span>'+esc(p.t)+' <i>'+esc(p.y)+'</i></a>':''}
 function cLink(id,extra){var c=C[id];return c?'<a class="chip" href="#c-'+c.id+'">'+esc(c.n.split(' / ')[0])+(extra?' <i>'+esc(extra)+'</i>':'')+'</a>':''}
+function cPhotoLink(id){var c=C[id];return c?'<a class="chip cast-chip" href="#c-'+id+'">'+mono(c)+'<span>'+esc(short(id))+'</span></a>':''}
 function plLink(id){var x=PL[id];return x?'<a class="chip" href="#p-'+x.id+'">'+esc(x.n)+'</a>':''}
 
 function lnName(id){return LN[id]?LN[id].n:id}
@@ -1225,10 +1234,10 @@ function imgQueueLoad(){
 function shrink(file){return new Promise(function(res,rej){var fr=new FileReader();fr.onload=function(){var im=new Image();im.onload=function(){var mx=560,s=Math.min(1,mx/Math.max(im.width,im.height)),w=Math.round(im.width*s),h=Math.round(im.height*s),cv=document.createElement('canvas');cv.width=w;cv.height=h;cv.getContext('2d').drawImage(im,0,0,w,h);res(cv.toDataURL('image/jpeg',.86))};im.onerror=rej;im.src=fr.result};fr.onerror=rej;fr.readAsDataURL(file)})}
 function normF(s){return String(s||'').toLowerCase().replace(/ё/g,'е').replace(/\.(jpe?g|png|webp|gif|avif|bmp)$/,'').replace(/[_\-.,:!?«»"’'()*…–—]/g,' ').replace(/(^|\s)(poster|постер|official|кадр|img|image|фото|photo|hd|final|ru|en)(?=\s|$)/g,' ').replace(/\s+/g,' ').trim()}
 var IMX=null;
-function imgIndex(){if(IMX)return IMX;IMX=[];function add(key,names,label){[key].concat(names).forEach(function(n){if(n)IMX.push([key,normF(n),label])})}D.p.forEach(function(p){add('f-'+p.id,[p.id.replace(/-/g,' '),p.t,p.en],p.t)});D.c.forEach(function(c){var nm=c.n.split(' / ');add('c-'+c.id,[c.id.replace(/-/g,' '),nm[0].replace(/\(.*?\)/g,''),nm[1]||''],c.n)});artAll().forEach(function(a){add('a-'+a.id,[a.n,a.stone?'':a.sub,a.id.replace(/-/g,' ')].concat(a.aliases||[]),a.n)});return IMX}
+function imgIndex(){if(IMX)return IMX;IMX=[];function add(key,names,label){[key].concat(names).forEach(function(n){if(n)IMX.push([key,normF(n),label])})}D.p.forEach(function(p){add('f-'+p.id,[p.id.replace(/-/g,' '),p.t,p.en],p.t)});D.c.forEach(function(c){var nm=c.n.split(' / ');add('c-'+c.id,[c.id.replace(/-/g,' '),nm[0].replace(/\(.*?\)/g,''),nm[1]||''],c.n)});artAll().forEach(function(a){add('a-'+a.id,[a.n,a.stone?'':a.sub,a.id.replace(/-/g,' ')].concat(a.aliases||[]),a.n)});D.pl.forEach(function(p){add('pl-'+p.id,[p.n,p.id.replace(/-/g,' ')],p.n+' (место)')});return IMX}
 function imgMatch(fname){var f=normF(fname),idx=imgIndex(),exact={};if(!f)return null;idx.forEach(function(e){if(e[1]===f)exact[e[0]]=1});var keys=Object.keys(exact);if(keys.length)return keys.length===1?keys[0]:null;var ft=f.split(' '),best={},bs=0;idx.forEach(function(e){if(!e[1])return;var et=e[1].split(' '),inter=et.filter(function(w){return ft.indexOf(w)>=0}).length,u={};ft.concat(et).forEach(function(w){u[w]=1});var sc=inter/Object.keys(u).length;if(sc>bs){bs=sc;best={};best[e[0]]=1}else if(sc===bs)best[e[0]]=1});keys=Object.keys(best);return bs>=0.6&&keys.length===1?keys[0]:null}
-function imgTarget(value){var m=String(value||'').match(/\[([fca]-[a-z0-9-]+)\]$/i),key=m?m[1]:value;return imgIndex().some(function(e){return e[0]===key})?key:imgMatch(value)}
-function keyName(k){var id=k.slice(2);if(k[0]==='f')return P[id]?P[id].t:id;if(k[0]==='a'){var a=artGet(id);return a?a.n:id}return C[id]?C[id].n:id}
+function imgTarget(value){var m=String(value||'').match(/\[((?:f|c|a|pl)-[a-z0-9-]+)\]$/i),key=m?m[1]:value;return imgIndex().some(function(e){return e[0]===key})?key:imgMatch(value)}
+function keyName(k){var id=k.slice(2);if(k.slice(0,3)==='pl-'){id=k.slice(3);return PL[id]?PL[id].n:id}if(k[0]==='f')return P[id]?P[id].t:id;if(k[0]==='a'){var a=artGet(id);return a?a.n:id}return C[id]?C[id].n:id}
 function imgRefresh(){
   var active=document.activeElement,idx=active&&active.getAttribute&&active.getAttribute('data-unm-in'),selection=null;
   if(idx!==null&&idx!==undefined)try{selection=[active.selectionStart,active.selectionEnd]}catch(e){}
@@ -1255,7 +1264,10 @@ document.addEventListener('input',function(e){var el=e.target&&e.target.closest&
 function imgResHTML(ok){return (IMG_BUSY?'<p class="muted" role="status">Осталось обработать: '+IMG_BUSY+'</p>':'')+(ok.length?'<p class="ok-note">Поставлено автоматически: '+ok.length+'. '+ok.slice(-12).map(function(k){return esc(keyName(k))}).join(', ')+(ok.length>12?'…':'')+'</p>':'')+(IMG_FAILED.length?'<h3 class="sub">Не загружено ('+IMG_FAILED.length+')</h3>'+IMG_FAILED.map(function(f){return '<p class="muted">'+esc(f.name)+': '+esc(f.error)+'</p>'}).join(''):'')+
   (UNM.some(function(u){return !u.done})?'<h3 class="sub">Выберите, куда поставить ('+UNM.filter(function(u){return !u.done}).length+')</h3><p class="muted">Выберите фильм, героя, артефакт или материал из подсказок. ID в скобках определяет точную карточку.</p><datalist id="img-targets">'+imgIndex().filter(function(e,i,a){return a.findIndex(function(x){return x[0]===e[0]})===i}).map(function(e){return '<option value="'+esc(e[2]+' ['+e[0]+']')+'">'}).join('')+'</datalist>'+
    UNM.map(function(u,i){return u.done?'':'<div class="unm"><img src="'+u.url+'" alt=""><span>'+esc(u.name)+'</span><input type="text" list="img-targets" data-unm-in="'+i+'" value="'+esc(u.target||'')+'" placeholder="Название или ID карточки" aria-label="Куда поставить '+esc(u.name)+'"'+(u.pending?' disabled':'')+'><button type="button" class="btn" data-unm="'+i+'"'+(u.pending?' disabled':'')+'>'+(u.pending?'Сохраняю…':'Поставить')+'</button></div>'}).join(''):'')}
-function imgHaveHTML(){var ks=Object.keys(IMG).sort();return '<section id="img-have"><div class="sec-h"><h2>Уже добавлено ('+ks.length+')</h2>'+(ks.length?'<button type="button" class="btn" data-img-clear>Удалить все</button>':'')+'</div>'+(ks.length?'<div class="hgrid">'+ks.map(function(k){return '<div class="panel hcard"><img class="thumb" src="'+esc(IMG[k])+'" alt=""><span><b>'+esc(keyName(k))+'</b><a href="#'+k+'">Открыть</a> · <button type="button" class="linkbtn" data-img-del="'+k+'">Убрать</button></span></div>'}).join('')+'</div>':'<p class="muted">Пока ничего нет.</p>')+'</section>'}
+var IMG_FOLDERS=[['heroes','Герои'],['places','Места'],['posters','Постеры'],['artifacts','Артефакты']];
+function imgFolder(k){return k.slice(0,3)==='pl-'?'places':k.slice(0,2)==='c-'?'heroes':k.slice(0,2)==='f-'?'posters':'artifacts'}
+function imgHaveHTML(){var ks=Object.keys(IMG).sort();return '<section id="img-have"><div class="sec-h"><h2>Мои картинки ('+ks.length+')</h2>'+(ks.length?'<button type="button" class="btn" data-img-clear>Удалить все</button>':'')+'</div>'+
+ IMG_FOLDERS.map(function(f){var sub=ks.filter(function(k){return imgFolder(k)===f[0]});return '<section class="img-folder"><h3>'+f[1]+' <span class="muted">('+sub.length+')</span></h3>'+(sub.length?'<div class="hgrid">'+sub.map(function(k){var dest=k.slice(0,3)==='pl-'?'p-'+k.slice(3):k;return '<div class="panel hcard"><img class="thumb" src="'+esc(IMG[k])+'" alt=""><span><b>'+esc(keyName(k))+'</b><a href="#'+dest+'">Открыть</a> · <button type="button" class="linkbtn" data-img-del="'+k+'">Убрать</button></span></div>'}).join('')+'</div>':'<p class="muted">Пока пусто.</p>')+'</section>'}).join('')+'</section>'}
 
 
 
@@ -1426,7 +1438,7 @@ function projectView(p){var pg=p.id,cx=ctxP([p.id]),nb=chronoNeighbors(p),K='p.'
   var facts=[[relLabel(p),fdate(p.r)+(p.re?' — '+p.re:'')],['Время действия',p.w],['Студия',D.studios[p.st]],['Тип',D.k[p.k]+(p.sg?', сезон '+p.sn+' из '+D.sg[p.sg].length:'')]];
   if(p.ord)facts.push(['Место в хронологии','№ '+p.ord+' из '+CANON.length+', эпоха «'+ERA[p.era].n+'»']);
   var groups={};p.cs.filter(function(a){return !p.editionOf||!P[p.editionOf].cs.some(function(old){return old[0]===a[0]})}).forEach(function(a){(groups[a[1]]=groups[a[1]]||[]).push(a[0])});
-  var who=ROLE_ORDER.split('').filter(function(r){return groups[r]}).map(function(r){var ch='<div class="chips">'+groups[r].map(function(id){return cLink(id)+creditTag(p,id)}).join('')+'</div>';return '<h3>'+ROLE[r]+' <span class="muted">('+groups[r].length+')</span></h3>'+(r==='P'?SPW([p.id],ch):ch)}).join('');
+  var who=ROLE_ORDER.split('').filter(function(r){return groups[r]}).map(function(r){var ch='<div class="chips">'+groups[r].map(function(id){return cPhotoLink(id)+creditTag(p,id)}).join('')+'</div>';return '<h3>'+ROLE[r]+' <span class="muted">('+groups[r].length+')</span></h3>'+(r==='P'?SPW([p.id],ch):ch)}).join('');
   var lines=p.ln.map(function(lid){var o=lineNeighbors(p,lid);if(!o)return '';return '<div class="lnrow"><a class="lname" href="#l-'+lid+'">'+esc(lnName(lid))+' <span class="muted">('+(o.i+1)+' из '+o.n+')</span></a><span>'+(o.prev?'<a href="#f-'+o.prev.id+'">← '+esc(o.prev.t)+'</a>':'<span class="muted">это начало</span>')+'</span><span class="nx">'+(o.next?'<a href="#f-'+o.next.id+'">'+esc(o.next.t)+' →</a>':'<span class="muted">пока последнее</span>')+'</span></div>'}).join('');
   var pre=(p.refs||[]).slice();if(!pre.length)p.ln.forEach(function(lid){var o=lineNeighbors(p,lid);if(o&&o.prev&&pre.indexOf(o.prev.id)<0)pre.push(o.prev.id)});
   var firsts=(p.firsts||[]).filter(function(f){return C[f[0]]}),eggs=D.enc.eggs[p.id]||[];
@@ -1458,7 +1470,7 @@ function charView(c){var pg=c.id,K='c.'+c.id+'.',hcx=ctxP(c.app.map(function(a){
   var plc={};c.app.forEach(function(a){if(/[LM]/.test(a[1]))P[a[0]].pl.forEach(function(x){plc[x]=(plc[x]||0)+1})});
   var plTop=Object.keys(plc).sort(function(a,b){return plc[b]-plc[a]}).slice(0,12);
   function apps(list,st){return '<ol class="apps">'+list.map(function(a,i){var p=P[a[0]],note=c.notes[a[0]];return '<li><span class="an">'+(i+1)+'</span><div><div class="ah"><a href="#f-'+p.id+'">'+esc(p.t)+'</a><span class="muted">'+esc(years(p))+'</span><span class="rtag r-'+a[1]+'">'+ROLE[a[1]]+'</span>'+creditTag(p,c.id)+(st?stBadge(p.s):'')+'</div>'+(note||ADM.edit?SPW([a[0]],'<p>'+E(K+'note.'+a[0],note||'',ctxP([a[0]]),c.id)+'</p>'):'')+'</div></li>'}).join('')+'</ol>'}
-  return '<button class="back" type="button" data-back>← Назад</button><div class="dhead">'+mono(c,true)+'<div class="info"><h1>'+EH(K+'n',c.n)+'</h1><div class="en">Исполнитель базовой версии: '+esc(c.a)+'</div>'+versionBar(c)+'<div class="badges"><a class="chip" href="#heroes" data-hs-goto="'+esc(c.g)+'">'+esc(c.g)+'</a></div>'+
+  return '<button class="back" type="button" data-back>← Назад</button><div class="dhead">'+(imgSrc('c-'+c.id)?'<button type="button" class="portrait-trigger" data-zoom-key="c-'+c.id+'" aria-label="Увеличить фото персонажа">'+mono(c,true)+'</button>':mono(c,true))+'<div class="info"><h1>'+EH(K+'n',c.n)+'</h1><div class="en">Исполнитель базовой версии: '+esc(c.a)+'</div>'+versionBar(c)+'<div class="badges"><a class="chip" href="#heroes" data-hs-goto="'+esc(c.g)+'">'+esc(c.g)+'</a></div>'+
   B('c.about',pg,'Описание',charAbout(c,K,hcx))+
   (ADM.on?'<p style="margin-top:12px">'+imgOneBtn('c-'+c.id)+'</p>':'')+
   B('c.first',pg,'Первое появление',first?'<p class="muted" style="margin-top:12px">Первое появление в КВМ: <a href="#f-'+first.id+'">«'+esc(first.t)+'»</a> ('+esc(first.y)+')</p>':'')+'</div></div>'+
@@ -1480,7 +1492,7 @@ function eventView(e){return '<button class="back" type="button" data-back>← �
   '<section><h2>Где это показано</h2><div class="grid" style="margin-top:14px">'+e.pr.map(card).join('')+'</div></section>'+(e.ch.length?'<section><h2>Кто участвовал</h2><div class="hgrid" style="margin-top:14px">'+e.ch.filter(function(id){return C[id]}).map(function(id){return hcard(C[id])}).join('')+'</div></section>':'')}
 function placeView(x){var TT={e:'Место на Земле',c:'Космос',r:'Измерение или место вне времени',u:'Другая вселенная',o:'Объект без точки на карте'},mcu=x.pr.filter(function(id){return MCU[P[id].s]}),oth=x.pr.filter(function(id){return !MCU[P[id].s]});
   return '<button class="back" type="button" data-back>← Назад</button><h1>'+esc(x.n)+'</h1><div class="badges"><span class="chip">'+TT[x.t]+'</span>'+(x.t==='e'?'<a class="chip" href="#map" data-show-on-map="'+x.id+'">Показать на карте</a>':(D.space[x.id]||D.tree[x.id]?'<a class="chip" href="#map">Показать на карте космоса</a>':''))+'</div>'+
-  SPW(x.pr,'<p class="about" style="margin-top:16px">'+E('pl.'+x.id+'.ab',x.ab,ctxP(x.pr),x.id)+'</p>')+(x.ev.length?'<section><h2>Что здесь произошло</h2><ul class="tl" style="margin-top:16px">'+x.ev.map(evItem).join('')+'</ul></section>':'')+
+  (imgSrc('pl-'+x.id)?'<div class="place-image"><button type="button" data-zoom-key="pl-'+x.id+'" class="portrait-trigger" aria-label="Увеличить фото места"><img loading="lazy" src="'+esc(imgSrc('pl-'+x.id))+'" alt="'+esc(x.n)+'"></button></div>':'')+imgOneBtn('pl-'+x.id')+SPW(x.pr,'<p class="about" style="margin-top:16px">'+E('pl.'+x.id+'.ab',x.ab,ctxP(x.pr),x.id)+'</p>')+(x.ev.length?'<section><h2>Что здесь произошло</h2><ul class="tl" style="margin-top:16px">'+x.ev.map(evItem).join('')+'</ul></section>':'')+
   (mcu.length?'<section><h2>Проекты КВМ</h2><div class="grid" style="margin-top:14px">'+mcu.map(card).join('')+'</div></section>':'')+(oth.length?'<section><h2>Вне КВМ</h2><div class="grid" style="margin-top:14px">'+oth.map(card).join('')+'</div></section>':'')}
 function deathList(){var L=D.enc.deaths.map(function(d,i){return [d,i]}).filter(function(x){var d=x[0];return DS.f==='all'||(DS.f==='back'?DT_BACK[d[3]]:DS.f==='unknown'?d[3]==='unknown':(!DT_BACK[d[3]]&&d[3]!=='unknown'))}).sort(function(a,b){var x=P[a[0][1]],y=P[b[0][1]];return (x.ord||900)-(y.ord||900)||(x.r<y.r?-1:1)});
   return '<p class="muted" style="margin-bottom:12px">Всего: '+L.length+'</p><ol class="deaths">'+L.map(function(x){var d=x[0],i=x[1],c=C[d[0]],cx=ctxP([d[1]].concat(d[5]?[d[5]]:[]));return '<li class="panel"><a href="#c-'+c.id+'" aria-hidden="true" tabindex="-1">'+mono(c)+'</a><div><div class="ah"><a href="#c-'+c.id+'"><b>'+esc(short(c.id))+'</b></a>'+pLink(d[1])+'</div><p>'+E('d.'+i+'.how',d[2],cx,c.id)+'</p>'+
@@ -1492,7 +1504,7 @@ function imgPut(key,url){if(ADM.gh)return ghImgUpload(key,url);if(ADM.assets){re
 function imgDel(key){delete OVR.img[key];IMG=OVR.img;saveDraft();return Promise.resolve()}
 function imgClear(){OVR.img={};IMG=OVR.img;saveDraft();return Promise.resolve()}
 function imgOneBtn(key){if(!ADM.on)return '';return '<label class="imgone"><input type="file" accept="image/*" data-img-one="'+key+'">'+(IMG[key]?'Заменить картинку':'Своя картинка')+'</label>'+(IMG[key]?' <button type="button" class="linkbtn" data-img-del="'+key+'">Убрать</button>':'')}
-function imagesView(){if(!ADM.on)return home();return '<h1>Картинки</h1><p class="lead" style="margin-top:10px">Картинки, которые вы добавите здесь, увидят все, кто откроет сайт, после того как вы нажмёте «Опубликовать». Фотографии можно добавить фильмам, героям, артефактам, перчаткам и материалам. Назовите файл как карточку: «Вибраниум.jpg», «Мьёльнир.png» или «a-thanos-gauntlet.jpg». Для неоднозначных названий выберите точную карточку из подсказок. На странице каждого предмета есть кнопка «Своя картинка».</p>'+
+function imagesView(){if(!ADM.on)return home();return '<h1>Картинки</h1><p class="lead" style="margin-top:10px">Картинки, которые вы добавите здесь, увидят все, кто откроет сайт, после того как вы нажмёте «Опубликовать». Фотографии можно добавить героям, местам, постерам фильмов, артефактам и материалам. Назовите файл как карточку: «Вибраниум.jpg», «Мьёльнир.png» или «a-thanos-gauntlet.jpg». Для неоднозначных названий выберите точную карточку из подсказок. На странице каждого предмета есть кнопка «Своя картинка».</p>'+
   '<label class="drop" id="drop"><input type="file" accept="image/*" multiple data-img-files><b>Перетащите сюда картинки</b><span>или нажмите, чтобы выбрать. Можно сразу много. Неопознанные фото сохранятся в очереди до назначения.</span></label><div id="img-res">'+imgResHTML(IMG_OK)+'</div>'+imgHaveHTML()}
 // ---------- панель админки ----------
 function admBar(){var b=document.getElementById('adm');if(!ADM.can){if(b)b.remove();return}
@@ -2025,6 +2037,14 @@ function orgView(o){var pr=o[3].split(',').filter(function(x){return P[x]}),mem=
   return '<button class="back" type="button" data-back>← Назад</button><h1>'+esc(o[1])+'</h1>'+SPW(pr,'<p class="about" style="margin-top:16px">'+lk(o[2],ctxP(pr),o[0])+'</p>')+
   (mem.length?'<section><h2>Известные участники</h2>'+SPW(pr,'<div class="hgrid" style="margin-top:14px">'+mem.map(function(id){return hcard(C[id])}).join('')+'</div>')+'</section>':'')+(pr.length?'<section><h2>Где появляется</h2><div class="grid" style="margin-top:14px">'+pr.map(card).join('')+'</div></section>':'')}
 function orgsView(){return '<h1>Организации</h1><p class="lead" style="margin-top:10px">Спецслужбы, тайные общества и другие организации КВМ.</p><div class="ptiles" style="margin-top:20px">'+D.enc.orgs.map(function(o){return '<a class="panel ptile" href="#o-'+o[0]+'"><b>'+esc(o[1])+'</b><span>'+projectCount(o[3])+'</span></a>'}).join('')+'</div>'}
+
+
+function showPhoto(key){var src=imgSrc(key);if(!src)return;var old=document.getElementById('photo-zoom');if(old)old.remove();
+ var overlay=document.createElement('div');overlay.id='photo-zoom';overlay.className='photo-lightbox';overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');overlay.setAttribute('aria-label','Просмотр фотографии');
+ overlay.innerHTML='<button type="button" data-zoom-close aria-label="Закрыть">✕</button><img src="'+esc(src)+'" alt="'+esc(keyName(key))+'"><p>'+esc(keyName(key))+'</p>';document.body.appendChild(overlay);overlay.querySelector('button').focus()
+}
+document.addEventListener('click',function(e){var el=e.target.closest('[data-zoom-key]');if(el){e.preventDefault();showPhoto(el.getAttribute('data-zoom-key'))}else if(e.target.closest('[data-zoom-close]')||e.target.id==='photo-zoom'){var z=document.getElementById('photo-zoom');if(z)z.remove()}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){var z=document.getElementById('photo-zoom');if(z)z.remove()}else if(e.key==='Enter'&&e.target.hasAttribute('data-zoom-key'))showPhoto(e.target.getAttribute('data-zoom-key'))});
 
 setThemeBtn();setSpoilBtn();
 admInit();
