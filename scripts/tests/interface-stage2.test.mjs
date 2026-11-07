@@ -135,7 +135,7 @@ test('spoilers conceal item descriptions, path headings, participant notes and l
   const btn=cast.querySelector('[data-spk]');click(s.w,btn);assert.ok(cast.querySelector('.episode-person'));assert.ok(cast.textContent.includes(note));
   g.go('teams');assert.equal(doc.querySelector('.mem'),null);
   g.SPO.mode='off';g.go('teams');assert.ok(doc.querySelector('.mem'));
-  g.SPO.mode='upto';g.SPO.ord=1;assert.equal(g.isSpoil([g.D.p.find(p=>p.ord===1).id]),false);assert.equal(g.isSpoil([g.D.p.find(p=>p.ord===2).id]),true);
+  g.SPO.mode='upto';g.SPO.order='chronological';g.SPO.ord=1;assert.equal(g.isSpoil([g.D.p.find(p=>p.ord===1).id]),false);assert.equal(g.isSpoil([g.D.p.find(p=>p.ord===2).id]),true);
 });
 
 test('input hints are editable through settings and retain source identity after repeated edits',t=>{
