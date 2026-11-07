@@ -1377,7 +1377,7 @@ function ref(key){key=appearanceTextKey(key);var k=key.split('.'),t=k[0],o;
     if(!Array.isArray(path)||!path.length||path.some(function(x){return x==='__proto__'||x==='constructor'||x==='prototype'}))return null;
     for(var j=0;j<path.length-1;j++){if(!node||!Object.prototype.hasOwnProperty.call(node,path[j]))return null;node=node[path[j]]}
     return node&&typeof node[path[path.length-1]]==='string'?[node,path[path.length-1]]:null}catch(e){return null}}
-  if(t==='home')return [TXT_DEF,key];
+  if(t==='home'||t==='home6')return [TXT_DEF,key];
   if(t==='p'){o=P[k[1]];if(!o)return null;var lp=((D.episodeLegacyPost||{})[k[1]]||[])[+k[3]];if(k[2]==='post'&&lp&&D.episodes[lp[0]])return [D.episodes[lp[0]].post[lp[1]],'text'];if(k.length===4){if(!Array.isArray(o[k[2]]))o[k[2]]=[];return [o[k[2]],+k[3]]}return [o,k[2]]}
   if(t==='egg'){o=D.enc.eggs[k[1]];return o?[o,+k[2]]:null}
   if(t==='c'){o=C[k[1]];if(!o)return null;if(k[2]==='groups')return [GROUP_TEXT,o.id];if(k[2]==='note')return [o.notes,k.slice(3).join('.')];return [o,k[2]]}
