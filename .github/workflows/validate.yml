@@ -27,11 +27,15 @@ jobs:
         run: node --test scripts/tests/interface-stage2.test.mjs
       - name: Check factual corrections and unified project and episode appearances
         run: node --test scripts/tests/facts-appearances.test.mjs
+      - name: Check hybrid spoiler protection and static knowledge index
+        run: node --test scripts/tests/spoiler-smart.test.mjs
       - name: Check generic episodes, WandaVision and legacy editing compatibility
         run: node --test scripts/tests/episodes.test.mjs
       - name: Check grouped series, multiple character groups and completed character cards
         run: node --test scripts/tests/character-series-groups.test.mjs
       - name: Check Groot identities, project items and reciprocal variant navigation
         run: node --test scripts/tests/groots-items-variants.test.mjs
+      - name: Check cross-project Fox/Sony stingers and first appearances
+        run: node --test scripts/tests/full-project-facts.test.mjs
       - name: Check concept-six homepage, editorial dates and admin editing
         run: node --test scripts/tests/homepage-v6.test.mjs

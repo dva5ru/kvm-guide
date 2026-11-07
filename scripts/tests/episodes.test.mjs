@@ -81,7 +81,7 @@ test('hidden mode keeps narrative, changes, cast identities and credit scenes ou
   m.plot='СЕКРЕТ СЮЖЕТА';m.events[0]='СЕКРЕТ СОБЫТИЯ';m.changes[0]='СЕКРЕТ СТАТУСА';m.post[0].text='СЕКРЕТ ТИТРОВ';
   g.SPO.mode='all';g.go('ep-'+id(9));let text=doc.querySelector('main').textContent;
   for(const secret of ['СЕКРЕТ СЮЖЕТА','СЕКРЕТ СОБЫТИЯ','СЕКРЕТ СТАТУСА','СЕКРЕТ ТИТРОВ','Ральф Боунер','Белый Вижн'])assert.ok(!text.includes(secret),secret);
-  g.SPO.mode='upto';g.SPO.ord=g.P.wandavision.ord-1;g.go('ep-'+id(9));assert.ok(!doc.querySelector('main').textContent.includes('СЕКРЕТ СЮЖЕТА'));
+  g.SPO.mode='upto';g.SPO.order='chronological';g.SPO.ord=g.P.wandavision.ord-1;g.go('ep-'+id(9));assert.ok(!doc.querySelector('main').textContent.includes('СЕКРЕТ СЮЖЕТА'));
   g.SPO.ord=g.P.wandavision.ord;g.go('ep-'+id(9));text=doc.querySelector('main').textContent;
   for(const secret of ['СЕКРЕТ СЮЖЕТА','СЕКРЕТ СОБЫТИЯ','СЕКРЕТ СТАТУСА','СЕКРЕТ ТИТРОВ'])assert.ok(text.includes(secret),secret);
 });
