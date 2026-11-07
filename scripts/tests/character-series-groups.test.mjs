@@ -82,16 +82,20 @@ test('Ralph, Cameron and ten Commandos have complete cards and sourced project a
   g.go('ep-wandavision-s1-e1');assert.ok([...doc.querySelectorAll('h2')].some(el=>/^Персонажи/.test(el.textContent)));
 });
 
-test('all 22 MCU Stan Lee film cameos plus catalogued TV, outside-MCU and pictorial cameos have specific descriptions',t=>{
+test('Stan Lee retains live-action cameos and excludes photographs, animation and archival-only appearances',t=>{
   const s=loadGuide();t.after(s.close);const {g}=s;
   const movies=['iron-man','incredible-hulk','iron-man-2','thor','cap1','avengers','iron-man-3','thor2','cap2','gotg','aou','ant-man','civil-war','doctor-strange','gotg2','homecoming','ragnarok','black-panther','infinity-war','amw','captain-marvel','endgame'];
   for(const pid of movies){const a=g.D.appearances.find(a=>a.id===pid+'::stan-lee');assert.ok(a?.description.length>50,pid);assert.equal(a.kind,'on-screen')}
-  for(const pid of ['aos','agent-carter-series','runaways','the-gifted','dd-1','dd-2','jj-1','jj-2','lc-1','lc-2','if-1','if-2','punisher-1','defenders','cloak-dagger','sm-1','sm-2','sm-3','asm-1','asm-2','deadpool','apocalypse','x-men','last-stand','ff-2005','ff-2007','hulk-2003','daredevil-2003','venom-1','venom-2','deadpool-2','once-upon-a-deadpool','spider-verse-1','deadpool-wolverine']){
+  for(const pid of ['aos','agent-carter-series','runaways','the-gifted','sm-1','sm-2','sm-3','asm-1','asm-2','deadpool','apocalypse','x-men','last-stand','ff-2005','ff-2007','hulk-2003','daredevil-2003','venom-1']){
     const a=g.D.appearances.find(a=>a.id===pid+'::stan-lee');assert.ok(a?.description&&a.source,pid);
   }
-  assert.equal(g.D.appearances.find(a=>a.id==='dd-1::stan-lee').kind,'depiction');
+  const removed=['dd-1','dd-2','jj-1','jj-2','lc-1','lc-2','if-1','if-2','punisher-1','defenders','cloak-dagger','deadpool-2','once-upon-a-deadpool','venom-2','spider-verse-1','deadpool-wolverine'];
+  for(const pid of removed){assert.ok(!g.D.appearances.some(a=>a.id===pid+'::stan-lee'),pid);assert.ok(!g.P[pid].cs.some(a=>a[0]==='stan-lee'),pid+' cast')}
+  assert.ok(g.D.appearances.filter(a=>a.characterId==='stan-lee').every(a=>a.kind==='on-screen'));
+  g.go('c-stan-lee');assert.equal(s.doc.querySelectorAll('.cols .ah > a').length,40,'the 41st record is the hidden Endgame rerelease duplicate');
+  for(const pid of removed)assert.equal(s.doc.querySelector('.cols a[href="#f-'+pid+'"]'),null,pid);
   assert.ok(!g.D.appearances.some(a=>a.characterId==='stan-lee'&&['blade-1','punisher-2','dd-3','wandavision','nwh','gotg3'].includes(a.projectId)),'deleted scenes, ambiguous portraits and dedications are not invented appearances');
   assert.match(g.C['stan-lee'].notes['black-panther'],/Т’Чаллы/);
   const audit=JSON.parse(readFileSync(new URL('../../audit/character-series-groups-2026-11-07.json',import.meta.url)));
-  assert.equal(audit.stanLeeProjects,g.C['stan-lee'].app.length);
+  assert.equal(audit.stanLeeLiveActionFilter.projects,g.C['stan-lee'].app.length);
 });

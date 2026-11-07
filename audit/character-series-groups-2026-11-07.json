@@ -71,5 +71,75 @@
       "https://www.marvel.com/articles/culture-lifestyle/celebrating-marvels-stan-lee-special-december-20",
       "https://www.tvline.com/gallery/stan-lee-dead-cameos-marvel-tv-shows-photos/"
     ]
+  },
+  "stanLeeLiveActionFilter": {
+    "projects": 41,
+    "removed": [
+      {
+        "projectId": "dd-1",
+        "kind": "depiction"
+      },
+      {
+        "projectId": "dd-2",
+        "kind": "depiction"
+      },
+      {
+        "projectId": "jj-1",
+        "kind": "depiction"
+      },
+      {
+        "projectId": "lc-1",
+        "kind": "depiction"
+      },
+      {
+        "projectId": "if-1",
+        "kind": "depiction"
+      },
+      {
+        "projectId": "if-2",
+        "kind": "depiction"
+      },
+      {
+        "projectId": "jj-2",
+        "kind": "depiction"
+      },
+      {
+        "projectId": "lc-2",
+        "kind": "depiction"
+      },
+      {
+        "projectId": "defenders",
+        "kind": "depiction"
+      },
+      {
+        "projectId": "punisher-1",
+        "kind": "depiction"
+      },
+      {
+        "projectId": "cloak-dagger",
+        "kind": "depiction"
+      },
+      {
+        "projectId": "deadpool-2",
+        "kind": "depiction"
+      },
+      {
+        "projectId": "once-upon-a-deadpool",
+        "kind": "depiction"
+      },
+      {
+        "projectId": "venom-2",
+        "kind": "depiction"
+      },
+      {
+        "projectId": "spider-verse-1",
+        "kind": "voice"
+      },
+      {
+        "projectId": "deadpool-wolverine",
+        "kind": "depiction"
+      }
+    ],
+    "scope": "Only live-action scenes featuring Stan Lee in person; no pictures, animation, voice-only, archival footage or dedications. Original unfiltered count above is retained as history."
   }
 }
