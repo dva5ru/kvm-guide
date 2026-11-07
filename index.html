@@ -594,6 +594,7 @@ a.ent:hover,a.ent:focus-visible{color:var(--red);text-decoration-style:solid}
 .ok-note{color:var(--st-canon);font-weight:600;margin:10px 0}
 .unm{display:grid;grid-template-columns:56px 1fr minmax(160px,260px) auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--soft)}
 .unm img{width:56px;height:56px;object-fit:cover;border-radius:6px}
+.unm small{display:block;margin-top:5px;overflow-wrap:anywhere}
 .unm input{padding:7px 10px;border:1.5px solid var(--soft);border-radius:var(--radius);background:var(--surface)}
 .unm input.err{border-color:var(--red)}
 .thumb{width:52px;height:72px;object-fit:cover;border-radius:4px;flex:none}
@@ -1263,11 +1264,34 @@ function imgQueueLoad(){
   return IMG_STORE
 }
 function shrink(file){return new Promise(function(res,rej){var fr=new FileReader();fr.onload=function(){var im=new Image();im.onload=function(){var mx=560,s=Math.min(1,mx/Math.max(im.width,im.height)),w=Math.round(im.width*s),h=Math.round(im.height*s),cv=document.createElement('canvas');cv.width=w;cv.height=h;cv.getContext('2d').drawImage(im,0,0,w,h);res(cv.toDataURL('image/jpeg',.86))};im.onerror=rej;im.src=fr.result};fr.onerror=rej;fr.readAsDataURL(file)})}
-function normF(s){return String(s||'').toLowerCase().replace(/ё/g,'е').replace(/\.(jpe?g|png|webp|gif|avif|bmp)$/,'').replace(/[_\-.,:!?«»"’'()*…–—]/g,' ').replace(/(^|\s)(poster|постер|official|кадр|img|image|фото|photo|hd|final|ru|en)(?=\s|$)/g,' ').replace(/\s+/g,' ').trim()}
+function normF(s){return String(s||'').normalize('NFKC').toLowerCase().replace(/[\u200B-\u200F\u202A-\u202E\u2066-\u2069\uFEFF]/g,'').replace(/ё/g,'е').replace(/\.(jpe?g|png|webp|gif|avif|bmp)\s*$/,'').replace(/^\s*\d+[.)]\s+/,'').replace(/\b\d{2,5}\s*[xх×]\s*\d{2,5}\b/g,' ').replace(/[’‘'ʼ]/g,'').replace(/[^\p{L}\p{N}]+/gu,' ').split(/\s+/).filter(function(w){return w&&['poster','постер','official','кадр','img','image','фото','photo','hd','final','ru','en'].indexOf(w)<0}).join(' ')}
 var IMX=null;
-function imgIndex(){if(IMX)return IMX;IMX=[];function add(key,names,label){[key].concat(names).forEach(function(n){if(n)IMX.push([key,normF(n),label])})}D.p.forEach(function(p){add('f-'+p.id,[p.id.replace(/-/g,' '),p.t,p.en],p.t)});D.c.forEach(function(c){var nm=c.n.split(' / ');add('c-'+c.id,[c.id.replace(/-/g,' '),nm[0].replace(/\(.*?\)/g,''),nm[1]||''],c.n)});artAll().forEach(function(a){add('a-'+a.id,[a.n,a.stone?'':a.sub,a.id.replace(/-/g,' ')].concat(a.aliases||[]),a.n)});D.pl.forEach(function(p){add('pl-'+p.id,[p.n,p.id.replace(/-/g,' ')],p.n+' (место)')});return IMX}
-function imgMatch(fname){var f=normF(fname),idx=imgIndex(),exact={};if(!f)return null;idx.forEach(function(e){if(e[1]===f)exact[e[0]]=1});var keys=Object.keys(exact);if(keys.length)return keys.length===1?keys[0]:null;var ft=f.split(' '),best={},bs=0;idx.forEach(function(e){if(!e[1])return;var et=e[1].split(' '),inter=et.filter(function(w){return ft.indexOf(w)>=0}).length,u={};ft.concat(et).forEach(function(w){u[w]=1});var sc=inter/Object.keys(u).length;if(sc>bs){bs=sc;best={};best[e[0]]=1}else if(sc===bs)best[e[0]]=1});keys=Object.keys(best);return bs>=0.6&&keys.length===1?keys[0]:null}
-function imgTarget(value){var m=String(value||'').match(/\[((?:f|c|a|pl)-[a-z0-9-]+)\]$/i),key=m?m[1]:value;return imgIndex().some(function(e){return e[0]===key})?key:imgMatch(value)}
+function imgIndex(){if(IMX)return IMX;IMX=[];function add(key,full,names,label){[[key,0],[full,0]].concat(names.map(function(n){return [n,1]})).forEach(function(row){var n=normF(row[0]);if(n)IMX.push([key,n,label,row[1]])})}
+  D.p.forEach(function(p){add('f-'+p.id,p.t,[p.id.replace(/-/g,' '),p.en],p.t)});
+  D.c.forEach(function(c){var nm=c.n.split(/\s*\/\s*/);add('c-'+c.id,c.n,[c.id.replace(/-/g,' '),(D.en&&D.en.c||{})[c.id]].concat(nm,nm.map(function(n){return n.replace(/\([^)]*\)/g,'')})),c.n)});
+  artAll().forEach(function(a){add('a-'+a.id,a.n,[a.stone?'':a.sub,a.id.replace(/-/g,' ')].concat(a.aliases||[]),a.n)});
+  D.pl.forEach(function(p){add('pl-'+p.id,p.n,[p.id.replace(/-/g,' ')],p.n+' (место)')});return IMX
+}
+function imgResolve(fname){var idx=imgIndex(),raw=String(fname||'').normalize('NFKC').replace(/[\u200B-\u200F\u202A-\u202E\u2066-\u2069\uFEFF]/g,'').trim().replace(/\.(jpe?g|png|webp|gif|avif|bmp)$/i,'').replace(/(\[[a-z0-9-]+\])\s*\(\d+\)$/i,'$1'),tag=raw.match(/\[([a-z0-9-]+)\]\s*$/i),keys=[],f;
+  function result(list,reason){return {key:list.length===1?list[0]:null,candidates:list,reason:list.length===1?'':reason||'ambiguous'}}
+  if(tag||/^(?:f|c|a|pl)-[a-z0-9-]+$/i.test(raw)){var id=(tag?tag[1]:raw).toLowerCase(),qualified=/^(?:f|c|a|pl)-/.test(id),seen=Object.create(null);
+    idx.forEach(function(e){if((qualified?e[0]===id:e[0].replace(/^(?:pl|f|c|a)-/,'')===id)&&!seen[e[0]]){seen[e[0]]=1;keys.push(e[0])}});
+    if(keys.length!==1&&tag){f=normF(raw.slice(0,tag.index));var named=keys.filter(function(key){return idx.some(function(e){return e[0]===key&&e[1]===f&&(e[3]||0)===0})});if(named.length===1)return result(named)}
+    return result(keys,keys.length?'ambiguous':'unknown-id')
+  }
+  f=normF(raw);if(!f)return result([],'not-found');var exact=Object.create(null);
+  idx.forEach(function(e){if(e[1]===f){var rank=e[3]||0;if(exact[e[0]]===undefined||rank<exact[e[0]])exact[e[0]]=rank}});keys=Object.keys(exact);
+  if(keys.length){var types=Object.create(null);keys.forEach(function(key){types[key.split('-')[0]]=1});if(Object.keys(types).length>1)return result(keys);
+    var rank=Math.min.apply(null,keys.map(function(key){return exact[key]}));return result(keys.filter(function(key){return exact[key]===rank}))}
+  var ft=Array.from(new Set(f.split(' '))),best=Object.create(null),bs=0;
+  idx.forEach(function(e){if(!e[1])return;var et=Array.from(new Set(e[1].split(' '))),inter=et.filter(function(w){return ft.indexOf(w)>=0}).length,union=new Set(ft.concat(et)),sc=inter/union.size;
+    if(sc>bs){bs=sc;best=Object.create(null);best[e[0]]=1}else if(sc===bs)best[e[0]]=1});
+  keys=Object.keys(best);return bs>=0.6?result(keys):result([],'not-found')
+}
+function imgMatch(fname){return imgResolve(fname).key}
+function imgTarget(value){return imgMatch(value)}
+function imgDefaultTarget(u){var key=!u.target&&imgMatch(u.name);return u.target||(key?keyName(key)+' ['+key+']':'')}
+function imgMatchReason(u){var match=imgResolve(u.name);if(match.key)return 'Имя распознано. Нажмите «Поставить», чтобы назначить фото.';if(match.reason==='ambiguous')return 'Несколько подходящих карточек: '+match.candidates.slice(0,3).map(function(key){return keyName(key)+' ['+key+']'}).join('; ')+(match.candidates.length>3?'…':'')+'. Выберите нужную ниже.';return match.reason==='unknown-id'?'ID из имени файла не найден. Выберите карточку ниже.':'Не удалось однозначно определить карточку. Выберите её ниже.'}
 function keyName(k){if(k.indexOf('--look-')>=0){var cid=k.slice(2,k.indexOf('--look-'));return (C[cid]?C[cid].n:cid)+' — '+charLookLabel(k)}var id=k.slice(2);if(k.slice(0,3)==='pl-'){id=k.slice(3);return PL[id]?PL[id].n:id}if(k[0]==='f')return P[id]?P[id].t:id;if(k[0]==='a'){var a=artGet(id);return a?a.n:id}return C[id]?C[id].n:id}
 function imgRefresh(){
   var active=document.activeElement,idx=active&&active.getAttribute&&active.getAttribute('data-unm-in'),selection=null;
@@ -1280,7 +1304,7 @@ function imgRefresh(){
 function imgEnqueue(task){var job=IMG_QUEUE.then(task);IMG_QUEUE=job.catch(function(){});return job}
 function imgUploadOne(input){var file=input.files[0],key=input.getAttribute('data-img-one'),page=CUR;if(!file)return;input.value='';input.disabled=true;IMG_BUSY++;imgRefresh();return imgEnqueue(function(){return shrink(file).then(function(url){return imgPut(key,url)})}).then(function(){toast('Картинка добавлена. Нажмите «Опубликовать».');if(CUR===page)rerender()}).catch(function(e){toast('Картинка не добавлена: '+(e&&e.message||'не удалось прочитать файл'));IMG_FAILED.push({name:file.name,error:e&&e.message||'ошибка обработки'})}).then(function(){IMG_BUSY--;input.disabled=false;imgRefresh()})}
 function imgAssign(index){var u=UNM[index],input=document.querySelector('[data-unm-in="'+index+'"]');if(!u||u.done||u.pending)return;var value=input?input.value.trim():u.target||'',key=imgTarget(value);u.target=value;imgQueueSave();if(!key){if(input)input.classList.add('err');toast('Выберите точную карточку из подсказок: фильм, героя, артефакт или материал.');return}u.pending=true;IMG_BUSY++;imgRefresh();return imgEnqueue(function(){return imgPut(key,u.url)}).then(function(){u.done=true;IMG_OK.push(key);return imgQueueSave()}).catch(function(e){IMG_FAILED.push({name:u.name,error:e&&e.message||'ошибка загрузки'})}).then(function(){u.pending=false;IMG_BUSY--;imgRefresh()})}
-function imgHandle(files){var items=Array.prototype.slice.call(files||[]).filter(function(f){return /^image\//.test(f.type)});if(!items.length){toast('Выберите изображения');return}
+function imgHandle(files){var items=Array.prototype.slice.call(files||[]).filter(function(f){return /^image\//i.test(f.type)||(!f.type||f.type==='application/octet-stream')&&/\.(jpe?g|png|webp|gif|avif|bmp)$/i.test(f.name)});if(!items.length){toast('Выберите изображения');return}
   IMG_BUSY+=items.length;imgRefresh();
   items.forEach(function(f){imgEnqueue(function(){return shrink(f).then(function(url){
     var key=imgMatch(f.name);
@@ -1294,7 +1318,7 @@ document.addEventListener('input',function(e){var el=e.target&&e.target.closest&
 });
 function imgResHTML(ok){return (IMG_BUSY?'<p class="muted" role="status">Осталось обработать: '+IMG_BUSY+'</p>':'')+(ok.length?'<p class="ok-note">Поставлено автоматически: '+ok.length+'. '+ok.slice(-12).map(function(k){return esc(keyName(k))}).join(', ')+(ok.length>12?'…':'')+'</p>':'')+(IMG_FAILED.length?'<h3 class="sub">Не загружено ('+IMG_FAILED.length+')</h3>'+IMG_FAILED.map(function(f){return '<p class="muted">'+esc(f.name)+': '+esc(f.error)+'</p>'}).join(''):'')+
   (UNM.some(function(u){return !u.done})?'<h3 class="sub">Выберите, куда поставить ('+UNM.filter(function(u){return !u.done}).length+')</h3><p class="muted">Выберите фильм, героя, артефакт или материал из подсказок. ID в скобках определяет точную карточку.</p><datalist id="img-targets">'+imgIndex().filter(function(e,i,a){return a.findIndex(function(x){return x[0]===e[0]})===i}).map(function(e){return '<option value="'+esc(e[2]+' ['+e[0]+']')+'">'}).join('')+'</datalist>'+
-   UNM.map(function(u,i){return u.done?'':'<div class="unm"><img src="'+u.url+'" alt=""><span>'+esc(u.name)+'</span><input type="text" list="img-targets" data-unm-in="'+i+'" value="'+esc(u.target||'')+'" placeholder="Название или ID карточки" aria-label="Куда поставить '+esc(u.name)+'"'+(u.pending?' disabled':'')+'><button type="button" class="btn" data-unm="'+i+'"'+(u.pending?' disabled':'')+'>'+(u.pending?'Сохраняю…':'Поставить')+'</button></div>'}).join(''):'')}
+   UNM.map(function(u,i){return u.done?'':'<div class="unm"><img src="'+u.url+'" alt=""><span>'+esc(u.name)+'<small class="muted">'+esc(imgMatchReason(u))+'</small></span><input type="text" list="img-targets" data-unm-in="'+i+'" value="'+esc(imgDefaultTarget(u))+'" placeholder="Название или ID карточки" aria-label="Куда поставить '+esc(u.name)+'"'+(u.pending?' disabled':'')+'><button type="button" class="btn" data-unm="'+i+'"'+(u.pending?' disabled':'')+'>'+(u.pending?'Сохраняю…':'Поставить')+'</button></div>'}).join(''):'')}
 var IMG_FOLDERS=[['heroes','Герои'],['places','Места'],['posters','Постеры'],['artifacts','Артефакты']];
 function imgFolder(k){return k.slice(0,3)==='pl-'?'places':k.slice(0,2)==='c-'?'heroes':k.slice(0,2)==='f-'?'posters':'artifacts'}
 function imgHaveHTML(){var ks=Object.keys(IMG).sort();return '<section id="img-have"><div class="sec-h"><h2>Мои картинки ('+ks.length+')</h2>'+(ks.length?'<button type="button" class="btn" data-img-clear>Удалить все</button>':'')+'</div>'+
