@@ -64,7 +64,7 @@ test('WandaVision credited scenes remain episode-level, not duplicated', () => {
   assert.equal(db.episodes['wandavision-s1-e8'].post.length,1);
   assert.equal(db.episodes['wandavision-s1-e9'].post.length,2);
   assert.equal(db.episodeLegacyPost.wandavision.length,2);
-  assert.deepEqual(projects.get('wandavision').post,[]);
+  assert.ok(!projects.get('wandavision').post?.length, 'season credits are sourced from episode records');
 });
 
 test('re-editions and archival appearances are not mislabeled', () => {
