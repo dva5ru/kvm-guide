@@ -7,20 +7,20 @@ function copyEdit(s,el,value,scope='local'){
   m.querySelector(`[value="${scope}"]`).checked=true;input(s.w,m.querySelector('textarea'),value);click(s.w,m.querySelector('[data-copy-save]'));
 }
 
-test('home count follows data, including plural forms after adding a project',t=>{
+test('home editorial film sections use current catalog dates without rereleases',t=>{
   const s=loadGuide();t.after(s.close);const {g,doc}=s;
-  const checkCount=(count,word)=>{
-    assert.ok(doc.querySelector('.ways').textContent.includes('Все '+count+' '+word+' '), 'correct count and grammatical form');
-  };
-  const base=g.D.p.length;
-  const baseForm=(n)=>n%100>=11&&n%100<=14?'проектов':n%10===1?'проект':n%10>=2&&n%10<=4?'проекта':'проектов';
-  checkCount(base,baseForm(base));
-  let counter=0;
-  for (const [end,word] of [[1,'проект'],[2,'проекта'],[5,'проектов']]){
-    do {g.D.p.push({...g.D.p[0],id:'test-project-'+(++counter)});} while (g.D.p.length%100>=11&&g.D.p.length%100<=14||g.D.p.length%10!==end);
-    g.go('home');
-    checkCount(g.D.p.length,word);
-  }
+  const cards=[...doc.querySelectorAll('.h6-recent-grid .h6-release-card')];
+  assert.equal(cards.length,3,'the homepage shows the three latest new MCU films');
+  assert.ok(cards.every(el=>{
+    const p=g.D.p.find(p=>'#f-'+p.id===el.getAttribute('href'));
+    return p&&p.k==='film'&&!p.editionOf&&p.r<=new Date().toISOString().slice(0,10);
+  }),'cards link to new films, not Encore editions or future releases');
+  assert.equal(doc.querySelectorAll('.h6-picks-grid .h6-project-card').length,4);
+  const day=new Date();day.setDate(day.getDate()-1);const date=day.toISOString().slice(0,10);
+  const movie={...g.D.p.find(p=>p.id==='doomsday'),id:'homepage-test-film',t:'Новый фильм для проверки',r:date,s:'soon',editionOf:null};
+  g.D.p.push(movie);g.P[movie.id]=movie;g.go('home');
+  assert.equal(doc.querySelector('.h6-recent-grid .h6-release-card').getAttribute('href'),'#f-homepage-test-film','the date causes automatic move from upcoming to released');
+  assert.ok(![...doc.querySelectorAll('.h6-soon-layout a')].some(a=>a.getAttribute('href')==='#f-homepage-test-film'),'released movie is not upcoming');
 });
 
 test('local and global copies retain source identity across repeat edits and value collisions',t=>{
@@ -28,10 +28,10 @@ test('local and global copies retain source identity across repeat edits and val
   copyEdit(s,s.doc.querySelector('h1'),'Своя инструкция');
   copyEdit(s,s.doc.querySelector('h1'),'Новая инструкция');
   const o=s.g.getOvr();assert.equal(o.copy['watch|Как смотреть'],'Новая инструкция');assert.equal(Object.keys(o.copy).length,1);
-  s.g.go('home');assert.equal(s.doc.querySelector('.hero-actions a').textContent,'Как смотреть');
+  s.g.go('home');assert.equal(s.doc.querySelector('nav.tabs a[href="#watch"]').textContent,'Как смотреть');
   s.g.go('watch');copyEdit(s,s.doc.querySelector('h1'),'Общий заголовок','all');
   // Global editing updates the current occurrence and all previous local copies.
-  s.g.go('home');assert.equal(s.doc.querySelector('.hero-actions a').textContent,'Общий заголовок');
+  s.g.go('home');assert.equal(s.doc.querySelector('nav.tabs a[href="#watch"]').textContent,'Общий заголовок');
   s.g.go('watch');assert.equal(s.doc.querySelector('h1').textContent,'Общий заголовок');
   const root=s.doc.createElement('div');root.innerHTML='<p>Один</p><p>Два</p>';
   s.doc.getElementById('main').appendChild(root);o.copy['*|Один']='Совпало';o.copy['*|Два']='Совпало';s.g.applyCopy(root);
@@ -176,7 +176,7 @@ test('local reset can restore the source after a global copy and global changes 
   const s=loadGuide();t.after(s.close);s.g.copySave('watch','Как смотреть','Локальный заголовок');s.g.copySave('*','Как смотреть','Общий заголовок');
   s.g.go('watch');assert.equal(s.doc.querySelector('h1').textContent,'Общий заголовок');
   s.g.copySave('watch','Как смотреть','Как смотреть');assert.equal(s.doc.querySelector('h1').textContent,'Как смотреть');
-  s.g.go('home');assert.equal(s.doc.querySelector('.hero-actions a').textContent,'Общий заголовок');
+  s.g.go('home');assert.equal(s.doc.querySelector('nav.tabs a[href="#watch"]').textContent,'Общий заголовок');
 });
 
 test('block controls preserve original text nodes across repeated edits',t=>{
