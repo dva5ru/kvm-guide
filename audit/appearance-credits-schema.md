@@ -1,19 +1,15 @@
-# Appearance-specific actor credits — transition v1
+# Canonical appearances — schema v3
 
-Base character actor `c.a` is **not** automatically credited for all appearances. New embedded `appearanceCredits` metadata is keyed by project then `cast`/character ID, or `episodes`/episode number/character ID. Each record contains `performer`, `kind` (`voice`, `on-screen`, `motion-capture`, `archival`), `status` (`verified` or `announced`), and `source` URL.
+`kvm-data.appearances` is the single stored source for project casts, character appearances, episode casts, appearance descriptions and sourced performer credits. There are 1,257 project/character records containing 260 episode appearances in 26 episodes.
 
-For example, `what-if-2.episodes.6.odin` credits **Jeff Bergman**, rather than the live-action `c.a`. Episode overrides take priority over season-wide credits. Empty credits mean **not verified**, never automatically inherit the base actor. Announced actor != confirmed plot or screen-time.
+Each record has a stable `id` (`projectId::characterId`), `projectId`, `characterId`, `role`, character-page `order`, `description`, and `episodes`. Episode entries contain the episode `number`, cast `order` and individual `description`; their stable editorial identity is `appearance.<projectId>.<characterId>.<number>`. The ID does not depend on array positions or translated titles.
 
-Legacy `p.cs`, `c.app` and `epRoles` remain intact; validator checks appearance credit references, types and source URLs. Future phase: replace duplicated project/cast reverse links with stable-ID `Appearance` entities and generated compatibility projections.
+Optional `credit` records contain `performer`, `kind` (`voice`, `on-screen`, `motion-capture`, `archival`), `status` (`verified`, `announced`) and an HTTPS `source`. A project credit is not proof of the performer's participation in every episode: episode UI shows only an explicitly sourced episode credit. The character's base actor `c.a` is never automatically inherited. Announced credits are visibly labelled as announced; they do not confirm a future plot.
 
-Sources:
-- https://thewaltdisneycompany.com/news/marvel-studios-comic-con-2026/
-- https://www.tvmaze.com/shows/41750/what-if/cast
-- https://thewaltdisneycompany.org/news/how-marvel-studios-what-if-created-kahhori-a-new-mohawk-super-hero/index.html
-- https://watch.plex.tv/en-GB/show/what-if-1/season/2/episode/6/credits
+Optional `descriptionFrom` references the same character's appearance in the original film of an edition group. This replaces repeated generic edition explanations with the actual original appearance description. Editing an edition description creates a local override; editing the original updates editions that still inherit it. No extra footage is inferred.
 
-## Canonical register — migration v2
+At initialization the application generates `p.cs`, `c.app`, `c.notes`, `p.eps[n][3]`, `epRoles`, and `appearanceCredits`. These projections are absent from stored JSON. Project/episode note projections use accessors, so legacy editor keys update the canonical description rather than a second copy. Old `c.<id>.note.<project>` and `json.["epRoles",...]` overrides, drafts, exports and imports remain supported. Existing project, character, episode and image IDs are unchanged.
 
-`kvm-data.appearances` is now the **single canonical list of character–project links**, each represented by `[projectId,characterId,role,orderInCharacterPage]`. Project `p.cs` and character `c.app` are generated at site initialization, preserving legacy component interfaces and their original ordering. They are intentionally **absent from stored JSON**, so editorial additions cannot accidentally update only one side. Episode-specific casts `p.eps[n][3]` are still maintained separately and checked against the derived project cast, as the next migration target.
+`hydrateAppearances` in `scripts/lib/appearance-registry.mjs` validates stored records and derives equivalent projections for validation. It rejects duplicate IDs, missing entities/episodes, invalid roles or order gaps, empty episode descriptions, invalid edition references and credits without sources. DOM tests compare these results against the real application, exercise editing and undo, and check legacy overrides.
 
-The validator reconstructs the same mappings and checks IDs, role types, duplicates, and original appearance ordering before running the existing integrity tests. `appearanceCredits` is orthogonal, storing only sourced actor attribution on these canonical links or particular episodes.
+This schema migration checks structural consistency. It does **not** turn inherited, unreviewed cast entries into a complete factual verification of all 140 projects. Source records attest only to the specific claim/credit they accompany. Further screen and credit review must add evidence to the corresponding record; it must not guess the base actor or a plot for an unreleased project.

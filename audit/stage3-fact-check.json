@@ -1,0 +1,408 @@
+{
+  "base": "a6ced62d5eb9381216e0c5175679c424bca99f9d",
+  "changes": [
+    {
+      "target": "spider-verse-1.k",
+      "before": "anim",
+      "after": "animated-film",
+      "sources": [
+        "https://www.sonypictures.com/movies/spidermanintothespiderverse"
+      ]
+    },
+    {
+      "target": "spider-verse-2.k",
+      "before": "anim",
+      "after": "animated-film",
+      "sources": [
+        "https://www.sonypictures.com/movies/spidermanacrossthespiderverse"
+      ]
+    },
+    {
+      "target": "c.wanda.ab",
+      "before": "Ванда Максимофф — девушка из Соковии, получившая силу в опытах Гидры с Камнем разума. Сначала враг Мстителей, потом их часть. Потеряла брата Пьетро, а потом и любимого Вижна. В «ВандаВижн» создала в Уэствью свой мир с мужем и детьми и узнала, что она — Алая Ведьма. Под влиянием Даркхолда охотилась за Америкой Чавес, а в финале разрушила Даркхолд, и на неё обрушилась гора. Её судьба неизвестна.",
+      "after": "Ванда Максимофф — ведьма из Соковии, чья магия проявилась ещё в детстве. Опыты Гидры с Камнем разума усилили её врождённые способности. Сначала враг Мстителей, потом их часть. Потеряла брата Пьетро, а потом и любимого Вижна. В «ВандаВижн» создала в Уэствью свой мир с мужем и детьми и узнала, что она — Алая Ведьма. Под влиянием Даркхолда охотилась за Америкой Чавес, а в финале разрушила Даркхолд, и на неё обрушилась гора. Её судьба неизвестна.",
+      "sources": [
+        "https://f004.backblazeb2.com/file/screenplays/posts/wandavision-2021/episodes/WandaVision%20108%20-%20Production%20-%20Sep%209%202020.pdf"
+      ]
+    },
+    {
+      "target": "p.wandavision.key",
+      "before": [
+        "Ванда узнаёт, что она — Алая Ведьма",
+        "Ведьма Агата Харкнесс — соседка-злодейка",
+        "Появляется Белый Вижн с памятью настоящего",
+        "Моника Рамбо получает силы",
+        "После титров Ванда читает Даркхолд"
+      ],
+      "after": [
+        "Ванда узнаёт, что она — Алая Ведьма",
+        "Ведьма Агата Харкнесс — соседка-злодейка",
+        "Появляется Белый Вижн с памятью настоящего",
+        "Моника Рамбо получает силы",
+        "После титров Ванда читает Даркхолд",
+        "Магия Ванды проявилась ещё в детстве; Камень разума усилил её способности, а не создал их с нуля."
+      ],
+      "sources": [
+        "https://f004.backblazeb2.com/file/screenplays/posts/wandavision-2021/episodes/WandaVision%20108%20-%20Production%20-%20Sep%209%202020.pdf"
+      ]
+    },
+    {
+      "target": "p.loki-1.post",
+      "before": [],
+      "after": [
+        "Серия 4, сцена в середине титров: после «обрезания» Локи приходит в себя в Пустоте и встречает другие варианты себя.",
+        "Серия 6, объявление в титрах: штамп на деле Локи подтверждает его возвращение во втором сезоне. Это анонс, а не дополнительная сюжетная сцена."
+      ],
+      "sources": [
+        "https://www.comingsoon.net/tv/features/1180708-loki-season-1-episode-4-recap-analysis-the-nexus-event",
+        "https://www.marvel.com/amp/articles/tv-shows/loki-season-2-disney-plus-tom-hiddleston?linkId=124357948"
+      ]
+    },
+    {
+      "target": "p.loki-2.post",
+      "before": [],
+      "after": [
+        "Серия 1, сцена в середине титров: Сильвия прибывает в Брокстон, Оклахома, в 1982 году и заходит в McDonald’s."
+      ],
+      "sources": [
+        "https://www.comingsoon.net/guides/news/1357397-loki-season-2-episode-1-end-credits-post-credit-mid-credits"
+      ]
+    },
+    {
+      "target": "p.yfnsm.s",
+      "before": "linked",
+      "after": "alt",
+      "sources": [
+        "https://thewaltdisneycompany.com/news/your-friendly-neighborhood-spider-man/"
+      ]
+    },
+    {
+      "target": "p.yfnsm.note",
+      "before": "Marvel Animation. Это отдельная ветка мультивселенной, в официальную хронологию КВМ не входит. 2-й сезон анонсирован.",
+      "after": "Marvel Animation. События происходят в соседней с основной КВМ вселенной; это не продолжение истории Питера Паркера Тома Холланда.",
+      "sources": [
+        "https://thewaltdisneycompany.com/news/your-friendly-neighborhood-spider-man/"
+      ]
+    },
+    {
+      "target": "a.adamantium.ab",
+      "before": "Исключительно прочный металл, обнаруженный в останках Целестиала Тиамута. В фильме «Капитан Америка: Новый мир» становится предметом международного конфликта. Историю адамантия из комиксов не следует автоматически переносить в КВМ.",
+      "after": "Прочный металл из останков Целестиала Тиамута. Его открытие на Острове Целестиала становится причиной международного конфликта в фильме «Капитан Америка: Новый мир».",
+      "sources": [
+        "https://www.artofvfx.com/captain-america-brave-new-world-alessandro-ongaro-production-vfx-supervisor/"
+      ]
+    },
+    {
+      "target": "a.gravitonium.ab",
+      "before": "Редкое вещество с необычными гравитационными свойствами из сериала «Агенты Щ.И.Т.а». Сериал отмечен как связанный, но его события не следует безоговорочно приписывать основной хронологии КВМ.",
+      "after": "Вещество с необычными гравитационными свойствами, которое изучают и используют в сериале «Агенты Щ.И.Т.а».",
+      "sources": [
+        "audit/repository-audit-2026-11-06.md"
+      ]
+    },
+    {
+      "target": "what-if-1.episode.1.cast",
+      "before": [
+        "captain-carter",
+        "steve",
+        "howard",
+        "bucky",
+        "red-skull",
+        "erskine",
+        "phillips",
+        "dum-dum",
+        "fury",
+        "clint",
+        "uatu"
+      ],
+      "after": [
+        "captain-carter",
+        "steve",
+        "howard",
+        "bucky",
+        "red-skull",
+        "erskine",
+        "phillips",
+        "dum-dum",
+        "fury",
+        "clint",
+        "uatu",
+        "zola"
+      ],
+      "sources": [
+        "https://www.syfy.com/syfy-wire/marvels-what-if-episode-1-recap-captain-carter"
+      ]
+    },
+    {
+      "target": "c.zola.note.what-if-1",
+      "before": "В сериях 8 и 9 Наташа и Клинт находят цифрового Золу как средство взломать Альтрона; в финале Стражи мультивселенной используют этот код в борьбе с ним.",
+      "after": "Серия 1: помогает Гидре и попадает в плен к Капитану Картер. Серии 8–9: другая версия Золы существует как цифровое сознание, которое герои используют против Альтрона.",
+      "sources": [
+        "https://www.syfy.com/syfy-wire/marvels-what-if-episode-1-recap-captain-carter"
+      ]
+    },
+    {
+      "target": "what-if-3.episode.7.nebula",
+      "before": "Появляется в эпизоде перед финальным спасением Уату.",
+      "after": "Теперь возглавляет Корпус Нова на Ксандаре. Вместе с Коргом и Грутом встречает нападение межпространственного чудовища; команде Капитана Картер удаётся остановить его.",
+      "sources": [
+        "https://awardsradar.com/2024/12/29/what-if-season-three-episode-seven-recap/"
+      ]
+    },
+    {
+      "target": "what-if-3.episode.7.korg",
+      "before": "Появляется в предпоследней серии антологии.",
+      "after": "На Ксандаре помогает Небуле и Груту во время нападения межпространственного чудовища и сообщает, что путь для эвакуации перекрыт.",
+      "sources": [
+        "https://awardsradar.com/2024/12/29/what-if-season-three-episode-seven-recap/"
+      ]
+    },
+    {
+      "target": "what-if-3.episode.7.groot",
+      "before": "Появляется в предпоследней серии антологии.",
+      "after": "Вместе с Небулой и Коргом оказывается на Ксандаре под ударом межпространственного чудовища; на помощь прибывает команда Капитана Картер.",
+      "sources": [
+        "https://awardsradar.com/2024/12/29/what-if-season-three-episode-seven-recap/"
+      ]
+    },
+    {
+      "target": "what-if-3.episode.7.carol",
+      "before": "Появляется в предпоследней серии антологии.",
+      "after": "Показана в воспоминании о схватке с Альтроном, получившим Камни бесконечности. Это не участница команды, отправившейся спасать Уату.",
+      "sources": [
+        "https://comicbookmovie.com/tv/marvel/what-if/what-if-the-watcher-disappeared-spoiler-recap-a-nod-to-kang-a-surprise-return-and-storm-debuts-a215302"
+      ]
+    },
+    {
+      "target": "c.alex-wilder.note.runaways",
+      "before": null,
+      "after": "Выясняет, что родители состоят в «Прайде», и помогает друзьям раскрыть их тайну и бежать.",
+      "sources": [
+        "https://www.marvel.com/articles/tv-shows/marvel-s-runaways-season-2-primer-where-we-left-off-the-runaways"
+      ]
+    },
+    {
+      "target": "c.nico-minoru.note.runaways",
+      "before": null,
+      "after": "Противостоит «Прайду» вместе с друзьями и осваивает магический Посох Одного.",
+      "sources": [
+        "https://www.marvel.com/articles/tv-shows/marvel-s-runaways-season-2-primer-where-we-left-off-the-runaways"
+      ]
+    },
+    {
+      "target": "c.tyrone-johnson.note.cloak-dagger",
+      "before": null,
+      "after": "Осваивает силы тьмы и объединяется с Тэнди, чтобы противостоять преступникам Нового Орлеана.",
+      "sources": [
+        "https://www.marvel.com/articles/tv-shows/tyrone-and-tandy-are-restless-cloak-dagger-season-2-sneak"
+      ]
+    },
+    {
+      "target": "c.tandy-bowen.note.cloak-dagger",
+      "before": null,
+      "after": "Вместе с Тайроном учится пользоваться связанными с ним способностями и защищает жителей Нового Орлеана.",
+      "sources": [
+        "https://www.marvel.com/articles/tv-shows/tyrone-and-tandy-are-restless-cloak-dagger-season-2-sneak"
+      ]
+    },
+    {
+      "target": "c.daimon-helstrom.note.helstrom",
+      "before": null,
+      "after": "Преподаватель этики и экзорцист; вместе с сестрой противостоит демонам и семейному прошлому.",
+      "sources": [
+        "https://press.hulu.com/shows/helstrom/"
+      ]
+    },
+    {
+      "target": "c.ana-helstrom.note.helstrom",
+      "before": null,
+      "after": "Руководит аукционным домом, выслеживает людей, причиняющих зло другим, и сталкивается с наследием отца.",
+      "sources": [
+        "https://press.hulu.com/shows/helstrom/"
+      ]
+    },
+    {
+      "target": "c.peter-yfnsm.note.yfnsm",
+      "before": null,
+      "after": "Школьник из Квинса осваивает силы Человека-паука; его наставником в этой вселенной становится Норман Озборн.",
+      "sources": [
+        "https://thewaltdisneycompany.com/news/your-friendly-neighborhood-spider-man/"
+      ]
+    },
+    {
+      "target": "c.norman-yfnsm.note.yfnsm",
+      "before": null,
+      "after": "Глава «Оскорпа» берёт Питера под своё покровительство и снабжает его технологиями.",
+      "sources": [
+        "https://thewaltdisneycompany.com/news/your-friendly-neighborhood-spider-man/"
+      ]
+    },
+    {
+      "target": "c.dani-moonstar.note.new-mutants",
+      "before": null,
+      "after": "После гибели родных попадает в закрытую клинику для подростков-мутантов и пытается понять свои опасные способности.",
+      "sources": [
+        "https://www.20thcenturystudios.com/movies/the-new-mutants"
+      ]
+    },
+    {
+      "target": "c.illyana-rasputina.note.new-mutants",
+      "before": null,
+      "after": "Одна из подростков в закрытой клинике; использует телепортацию и магический меч, когда группе приходится защищаться.",
+      "sources": [
+        "https://www.20thcenturystudios.com/movies/the-new-mutants"
+      ]
+    },
+    {
+      "target": "c.polaris-gifted.note.the-gifted",
+      "before": null,
+      "after": "Помогает подполью мутантов, а затем выбирает более жёсткую борьбу вместе с Внутренним кругом.",
+      "sources": [
+        "https://www.marvel.com/articles/tv-shows/the-gifted-executive-producer-on-season-1-s-end-and-setting-up-season-2"
+      ]
+    },
+    {
+      "target": "c.reed-strucker.note.the-gifted",
+      "before": null,
+      "after": "Бывший прокурор скрывается вместе с семьёй, когда способности его детей делают их целью властей.",
+      "sources": [
+        "https://www.marvel.com/articles/tv-shows/the-gifted-executive-producer-on-season-1-s-end-and-setting-up-season-2"
+      ]
+    },
+    {
+      "target": "c.jubilee-97.note.x-men-97",
+      "before": null,
+      "after": "Молодая участница Людей Икс учится жить и сражаться в мире, где мутанты снова становятся мишенью.",
+      "sources": [
+        "https://cdn.marvel.com/u/prod/marvel/i/pdf/MMRPG_XMen97_20240520.pdf"
+      ]
+    },
+    {
+      "target": "c.morph-97.note.x-men-97",
+      "before": null,
+      "after": "Вернувшись в команду, использует способность менять облик в совместных операциях Людей Икс.",
+      "sources": [
+        "https://cdn.marvel.com/u/prod/marvel/i/pdf/MMRPG_XMen97_20240520.pdf"
+      ]
+    },
+    {
+      "target": "c.bishop-97.note.x-men-97",
+      "before": null,
+      "after": "Прибывший из будущего мутант помогает Людям Икс и пытается спасти заражённого Нейтана, сына Скотта.",
+      "sources": [
+        "https://cdn.marvel.com/u/prod/marvel/i/pdf/MMRPG_XMen97_20240520.pdf"
+      ]
+    },
+    {
+      "target": "c.mister-sinister-97.note.x-men-97",
+      "before": null,
+      "after": "Продолжает генетические эксперименты над семьёй Саммерсов и действует против Людей Икс.",
+      "sources": [
+        "https://cdn.marvel.com/u/prod/marvel/i/pdf/MMRPG_XMen97_20240520.pdf"
+      ]
+    },
+    {
+      "target": "c.cletus-kasady.note.venom-2",
+      "before": null,
+      "after": "Серийный убийца становится носителем Карнажа и главным противником Эдди Брока и Венома.",
+      "sources": [
+        "https://www.sonypictures.com/movies/venomlettherebecarnage"
+      ]
+    },
+    {
+      "target": "c.morbius-michael.note.morbius",
+      "before": null,
+      "after": "Пытается вылечить болезнь крови, но эксперимент превращает его в живого вампира.",
+      "sources": [
+        "https://www.sonypictures.com/movies/morbius"
+      ]
+    },
+    {
+      "target": "c.cassandra-webb.note.madame-web",
+      "before": null,
+      "after": "Парамедик начинает видеть будущее и использует эту способность, чтобы защитить трёх молодых женщин.",
+      "sources": [
+        "https://www.sonypictures.com/movies/madameweb"
+      ]
+    },
+    {
+      "target": "c.knull-sony.note.venom-3",
+      "before": null,
+      "after": "Заточённый создатель симбиотов разыскивает кодекс, способный освободить его, и посылает за Веномом ксенофагов.",
+      "sources": [
+        "https://www.sonypictures.com/movies/venomthelastdance"
+      ]
+    },
+    {
+      "target": "c.kraven-sergei.note.kraven",
+      "before": null,
+      "after": "Сложные отношения с отцом Николаем Кравиновым ведут Сергея по пути мести и превращения в безжалостного охотника.",
+      "sources": [
+        "https://www.sonypictures.com/movies/kraventhehunter"
+      ]
+    },
+    {
+      "target": "c.miles-morales-anim.note.spider-verse-1",
+      "before": null,
+      "after": "После укуса паука получает силы и вместе с Людьми-пауками из других миров противостоит опасному эксперименту Кингпина.",
+      "sources": [
+        "https://www.sonypictures.com/movies/spidermanintothespiderverse"
+      ]
+    },
+    {
+      "target": "c.gwen-stacy-anim.note.spider-verse-1",
+      "before": null,
+      "after": "Попадает в мир Майлза из другой вселенной и помогает остановить коллайдер Кингпина.",
+      "sources": [
+        "https://www.sonypictures.com/movies/spidermanintothespiderverse"
+      ]
+    },
+    {
+      "target": "c.miguel-ohara-anim.note.spider-verse-2",
+      "before": null,
+      "after": "Возглавляет общество Людей-пауков и пытается удержать Майлза от вмешательства в события, которые считает необходимыми.",
+      "sources": [
+        "https://www.sonypictures.com/movies/spidermanacrossthespiderverse"
+      ]
+    },
+    {
+      "target": "c.spider-punk.note.spider-verse-2",
+      "before": null,
+      "after": "Помогает Майлзу, но не принимает порядки общества Людей-пауков и оставляет Гвен способ перемещаться между мирами.",
+      "sources": [
+        "https://www.sonypictures.com/movies/spidermanacrossthespiderverse"
+      ]
+    },
+    {
+      "target": "c.miles-morales-anim.note.spider-verse-2",
+      "before": null,
+      "after": "Конфликтует с обществом Людей-пауков, когда пытается спасти близких, и оказывается в чужом мире.",
+      "sources": [
+        "https://www.sonypictures.com/movies/spidermanacrossthespiderverse"
+      ]
+    },
+    {
+      "target": "c.gwen-stacy-anim.note.spider-verse-2",
+      "before": null,
+      "after": "Пытается помочь Майлзу и собирает союзников, чтобы найти и спасти его.",
+      "sources": [
+        "https://www.sonypictures.com/movies/spidermanacrossthespiderverse"
+      ]
+    },
+    {
+      "target": "what-if-1.episode.7.synopsis",
+      "before": "Локи остался у ледяных великанов, и Тор вырос избалованным тусовщиком. Он устраивает на Земле вечеринку, и Кэрол Дэнверс пытается его прогнать. После титров показан Альтрон с Камнями бесконечности.",
+      "after": "Локи остался у ледяных великанов, и Тор вырос избалованным тусовщиком. Он устраивает на Земле вечеринку, и Кэрол Дэнверс пытается его прогнать. В финале серии, до титров, появляется Альтрон с Камнями бесконечности.",
+      "sources": [
+        "https://www.syfy.com/syfy-wire/marvel-what-if-episode-7-ultron-what-it-might-mean",
+        "https://awardsradar.com/2021/09/24/what-if-episode-seven-recap/"
+      ]
+    }
+  ],
+  "alreadyCorrect": [
+    "Адамантий: вместо ошибочного 2025 уже указано название фильма; точный год не выдумывается.",
+    "Камень разума: описание уже учитывает врождённую магию Ванды.",
+    "Ронан: присутствует в Стражах Галактики, Капитане Марвел и Что, если 2x01.",
+    "Пять категорий 90 предметов уже разделены, прежние ID сохранены."
+  ]
+}
