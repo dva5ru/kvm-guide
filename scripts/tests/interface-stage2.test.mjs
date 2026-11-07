@@ -10,7 +10,7 @@ function copyEdit(s,el,value,scope='local'){
 test('home count follows data, including plural forms after adding a project',t=>{
   const s=loadGuide();t.after(s.close);const {g,doc}=s;
   const checkCount=(count,word)=>{
-    assert.match(doc.querySelector('.ways').textContent,new RegExp('Все '+count+' '+word+'(?:\\\\s|$)'));
+    assert.ok(doc.querySelector('.ways').textContent.includes('Все '+count+' '+word+' '), 'correct count and grammatical form');
   };
   const base=g.D.p.length;
   const baseForm=(n)=>n%100>=11&&n%100<=14?'проектов':n%10===1?'проект':n%10>=2&&n%10<=4?'проекта':'проектов';
