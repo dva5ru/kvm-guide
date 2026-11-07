@@ -60,7 +60,7 @@ test('Zola appears in episodes 1, 8 and 9; Ronan stays linked to all three repre
   assert.deepEqual([...g.C.ronan.app].map(a=>a[0]).sort(),['captain-marvel','gotg','what-if-2']);
   assert.match(g.D.epRoles['what-if-1'][1].zola,/Пегги захватывает/);
   assert.match(g.D.epRoles['what-if-3'][7].carol,/воспоминании/);
-  for(const cid of ['korg','groot','carol'])assert.ok(!g.D.epRoles['what-if-3'][7][cid].includes('предпоследней серии'));
+  for(const cid of ['korg','groot-what-if','carol'])assert.ok(!g.D.epRoles['what-if-3'][7][cid].includes('предпоследней серии'));
 });
 
 test('episode editor keys stay stable and legacy JSON keys update the same canonical description',t=>{
@@ -92,6 +92,6 @@ test('episode cast credits never infer a live-action performer or unchecked seas
   const s=loadGuide();t.after(s.close);const {g}=s,p=g.P['what-if-1'];
   assert.equal(g.appearanceCredit(p,'tony',p.eps[5]),null);
   assert.equal(g.appearanceCredit(p,'zola',p.eps[0]).performer,'Тоби Джонс');
-  assert.equal(g.appearanceCredit(g.P['what-if-3'],'groot',g.P['what-if-3'].eps[6]).performer,'Фред Таташор');
+  assert.equal(g.appearanceCredit(g.P['what-if-3'],'groot-what-if',g.P['what-if-3'].eps[6]).performer,'Фред Таташор');
   assert.match(g.creditTag(g.P.doomsday,'cassie'),/заявлен исполнитель/);
 });
