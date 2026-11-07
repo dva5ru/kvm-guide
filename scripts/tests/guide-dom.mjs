@@ -14,7 +14,7 @@ export function loadGuide(){
   w.HTMLCanvasElement.prototype.getContext=function(){return new Proxy({canvas:this},{get:(t,k)=>k in t?t[k]:k==='createLinearGradient'||k==='createRadialGradient'?()=>({addColorStop(){}}):()=>{}})};
   const instrumented=app.replace(/setThemeBtn\(\);setSpoilBtn\(\);\s*admInit\(\);[\s\S]*?\nroute\(\);\s*(?:imgQueueLoad\(\);\s*)?\}\)\(\);\s*$/,`
     globalThis.guide={D,P,C,PL,EV,LN,ADM,SPO,VIEWS,LEGACY,ITEM_CATS,SPK,
-      route,buildSearch,runSearch,artAll,artGet,artView,episodeView,teamsView,orgView,raceView,
+      route,buildSearch,runSearch,artAll,artGet,artView,episodeView,teamsView,orgView,raceView,appearanceCredit,creditTag,
       applyCopy,copyKey,copyValue,copySave,universalEdit,applyOVR,setText,getT,ref,textFields,contentResults,
       openEditor,settingsHTML,home,qsParse,ctToQS,ctFromQS,CT2,applyBlocks,SPW,isSpoil,spRevealEl,
       histGo,saveDraft,dirtyCount,backupImport,selfHTML,norm,

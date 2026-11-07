@@ -25,3 +25,5 @@ jobs:
         run: node --test scripts/tests/encyclopedia.test.mjs
       - name: Check text editing, search, all routes, blocks and spoilers
         run: node --test scripts/tests/interface-stage2.test.mjs
+      - name: Check factual corrections and unified project and episode appearances
+        run: node --test scripts/tests/facts-appearances.test.mjs
