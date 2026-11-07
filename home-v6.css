@@ -150,7 +150,7 @@ main.wrap:has(.h6-page){max-width:1320px;padding:0 28px 0}
 .h6-editor-row button{cursor:pointer;border:1px solid #8b919a;padding:7px 10px;background:#fff}
 .h6-editor-footer{display:flex;gap:10px;align-items:center;margin-top:18px}
 .h6-page .spoil{max-width:100%;color:inherit}
-:root[data-theme="dark"] .h6-page, :root:not([data-theme="light"]) .h6-page{--h6-paper:#191c22;--h6-line:#40444b;--h6-muted:#aab0bb;color:#eaedf3}
+:root[data-theme="dark"] .h6-page{--h6-paper:#191c22;--h6-line:#40444b;--h6-muted:#aab0bb;color:#eaedf3}
 :root[data-theme="dark"] .h6-hero, :root[data-theme="dark"] .h6-ways, :root[data-theme="dark"] .h6-way-panel, :root[data-theme="dark"] .h6-random-box, :root[data-theme="dark"] .h6-soon-item, :root[data-theme="dark"] .h6-empty, :root[data-theme="dark"] .h6-admin, :root[data-theme="dark"] .h6-project-card, :root[data-theme="dark"] .h6-release-card{background:#202329;color:#f0f1f4}
 :root[data-theme="dark"] .h6-hero-art::after{background:linear-gradient(90deg,#202329,transparent)}
 :root[data-theme="dark"] .h6-hero .h6-lead,:root[data-theme="dark"] .h6-way-copy p,:root[data-theme="dark"] .h6-project-info p,:root[data-theme="dark"] .h6-release-summary,:root[data-theme="dark"] .h6-random-copy p{color:#bfc3cd}
@@ -159,7 +159,7 @@ main.wrap:has(.h6-page){max-width:1320px;padding:0 28px 0}
 :root[data-theme="dark"] .h6-soon-item{border-color:#444;background:#24272e}
 :root[data-theme="dark"] .h6-button-outline{color:#fff}
 :root[data-theme="dark"] .h6-hero .h6-eyebrow{color:#fa6470}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .h6-hero,:root:not([data-theme="light"]) .h6-ways,:root:not([data-theme="light"]) .h6-way-panel,:root:not([data-theme="light"]) .h6-random-box,:root:not([data-theme="light"]) .h6-soon-item,:root:not([data-theme="light"]) .h6-empty,:root:not([data-theme="light"]) .h6-project-card,:root:not([data-theme="light"]) .h6-release-card{background:#202329;color:#f0f1f4}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .h6-page{color:#eaedf3;--h6-line:#40444b} :root:not([data-theme="light"]) .h6-hero,:root:not([data-theme="light"]) .h6-ways,:root:not([data-theme="light"]) .h6-way-panel,:root:not([data-theme="light"]) .h6-random-box,:root:not([data-theme="light"]) .h6-soon-item,:root:not([data-theme="light"]) .h6-empty,:root:not([data-theme="light"]) .h6-project-card,:root:not([data-theme="light"]) .h6-release-card{background:#202329;color:#f0f1f4}
 :root:not([data-theme="light"]) .h6-hero-art::after{background:linear-gradient(90deg,#202329,transparent)}
 :root:not([data-theme="light"]) .h6-hero .h6-lead,:root:not([data-theme="light"]) .h6-way-copy p,:root:not([data-theme="light"]) .h6-project-info p,:root:not([data-theme="light"]) .h6-release-summary,:root:not([data-theme="light"]) .h6-random-copy p{color:#bfc3cd}}
 @media(max-width:1180px){
@@ -235,3 +235,7 @@ main.wrap:has(.h6-page){padding:0 15px}
 .h6-footer>a:last-child{margin-left:0}
 }
 @media(prefers-reduced-motion:reduce){.h6-page *, .h6-page *::before,.h6-page *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+.h6-page .h6-reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+.h6-page .h6-reveal.h6-visible{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.h6-page .h6-reveal{opacity:1;transform:none}}
