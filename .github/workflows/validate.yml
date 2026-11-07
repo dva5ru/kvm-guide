@@ -33,3 +33,5 @@ jobs:
         run: node --test scripts/tests/character-series-groups.test.mjs
       - name: Check Groot identities, project items and reciprocal variant navigation
         run: node --test scripts/tests/groots-items-variants.test.mjs
+      - name: Check cross-project Fox/Sony stingers and first appearances
+        run: node --test scripts/tests/full-project-facts.test.mjs
