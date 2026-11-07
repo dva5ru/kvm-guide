@@ -231,39 +231,38 @@ test('MCU-film default, separate Macau and four photo folders',t=>{
 });
 
 
-test('released films use separate chapter pages without invented scenes or chapters for empty films',t=>{
+test('film parts are real sequels rather than synthesized chapters',t=>{
   const s=loadGuide();t.after(s.close);const {g,doc}=s;
-  const p=g.P['iron-man'],parts=g.D.filmParts[p.id];
-  assert.equal(parts.length,3);
-  assert.equal(parts.map(x=>x.plot).join(' ').replace(/\s+/g,' ').trim(),p.sto.replace(/\s+/g,' ').trim());
-  assert.equal(g.D.filmParts['x-men'],undefined);
-  assert.equal(g.D.filmParts['secret-wars'],undefined);
-  g.SPO.mode='off';g.go('f-iron-man');
-  assert.equal(doc.querySelectorAll('.film-parts .ep').length,3);
-  const link=doc.querySelector('.film-parts .ep a');
-  assert.equal(link.getAttribute('href'),'#fp-iron-man-part-1');
-  g.go('fp-iron-man-part-1');
-  assert.ok(doc.querySelector('main').textContent.includes(parts[0].plot));
-  assert.equal(doc.querySelector('nav[aria-label="Другие части фильма"] .nx').getAttribute('href'),'#fp-iron-man-part-2');
-  g.go('fp-iron-man-part-3');
-  assert.equal(doc.querySelector('nav[aria-label="Другие части фильма"] .nx'),null);
+  g.SPO.mode='off';g.go('f-sm-1');
+  let list=doc.querySelectorAll('.film-series .film-series-entry');
+  assert.equal(list.length,3,'Raimi Spider-Man trilogy');
+  assert.deepEqual(Array.from(list,x=>x.querySelector('a.card').getAttribute('href')),['#f-sm-1','#f-sm-2','#f-sm-3']);
+  assert.match(doc.querySelector('.film-series').textContent,/Часть 1/);
+  assert.ok(!doc.querySelector('.film-parts'));
+  g.go('f-homecoming');
+  list=doc.querySelectorAll('.film-series .film-series-entry');
+  assert.equal(list.length,4,'MCU Spider-Man sequels');
+  assert.deepEqual(Array.from(list,x=>x.querySelector('a.card').getAttribute('href')),['#f-homecoming','#f-ffh','#f-nwh','#f-bnd']);
+  g.go('f-iron-man');
+  assert.equal(doc.querySelectorAll('.film-series .film-series-entry').length,3);
+  g.go('f-secret-wars');
+  assert.equal(doc.querySelectorAll('.film-series .film-series-entry').length,6,'upcoming Avengers sequel listed but no invented chapters');
+  assert.ok(!g.D.filmParts,'generated film chapters removed from data');
 });
 
-test('film chapters are individually editable, spoiler-protected and excluded from search when hidden',t=>{
-  const s=loadGuide();t.after(s.close);const {g,doc,w}=s;
-  editMode(g);g.SPO.mode='off';g.go('fp-iron-man-part-1');
-  assert.ok(doc.querySelector('[data-ek="filmpart.iron-man-part-1.plot"]'));
-  g.setText('filmpart.iron-man-part-1.plot','СЕКРЕТНЫЙ СЮЖЕТ ПЕРВОЙ ЧАСТИ');
-  assert.equal(g.ref('filmpart.iron-man-part-1.plot')[0].plot,'СЕКРЕТНЫЙ СЮЖЕТ ПЕРВОЙ ЧАСТИ');
-  assert.equal(g.D.filmParts['iron-man'][1].plot.includes('СЕКРЕТНЫЙ'),false);
-  g.ADM.edit=false;g.SPO.mode='all';g.go('fp-iron-man-part-1');
-  assert.ok(!doc.querySelector('main').textContent.includes('СЕКРЕТНЫЙ СЮЖЕТ'));
-  assert.ok(doc.querySelector('.spoil-btn'));
-  g.SPO.mode='off';g.go('fp-iron-man-part-1');
-  assert.ok(doc.querySelector('main').textContent.includes('СЕКРЕТНЫЙ СЮЖЕТ'));
-  input(w,doc.getElementById('q'),'железный человек часть 1');
-  assert.ok(doc.querySelector('#sres a[href="#fp-iron-man-part-1"]'));
-  g.setOvr({...g.getOvr(),hide:{...g.getOvr().hide,'p.parts@iron-man':1}});
-  input(w,doc.getElementById('q'),'железный человек часть 1');
-  assert.equal(doc.querySelector('#sres a[href="#fp-iron-man-part-1"]'),null);
+test('real franchise blocks respect local hiding and first appearances show character portraits',t=>{
+  const s=loadGuide();t.after(s.close);const {g,doc}=s;
+  g.SPO.mode='off';g.go('f-homecoming');
+  const firsts=doc.querySelector('[data-bk="p.first"]');
+  assert.ok(firsts);
+  assert.ok(firsts.querySelector('.cast-chip .mono'),'first appearance links reuse character portrait component');
+  assert.ok(firsts.querySelector('a[href="#c-ned"]'));
+  assert.ok(g.getSearch().every(x=>!x.h.startsWith('#fp-')),'synthetic film parts removed from search');
+  g.go('f-iron-man');
+  assert.ok(doc.querySelector('.film-series'));
+  g.setOvr({...g.getOvr(),hide:{...g.getOvr().hide,'p.franchise@iron-man':1}});
+  g.go('f-iron-man');
+  assert.equal(doc.querySelector('.film-series'),null,'only local series block is hidden');
+  g.go('f-iron-man-2');
+  assert.ok(doc.querySelector('.film-series'),'other movie retains its series links');
 });
