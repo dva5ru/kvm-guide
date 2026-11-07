@@ -10,7 +10,7 @@ const app = html.match(/<script id="kvm-app">([\s\S]*?)<\/script>/)[1];
 function setup() {
   const context = createContext({
     D: structuredClone(data), P: Object.fromEntries(data.p.map(p => [p.id, p])),
-    C: Object.fromEntries(data.c.map(c => [c.id, c])), IMX: null,
+    C: Object.fromEntries(data.c.map(c => [c.id, c])), PL: Object.fromEntries(data.pl.map(p=>[p.id,p])), IMX: null,
     sIdx: [], evName: e => e.n, years: p => p.y, ITEM_CATS: [{id:'materials',name:'Материалы и вещества'},{id:'artifacts',name:'Артефакты и устройства'}], IMG: {}, PREV: {}, OVR: { img: {}, copy: {} }, ADM: { on: true }, GH: {repo:'test/repo',token:'test'},
     IMG_QUEUE: Promise.resolve(), IMG_BUSY: 0, IMG_FAILED: [], IMG_OK: [], UNM: [],
     CUR: 'a-vibranium', saveDraft() {}, imgRefresh() {}, rerender() {}, toast() {},
@@ -18,7 +18,7 @@ function setup() {
     imgQueueSave: async () => {},
   });
   const names = ['esc','norm','normF','normOvr','artAll','artGet','artPhoto','imgSrc','imgOneBtn',
-    'imgIndex','imgMatch','imgTarget','keyName','imgEnqueue','imgUploadOne','imgAssign','imgHandle','imgResHTML','ghImgUpload','ghApi','safeKey','itemCategory','copyKey','copyValue','buildSearch'];
+    'imgIndex','imgResolve','imgMatch','imgTarget','imgDefaultTarget','imgMatchReason','keyName','imgEnqueue','imgUploadOne','imgAssign','imgHandle','imgResHTML','ghImgUpload','ghApi','safeKey','itemCategory','copyKey','copyValue','buildSearch'];
   for (const name of names) {
     const start = app.indexOf('function '+name+'(');
     assert.notEqual(start, -1, name);
@@ -54,6 +54,82 @@ test('ambiguous aliases go to the assignment queue instead of overwriting a rand
   assert.equal(c.imgMatch('Герой.png'), null);
   assert.equal(c.imgTarget('Герой [c-two]'), 'c-two');
   assert.equal(c.imgMatch(''), null);
+});
+
+test('full character titles retain slashes, all nicknames and variant qualifiers when matching filenames',()=>{
+  const c=setup();
+  for(const [name,key]of [
+    ['Тони Старк / Железный человек','c-tony'],
+    ['Тони Старк _ Железный человек','c-tony'],
+    ['Боб _ Часовой _ Пустота','c-bob'],
+    ['Грут (первый)','c-groot-original'],
+    ['Грут («Что, если…?»)','c-groot-what-if'],
+    ['Грут','c-groot'],
+    ['Пегги Картер','c-peggy'],
+    ['Пегги Картер (Земля-838)','c-peggy-838'],
+    ['Рид Ричардс _ Мистер Фантастик (Фильмы 2005–2007)','c-reed-2005'],
+    ['Питер Паркер (вселенная Тоби Магуайра)','c-peter-maguire'],
+  ])assert.equal(c.imgMatch(name+'.webp'),key,name);
+  assert.ok(c.imgIndex().some(row=>row[0]==='c-bob'&&row[1]===c.normF('Пустота')),'the third nickname is indexed even when a location shares it');
+});
+
+test('all current character titles resolve accurately and explicit IDs disambiguate every card',()=>{
+  const c=setup(),ambiguous=new Set(['thor','ego','jean','jean-mcu']);
+  for(const char of data.c){
+    const match=c.imgResolve(char.n+'.webp');
+    if(ambiguous.has(char.id)){assert.equal(match.key,null,char.id);assert.equal(match.reason,'ambiguous');assert.ok(match.candidates.includes('c-'+char.id))}
+    else assert.equal(match.key,'c-'+char.id,char.n);
+    assert.equal(c.imgMatch(char.n.replace(/\//g,'_')+' [c-'+char.id+'].WEBP'),'c-'+char.id,char.n+' with ID');
+  }
+  for(const [key,name]of data.p.map(p=>['f-'+p.id,p.t]).concat(data.pl.map(p=>['pl-'+p.id,p.n]),Array.from(c.artAll(),a=>['a-'+a.id,a.n]))){
+    const match=c.imgResolve(name+'.webp');if(match.key)assert.equal(match.key,key,name);else assert.ok(match.candidates.includes(key),name);
+  }
+  assert.equal(c.imgMatch('Тор [thor].webp'),null,'an unqualified ID shared by a film and hero stays ambiguous');
+  assert.equal(c.imgMatch('Тор [c-thor].webp'),'c-thor');
+  assert.equal(c.imgMatch('Веном.webp'),null,'a film title must not override a character alias');
+  assert.equal(c.imgMatch('Пустота.webp'),null,'a location must not override a character alias');
+});
+
+test('numbered exports, unprefixed IDs, Unicode, dimensions and copied downloads are recognized',()=>{
+  const c=setup();
+  for(const name of ['1. Мак Гарган _ Скорпион [scorpion].webp','Мак Гарган _ Скорпион [c-scorpion] (1).WEBP','c-scorpion.jpg'])assert.equal(c.imgMatch(name),'c-scorpion',name);
+  assert.equal(c.imgMatch('Чёрная Вдова [c-natasha].webp'.normalize('NFD')),'c-natasha');
+  assert.equal(c.imgMatch(('Наташа Романофф _ Чёрная Вдова.webp').normalize('NFD')),'c-natasha');
+  assert.equal(c.imgMatch('  20. Тони\u00a0Старк ／ Железный\u200e человек — фото 512×512.WEBP  '),'c-tony');
+  assert.equal(c.imgMatch('Ник Фьюри [not-a-real-id].webp'),null,'an invalid explicit ID cannot fall back to a different destination');
+  assert.equal(c.imgTarget('Стражи Галактики [f-gotg]'),'f-gotg');
+  assert.equal(c.imgTarget('Тессеракт [a-tesseract]'),'a-tesseract');
+  assert.equal(c.imgTarget('Нью-Йорк [pl-new-york]'),'pl-new-york');
+});
+
+test('image batches accept missing MIME types and full names without replacing ambiguous variants',async()=>{
+  const c=setup();
+  await c.imgHandle([
+    {name:'Тони Старк _ Железный человек.webp',type:''},
+    {name:'Боб _ Часовой _ Пустота [bob].webp',type:'application/octet-stream'},
+    {name:'Грут (первый).webp',type:'image/webp'},
+    {name:'Тор.webp',type:'image/webp'},
+    {name:'Джин Грей.webp',type:'image/webp'},
+    {name:'notes.txt',type:''},
+  ]);
+  assert.deepEqual(Array.from(c.IMG_OK),['c-tony','c-bob','c-groot-original']);
+  assert.deepEqual(Array.from(c.UNM,x=>x.name),['Тор.webp','Джин Грей.webp']);
+  assert.equal(c.IMG_BUSY,0);assert.equal(c.IMG_FAILED.length,0);
+  assert.equal(c.OVR.img['f-thor'],undefined);assert.equal(c.OVR.img['c-jean'],undefined);
+  assert.match(c.imgResHTML(c.IMG_OK),/Несколько подходящих карточек/);
+  assert.match(c.imgResHTML(c.IMG_OK),/\[c-thor\]/);assert.match(c.imgResHTML(c.IMG_OK),/\[f-thor\]/);
+});
+
+test('previously unmatched files show the recovered destination while manual choices survive',async()=>{
+  const c=setup();c.UNM=[{name:'Грут (первый).webp',url:'data:image/jpeg;base64,eA==',target:''},{name:'Тони Старк _ Железный человек.webp',url:'data:image/jpeg;base64,eA==',target:'c-peggy'}];
+  const rendered=c.imgResHTML([]);
+  assert.match(rendered,/value="Грут \(первый\) \[c-groot-original\]"/);
+  assert.match(rendered,/Имя распознано/);assert.match(rendered,/value="c-peggy"/);
+  assert.equal(c.imgDefaultTarget(c.UNM[1]),'c-peggy');
+  c.document={querySelector:()=>({value:c.imgDefaultTarget(c.UNM[0])})};await c.imgAssign(0);
+  assert.equal(c.UNM[0].done,true);assert.ok(c.OVR.img['c-groot-original']);assert.equal(c.UNM[1].target,'c-peggy');
+  c.imgIndex();c.D.c.find(char=>char.id==='scorpion').n='Мак Гарган / Новый Скорпион';c.buildSearch();
+  assert.equal(c.imgMatch('Мак Гарган _ Новый Скорпион.webp'),'c-scorpion');
 });
 
 test('removed Wikimedia imagery cannot return from old settings or backups', () => {
