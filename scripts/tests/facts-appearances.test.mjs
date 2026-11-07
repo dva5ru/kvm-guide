@@ -31,7 +31,7 @@ test('registry validation rejects duplicate links, missing episodes, bad referen
 
 test('Spider-Verse films belong to films; animated series belong to series',t=>{
   const s=loadGuide();t.after(s.close);const {g,doc}=s;
-  g.CT2.kind='film';g.go('catalog');
+  g.CT2.aff={mcu:1,linked:1,other:1};g.CT2.kind='film';g.go('catalog');
   for(const id of ['spider-verse-1','spider-verse-2']){
     g.go('catalog');assert.ok(doc.querySelector('#ct-list a[href="#f-'+id+'"]'),id);
     g.go('f-'+id);assert.ok(doc.querySelector('main').textContent.includes('Анимационный фильм'));
