@@ -296,7 +296,7 @@
     if(type==='focus'&&values.some(function(x){return x.image&&!ctxNow.imgSrc(x.image)})){window.alert('Одно из изображений не найдено в системе загрузки.');return}
     if(type==='heroes'&&(!values.length||new Set(values).size!==values.length)){window.alert('Выберите разных персонажей.');return}
     if(type==='order'&&values.length!==KEYS.length){window.alert('Нужно сохранить все разделы.');return}
-    ctxNow.OVR.text['home6.'+type]=JSON.stringify(values);ctxNow.saveDraft();d.close();d.remove();ctxNow.rerender();
+    ctxNow.OVR.text['home6.'+type]=JSON.stringify(values);ctxNow.saveDraft();if(typeof d.close==='function')d.close();d.remove();ctxNow.rerender();
   }
   function click(e){
     if(!ctxNow)return;
