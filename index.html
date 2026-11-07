@@ -1284,6 +1284,7 @@ function clone(o){return JSON.parse(JSON.stringify(o))}
 PUB=clone(OVR);
 var TXT_DEF={'home.title':'Путеводитель по киновселенной Marvel','home.lead':'Что смотреть, в каком порядке и как всё связано — без спойлеров, если вы их не хотите.'};
 function ref(key){var k=key.split('.'),t=k[0],o;
+  if(t==='filmpart'){o=FP_LOOKUP[k[1]]&&FP_LOOKUP[k[1]].part;return o&&k.length===3&&['title','plot'].indexOf(k[2])>=0?[o,k[2]]:null}
   if(t==='episode'){var path=k.slice(2),node=D.episodes[k[1]];if(!node||['title','originalTitle','date','lead','plot','chronology','events','changes','connections','post'].indexOf(path[0])<0||path.some(function(x){return x==='__proto__'||x==='constructor'||x==='prototype'}))return null;
     if(['post','connections'].indexOf(path[0])>=0&&path[path.length-1]!=='text')return null;
     for(var j=0;j<path.length-1;j++){if(!node||!Object.prototype.hasOwnProperty.call(node,path[j]))return null;node=node[path[j]]}return node&&typeof node[path[path.length-1]]==='string'?[node,path[path.length-1]]:null}
@@ -1407,6 +1408,23 @@ var NAVT={'sacred-timeline':'Священная линия времени',map:'
 
 function versionBar(c){var ids=(D.versions||{})[c.verGroup];if(!ids)return '';return '<p class="version-heading">Другие версии персонажа</p><div class="seasons ver-switch">'+ids.map(function(id){var o=C[id];return '<a class="season'+(id===c.id?' on':'')+'" href="#c-'+id+'"'+(id===c.id?' aria-current="page"':'')+'>'+esc(o.verLabel||o.n)+' <i>'+esc(o.a)+'</i></a>'}).join('')+'</div>'}
 function editionBar(p){var ids=(D.editions||{})[p.editionGroup];if(!ids)return '';return '<p class="version-heading">Другие редакции фильма</p><div class="seasons ver-switch">'+ids.map(function(id){var o=P[id];return '<a class="season'+(id===p.id?' on':'')+'" href="#f-'+id+'"'+(id===p.id?' aria-current="page"':'')+'>'+esc(id===p.editionGroup?'Оригинал':'Другая редакция')+' <i>'+esc(o.t)+'</i></a>'}).join('')+'</div>'}
+
+/* Film chapters reuse the existing synopsis as the sole factual source.
+   Do not synthesize scenes, cast appearances or timestamps. Unreleased films
+   and films without a synopsis have no chapters. */
+var FP_LOOKUP={},FILM_PARTS={};
+D.p.forEach(function(p){
+  if((p.k!=='film'&&p.k!=='animated-film')||p.s==='soon'||!p.sto||p.sto.length<120)return;
+  var sentences=String(p.sto).replace(/([.!?…][»"]?)\s+(?=[А-ЯЁA-Z«"(0-9])/g,'$1\u0001').split('\u0001').filter(Boolean);
+  if(sentences.length<3)return;
+  var bounds=[0,Math.ceil(sentences.length/3),Math.ceil(sentences.length*2/3),sentences.length];
+  var labels=['Начало','Развитие','Финал'];
+  FILM_PARTS[p.id]=labels.map(function(label,i){
+    var part={id:p.id+'-part-'+(i+1),projectId:p.id,number:i+1,title:'Часть '+(i+1)+' — '+label,plot:sentences.slice(bounds[i],bounds[i+1]).join(' ')};
+    FP_LOOKUP[part.id]={p:p,part:part,i:i};return part;
+  });
+});
+D.filmParts=FILM_PARTS;
 var EP_LOOKUP={};D.p.forEach(function(p){(p.eps||[]).forEach(function(e,i){EP_LOOKUP[e.id]={p:p,e:e,i:i};if(EP_ALIAS[p.id+'-'+e[0]]===e.id)EP_LOOKUP[p.id+'-'+e[0]]=EP_LOOKUP[e.id]})});
 function episodeHref(e){return '#ep-'+e.id}
 function episodeAppearance(p,cid,e){var a=AREG[p.id+'::'+cid];return a&&a.episodes.filter(function(x){return x.episodeId===e.id})[0]}
@@ -1434,6 +1452,26 @@ function episodeView(p,e,i){var meta=e.meta,K='episode.'+e.id+'.',prev=p.eps[i-1
     B('ep.connections',pg,'Связи',meta.connections.length?'<section><h2>Связи</h2>'+SPW([p.id],'<ul class="evlist">'+meta.connections.map(function(l,j){return '<li>'+episodeConnection(l)+' <span>'+E(K+'connections.'+j+'.text',l.text,cx)+'</span></li>'}).join('')+'</ul>')+'</section>':'')+
     '<nav class="navpair" style="margin-top:25px" aria-label="Другие серии">'+(prev?'<a class="panel" href="'+episodeHref(prev)+'">← Сезон '+prev.meta.season+', серия '+prev[0]+'</a>':'<span></span>')+(next?'<a class="panel nx" href="'+episodeHref(next)+'">Сезон '+next.meta.season+', серия '+next[0]+' →</a>':'<span></span>')+'</nav>'
 }
+
+function filmPartHref(part){return '#fp-'+part.id}
+function filmPartList(p,cx){
+  var parts=FILM_PARTS[p.id]||[];if(!parts.length)return '';
+  return '<section class="eps film-parts"><h2>Части фильма <span class="muted">('+parts.length+')</span></h2>'+
+    '<p class="muted">Сюжет разделён на части по существующему описанию фильма, без вымышленных сцен и временных меток.</p>'+
+    parts.map(function(part){return '<article class="ep"><div class="ep-n">'+part.number+'</div><div><h3><a href="'+filmPartHref(part)+'">'+EH('filmpart.'+part.id+'.title',part.title)+'</a></h3><p><a href="'+filmPartHref(part)+'">Открыть часть →</a></p></div></article>'}).join('')+'</section>'
+}
+function filmPartView(p,part,i){
+  var parts=FILM_PARTS[p.id],prev=parts[i-1],next=parts[i+1],K='filmpart.'+part.id+'.',cx=ctxP([p.id]),pg=part.id;
+  return '<button class="back" type="button" data-back>← Назад</button>'+
+    '<p class="muted"><a href="#f-'+p.id+'">'+esc(p.t)+'</a> · Часть '+part.number+' из '+parts.length+'</p>'+
+    '<h1>'+EH(K+'title',part.title)+'</h1>'+
+    '<p class="muted" style="margin-top:12px">Краткое содержание этой части составлено из существующего синопсиса фильма. Порядок событий не привязан к минутам.</p>'+
+    B('fp.plot',pg,'Содержание части',part.plot||ADM.edit?'<section class="panel pad" style="margin-top:24px"><h2>Содержание</h2>'+
+      SPW([p.id],'<p class="story" style="white-space:pre-line">'+E(K+'plot',part.plot,cx)+'</p>')+'</section>':'')+
+    '<nav class="navpair" style="margin-top:25px" aria-label="Другие части фильма">'+
+    (prev?'<a class="panel" href="'+filmPartHref(prev)+'">← Часть '+prev.number+'</a>':'<span></span>')+
+    (next?'<a class="panel nx" href="'+filmPartHref(next)+'">Часть '+next.number+' →</a>':'<span></span>')+'</nav>'
+}
 function episodeList(p,cx){if(!p.eps)return '';var seasons=[];p.eps.forEach(function(e){if(seasons.indexOf(e.meta.season)<0)seasons.push(e.meta.season)});return '<section class="eps"><h2>Серии <span class="muted">('+p.eps.length+')</span></h2>'+seasons.map(function(sn){return '<h3 style="margin-top:20px">Сезон '+sn+'</h3>'+p.eps.filter(function(e){return e.meta.season===sn}).map(function(e){return '<article class="ep"><div class="ep-n">'+e[0]+'</div><div><h3><a href="'+episodeHref(e)+'">'+esc(e[1])+'</a></h3>'+(e.meta.lead?'<p>'+E('episode.'+e.id+'.lead',e.meta.lead,cx)+'</p>':'')+'<p class="muted">'+(e.meta.status==='released'?'Вышла':'Анонсирована')+(e.meta.date?' · '+fdate(e.meta.date):'')+'</p><p><a href="'+episodeHref(e)+'">Открыть серию →</a></p></div></article>'}).join('')}).join('')+'</section>'}
 
 // ---------- страница проекта ----------
@@ -1457,6 +1495,7 @@ function projectView(p){var pg=p.id,cx=ctxP([p.id]),nb=chronoNeighbors(p),K='p.'
   B('p.post',pg,'Сцены после титров',p.post!=null?'<h2 style="margin-top:28px">Сцены после титров</h2>'+SPW([p.id],post):'')+
   B('p.note',pg,'Примечание',p.note||ADM.edit?'<p class="note" style="margin-top:20px">'+E(K+'note',p.note||'',cx)+'</p>':'')+
   B('p.eps',pg,'Серии',episodeList(p,cx))+
+  B('p.parts',pg,'Части фильма',filmPartList(p,cx))+
   B('p.tl',pg,'События по хронологии',tlh?'<h2 style="margin-top:28px">События по хронологии</h2>'+SPW([p.id],'<ul class="tlmini">'+tlh+'</ul>'):'')+
   B('p.who',pg,'Персонажи в гайде',who?'<div class="who" style="margin-top:28px"><h2>Персонажи в гайде</h2>'+(p.eps?SPW([p.id],who):who)+'</div>':'')+'</div>'+
   '<div>'+B('p.nav',pg,'Раньше и дальше по хронологии',p.ord?'<h3>Что смотреть дальше</h3>'+((p.next||[]).length?'<ul class="evlist nextl" style="margin:8px 0 12px">'+p.next.filter(function(id){return P[id]}).map(function(id){var q=P[id],sl=p.ln.filter(function(l){return q.ln.indexOf(l)>=0})[0];return '<li>'+pLink(id)+' <span class="muted">'+(sl?'продолжение линии «'+esc(lnName(sl))+'»':'опирается на события этого проекта')+'</span></li>'}).join('')+'</ul>':'')+'<div class="navpair" style="margin-top:10px">'+(nb[0]?'<a class="panel" href="#f-'+nb[0].id+'"><small>← Раньше по хронологии</small><b>'+esc(nb[0].t)+'</b></a>':'<span></span>')+(nb[1]?'<a class="panel nx" href="#f-'+nb[1].id+'"><small>Дальше по хронологии →</small><b>'+esc(nb[1].t)+'</b></a>':'<span></span>')+'</div>':'')+
@@ -1791,6 +1830,7 @@ function buildSearch(){sIdx=[];IMX=null;var E=D.en||{c:{},p:{},pl:{},a:{}};
   D.enc.races.forEach(function(r){sIdx.push({h:'#r-'+r[0],t:r[1],k:'Раса',s:norm(r[1])})});
   D.enc.orgs.forEach(function(o){sIdx.push({h:'#o-'+o[0],t:o[1],k:'Организация',s:norm(o[1])})});
   artAll().forEach(function(a){sIdx.push({h:'#a-'+a.id,t:a.n,k:(itemCategory(a.category)||{name:'Артефакт'}).name,s:norm(a.n+' '+a.sub+' '+a.aliases.join(' ')+' '+(E.a[a.id]||'')+' '+(itemCategory(a.category)||{name:''}).name)})});
+  if(typeof FP_LOOKUP!=='undefined')Object.keys(FP_LOOKUP).forEach(function(id){var x=FP_LOOKUP[id],p=x.p,part=x.part;sIdx.push({h:'#fp-'+part.id,t:p.t+' · '+part.title,k:'Часть фильма',s:norm(p.t+' часть '+part.number+' '+part.title)})});
   Object.keys(D.episodes).forEach(function(id){var e=D.episodes[id],p=P[e.projectId];sIdx.push({h:'#ep-'+id,t:e.title,k:p.t+' · '+e.season+'×'+e.number,s:norm(e.title+' '+e.originalTitle+' '+p.t+' сезон '+e.season+' серия '+e.number)})});
   (D.routes||[]).forEach(function(r){sIdx.push({h:'#w-'+r[0],t:r[1],k:'Маршрут',s:norm(r[1]+' маршрут')})});
   sIdx.forEach(function(o){var old=o.t,scope=o.h.slice(1);o.t=copyValue(scope,o.t);o.s=norm(o.s+' '+o.t+' '+copyValue(scope,old.replace(/ \(.*\)$/,'')));o.w=o.s.split(' ');o.compact=o.s.replace(/\s/g,'')})}
@@ -1800,8 +1840,9 @@ function matchScore(o,q,w){if(w.every(function(x){return o.s.indexOf(x)>=0}))ret
     if(best>lim)return -1;tot+=best}return 3+tot}
 // Public search respects published section visibility; never index inaccessible navigation.
 function searchEntryVisible(o){
-  var h=o.h.slice(1),head=h.split('-')[0],sec={f:'catalog',ep:'catalog',c:'heroes',p:'map',e:'timeline',l:'lines',a:'stones',r:'races',o:'orgs',w:'watch'}[head];
+  var h=o.h.slice(1),head=h.split('-')[0],sec={f:'catalog',ep:'catalog',fp:'catalog',c:'heroes',p:'map',e:'timeline',l:'lines',a:'stones',r:'races',o:'orgs',w:'watch'}[head];
   if(sec&&OVR.nav[sec]&&!ADM.edit)return false;
+  if(head==='fp'&&!ADM.edit){var partInfo=FP_LOOKUP[h.slice(3)];if(!partInfo||isHid('p.parts',partInfo.p.id))return false}
   if(head==='a'){var item=artGet(h.slice(2)),cat=itemCategory(item&&item.category);
     if(cat&&OVR.nav[cat.route]&&!ADM.edit)return false}
   return !['search.item@'+h,'search.item','search.'+h,'search.'+h+'@'+h].some(function(k){return OVR.hide[k]===1});
@@ -1922,7 +1963,7 @@ function evLink(id){var e=EV[id];return e?'<a class="chip" href="#e-'+e.id+'">'+
 // ---------- новая структура: 6 разделов ----------
 var LEGACY={'routes-list':'watch',routes:'watch','thematic-routes':'watch',doomsday:'f-doomsday',rights:'catalog',quiz:'home',deaths:'home'};
 var ENC_KEYS={'sacred-timeline':1,map:1,lines:1,stones:1,'infinity-stones':1,artifacts:1,weapons:1,armor:1,materials:1,races:1,orgs:1,teams:1,universes:1};
-function navFor(h){if(h==='home')return 'home';if(h==='timeline'||h==='events'||/^e-/.test(h))return 'timeline';if(h==='catalog'||/^f-/.test(h)||/^ep-/.test(h))return 'catalog';
+function navFor(h){if(h==='home')return 'home';if(h==='timeline'||h==='events'||/^e-/.test(h))return 'timeline';if(h==='catalog'||/^f-/.test(h)||/^ep-/.test(h)||/^fp-/.test(h))return 'catalog';
   if(h==='heroes'||h==='links'||/^c-/.test(h))return 'heroes';if(h==='watch'||/^w-/.test(h))return 'watch';if(h==='encyclopedia'||ENC_KEYS[h]||/^[plaro]-/.test(h))return 'encyclopedia';return ''}
 function crumbEnc(){return '<a class="crumb" href="#encyclopedia">← Энциклопедия</a>'}
 function route(){
@@ -1936,7 +1977,8 @@ function route(){
   if(ENC_KEYS[h]&&OVR.nav[h]&&!ADM.on)h='encyclopedia';
   var back=STACK.length>1&&STACK[STACK.length-2]===h;if(CUR&&!KEEP)SCROLL[CUR]=window.scrollY;if(back)STACK.pop();else if(STACK[STACK.length-1]!==h)STACK.push(h);if(STACK.length>60)STACK.shift();CUR=h;NAVBACK=back;
   var html=null,title='',m=h.match(/^([fcpelarwo])-(.+)$/);
-  if(h.indexOf('ep-')===0&&EP_LOOKUP[h.slice(3)]){var x=EP_LOOKUP[h.slice(3)];html=episodeView(x.p,x.e,x.i);title=x.e[1]+' — '+x.p.t+' · '+x.e.meta.season+'×'+x.e[0]}
+  if(h.indexOf('fp-')===0&&FP_LOOKUP[h.slice(3)]){var x=FP_LOOKUP[h.slice(3)];html=filmPartView(x.p,x.part,x.i);title=x.part.title+' — '+x.p.t}
+  else if(h.indexOf('ep-')===0&&EP_LOOKUP[h.slice(3)]){var x=EP_LOOKUP[h.slice(3)];html=episodeView(x.p,x.e,x.i);title=x.e[1]+' — '+x.p.t+' · '+x.e.meta.season+'×'+x.e[0]}
   else if(m){var OGI={};D.enc.orgs.forEach(function(o){OGI[o[0]]=o});var RCI={};D.enc.races.forEach(function(r){RCI[r[0]]=r});var AIX={};artAll().forEach(function(a){AIX[a.id]=a});var RTI={};(D.routes||[]).forEach(function(r){RTI[r[0]]=r});
     var src={o:[OGI,orgView],w:[RTI,routeView],f:[P,projectView],c:[C,charView],p:[PL,placeView],e:[EV,eventView],l:[LN,lineView],a:[AIX,artView],r:[RCI,raceView]}[m[1]],o=src[0][m[2]];if(o){html=src[1](o);title=o.t||o.n||o[1]}}
   else{var vh=h==='events'?'timeline':h;if(VIEWS[vh]){html=VIEWS[vh]();if(ENC_KEYS[vh])html=crumbEnc()+html;title=NAV6T[navFor(vh)]||''}}
