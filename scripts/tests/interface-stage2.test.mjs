@@ -229,3 +229,41 @@ test('MCU-film default, separate Macau and four photo folders',t=>{
   assert.equal(doc.querySelectorAll('.img-folder').length,4);
   assert.ok(doc.querySelector('.img-folder'));
 });
+
+
+test('released films use separate chapter pages without invented scenes or chapters for empty films',t=>{
+  const s=loadGuide();t.after(s.close);const {g,doc}=s;
+  const p=g.P['iron-man'],parts=g.D.filmParts[p.id];
+  assert.equal(parts.length,3);
+  assert.equal(parts.map(x=>x.plot).join(' ').replace(/\s+/g,' ').trim(),p.sto.replace(/\s+/g,' ').trim());
+  assert.equal(g.D.filmParts['x-men'],undefined);
+  assert.equal(g.D.filmParts['secret-wars'],undefined);
+  g.SPO.mode='off';g.go('f-iron-man');
+  assert.equal(doc.querySelectorAll('.film-parts .ep').length,3);
+  const link=doc.querySelector('.film-parts .ep a');
+  assert.equal(link.getAttribute('href'),'#fp-iron-man-part-1');
+  g.go('fp-iron-man-part-1');
+  assert.ok(doc.querySelector('main').textContent.includes(parts[0].plot));
+  assert.equal(doc.querySelector('nav[aria-label="Другие части фильма"] .nx').getAttribute('href'),'#fp-iron-man-part-2');
+  g.go('fp-iron-man-part-3');
+  assert.equal(doc.querySelector('nav[aria-label="Другие части фильма"] .nx'),null);
+});
+
+test('film chapters are individually editable, spoiler-protected and excluded from search when hidden',t=>{
+  const s=loadGuide();t.after(s.close);const {g,doc,w}=s;
+  editMode(g);g.SPO.mode='off';g.go('fp-iron-man-part-1');
+  assert.ok(doc.querySelector('[data-ek="filmpart.iron-man-part-1.plot"]'));
+  g.setText('filmpart.iron-man-part-1.plot','СЕКРЕТНЫЙ СЮЖЕТ ПЕРВОЙ ЧАСТИ');
+  assert.equal(g.ref('filmpart.iron-man-part-1.plot')[0].plot,'СЕКРЕТНЫЙ СЮЖЕТ ПЕРВОЙ ЧАСТИ');
+  assert.equal(g.D.filmParts['iron-man'][1].plot.includes('СЕКРЕТНЫЙ'),false);
+  g.ADM.edit=false;g.SPO.mode='all';g.go('fp-iron-man-part-1');
+  assert.ok(!doc.querySelector('main').textContent.includes('СЕКРЕТНЫЙ СЮЖЕТ'));
+  assert.ok(doc.querySelector('.spoil-btn'));
+  g.SPO.mode='off';g.go('fp-iron-man-part-1');
+  assert.ok(doc.querySelector('main').textContent.includes('СЕКРЕТНЫЙ СЮЖЕТ'));
+  input(w,doc.getElementById('q'),'железный человек часть 1');
+  assert.ok(doc.querySelector('#sres a[href="#fp-iron-man-part-1"]'));
+  g.setOvr({...g.getOvr(),hide:{...g.getOvr().hide,'p.parts@iron-man':1}});
+  input(w,doc.getElementById('q'),'железный человек часть 1');
+  assert.equal(doc.querySelector('#sres a[href="#fp-iron-man-part-1"]'),null);
+});
