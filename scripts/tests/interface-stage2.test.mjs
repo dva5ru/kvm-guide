@@ -253,10 +253,10 @@ test('film parts are real sequels rather than synthesized chapters',t=>{
 test('real franchise blocks respect local hiding and first appearances show character portraits',t=>{
   const s=loadGuide();t.after(s.close);const {g,doc}=s;
   g.SPO.mode='off';g.go('f-homecoming');
-  const firsts=doc.querySelector('[data-bk="p.first"]');
-  assert.ok(firsts);
-  assert.ok(firsts.querySelector('.cast-chip .mono'),'first appearance links reuse character portrait component');
-  assert.ok(firsts.querySelector('a[href="#c-ned"]'));
+  assert.ok(doc.querySelector('main').textContent.includes('Впервые появляются в КВМ'));
+  const firstNed=doc.querySelector('.cast-chip[href="#c-ned"]');
+  assert.ok(firstNed,'first appearance is linked');
+  assert.ok(firstNed.querySelector('.mono'),'first appearance links reuse character portrait component');
   assert.ok(g.getSearch().every(x=>!x.h.startsWith('#fp-')),'synthetic film parts removed from search');
   g.go('f-iron-man');
   assert.ok(doc.querySelector('.film-series'));
