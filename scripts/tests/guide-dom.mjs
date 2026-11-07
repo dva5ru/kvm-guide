@@ -4,6 +4,7 @@ import {JSDOM,VirtualConsole} from 'jsdom';
 
 export const html=readFileSync(new URL('../../index.html',import.meta.url),'utf8');
 const app=html.match(/<script id="kvm-app">([\s\S]*?)<\/script>/)[1];
+const spoilerIndex=readFileSync(new URL('../../spoiler-index.js',import.meta.url),'utf8');
 export function loadGuide(options={}){
   const errors=[],vc=new VirtualConsole();
   vc.on('jsdomError',e=>errors.push(e.message));
@@ -17,13 +18,14 @@ export function loadGuide(options={}){
     globalThis.guide={D,P,C,PL,EV,LN,ADM,SPO,VIEWS,LEGACY,ITEM_CATS,SPK,
       EP_LOOKUP,EP_ALIAS,EREG,episodeList,episodeNote,episodeHref,route,buildSearch,runSearch,artAll,artGet,artView,itemProjects,projectItems,episodeView,teamsView,orgView,raceView,appearanceCredit,creditTag,
       applyCopy,copyKey,copyValue,copySave,universalEdit,applyOVR,setText,getT,ref,textFields,contentResults,
-      openEditor,settingsHTML,home,qsParse,ctToQS,ctFromQS,CT2,applyBlocks,SPW,isSpoil,spRevealEl,
+      openEditor,settingsHTML,home,qsParse,ctToQS,ctFromQS,CT2,applyBlocks,SPW,isSpoil,spRevealEl,spField,spSeen,spPrimary,spoilPanel,
       histGo,saveDraft,dirtyCount,backupImport,selfHTML,norm,
       getOvr:()=>OVR,setOvr:o=>{OVR=normOvr(o);applyOVR()},getSpk:()=>SPK,getSearch:()=>sIdx,
       go:h=>{history.replaceState(null,'','#'+h);route()}
     };
   })();`);
   assert.notEqual(instrumented,app,'only startup is replaced; all application listeners remain active');
+  w.eval(spoilerIndex);
   w.eval(instrumented);
   const g=w.guide;
   g.go('home');
