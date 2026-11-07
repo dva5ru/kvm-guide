@@ -4,6 +4,7 @@ import {JSDOM,VirtualConsole} from 'jsdom';
 
 export const html=readFileSync(new URL('../../index.html',import.meta.url),'utf8');
 const app=html.match(/<script id="kvm-app">([\s\S]*?)<\/script>/)[1];
+const homepage=readFileSync(new URL('../../home-v6.js',import.meta.url),'utf8');
 export function loadGuide(options={}){
   const errors=[],vc=new VirtualConsole();
   vc.on('jsdomError',e=>errors.push(e.message));
@@ -24,6 +25,7 @@ export function loadGuide(options={}){
     };
   })();`);
   assert.notEqual(instrumented,app,'only startup is replaced; all application listeners remain active');
+  w.eval(homepage);
   w.eval(instrumented);
   const g=w.guide;
   g.go('home');
