@@ -2238,7 +2238,7 @@ isSpoil=function(ids){
   if(SPO.mode==='off'||ADM.edit)return false;
   if(SPO.mode==='all')return true;
   var valid=(ids||[]).filter(function(id){return !!P[id]});
-  return !valid.length||!valid.some(spSeen);
+  return !valid.length||valid.some(function(id){return !spSeen(id)});
 };
 function spHash(s){var h=2166136261;s=String(s||'');for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(36)}
 function spSplit(s){return (String(s||'').match(/[^.!?…]+(?:[.!?…]+[»"”]?|$)/gu)||[]).map(function(x){return x.trim()}).filter(Boolean)}
