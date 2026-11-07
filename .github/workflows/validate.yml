@@ -37,3 +37,5 @@ jobs:
         run: node --test scripts/tests/groots-items-variants.test.mjs
       - name: Check cross-project Fox/Sony stingers and first appearances
         run: node --test scripts/tests/full-project-facts.test.mjs
+      - name: Check concept-six homepage, editorial dates and admin editing
+        run: node --test scripts/tests/homepage-v6.test.mjs
