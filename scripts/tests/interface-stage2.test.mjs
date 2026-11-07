@@ -85,7 +85,7 @@ test('catalog URL preserves &, =, +, #, ?, Unicode and malformed percent escapes
   assert.equal(g.CT2.q,query);assert.equal(g.CT2.aff.linked,0);assert.equal(g.CT2.aff.other,0);
   const params=g.qsParse(g.ctToQS());assert.equal(params.q,query);
   assert.doesNotThrow(()=>g.go('catalog?q=%E0%A4%A&k=bad&s=bad&u=bad&st=bad'));
-  assert.equal(g.CT2.kind,'all');assert.equal(g.CT2.sort,'release');
+  assert.equal(g.CT2.kind,'film');assert.equal(g.CT2.sort,'release');
 });
 
 test('all declared routes, generated links and thematic shortcuts resolve',t=>{
@@ -186,4 +186,46 @@ test('automatic block keys survive edits to their headings',t=>{
   assert.equal(s.doc.querySelector('main h2').closest('.blk').dataset.bk,key);
   click(s.w,s.doc.querySelector('main h2').closest('.blk').querySelector('[data-bhide="page"]'));
   s.g.ADM.edit=false;s.g.go('o-shield');assert.ok(!s.doc.querySelector('main').textContent.includes('Подборки для просмотра'));
+});
+
+
+test('public search excludes hidden encyclopedia categories and updates when restored',t=>{
+  const f=loadGuide();t.after(f.close);const {g,w,doc}=f;
+  const q=doc.getElementById('q');
+  input(w,q,'Щ.И.Т.');
+  assert.ok([...doc.querySelectorAll('#sres a')].some(a=>a.getAttribute('href')==='#o-shield'));
+  const base=g.getOvr();
+  g.setOvr({...base,nav:{...base.nav,orgs:1}});
+  input(w,q,'Щ.И.Т.');
+  assert.equal([...doc.querySelectorAll('#sres a')].some(a=>a.getAttribute('href')==='#o-shield'),false);
+  g.setOvr({...base,nav:{...base.nav}});
+  input(w,q,'Щ.И.Т.');
+  assert.ok([...doc.querySelectorAll('#sres a')].some(a=>a.getAttribute('href')==='#o-shield'));
+});
+
+test('Sacred Timeline lives inside encyclopedia and preserves spoiler controls',t=>{
+  const f=loadGuide();t.after(f.close);const {g,doc}=f;
+  g.SPO.mode='off';g.go('encyclopedia');
+  assert.ok(doc.querySelector('a[href="#sacred-timeline"]'));
+  assert.equal(doc.querySelectorAll('.sacred-card').length,3);
+  g.go('sacred-timeline');
+  assert.match(doc.querySelector('main h1').textContent,/Священная линия времени/);
+  assert.equal(doc.querySelectorAll('.sacred-card').length,3);
+  g.SPO.mode='upto';g.SPO.ord=1;g.go('sacred-timeline');
+  assert.ok(doc.querySelector('.sacred-card .spoil-btn'));
+});
+
+test('MCU-film default, separate Macau and four photo folders',t=>{
+  const f=loadGuide();t.after(f.close);const {g,doc}=f;
+  g.go('catalog');
+  assert.equal(g.CT2.kind,'film');
+  assert.equal(g.CT2.aff.linked,0);
+  assert.equal(g.CT2.aff.other,0);
+  assert.ok(doc.querySelector('#ct-list a[href="#f-iron-man"]'));
+  assert.equal(doc.querySelector('#ct-list a[href="#f-sm-1"]'),null);
+  assert.notEqual(g.PL.macau,undefined);
+  assert.deepEqual(Array.from(g.P['shang-chi'].pl).includes('macau'),true);
+  g.ADM.on=true;g.ADM.can=true;g.go('images');
+  assert.equal(doc.querySelectorAll('.img-folder').length,4);
+  assert.ok(doc.querySelector('.img-folder'));
 });

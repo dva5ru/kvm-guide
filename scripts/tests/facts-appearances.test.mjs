@@ -9,7 +9,7 @@ const clone=()=>structuredClone(raw);
 
 test('one canonical registry preserves project links and derives episode casts, descriptions and credits',t=>{
   const db=clone(),{records}=hydrateAppearances(db),s=loadGuide();t.after(s.close);
-  assert.equal(records.size,1271);assert.equal(raw.appearances.reduce((n,a)=>n+a.episodes.length,0),349);
+  assert.equal(records.size,1276);assert.equal(raw.appearances.reduce((n,a)=>n+a.episodes.length,0),349);
   assert.equal(raw.epRoles,undefined);assert.equal(raw.appearanceCredits,undefined);
   assert.ok(raw.c.every(c=>c.notes===undefined&&c.app===undefined));assert.ok(raw.p.every(p=>p.cs===undefined));
   for(const p of db.p){
@@ -31,7 +31,7 @@ test('registry validation rejects duplicate links, missing episodes, bad referen
 
 test('Spider-Verse films belong to films; animated series belong to series',t=>{
   const s=loadGuide();t.after(s.close);const {g,doc}=s;
-  g.CT2.kind='film';g.go('catalog');
+  g.CT2.aff={mcu:1,linked:1,other:1};g.CT2.kind='film';g.go('catalog');
   for(const id of ['spider-verse-1','spider-verse-2']){
     g.go('catalog');assert.ok(doc.querySelector('#ct-list a[href="#f-'+id+'"]'),id);
     g.go('f-'+id);assert.ok(doc.querySelector('main').textContent.includes('Анимационный фильм'));
