@@ -2,7 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {loadGuide,click,editMode} from './guide-dom.mjs';
 
-const SECTION_NAMES=['Первый экран','Как смотреть КВМ','В фокусе','Что посмотреть','Недавно вышло','Скоро','История персонажа','Случайное открытие'];
+const SECTION_NAMES=['Киновселенная Marvel','Как смотреть КВМ','В фокусе','Что посмотреть','Недавно вышло','Скоро','История персонажа','Случайное открытие'];
 
 test('concept-six homepage shows sections in approved order and retains working routes',t=>{
   const s=loadGuide();t.after(s.close);const {doc,errors}=s;
