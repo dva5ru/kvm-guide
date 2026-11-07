@@ -1830,7 +1830,7 @@ function buildSearch(){sIdx=[];IMX=null;var E=D.en||{c:{},p:{},pl:{},a:{}};
   D.enc.races.forEach(function(r){sIdx.push({h:'#r-'+r[0],t:r[1],k:'Раса',s:norm(r[1])})});
   D.enc.orgs.forEach(function(o){sIdx.push({h:'#o-'+o[0],t:o[1],k:'Организация',s:norm(o[1])})});
   artAll().forEach(function(a){sIdx.push({h:'#a-'+a.id,t:a.n,k:(itemCategory(a.category)||{name:'Артефакт'}).name,s:norm(a.n+' '+a.sub+' '+a.aliases.join(' ')+' '+(E.a[a.id]||'')+' '+(itemCategory(a.category)||{name:''}).name)})});
-  Object.keys(FP_LOOKUP).forEach(function(id){var x=FP_LOOKUP[id],p=x.p,part=x.part;sIdx.push({h:filmPartHref(part),t:p.t+' · '+part.title,k:'Часть фильма',s:norm(p.t+' часть '+part.number+' '+part.title)})});
+  if(typeof FP_LOOKUP!=='undefined')Object.keys(FP_LOOKUP).forEach(function(id){var x=FP_LOOKUP[id],p=x.p,part=x.part;sIdx.push({h:'#fp-'+part.id,t:p.t+' · '+part.title,k:'Часть фильма',s:norm(p.t+' часть '+part.number+' '+part.title)})});
   Object.keys(D.episodes).forEach(function(id){var e=D.episodes[id],p=P[e.projectId];sIdx.push({h:'#ep-'+id,t:e.title,k:p.t+' · '+e.season+'×'+e.number,s:norm(e.title+' '+e.originalTitle+' '+p.t+' сезон '+e.season+' серия '+e.number)})});
   (D.routes||[]).forEach(function(r){sIdx.push({h:'#w-'+r[0],t:r[1],k:'Маршрут',s:norm(r[1]+' маршрут')})});
   sIdx.forEach(function(o){var old=o.t,scope=o.h.slice(1);o.t=copyValue(scope,o.t);o.s=norm(o.s+' '+o.t+' '+copyValue(scope,old.replace(/ \(.*\)$/,'')));o.w=o.s.split(' ');o.compact=o.s.replace(/\s/g,'')})}
