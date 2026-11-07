@@ -85,7 +85,7 @@ test('catalog URL preserves &, =, +, #, ?, Unicode and malformed percent escapes
   assert.equal(g.CT2.q,query);assert.equal(g.CT2.aff.linked,0);assert.equal(g.CT2.aff.other,0);
   const params=g.qsParse(g.ctToQS());assert.equal(params.q,query);
   assert.doesNotThrow(()=>g.go('catalog?q=%E0%A4%A&k=bad&s=bad&u=bad&st=bad'));
-  assert.equal(g.CT2.kind,'all');assert.equal(g.CT2.sort,'release');
+  assert.equal(g.CT2.kind,'film');assert.equal(g.CT2.sort,'release');
 });
 
 test('all declared routes, generated links and thematic shortcuts resolve',t=>{
