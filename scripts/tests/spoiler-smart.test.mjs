@@ -99,3 +99,23 @@ test('new settings allow watch order, explicit watched projects and spoiler stre
   assert.equal(g.SPO.level,'strict');
   assert.equal(JSON.parse(w.localStorage.getItem('kvm-spoil')).level,'strict');
 });
+
+test('admin can correct sentence tags and publishes overrides through the standard draft schema',t=>{
+  const ctx=loadGuide();t.after(ctx.close);const {g,w,doc}=ctx;
+  g.ADM.can=true;g.ADM.on=true;
+  const entry=doc.createElement('button');entry.setAttribute('data-adm','spoilers');doc.body.appendChild(entry);
+  click(w,entry);
+  const panel=doc.getElementById('admset');
+  assert.ok(panel,'spoiler tag editor opens');
+  const q=panel.querySelector('[data-sp-tag-query]');
+  q.value='ev.emergence';q.dispatchEvent(new w.Event('input',{bubbles:true}));
+  const field=doc.querySelector('[data-sp-edit-key="ev.emergence"]');
+  assert.ok(field,'can search concrete MCU event');
+  const level=field.querySelector('[data-sp-tag-level="0"]');
+  level.value='0';level.dispatchEvent(new w.Event('change',{bubbles:true}));
+  const saved=g.getOvr();
+  assert.equal(saved.spoilers['ev.emergence'][1][0][0],0);
+  assert.equal(JSON.parse(w.localStorage.getItem('kvm-draft:/kvm-guide/:v1')).spoilers['ev.emergence'][1][0][0],0);
+  const fresh=loadGuide();t.after(fresh.close);fresh.g.setOvr(saved);
+  assert.equal(fresh.g.getOvr().spoilers['ev.emergence'][1][0][0],0);
+});
