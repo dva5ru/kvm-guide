@@ -40,7 +40,7 @@ test('Spider-Verse films belong to films; animated series belong to series',t=>{
   assert.equal(doc.querySelector('#ct-list a[href="#f-spider-verse-1"]'),null);
   assert.ok(doc.querySelector('#ct-list a[href="#f-what-if-1"]'));
   assert.ok(doc.querySelector('#ct-list a[href="#f-loki-1"]'));
-  assert.equal(g.P.yfnsm.s,'alt');assert.equal(g.D.p.length,140);
+  assert.equal(g.P.yfnsm.s,'alt');assert.equal(g.D.p.length,raw.p.length);
 });
 
 test('Wanda origin, Loki credit sequences and adamantium timeline no longer contradict their cards',t=>{
