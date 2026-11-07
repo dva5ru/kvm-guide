@@ -1,0 +1,75 @@
+{
+  "base": "69fee66",
+  "addedAppearances": [
+    "cap2::cameron-klein",
+    "aou::cameron-klein",
+    "cap1::gabe-jones",
+    "cap1::jim-morita",
+    "cap1::jacques-dernier",
+    "cap1::james-falsworth",
+    "agent-carter-series::sam-sawyer",
+    "agent-carter-series::junior-juniper",
+    "agent-carter-series::pinky-pinkerton",
+    "aos::jim-morita",
+    "aos::dum-dum",
+    "agent-carter-series::dum-dum",
+    "agatha::pietro-fake",
+    "aos::stan-lee",
+    "agent-carter-series::stan-lee",
+    "runaways::stan-lee",
+    "the-gifted::stan-lee",
+    "dd-1::stan-lee",
+    "dd-2::stan-lee",
+    "jj-1::stan-lee",
+    "lc-1::stan-lee",
+    "if-1::stan-lee",
+    "if-2::stan-lee",
+    "jj-2::stan-lee",
+    "lc-2::stan-lee",
+    "defenders::stan-lee",
+    "punisher-1::stan-lee",
+    "cloak-dagger::stan-lee",
+    "x-men::stan-lee",
+    "last-stand::stan-lee",
+    "sm-1::stan-lee",
+    "sm-2::stan-lee",
+    "sm-3::stan-lee",
+    "daredevil-2003::stan-lee",
+    "hulk-2003::stan-lee",
+    "ff-2005::stan-lee",
+    "ff-2007::stan-lee",
+    "asm-1::stan-lee",
+    "asm-2::stan-lee",
+    "deadpool::stan-lee",
+    "apocalypse::stan-lee",
+    "venom-1::stan-lee",
+    "deadpool-2::stan-lee",
+    "once-upon-a-deadpool::stan-lee",
+    "venom-2::stan-lee",
+    "spider-verse-1::stan-lee",
+    "deadpool-wolverine::stan-lee"
+  ],
+  "stanLeeProjects": 57,
+  "scope": "All confirmed filmed/voiced and pictorial Stan Lee cameos in projects already listed in this guide. Excludes unconfirmed likenesses, deleted scenes and dedications without an image. No new series episode metadata invented.",
+  "sources": {
+    "cameron": [
+      "https://marvelcinematicuniverse.fandom.com/wiki/Cameron_Klein"
+    ],
+    "commandos": [
+      "https://www.tvguide.com/movies/captain-america-the-first-avenger/cast/2030031441/",
+      "https://www.ksitetv.com/agent-carter/agent-carter-the-iron-ceiling-photos-with-the-howling-commandos/54268/",
+      "https://marvel.fandom.com/wiki/Howling_Commandos_(Earth-199999)"
+    ],
+    "ralph": [
+      "https://press.disneyplus.com/disney-plus/wandavision/images",
+      "https://www.gamesradar.com/entertainment/marvel-tv-shows/agatha-all-along-episode-6s-surprise-cameo-is-a-welcome-back-for-an-unexpected-wandavision-character/"
+    ],
+    "stan": [
+      "https://www.ksl.com/article/46425850/catch-the-cameo-a-list-of-stan-lees-movie-moments",
+      "https://www.whats-on-netflix.com/news/every-stan-lee-cameo-in-marvels-the-defenders/",
+      "https://en.wikipedia.org/wiki/List_of_cameo_appearances_by_Stan_Lee",
+      "https://www.marvel.com/articles/culture-lifestyle/celebrating-marvels-stan-lee-special-december-20",
+      "https://www.tvline.com/gallery/stan-lee-dead-cameos-marvel-tv-shows-photos/"
+    ]
+  }
+}

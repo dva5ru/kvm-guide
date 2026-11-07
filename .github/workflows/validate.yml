@@ -29,3 +29,5 @@ jobs:
         run: node --test scripts/tests/facts-appearances.test.mjs
       - name: Check generic episodes, WandaVision and legacy editing compatibility
         run: node --test scripts/tests/episodes.test.mjs
+      - name: Check grouped series, multiple character groups and completed character cards
+        run: node --test scripts/tests/character-series-groups.test.mjs

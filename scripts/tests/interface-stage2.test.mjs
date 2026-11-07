@@ -122,7 +122,7 @@ test('spoilers conceal item descriptions, path headings, participant notes and l
   }
   const p=g.D.p.find(p=>p.eps?.length),e=p.eps[0];g.go('ep-'+p.id+'-'+e[0]);
   const note=g.D.epRoles[p.id][e[0]][e[3][0]];assert.ok(!doc.querySelector('main').textContent.includes(note));
-  const cast=doc.querySelector('[data-bk="ep.cast"]')||[...doc.querySelectorAll('main section')].find(x=>x.textContent.includes('Персонажи в гайде'));
+  const cast=doc.querySelector('[data-bk="ep.cast"]')||[...doc.querySelectorAll('main section')].find(x=>x.textContent.includes('Персонажи'));
   const btn=cast.querySelector('[data-spk]');click(s.w,btn);assert.ok(cast.querySelector('.episode-person'));assert.ok(cast.textContent.includes(note));
   g.go('teams');assert.equal(doc.querySelector('.mem'),null);
   g.SPO.mode='off';g.go('teams');assert.ok(doc.querySelector('.mem'));
@@ -207,7 +207,8 @@ test('Sacred Timeline lives inside encyclopedia and preserves spoiler controls',
   const f=loadGuide();t.after(f.close);const {g,doc}=f;
   g.SPO.mode='off';g.go('encyclopedia');
   assert.ok(doc.querySelector('a[href="#sacred-timeline"]'));
-  assert.equal(doc.querySelectorAll('.sacred-card').length,3);
+  assert.equal(doc.querySelectorAll('.sacred-card').length,0,'encyclopedia shows a compact category, not the article itself');
+  g.go('home');assert.equal(doc.querySelectorAll('.sacred-card').length,0);
   g.go('sacred-timeline');
   assert.match(doc.querySelector('main h1').textContent,/Священная линия времени/);
   assert.equal(doc.querySelectorAll('.sacred-card').length,3);
