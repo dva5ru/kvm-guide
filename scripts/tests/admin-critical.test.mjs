@@ -48,7 +48,7 @@ test('loading draft before fetch never overwrites it even with older timestamp',
 test('filtered timeline uses original index and never mutates canonical timeline',()=>{
   const timeline=[[2020,'x','Excluded',['other']],[2021,'x','Official',['official']]];
   const keys=[],c=createContext({D:{tl:timeline,ev:[]},P:{other:{id:'other'},official:{id:'official'}},
-    EVS:{mode:'all'},TLV:{scope:'official'},isOfficial:p=>p.id==='official',
+    EVS:{mode:'all'},TLV:{scope:'official'},ADM:{edit:true},isOfficial:p=>p.id==='official',
     evGroup:()=> '2021',esc:v=>v,SPW:(ids,s)=>s,E:(k,v)=>{keys.push(k);return v},
     ctxP:()=>'',pLink:()=>''});
   for(const fn of ['evDetail','tlEvents'])add(c,fn);
