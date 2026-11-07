@@ -18,7 +18,7 @@ function setup() {
     imgQueueSave: async () => {},
   });
   const names = ['esc','norm','normF','normOvr','artAll','artGet','artPhoto','imgSrc','imgOneBtn',
-    'imgIndex','imgResolve','imgMatch','imgTarget','imgDefaultTarget','imgMatchReason','keyName','imgEnqueue','imgUploadOne','imgAssign','imgHandle','imgResHTML','ghImgUpload','ghApi','safeKey','itemCategory','copyKey','copyValue','buildSearch'];
+    'imgIndex','imgResolve','imgMatch','imgTarget','imgDefaultTarget','imgRecoverable','imgRecoverQueue','imgUnmatchedReport','imgCopyUnmatched','imgMatchReason','keyName','imgEnqueue','imgUploadOne','imgAssign','imgHandle','imgResHTML','ghImgUpload','ghApi','safeKey','itemCategory','copyKey','copyValue','buildSearch'];
   for (const name of names) {
     const start = app.indexOf('function '+name+'(');
     assert.notEqual(start, -1, name);
@@ -220,4 +220,29 @@ test('manual assignment resists repeat clicks and leaves other destinations inta
   assert.equal(c.UNM[0].done, true);
   assert.equal(c.UNM[1].target, 'Уру [a-uru]');
   assert.match(c.imgResHTML([]), /value="Уру \[a-uru\]"/);
+});
+
+test('previously unmatched batch can be assigned in one action after refresh without changing manual choices', async () => {
+  const c = setup(), image = 'data:image/jpeg;base64,eA==';
+  c.UNM = [
+    {name:'Кецилий.webp',url:image,target:'',done:false,pending:false},
+    {name:'Дар-Бенн [dar-benn].webp',url:image,target:'',done:false,pending:false},
+    {name:'Джин Грей.webp',url:image,target:'',done:false,pending:false},
+    {name:'Тони Старк _ Железный человек.webp',url:image,target:'c-peggy',done:false,pending:false},
+  ];
+  c.document = {querySelector: () => null};
+  assert.equal(c.imgRecoverable().length, 2);
+  assert.match(c.imgResHTML([]), /Поставить распознанные \(2\)/);
+  await c.imgRecoverQueue();
+  assert.deepEqual(Array.from(c.IMG_OK), ['c-kaecilius','c-dar-benn']);
+  assert.equal(c.UNM[0].done,true);
+  assert.equal(c.UNM[1].done,true);
+  assert.equal(c.UNM[2].done,false);
+  assert.equal(c.UNM[3].done,false);
+  assert.equal(c.UNM[3].target,'c-peggy');
+  const report = c.imgUnmatchedReport();
+  assert.match(report,/Джин Грей/);
+  assert.match(report,/Несколько совпадений/);
+  assert.match(report,/Тони Старк/);
+  assert.doesNotMatch(report,/Кецилий.webp/);
 });

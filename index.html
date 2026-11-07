@@ -1291,6 +1291,30 @@ function imgResolve(fname){var idx=imgIndex(),raw=String(fname||'').normalize('N
 function imgMatch(fname){return imgResolve(fname).key}
 function imgTarget(value){return imgMatch(value)}
 function imgDefaultTarget(u){var key=!u.target&&imgMatch(u.name);return u.target||(key?keyName(key)+' ['+key+']':'')}
+function imgRecoverable(){return UNM.map(function(u,i){return {u:u,i:i,key:!u.done&&!u.pending&&imgMatch(u.name)}}).filter(function(x){return x.key&&(!x.u.target||imgTarget(x.u.target)===x.key)})}
+function imgRecoverQueue(){
+  var rows=imgRecoverable(),before=IMG_OK.length;
+  if(!rows.length){toast('Нет однозначно распознанных фотографий в очереди.');return Promise.resolve()}
+  var chain=Promise.resolve();
+  rows.forEach(function(row){chain=chain.then(function(){
+    var u=row.u,key=imgMatch(u.name);
+    if(u.done||u.pending||key!==row.key||(u.target&&imgTarget(u.target)!==key))return;
+    var input=document.querySelector('[data-unm-in="'+row.i+'"]');
+    if(input)input.value=keyName(key)+' ['+key+']';
+    else u.target=keyName(key)+' ['+key+']';
+    return imgAssign(row.i)
+  })});
+  return chain.then(function(){var count=IMG_OK.length-before;toast('Назначено из очереди: '+count+' из '+rows.length+'. Остальные файлы сохранены для ручного выбора.');imgRefresh()})
+}
+function imgUnmatchedReport(){return UNM.filter(function(u){return !u.done}).map(function(u){
+  var m=imgResolve(u.name),choices=m.candidates.slice(0,5).map(function(k){return keyName(k)+' ['+k+']'}).join('; ');
+  return u.name+' | '+(m.key?'Найдено: '+keyName(m.key)+' ['+m.key+']':m.reason==='unknown-id'?'ID отсутствует в каталоге':m.reason==='ambiguous'?'Несколько совпадений':'Совпадений нет')+(choices?' | '+choices:'')+(u.target?' | Выбрано: '+u.target:'')
+}).join('\n')}
+function imgCopyUnmatched(){
+  var content=imgUnmatchedReport();if(!content)return;
+  if(navigator.clipboard&&navigator.clipboard.writeText){return navigator.clipboard.writeText(content).then(function(){toast('Список неназначенных фотографий скопирован.');}).catch(function(){prompt('Скопируйте список:',content)})}
+  prompt('Скопируйте список:',content)
+}
 function imgMatchReason(u){var match=imgResolve(u.name);if(match.key)return 'Имя распознано. Нажмите «Поставить», чтобы назначить фото.';if(match.reason==='ambiguous')return 'Несколько подходящих карточек: '+match.candidates.slice(0,3).map(function(key){return keyName(key)+' ['+key+']'}).join('; ')+(match.candidates.length>3?'…':'')+'. Выберите нужную ниже.';return match.reason==='unknown-id'?'ID из имени файла не найден. Выберите карточку ниже.':'Не удалось однозначно определить карточку. Выберите её ниже.'}
 function keyName(k){if(k.indexOf('--look-')>=0){var cid=k.slice(2,k.indexOf('--look-'));return (C[cid]?C[cid].n:cid)+' — '+charLookLabel(k)}var id=k.slice(2);if(k.slice(0,3)==='pl-'){id=k.slice(3);return PL[id]?PL[id].n:id}if(k[0]==='f')return P[id]?P[id].t:id;if(k[0]==='a'){var a=artGet(id);return a?a.n:id}return C[id]?C[id].n:id}
 function imgRefresh(){
@@ -1317,7 +1341,7 @@ document.addEventListener('input',function(e){var el=e.target&&e.target.closest&
   if(!el)return;var u=UNM[+el.getAttribute('data-unm-in')];if(u&&!u.done){u.target=el.value;imgQueueSave()}
 });
 function imgResHTML(ok){return (IMG_BUSY?'<p class="muted" role="status">Осталось обработать: '+IMG_BUSY+'</p>':'')+(ok.length?'<p class="ok-note">Поставлено автоматически: '+ok.length+'. '+ok.slice(-12).map(function(k){return esc(keyName(k))}).join(', ')+(ok.length>12?'…':'')+'</p>':'')+(IMG_FAILED.length?'<h3 class="sub">Не загружено ('+IMG_FAILED.length+')</h3>'+IMG_FAILED.map(function(f){return '<p class="muted">'+esc(f.name)+': '+esc(f.error)+'</p>'}).join(''):'')+
-  (UNM.some(function(u){return !u.done})?'<h3 class="sub">Выберите, куда поставить ('+UNM.filter(function(u){return !u.done}).length+')</h3><p class="muted">Выберите фильм, героя, артефакт или материал из подсказок. ID в скобках определяет точную карточку.</p><datalist id="img-targets">'+imgIndex().filter(function(e,i,a){return a.findIndex(function(x){return x[0]===e[0]})===i}).map(function(e){return '<option value="'+esc(e[2]+' ['+e[0]+']')+'">'}).join('')+'</datalist>'+
+  (UNM.some(function(u){return !u.done})?'<h3 class="sub">Выберите, куда поставить ('+UNM.filter(function(u){return !u.done}).length+')</h3><p class="muted">Неопознанные фото сохраняются в этом браузере. Если вы загружали их до обновления сайта, перезагрузите страницу: очередь восстановится. Совпадения можно назначить сразу одной кнопкой. Спорные имена требуют ручного выбора.</p>'+(imgRecoverable().length?'<button type="button" class="btn" data-unm-recover>Поставить распознанные ('+imgRecoverable().length+')</button> ':'')+'<button type="button" class="btn" data-unm-copy>Скопировать список неназначенных</button><datalist id="img-targets">'+imgIndex().filter(function(e,i,a){return a.findIndex(function(x){return x[0]===e[0]})===i}).map(function(e){return '<option value="'+esc(e[2]+' ['+e[0]+']')+'">'}).join('')+'</datalist>'+
    UNM.map(function(u,i){return u.done?'':'<div class="unm"><img src="'+u.url+'" alt=""><span>'+esc(u.name)+'<small class="muted">'+esc(imgMatchReason(u))+'</small></span><input type="text" list="img-targets" data-unm-in="'+i+'" value="'+esc(imgDefaultTarget(u))+'" placeholder="Название или ID карточки" aria-label="Куда поставить '+esc(u.name)+'"'+(u.pending?' disabled':'')+'><button type="button" class="btn" data-unm="'+i+'"'+(u.pending?' disabled':'')+'>'+(u.pending?'Сохраняю…':'Поставить')+'</button></div>'}).join(''):'')}
 var IMG_FOLDERS=[['heroes','Герои'],['places','Места'],['posters','Постеры'],['artifacts','Артефакты']];
 function imgFolder(k){return k.slice(0,3)==='pl-'?'places':k.slice(0,2)==='c-'?'heroes':k.slice(0,2)==='f-'?'posters':'artifacts'}
@@ -1607,7 +1631,7 @@ function imgLooksUpload(input){
  IMG_QUEUE.then(function(){input.disabled=false;rerender();toast(IMG_FAILED.length?'Проверьте ошибки загрузки':'Облики добавлены. Нажмите «Опубликовать».')})
 }
 function imgOneBtn(key){if(!ADM.on)return '';return '<label class="imgone"><input type="file" accept="image/*" data-img-one="'+key+'">'+(IMG[key]?'Заменить картинку':'Своя картинка')+'</label>'+(IMG[key]?' <button type="button" class="linkbtn" data-img-del="'+key+'">Убрать</button>':'')}
-function imagesView(){if(!ADM.on)return home();return '<h1>Картинки</h1><p class="lead" style="margin-top:10px">Картинки, которые вы добавите здесь, увидят все, кто откроет сайт, после того как вы нажмёте «Опубликовать». Фотографии можно добавить героям, местам, постерам фильмов, артефактам и материалам. Назовите файл как карточку: «Вибраниум.jpg», «Мьёльнир.png» или «a-thanos-gauntlet.jpg». Для неоднозначных названий выберите точную карточку из подсказок. На странице каждого предмета есть кнопка «Своя картинка».</p>'+
+function imagesView(){if(!ADM.on)return home();return '<h1>Картинки</h1><p class="lead" style="margin-top:10px">Картинки, которые вы добавите здесь, увидят все, кто откроет сайт, после того как вы нажмёте «Опубликовать». Загрузчик изображений: 08.11.2026 / восстановление очереди. Фотографии можно добавить героям, местам, постерам фильмов, артефактам и материалам. Назовите файл как карточку: «Вибраниум.jpg», «Мьёльнир.png» или «a-thanos-gauntlet.jpg». Для неоднозначных названий выберите точную карточку из подсказок. На странице каждого предмета есть кнопка «Своя картинка».</p>'+
   '<label class="drop" id="drop"><input type="file" accept="image/*" multiple data-img-files><b>Перетащите сюда картинки</b><span>или нажмите, чтобы выбрать. Можно сразу много. Неопознанные фото сохранятся в очереди до назначения.</span></label><div id="img-res">'+imgResHTML(IMG_OK)+'</div>'+imgHaveHTML()}
 // ---------- панель админки ----------
 function admBar(){var b=document.getElementById('adm');if(!ADM.can){if(b)b.remove();return}
@@ -1809,6 +1833,8 @@ document.addEventListener('click',function(e){
   if(t.hasAttribute('data-art-go')){ST.art=t.getAttribute('data-art-go');if(location.hash==='#stones'){e.preventDefault();route()}return}
   if(t.hasAttribute('data-img-del')){imgDel(t.getAttribute('data-img-del')).then(route);return}
   if(t.hasAttribute('data-img-clear')){if(confirm('Удалить все свои картинки?'))imgClear().then(route);return}
+  if(t.hasAttribute('data-unm-recover')){imgRecoverQueue();return}
+  if(t.hasAttribute('data-unm-copy')){imgCopyUnmatched();return}
   if(t.hasAttribute('data-unm')){imgAssign(+t.getAttribute('data-unm'));return}
   if(t.hasAttribute('data-stone')){ST.stone=t.getAttribute('data-stone');document.querySelectorAll('[data-stone]').forEach(function(b){b.classList.toggle('on',b===t)});document.getElementById('stone-d').innerHTML=stoneDetail();return}
   if(t.hasAttribute('data-art')){ST.art=t.getAttribute('data-art');document.querySelectorAll('[data-art]').forEach(function(b){b.classList.toggle('on',b===t)});document.getElementById('art-d').innerHTML=artDetail();return}
