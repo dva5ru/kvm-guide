@@ -6,10 +6,10 @@ const SECTION_NAMES=['Первый экран','Как смотреть КВМ',
 
 test('concept-six homepage shows sections in approved order and retains working routes',t=>{
   const s=loadGuide();t.after(s.close);const {doc,errors}=s;
-  const sections=[...doc.querySelectorAll('.h6-page .blk[data-bp="home"]')];
-  assert.equal(sections.length,8,'eight editable homepage sections');
-  assert.deepEqual(sections.map(x=>x.querySelector('.blk-bar')?.textContent.trim()||x.dataset.bk),
-    ['h.hero','h.ways','h.focus','h.picks','h.recent','h.soon','h.history','h.random']);
+  const sections=[...doc.querySelectorAll('.h6-page > section.h6-hero, .h6-page > section.h6-section')];
+  assert.equal(sections.length,8,'eight homepage sections');
+  assert.deepEqual(sections.map(x=>x.classList.contains('h6-hero')?'hero':x.className.match(/h6-(ways|focus|picks|recent|upcoming|history|random)/)?.[1]),
+    ['hero','ways','focus','picks','recent','upcoming','history','random']);
   for(const name of SECTION_NAMES)assert.ok(doc.querySelector('main').textContent.includes(name),name);
   const heroes=doc.querySelectorAll('.h6-portrait[href^="#c-"]');
   assert.equal(heroes.length,6,'six existing character links');
