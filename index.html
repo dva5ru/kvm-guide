@@ -528,34 +528,10 @@ main.enter{animation:rise .38s cubic-bezier(.2,.7,.2,1) both}
 .uv-n text{fill:var(--ink);font-weight:600;font-size:13px;paint-order:stroke;stroke:var(--surface);stroke-width:3px;pointer-events:none}
 .uv-c text.uv-ct{fill:#fff;stroke:none;font-family:var(--f-display);font-size:22px}
 .ucard{margin-top:22px;scroll-margin-top:140px}
-/* смерти */
-.deaths{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.deaths li{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:12px 14px;animation:rise .4s ease both}
-.deaths p{margin-top:4px}
 .back-note{color:var(--st-canon)}
 .back-note span{font-weight:600}
 .back-note .chip{margin-left:4px}
-/* викторина */
-.qz{max-width:720px}
-.qz-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.qz-bar{height:8px;border-radius:999px;background:var(--surface2);border:1px solid var(--soft);margin:12px 0 18px;overflow:hidden}
-.qz-bar i{display:block;height:100%;background:var(--red);transition:width .4s ease}
-.qz-q{font-size:clamp(22px,3vw,30px)}
-.qz-opts{display:grid;gap:10px;margin:18px 0}
-.qz-o{text-align:left;padding:12px 16px;border:2px solid var(--line);border-radius:var(--radius);background:var(--surface);font-size:16px;cursor:pointer;transition:transform .15s ease,background-color .2s ease,border-color .2s ease}
-.qz-o:hover:not(:disabled){transform:translateX(4px);background:var(--surface2)}
-.qz-o.ok{background:color-mix(in srgb,var(--st-canon) 18%,var(--surface));border-color:var(--st-canon)}
-.qz-o.bad{background:color-mix(in srgb,var(--red) 16%,var(--surface));border-color:var(--red);animation:shake .35s ease}
-.qz-o.dim{opacity:.55}
 @keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-.qz-fb{padding:12px 14px;border-radius:var(--radius);margin-bottom:14px;animation:rise .3s ease}
-.qz-fb.ok{background:color-mix(in srgb,var(--st-canon) 14%,transparent)}
-.qz-fb.bad{background:color-mix(in srgb,var(--red) 12%,transparent)}
-.qz-end{text-align:center;max-width:620px}
-.qz-score{display:block;font-family:var(--f-display);font-weight:700;font-size:72px;color:var(--red);line-height:1}
-.qz-end .hero-actions{justify-content:center}
-.qz-card{border:0;background:none;padding:0;text-align:left;cursor:pointer;font:inherit;color:inherit}
-.eggs li::marker{content:"✦ ";color:var(--red)}
 /* глобус */
 .globewrap{position:relative;display:none}
 .mapbox.globe-on .globewrap{display:block}
@@ -570,12 +546,6 @@ main.enter{animation:rise .38s cubic-bezier(.2,.7,.2,1) both}
 /* ---------- v6: ссылки в тексте, смерти, свои картинки ---------- */
 a.ent{color:inherit;text-decoration:underline;text-decoration-style:dotted;text-decoration-color:color-mix(in srgb,var(--red) 70%,transparent);text-underline-offset:3px;transition:color .15s ease,text-decoration-color .15s ease}
 a.ent:hover,a.ent:focus-visible{color:var(--red);text-decoration-style:solid}
-.dnote{margin-top:6px;padding:6px 10px;border-radius:6px;background:var(--surface2);font-size:15px}
-.dnote span{font-weight:600}
-.dt-back,.dt-fake{background:color-mix(in srgb,var(--st-canon) 13%,transparent)}
-.dt-back span,.dt-fake span{color:var(--st-canon)}
-.dt-past span,.dt-spirit span,.dt-variant span{color:var(--st-alt)}
-.dt-unknown span{color:var(--st-linked)}
 .cover.has-img{background-size:cover;background-position:center}
 .cover.has-img::before,.cover.has-img::after,.cover.has-img .cv-t{display:none}
 .cover.has-img .cv-y{align-self:flex-start;background:rgba(0,0,0,.55);padding:1px 6px;border-radius:3px}
@@ -641,7 +611,7 @@ body:has(.adm) main.wrap{padding-bottom:140px}
 .art-card b{font-family:var(--f-display);font-weight:600;font-size:17px}
 .art-card span{font-size:13px;color:var(--muted)}
 .art-dot.sm{width:26px;height:26px;margin:0}
-@media (prefers-reduced-motion:reduce){.lk-n,.uv-n,.realm{opacity:1!important;animation:none!important}.lk-l{stroke-dasharray:none!important;stroke-dashoffset:0!important;animation:none!important}.uv-l,.mchip,.apps>li,.deaths li{animation:none!important}.kw-l{animation:none!important}}
+@media (prefers-reduced-motion:reduce){.lk-n,.uv-n,.realm{opacity:1!important;animation:none!important}.lk-l{stroke-dasharray:none!important;stroke-dashoffset:0!important;animation:none!important}.kw-l{animation:none!important}}
 .lk-n:focus-visible circle,.uv-n:focus-visible circle,.pl:focus-visible .body,.realm:focus-visible .body{stroke:var(--yellow);stroke-width:4}
 
 /* ---------- v9: спойлеры, маршруты, релизы ---------- */
@@ -912,7 +882,7 @@ function plLink(id){var x=PL[id];return x?'<a class="chip" href="#p-'+x.id+'">'+
 function lnName(id){return LN[id]?LN[id].n:id}
 function daysTo(){var t=new Date(2026,11,18),n=new Date();n.setHours(0,0,0,0);return Math.round((t-n)/864e5)}
 
-function wbtn(){return ''}
+
 
 
 // ---------- prev/next ----------
@@ -952,7 +922,7 @@ function tlFilter(p){if(TL.kind==='film'&&!filmKind(p))return false;if(TL.kind==
   if(TL.imp&&p.dm<2)return false;return true}
 function row(p,num){return '<li class="row'+''+'"><span class="num">'+(num||'')+'</span>'+cover(p,'mini')+
   '<a class="ttl" href="#f-'+p.id+'"><b>'+esc(p.t)+'</b><span>'+esc(D.k[p.k])+', премьера '+esc(fwhen(p.r))+(p.w&&p.w!=='—'?'. Время действия: '+esc(p.w):'')+'</span></a>'+
-  '<span class="side">'+(p.s!=='canon'?stBadge(p.s):'')+impBadge(p)+wbtn(p.id)+'</span></li>'}
+  '<span class="side">'+(p.s!=='canon'?stBadge(p.s):'')+impBadge(p)+'</span></li>'}
 
 
 // ---------- catalog ----------
@@ -1199,25 +1169,12 @@ var DS={f:'all'};
 
 
 // ---------- викторина ----------
-var QZ={qs:[],i:0,score:0,ans:null,label:''};
-function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
-function quizStart(key){var Q=D.enc.quiz,qs=[];
-  if(key==='random'){Object.keys(Q).forEach(function(pid){Q[pid].forEach(function(q){qs.push([pid,q])})});qs=shuffle(qs).slice(0,10);QZ.label='10 случайных вопросов'}
-  else{qs=Q[key].map(function(q){return [key,q]});QZ.label=P[key].t}
-  QZ.qs=qs;QZ.i=0;QZ.score=0;QZ.ans=null}
-function quizInner(){
-  if(!QZ.qs.length){var films=Object.keys(D.enc.quiz).sort(function(a,b){return (P[a].ord||900)-(P[b].ord||900)});
-    return '<p class="lead">Выберите фильм или сыграйте в 10 случайных вопросов по всей КВМ.</p><p style="margin:18px 0 24px"><button type="button" class="btn primary" data-qz-start="random">10 случайных вопросов</button></p><div class="grid">'+films.map(function(pid){var p=P[pid];return '<button type="button" class="card qz-card" data-qz-start="'+pid+'">'+cover(p)+'<b>'+esc(p.t)+'</b><span class="meta">'+D.enc.quiz[pid].length+' '+plural(D.enc.quiz[pid].length,['вопрос','вопроса','вопросов'])+'</span></button>'}).join('')+'</div>'}
-  if(QZ.i>=QZ.qs.length){var n=QZ.qs.length,k=QZ.score,msg=k===n?'Идеально! Вы знаете КВМ как Наблюдатель.':k>=n*0.7?'Отлично! Почти без ошибок.':k>=n*0.4?'Неплохо, но есть что пересмотреть.':'Стоит пересмотреть пару фильмов.';
-    return '<div class="panel pad qz-end"><span class="qz-score">'+k+' из '+n+'</span><h2>'+msg+'</h2><p class="muted">'+esc(QZ.label)+'</p><div class="hero-actions"><button type="button" class="btn primary" data-qz-retry>Ещё раз</button><button type="button" class="btn" data-qz-reset>Выбрать другой фильм</button></div></div>'}
-  var it=QZ.qs[QZ.i],q=it[1],pid=it[0],a=QZ.ans;
-  return '<div class="panel pad qz"><div class="qz-top"><span class="muted">Вопрос '+(QZ.i+1)+' из '+QZ.qs.length+'</span>'+pLink(pid)+'</div><div class="qz-bar"><i style="width:'+(QZ.i/QZ.qs.length*100)+'%"></i></div><h2 class="qz-q">'+esc(q[0])+'</h2><div class="qz-opts">'+
-    q[1].map(function(o,j){var cls=a==null?'':(j===q[2]?' ok':(j===a?' bad':' dim'));return '<button type="button" class="qz-o'+cls+'" data-qz-a="'+j+'"'+(a!=null?' disabled':'')+'>'+esc(o)+'</button>'}).join('')+'</div>'+
-    (a!=null?'<div class="qz-fb '+(a===q[2]?'ok':'bad')+'"><b>'+(a===q[2]?'Верно!':'Не совсем.')+'</b> '+esc(q[3])+'</div><button type="button" class="btn primary" data-qz-next>'+(QZ.i+1<QZ.qs.length?'Дальше':'Результат')+'</button>':'')+
-    '<p style="margin-top:16px"><button type="button" class="back" data-qz-reset>Выйти из викторины</button></p></div>';
-}
 
-function quizRefresh(){var z=document.getElementById('qz');if(z)z.innerHTML=quizInner()}
+
+
+
+
+
 // ---------- тема ----------
 var THEMES=['auto','light','dark'],THL={auto:'◐ Авто',light:'☀ Светлая',dark:'☾ Тёмная'};
 function curTheme(){return document.documentElement.getAttribute('data-theme')||'auto'}
@@ -1651,12 +1608,10 @@ function placeView(x){var TT={e:'Место на Земле',c:'Космос',r:
   return '<button class="back" type="button" data-back>← Назад</button><h1>'+esc(x.n)+'</h1><div class="badges"><span class="chip">'+TT[x.t]+'</span>'+(x.t==='e'?'<a class="chip" href="#map" data-show-on-map="'+x.id+'">Показать на карте</a>':(D.space[x.id]||D.tree[x.id]?'<a class="chip" href="#map">Показать на карте космоса</a>':''))+'</div>'+
   (imgSrc('pl-'+x.id)?'<div class="place-image"><button type="button" data-zoom-key="pl-'+x.id+'" class="portrait-trigger" aria-label="Увеличить фото места"><img loading="lazy" src="'+esc(imgSrc('pl-'+x.id))+'" alt="'+esc(x.n)+'"></button></div>':'')+imgOneBtn('pl-'+x.id)+'<p class="about" style="margin-top:16px">'+(ADM.edit?E('pl.'+x.id+'.ab',x.ab,ctxP(x.pr),x.id):spField('pl.'+x.id,x.ab,x.pr,ctxP(x.pr),x.id))+'</p>'+(x.ev.length?'<section><h2>Что здесь произошло</h2><ul class="tl" style="margin-top:16px">'+x.ev.map(evItem).join('')+'</ul></section>':'')+
   (mcu.length?'<section><h2>Проекты КВМ</h2><div class="grid" style="margin-top:14px">'+mcu.map(card).join('')+'</div></section>':'')+(oth.length?'<section><h2>Вне КВМ</h2><div class="grid" style="margin-top:14px">'+oth.map(card).join('')+'</div></section>':'')}
-function deathList(){var L=D.enc.deaths.map(function(d,i){return [d,i]}).filter(function(x){var d=x[0];return DS.f==='all'||(DS.f==='back'?DT_BACK[d[3]]:DS.f==='unknown'?d[3]==='unknown':(!DT_BACK[d[3]]&&d[3]!=='unknown'))}).sort(function(a,b){var x=P[a[0][1]],y=P[b[0][1]];return (x.ord||900)-(y.ord||900)||(x.r<y.r?-1:1)});
-  return '<p class="muted" style="margin-bottom:12px">Всего: '+L.length+'</p><ol class="deaths">'+L.map(function(x){var d=x[0],i=x[1],c=C[d[0]],cx=ctxP([d[1]].concat(d[5]?[d[5]]:[]));return '<li class="panel"><a href="#c-'+c.id+'" aria-hidden="true" tabindex="-1">'+mono(c)+'</a><div><div class="ah"><a href="#c-'+c.id+'"><b>'+esc(short(c.id))+'</b></a>'+pLink(d[1])+'</div><p>'+E('d.'+i+'.how',d[2],cx,c.id)+'</p>'+
-    (d[3]?'<p class="dnote dt-'+d[3]+'"><span>'+esc(D.enc.deathTypes[d[3]])+'.</span> '+E('d.'+i+'.txt',d[4],cx,c.id)+(d[5]?' '+pLink(d[5]):'')+'</p>':'')+'</div></li>'}).join('')+'</ol>'}
+
 // ---------- картинки (общие для всех, грузит только админ) ----------
 function dataUrlToBlob(u){var a=u.split(','),m=a[0].match(/:(.*?);/)[1],b=atob(a[1]),n=b.length,arr=new Uint8Array(n);while(n--)arr[n]=b.charCodeAt(n);return new Blob([arr],{type:m})}
-function imgLoadAll(){}
+
 function imgPut(key,url){if(ADM.gh)return ghImgUpload(key,url);if(ADM.assets){return ADM.assets.upload(dataUrlToBlob(url)).then(function(r){OVR.img[key]=r.url;IMG=OVR.img;saveDraft()})}OVR.img[key]=url;IMG=OVR.img;saveDraft();return Promise.resolve()}
 function imgDel(key){delete OVR.img[key];delete OVR.copy['look:'+key];IMG=OVR.img;saveDraft();return Promise.resolve()}
 function imgClear(){OVR.img={};Object.keys(OVR.copy).forEach(function(k){if(k.indexOf('look:')===0)delete OVR.copy[k]});IMG=OVR.img;saveDraft();return Promise.resolve()}
@@ -1874,7 +1829,7 @@ document.addEventListener('click',function(e){
     if(act==='discard'){if(confirm('Отменить все неопубликованные изменения?')){OVR=clone(PUB);applyOVR();try{localStorage.removeItem(DRAFT_KEY)}catch(x){}applyNav();admBar();rerender()}return}
     return}
   if(e.target.closest('[data-gh-login]')){ghLogin();return}
-  var t=e.target.closest('[data-legend],[data-tls],[data-tlv],[data-tle],[data-tlo],[data-ct-kind2],[data-ct-sort2],[data-ct-open],[data-ct-reset],[data-go-tl],[data-lkview],[data-stone-go],[data-art-go],[data-img-del],[data-img-clear],[data-unm],[data-stone],[data-art],[data-lk],[data-dsf],[data-qz-start],[data-qz-a],[data-qz-next],[data-qz-retry],[data-qz-reset],[data-gz],[data-sp],[data-yg],[data-scroll],[data-evm],[data-tl-mode],[data-ct-st],[data-hs-g],[data-mr],[data-mk],[data-msel],[data-back],[data-ct-only],[data-show-on-map],[data-hs-goto],[data-lk-go]');if(!t)return;
+  var t=e.target.closest('[data-legend],[data-tls],[data-tlv],[data-tle],[data-tlo],[data-ct-kind2],[data-ct-sort2],[data-ct-open],[data-ct-reset],[data-go-tl],[data-lkview],[data-stone-go],[data-art-go],[data-img-del],[data-img-clear],[data-unm],[data-stone],[data-art],[data-lk],[data-gz],[data-sp],[data-yg],[data-scroll],[data-evm],[data-tl-mode],[data-ct-st],[data-hs-g],[data-mr],[data-mk],[data-msel],[data-back],[data-ct-only],[data-show-on-map],[data-hs-goto],[data-lk-go]');if(!t)return;
   if(t.hasAttribute('data-tls')){TLV.scope=t.getAttribute('data-tls');syncURL('timeline','scope='+TLV.scope+'&view='+TLV.view+'&order='+TLV.order);rerender();return}
   if(t.hasAttribute('data-tlv')){TLV.view=t.getAttribute('data-tlv');if(location.hash==='#events'){history.replaceState(null,'','#timeline');CUR='timeline'}rerender();return}
   if(t.hasAttribute('data-tle')){TLV.evk=t.getAttribute('data-tle');rerender();return}
@@ -1896,12 +1851,6 @@ document.addEventListener('click',function(e){
   if(t.hasAttribute('data-stone')){ST.stone=t.getAttribute('data-stone');document.querySelectorAll('[data-stone]').forEach(function(b){b.classList.toggle('on',b===t)});document.getElementById('stone-d').innerHTML=stoneDetail();return}
   if(t.hasAttribute('data-art')){ST.art=t.getAttribute('data-art');document.querySelectorAll('[data-art]').forEach(function(b){b.classList.toggle('on',b===t)});document.getElementById('art-d').innerHTML=artDetail();return}
   if(t.hasAttribute('data-lk')){e.preventDefault();setLink(t.getAttribute('data-lk'));return}
-  if(t.hasAttribute('data-dsf')){DS.f=t.getAttribute('data-dsf');main.querySelectorAll('[data-dsf]').forEach(function(b){b.classList.toggle('on',b===t)});document.getElementById('ds-list').innerHTML=deathList();return}
-  if(t.hasAttribute('data-qz-start')){quizStart(t.getAttribute('data-qz-start'));if(location.hash!=='#quiz')location.hash='quiz';else{quizRefresh();window.scrollTo(0,0)}return}
-  if(t.hasAttribute('data-qz-a')){if(QZ.ans!=null)return;QZ.ans=+t.getAttribute('data-qz-a');if(QZ.ans===QZ.qs[QZ.i][1][2])QZ.score++;quizRefresh();return}
-  if(t.hasAttribute('data-qz-next')){QZ.i++;QZ.ans=null;quizRefresh();return}
-  if(t.hasAttribute('data-qz-retry')){QZ.i=0;QZ.score=0;QZ.ans=null;QZ.qs=shuffle(QZ.qs);quizRefresh();return}
-  if(t.hasAttribute('data-qz-reset')){QZ.qs=[];quizRefresh();return}
   if(t.hasAttribute('data-gz')){GL.auto=false;if(glReduce()){GL.k=Math.max(.9,Math.min(9,GL.k*(t.getAttribute('data-gz')==='1'?1.5:.67)));drawGlobe();return}GL.anim={t0:performance.now(),d:300,r0:GL.rot.slice(),r1:GL.rot.slice(),k0:GL.k,k1:Math.max(.9,Math.min(9,GL.k*(t.getAttribute('data-gz')==='1'?1.5:.67)))};return}
   if(t.hasAttribute('data-sp')){var cs=document.getElementById('cside');cs.innerHTML=placeSide(t.getAttribute('data-sp'));cs.classList.remove('flash');void cs.offsetWidth;cs.classList.add('flash');document.querySelectorAll('[data-sp]').forEach(function(g){g.classList.toggle('sel',g.getAttribute('data-sp')===t.getAttribute('data-sp'))});if(window.innerWidth<900)cs.scrollIntoView({behavior:'smooth',block:'nearest'});return}
   if(t.hasAttribute('data-yg')){var ys=document.getElementById('yside');ys.innerHTML=placeSide(t.getAttribute('data-yg'));ys.classList.remove('flash');void ys.offsetWidth;ys.classList.add('flash');document.querySelectorAll('[data-yg]').forEach(function(g){g.classList.toggle('sel',g===t)});if(window.innerWidth<900)ys.scrollIntoView({behavior:'smooth',block:'nearest'});return}
