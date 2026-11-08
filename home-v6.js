@@ -50,13 +50,13 @@
   }
   function actorName(c){return (c.n||'').split(' / ')[0]}
   function hero(ctx){
-    var people=['tony','steve','wanda','loki','thor'];
+    var people=['tony','steve','thor','bruce','natasha','clint'];
     return '<section class="h6-hero" aria-labelledby="h6-hero-heading"><div class="h6-hero-copy">'+
       '<span class="h6-eyebrow">ИСТОРИИ · ГЕРОИ · ВСЕЛЕННЫЕ</span>'+
       '<h1 id="h6-hero-heading">'+headline(ctx,'home6.hero.title','Киновселенная Marvel')+'</h1>'+
       '<p class="h6-lead">'+headline(ctx,'home6.hero.lead','Путеводитель по фильмам, сериалам и героям Marvel. Выбирайте порядок просмотра, исследуйте истории и находите связи между событиями.')+'</p>'+
       '<div class="h6-actions"><a class="h6-button h6-button-red" href="#watch">Как начать смотреть</a><a class="h6-button h6-button-outline" href="#encyclopedia">Исследовать истории</a></div>'+
-      '</div><div class="h6-hero-art" role="group" aria-label="Пять героев киновселенной Marvel">'+people.map(function(id,i){var c=ctx.C[id];if(!c)return '';return '<a class="h6-portrait h6-portrait-'+i+'" href="#c-'+esc(id)+'" aria-label="Открыть карточку: '+esc(c.n)+'">'+photoPanel(ctx,'c-'+id,c.n,'h6-portrait-img')+'<span>'+esc(actorName(c))+'</span></a>'}).join('')+'</div></section>';
+      '</div><div class="h6-hero-art" role="group" aria-label="Шесть оригинальных Мстителей">'+people.map(function(id,i){var c=ctx.C[id];if(!c)return '';return '<a class="h6-portrait h6-portrait-'+i+'" href="#c-'+esc(id)+'" aria-label="Открыть карточку: '+esc(c.n)+'">'+photoPanel(ctx,'c-'+id,c.n,'h6-portrait-img')+'<span>'+esc(actorName(c))+'</span></a>'}).join('')+'</div></section>';
   }
   function watchWays(ctx){
     var byRelease=ctx.D.p.filter(function(p){return visibleProject(p)&&p.s==='canon'&&validDate(p.r)&&p.r<=ctx.todayStr()}).sort(function(a,b){return a.r.localeCompare(b.r)})[0];

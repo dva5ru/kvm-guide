@@ -13,10 +13,17 @@ test('concept-six homepage shows sections in approved order and retains working 
     ['hero','ways','focus','picks','recent','upcoming','history','random']);
   for(const name of SECTION_NAMES)assert.ok(doc.querySelector('main').textContent.includes(name),name);
   const heroes=doc.querySelectorAll('.h6-portrait[href^="#c-"]');
-  assert.equal(heroes.length,5,'five non-overlapping character links');
-  assert.deepEqual([...heroes].map(x=>x.getAttribute('href')),['#c-tony','#c-steve','#c-wanda','#c-loki','#c-thor']);
+  assert.equal(heroes.length,6,'six original Avengers character links');
+  assert.deepEqual([...heroes].map(x=>x.getAttribute('href')),['#c-tony','#c-steve','#c-thor','#c-bruce','#c-natasha','#c-clint']);
   assert.ok(doc.querySelector('.h6-hero-copy h1'),'text column remains in place');
-  assert.ok(doc.querySelector('.h6-hero-art[role="group"]'),'independent visual column');
+  assert.ok(doc.querySelector('.h6-hero-art[role="group"][aria-label="Шесть оригинальных Мстителей"]'),'independent visual column');
+  // The DOM fixture does not load persisted image assignments; verify the published image registry instead.
+  const imageRegistry=JSON.parse(readFileSync(new URL('../../content.json',import.meta.url),'utf8')).img;
+  for(const id of ['tony','steve','thor','bruce','natasha','clint']){
+    const src=imageRegistry['c-'+id];
+    assert.ok(src,'portrait image assignment exists for '+id);
+    assert.ok(readFileSync(new URL('../../'+src.split('?')[0],import.meta.url)).byteLength>0,'portrait image file exists for '+id);
+  }
   assert.equal(doc.querySelectorAll('.h6-picks-grid a').length,4);
   assert.ok(doc.querySelector('.top-v6 nav.tabs a[href="#watch"]'));
   assert.ok(doc.querySelector('.top-v6 #q'));
@@ -99,11 +106,14 @@ test('spoiler preferences hide narrative descriptions on the homepage',t=>{
   assert.equal(s.errors.length,0,s.errors.join('\n'));
 });
 
-test('hero stylesheet uses a five-column clipped layout and a compact horizontal-scroll fallback',()=>{
+test('hero stylesheet uses six seamless diagonal portraits and horizontal-scroll fallback',()=>{
   const css=readFileSync(new URL('../../home-v6.css',import.meta.url),'utf8');
-  assert.ok(css.includes('.h6-hero-art{display:grid;grid-template-columns:repeat(5,minmax(0,1fr))'),'five equal portrait tracks');
+  assert.match(css,/\.h6-hero-art\{[^}]*display:flex;gap:0;/,'six portraits without grid gutters');
+  assert.match(css,/\.h6-portrait\{[^}]*margin-left:calc\(-1 \* var\(--h6-slice-overlap\)\)/,'each slanted slice overlaps the previous one');
+  assert.match(css,/\.h6-portrait:first-child\{[^}]*margin-left:0/,'first slice starts flush');
+  assert.match(css,/\.h6-portrait:last-child\{[^}]*100% 0,100% 100%/,'last slice covers the right edge');
   assert.match(css,/\.h6-portrait\{[^}]*clip-path:polygon\(/);
   assert.match(css,/@media\(max-width:1000px\)\{[\s\S]*?flex-direction:column/);
-  assert.match(css,/@media\(max-width:520px\)\{[\s\S]*?grid-auto-flow:column/);
-  assert.doesNotMatch(css,/\.h6-portrait-5\{/);
+  assert.match(css,/@media\(max-width:520px\)\{[\s\S]*?overflow-x:auto/);
+  assert.match(css,/\.h6-portrait-5 \.h6-portrait-img\{/);
 });
