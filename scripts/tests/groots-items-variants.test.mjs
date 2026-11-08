@@ -76,7 +76,7 @@ test('project item blocks share encyclopedia links, photos and edited names and 
   g.go('a-mjolnir');assert.equal(doc.querySelector('section:last-child a[href="#f-infinity-war"]'),null);
   g.go('f-wakanda-forever');assert.equal(doc.querySelector('.project-items a[href="#a-armor"]'),null,'Riri armor is not Tony armor');
   g.go('f-endgame');assert.ok(doc.querySelector('.project-items a[href="#a-nano-gauntlet"]'));
-  g.go('f-endgame-encore');assert.ok(doc.querySelector('.project-items a[href="#a-nano-gauntlet"]'),'a rerelease shares the original film items');
+  g.go('f-endgame-encore');assert.equal(doc.querySelector('.project-items'),null,'a rerelease only shows edition differences');assert.ok(doc.querySelector('a[href="#f-endgame"]'),'original film remains linked');
   g.go('f-wandavision');assert.ok(doc.querySelector('.project-items a[href="#a-darkhold"]'));
   editMode(g);const key='json.'+encodeURIComponent(JSON.stringify(['enc','artifacts',2,1]));g.setText(key,'Громобой — новое название');
   g.go('f-infinity-war');assert.match(doc.querySelector('.project-items a[href="#a-stormbreaker"]').textContent,/новое название/);
