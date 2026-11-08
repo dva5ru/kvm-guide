@@ -889,7 +889,8 @@ function editionOnlyView(p){var original=P[p.editionOf],cx=ctxP([p.id]),K='p.'+p
 }
 function announcedFilmView(p){var K='p.'+p.id+'.',info=p.announcement||{},facts=projectTimeFacts(p),cast=(p.cs||[]).filter(function(x){var a=AREG[p.id+'::'+x[0]];return a&&a.announcementStatus==='announced'&&a.announcementSource});return '<button class="back" type="button" data-back>← Назад</button><div class="dhead"><div class="cvcol">'+cover(p,'big')+imgOneBtn('f-'+p.id)+'</div><div class="info"><h1>'+EH(K+'t',p.t)+'</h1><div class="badges">'+stBadge(p.s)+'</div>'+B('p.facts',p.id,'Факты','<dl class="facts">'+facts.map(function(f){return '<div><dt>'+esc(f[0])+'</dt><dd>'+esc(f[1])+'</dd></div>'}).join('')+'</dl>')+'</div></div>'+
  '<section class="panel pad"><h2>Подтверждённые сведения</h2><p class="about">'+esc(info.summary||'Официальное описание сюжета и персонажи пока не раскрыты.')+'</p>'+(info.sources&&info.sources.length?'<p class="muted" style="margin-top:10px">'+info.sources.map(function(url){return '<a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">Официальный источник</a>'}).join(' · ')+'</p>':'')+'</section>'+
- (cast.length?'<section><h2>Объявленные персонажи ('+cast.length+')</h2><p class="muted">Заявлены до премьеры: это не экранные появления.</p><div class="chips">'+cast.map(function(row){return cPhotoLink(row[0])+creditTag(p,row[0])}).join('')+'</div></section>':'');
+ (cast.length?'<section><h2>Объявленные персонажи ('+cast.length+')</h2><p class="muted">Заявлены до премьеры: это не экранные появления.</p><div class="chips">'+cast.map(function(row){return cPhotoLink(row[0])+creditTag(p,row[0])}).join('')+'</div></section>':'')+
+ B('p.franchise',p.id,'Фильмы серии',filmSeriesList(p,ctxP([p.id])));
 }
 function years(p){return p.re&&p.re!==p.y?p.y+'–'+p.re:p.y}
 function filmKind(p){return p.k==='film'||p.k==='animated-film'}
