@@ -36,11 +36,12 @@
   function future(ctx){var day=ctx.todayStr();return ctx.D.p.filter(function(p){return coming(p,day)}).sort(function(a,b){
     var da=releaseDate(a),db=releaseDate(b);return da&&db?da.localeCompare(db):da?-1:db?1:a.t.localeCompare(b.t,'ru');
   })}
-  function image(ctx,key,alt,cls){
-    var src=key&&ctx.imgSrc(key);return src?'<img class="'+esc(cls||'')+'" src="'+esc(src)+'" alt="'+esc(alt||'')+'" loading="lazy" decoding="async">':'';
+  function image(ctx,key,alt,cls,priority){
+    var src=key&&ctx.imgSrc(key),visible=priority==='high'||priority==='eager';
+    return src?'<img class="'+esc(cls||'')+'" src="'+esc(src)+'" alt="'+esc(alt||'')+'" loading="'+(visible?'eager':'lazy')+'" decoding="async" fetchpriority="'+(priority==='high'?'high':visible?'auto':'low')+'">':'';
   }
-  function photoPanel(ctx,key,alt,cls){
-    var im=image(ctx,key,alt,cls);return im||'<div class="h6-photo-empty"><span>'+esc(alt||'Marvel')+'</span></div>';
+  function photoPanel(ctx,key,alt,cls,priority){
+    var im=image(ctx,key,alt,cls,priority);return im||'<div class="h6-photo-empty"><span>'+esc(alt||'Marvel')+'</span></div>';
   }
   function headline(ctx,key,def){return ctx.EH(key,ctx.getT(key)||def)}
   function sectionTitle(title,link,href){return '<div class="h6-section-title"><h2>'+esc(title)+'</h2>'+(link?'<a href="'+esc(href)+'">'+esc(link)+' <span aria-hidden="true">↗</span></a>':'')+'</div>'}
@@ -56,7 +57,7 @@
       '<h1 id="h6-hero-heading">'+headline(ctx,'home6.hero.title','Киновселенная Marvel')+'</h1>'+
       '<p class="h6-lead">'+headline(ctx,'home6.hero.lead','Путеводитель по фильмам, сериалам и героям Marvel. Выбирайте порядок просмотра, исследуйте истории и находите связи между событиями.')+'</p>'+
       '<div class="h6-actions"><a class="h6-button h6-button-red" href="#watch">Как начать смотреть</a><a class="h6-button h6-button-outline" href="#encyclopedia">Исследовать истории</a></div>'+
-      '</div><div class="h6-hero-art" role="group" aria-label="Шесть оригинальных Мстителей">'+people.map(function(id,i){var c=ctx.C[id];if(!c)return '';return '<a class="h6-portrait h6-portrait-'+i+'" href="#c-'+esc(id)+'" aria-label="Открыть карточку: '+esc(c.n)+'">'+photoPanel(ctx,'c-'+id,c.n,'h6-portrait-img')+'<span>'+esc(actorName(c))+'</span></a>'}).join('')+'</div></section>';
+      '</div><div class="h6-hero-art" role="group" aria-label="Шесть оригинальных Мстителей">'+people.map(function(id,i){var c=ctx.C[id];if(!c)return '';return '<a class="h6-portrait h6-portrait-'+i+'" href="#c-'+esc(id)+'" aria-label="Открыть карточку: '+esc(c.n)+'">'+photoPanel(ctx,'c-'+id,c.n,'h6-portrait-img',i<2?'high':'eager')+'<span>'+esc(actorName(c))+'</span></a>'}).join('')+'</div></section>';
   }
   function watchWays(ctx){
     var byRelease=ctx.D.p.filter(function(p){return visibleProject(p)&&p.s==='canon'&&validDate(p.r)&&p.r<=ctx.todayStr()}).sort(function(a,b){return a.r.localeCompare(b.r)})[0];
