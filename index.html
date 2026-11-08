@@ -1315,7 +1315,8 @@ function imgQueueLoad(){
   }).catch(function(){});
   return IMG_STORE
 }
-function shrink(file){return new Promise(function(res,rej){var fr=new FileReader();fr.onload=function(){var im=new Image();im.onload=function(){var mx=560,s=Math.min(1,mx/Math.max(im.width,im.height)),w=Math.round(im.width*s),h=Math.round(im.height*s),cv=document.createElement('canvas');cv.width=w;cv.height=h;cv.getContext('2d').drawImage(im,0,0,w,h);res(cv.toDataURL('image/jpeg',.86))};im.onerror=rej;im.src=fr.result};fr.onerror=rej;fr.readAsDataURL(file)})}
+function imageExport(cv,transparent,quality){try{var webp=cv.toDataURL('image/webp',quality);if(webp.indexOf('data:image/webp')===0)return webp}catch(e){}return cv.toDataURL(transparent?'image/png':'image/jpeg',quality)}
+function shrink(file){return new Promise(function(res,rej){var fr=new FileReader();fr.onload=function(){var im=new Image();im.onload=function(){var mx=560,s=Math.min(1,mx/Math.max(im.width,im.height)),w=Math.round(im.width*s),h=Math.round(im.height*s),cv=document.createElement('canvas');cv.width=w;cv.height=h;cv.getContext('2d').drawImage(im,0,0,w,h);res(imageExport(cv,false,.86))};im.onerror=rej;im.src=fr.result};fr.onerror=rej;fr.readAsDataURL(file)})}
 function normF(s){return String(s||'').normalize('NFKC').toLowerCase().replace(/[\u200B-\u200F\u202A-\u202E\u2066-\u2069\uFEFF]/g,'').replace(/ё/g,'е').replace(/\.(jpe?g|png|webp|gif|avif|bmp)\s*$/,'').replace(/^\s*\d+[.)]\s+/,'').replace(/\b\d{2,5}\s*[xх×]\s*\d{2,5}\b/g,' ').replace(/[’‘'ʼ]/g,'').replace(/[^\p{L}\p{N}]+/gu,' ').split(/\s+/).filter(function(w){return w&&['poster','постер','official','кадр','img','image','фото','photo','hd','final','ru','en'].indexOf(w)<0}).join(' ')}
 var IMX=null;
 function imgIndex(){if(IMX)return IMX;IMX=[];function add(key,full,names,label){[[key,0],[full,0]].concat(names.map(function(n){return [n,1]})).forEach(function(row){var n=normF(row[0]);if(n)IMX.push([key,n,label,row[1]])})}
@@ -1781,7 +1782,10 @@ function storyHTML(p,K,cx){if(ADM.edit)return '<p class="story">'+E(K+'sto',p.st
   for(var i=0;i<ss.length;i+=per)out.push(ss.slice(i,i+per).join(' '));return out.map(function(x){return '<p class="story">'+lk(x,cx)+'</p>'}).join('')}
 var LAZY=window.IntersectionObserver?new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){var el=x.target;el.style.backgroundImage='url('+el.getAttribute('data-bg')+')';el.removeAttribute('data-bg');LAZY.unobserve(el)}})},{rootMargin:'300px'}):null;
 function lazyBg(root){(root||document).querySelectorAll('[data-bg]').forEach(function(el){if(LAZY)LAZY.observe(el);else{el.style.backgroundImage='url('+el.getAttribute('data-bg')+')';el.removeAttribute('data-bg')}})}
-new MutationObserver(function(){lazyBg(main)}).observe(main,{childList:true,subtree:true});
+// Defer external SVG images until their maps are close to view.
+var MAP_IMAGE_OBSERVER=window.IntersectionObserver?new IntersectionObserver(function(entries){entries.forEach(function(entry){if(!entry.isIntersecting)return;var svg=entry.target;svg.querySelectorAll('image[data-map-src]').forEach(function(im){im.setAttribute('href',im.getAttribute('data-map-src'));im.removeAttribute('data-map-src')});MAP_IMAGE_OBSERVER.unobserve(svg)})},{rootMargin:'700px 0px'}):null;
+function lazyMapImages(root){if(!MAP_IMAGE_OBSERVER)return;(root||document).querySelectorAll('svg[data-lazy-images]').forEach(function(svg){if(svg.__kvmObserved)return;svg.__kvmObserved=true;MAP_IMAGE_OBSERVER.observe(svg)})}
+new MutationObserver(function(){lazyBg(main);lazyMapImages(main)}).observe(main,{childList:true,subtree:true});
 // состояние фильтров в адресе
 function qsParse(q){var o={};function dec(s){try{return decodeURIComponent(s.replace(/\+/g,' '))}catch(e){return s}}
   (q||'').split('&').forEach(function(kv){if(!kv)return;var eq=kv.indexOf('='),k=dec(eq<0?kv:kv.slice(0,eq));if(k==='__proto__'||k==='constructor'||k==='prototype')return;o[k]=dec(eq<0?'':kv.slice(eq+1))});return o}
@@ -2060,7 +2064,7 @@ function ghEnable(fresh){ADM.can=true;ADM.on=true;ADM.gh=true;ADM.assets=null;
   applyNav();admBar();rerender();if(fresh)toast('Вы вошли в редактор. Правки сохраняются в репозиторий '+GH.repo);ghMigrateCheck()}
 function ghLogout(){if(!confirm('Выйти из редактора на этом устройстве?'))return;try{localStorage.removeItem('kvm-gh')}catch(e){}GH=null;ADM.can=ADM.on=ADM.edit=ADM.gh=false;var b=document.getElementById('adm');if(b)b.remove();applyNav();rerender()}
 // картинки сразу уходят в репозиторий
-function ghImgUpload(key,dataUrl){var path='img/'+safeKey(key)+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8)+(/^data:image\/png/.test(dataUrl)?'.png':'.jpg');PREV[key]=dataUrl;return ghPut(path,dataUrl.split(',')[1],'Картинка: '+keyName(key)).then(function(){OVR.img[key]=path+'?v='+Date.now();IMG=OVR.img;delete PREV[key];saveDraft();imgRefresh()}).catch(function(e){delete PREV[key];throw new Error('«'+keyName(key)+'»: '+e.message)})}
+function ghImgUpload(key,dataUrl){var path='img/'+safeKey(key)+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8)+(/^data:image\/webp/.test(dataUrl)?'.webp':/^data:image\/png/.test(dataUrl)?'.png':'.jpg');PREV[key]=dataUrl;return ghPut(path,dataUrl.split(',')[1],'Картинка: '+keyName(key)).then(function(){OVR.img[key]=path+'?v='+Date.now();IMG=OVR.img;delete PREV[key];saveDraft();imgRefresh()}).catch(function(e){delete PREV[key];throw new Error('«'+keyName(key)+'»: '+e.message)})}
 function ghMigrateCheck(){var ks=Object.keys(OVR.img).filter(function(k){return /^data:image\//.test(OVR.img[k])});if(!ks.length)return;toast('Переношу '+ks.length+' встроенных картинок в репозиторий…');IMG_BUSY+=ks.length;imgRefresh();var ch=Promise.resolve();ks.forEach(function(k){ch=ch.then(function(){return imgEnqueue(function(){return ghImgUpload(k,OVR.img[k])}).catch(function(e){IMG_FAILED.push({name:keyName(k),error:e.message})}).then(function(){IMG_BUSY--;imgRefresh()})})});ch.then(function(){imgRefresh();toast(IMG_FAILED.length?'Часть картинок не перенесена — проверьте список ошибок.':'Картинки перенесены. Нажмите «Опубликовать».')})}
 // ---------- спойлеры: по умолчанию скрыты, текст не попадает в страницу до раскрытия ----------
 var SPO={mode:'all',ord:0};try{var sv2=JSON.parse(localStorage.getItem('kvm-spoil')||'null');if(sv2&&sv2.mode)SPO=sv2}catch(e){}
@@ -2125,7 +2129,7 @@ function route(){
     var src={o:[OGI,orgView],w:[RTI,routeView],f:[P,projectView],c:[C,charView],p:[PL,placeView],e:[EV,eventView],l:[LN,lineView],a:[AIX,artView],r:[RCI,raceView]}[m[1]],o=src[0][m[2]];if(o){html=src[1](o);title=o.t||o.n||o[1]}}
   else{var vh=h==='events'?'timeline':h;if(VIEWS[vh]){html=VIEWS[vh]();if(ENC_KEYS[vh])html=crumbEnc()+html;title=NAV6T[navFor(vh)]||''}}
   if(html==null){html=notFound();title='Не найдено'}
-  if(window.KVMHome6)window.KVMHome6.unmount();main.innerHTML=html;applyCopy();document.querySelectorAll('header.top,footer').forEach(function(el){applyCopy(el)});applyBlocks();applyNav();if(h==='home'&&window.KVMHome6)window.KVMHome6.mount(home6Context());main.classList.remove('enter');void main.offsetWidth;main.classList.add('enter');document.title=(title&&h!=='home'?title+' — ':'')+'Путеводитель по КВМ';
+  if(window.KVMHome6)window.KVMHome6.unmount();if(MAP_IMAGE_OBSERVER)MAP_IMAGE_OBSERVER.disconnect();main.innerHTML=html;lazyBg(main);lazyMapImages(main);applyCopy();document.querySelectorAll('header.top,footer').forEach(function(el){applyCopy(el)});applyBlocks();applyNav();if(h==='home'&&window.KVMHome6)window.KVMHome6.mount(home6Context());main.classList.remove('enter');void main.offsetWidth;main.classList.add('enter');document.title=(title&&h!=='home'?title+' — ':'')+'Путеводитель по КВМ';
   var nk=navFor(h);document.querySelectorAll('nav.tabs a').forEach(function(a){var on=a.getAttribute('href')==='#'+nk;a.classList.toggle('on',on);if(on)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
   if(!KEEP){if(NAVBACK&&SCROLL[h]!=null){var y0=SCROLL[h];requestAnimationFrame(function(){window.scrollTo(0,y0)})}else window.scrollTo(0,0)}closeSearch();
   if(h==='map'){initTree();initGlobe();MS.vb=D.map.regions[MS.region].slice(0,4);var svg=document.getElementById('kmap');svg.setAttribute('viewBox',MS.vb.join(' '));drawMarkers()}
@@ -2476,10 +2480,10 @@ document.addEventListener('change',function(e){
 var MAPIMG={'map-space':['Фон карты космоса',2400],'map-tree':['Фон древа Иггдрасиль',2400],'map-earth':['Карта Земли — картинка 2:1',3200],'map-nyc':['Фон карты Нью-Йорка',2400],
  'sacred-1':['Священная линия: до Того, кто остаётся',1800],'sacred-2':['Священная линия: под контролем УВИ',1800],'sacred-3':['Священная линия: после второго сезона «Локи»',1800]};
 function mapImgName(k){if(MAPIMG[k])return MAPIMG[k][0];if(k.indexOf('mi-')===0){var id=k.slice(3);return 'Значок на карте: '+(id==='__earth'?'Земля':id==='__tree'?'Девять миров':PL[id]?PL[id].n:id)}return null}
-function mapImgMax(k){return MAPIMG[k]?MAPIMG[k][1]:(k.indexOf('mi-')===0?720:0)}
+function mapImgMax(k){return MAPIMG[k]?MAPIMG[k][1]:(k.indexOf('mi-')===0?512:0)}
 function mapHasAlpha(cx,w,h){try{var d=cx.getImageData(0,0,w,h).data;for(var i=3;i<d.length;i+=16)if(d[i]<250)return true}catch(e){}return false}
 function shrinkMap(file,mx){return new Promise(function(res,rej){var fr=new FileReader();fr.onload=function(){var im=new Image();im.onload=function(){var s=Math.min(1,mx/Math.max(im.width,im.height)),w=Math.round(im.width*s),h=Math.round(im.height*s),cv=document.createElement('canvas');cv.width=w;cv.height=h;var cx=cv.getContext('2d');cx.drawImage(im,0,0,w,h);
-  res(/png|webp|gif/.test(file.type)&&mapHasAlpha(cx,w,h)?cv.toDataURL('image/png'):cv.toDataURL('image/jpeg',.9))};im.onerror=rej;im.src=fr.result};fr.onerror=rej;fr.readAsDataURL(file)})}
+  res(imageExport(cv,/png|webp|gif/.test(file.type)&&mapHasAlpha(cx,w,h),.88))};im.onerror=rej;im.src=fr.result};fr.onerror=rej;fr.readAsDataURL(file)})}
 function mapPos(key,def){var p=OVR.pos&&OVR.pos[key];return p?[p[0],p[1]]:def}
 function mapScale(key){var p=OVR.pos&&OVR.pos[key];return p&&p[2]?p[2]:1}
 function mapImgBtns(keys,note){if(!ADM.edit)return '';return '<div class="map-adm">'+keys.map(function(k){return '<span><b>'+esc(mapImgName(k))+':</b> '+imgOneBtn(k)+'</span>'}).join('')+(note?'<p class="muted">'+note+'</p>':'')+'</div>'}
@@ -2487,15 +2491,16 @@ function mapAdminBox(map,id){if(!ADM.edit)return '';var key=map+':'+id,sc=mapSca
   return '<div class="map-adm side"><h4>Редактор карты</h4>'+(map==='space'||map==='tree'?'<p><b>Картинка объекта:</b> '+imgOneBtn('mi-'+id)+'</p>':'')+
   '<p>Размер: <button type="button" class="btn sm" data-mapsz="'+key+'" data-d="-0.15" aria-label="Уменьшить">−</button> '+Math.round(sc*100)+'% <button type="button" class="btn sm" data-mapsz="'+key+'" data-d="0.15" aria-label="Увеличить">+</button></p>'+
   '<p class="muted">Чтобы переставить, перетащите объект мышью.'+(OVR.pos&&OVR.pos[key]?' <button type="button" class="linkbtn" data-mapreset="'+key+'">Вернуть на исходное место</button>':'')+'</p></div>'}
-function mapIconSVG(src,r,free){var id='mc'+(++MAPCLIP);return free?'<image href="'+esc(src)+'" x="'+(-r)+'" y="'+(-r)+'" width="'+(2*r)+'" height="'+(2*r)+'" preserveAspectRatio="xMidYMid meet"/>':
-  '<clipPath id="'+id+'"><circle r="'+r+'"/></clipPath><image href="'+esc(src)+'" x="'+(-r)+'" y="'+(-r)+'" width="'+(2*r)+'" height="'+(2*r)+'" preserveAspectRatio="xMidYMid slice" clip-path="url(#'+id+')"/>'}
+function mapImageAttr(src){return (window.IntersectionObserver?'data-map-src':'href')+'="'+esc(src)+'"'}
+function mapIconSVG(src,r,free){var id='mc'+(++MAPCLIP);return free?'<image '+mapImageAttr(src)+' x="'+(-r)+'" y="'+(-r)+'" width="'+(2*r)+'" height="'+(2*r)+'" preserveAspectRatio="xMidYMid meet"/>':
+  '<clipPath id="'+id+'"><circle r="'+r+'"/></clipPath><image '+mapImageAttr(src)+' x="'+(-r)+'" y="'+(-r)+'" width="'+(2*r)+'" height="'+(2*r)+'" preserveAspectRatio="xMidYMid slice" clip-path="url(#'+id+')"/>'}
 var MAPCLIP=0;
 // --- карта космоса: свои картинки планет и фон ---
 function spaceMap(){
   var W=1000,H=560,bg=imgSrc('map-space'),defs='<filter id="sglow" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="4"/></filter><linearGradient id="term" x1="0" y1="0" x2="1" y2="1"><stop offset=".45" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".6"/></linearGradient>',s='';
   var nodes=[['__earth','Земля',[300,365],'#3D7BD9',13],['__tree','Девять миров',[125,140],'#C9A227',12]];
   Object.keys(D.space).forEach(function(id){var x=PL[id];if(x)nodes.push([id,x.n.split(' (')[0],D.space[id],PCOL[id]||'#888',id==='moon'?5:Math.min(9+Math.sqrt(x.pr.length)*3.2,20)])});
-  if(bg)s+='<image href="'+esc(bg)+'" x="0" y="0" width="'+W+'" height="'+H+'" preserveAspectRatio="xMidYMid slice"/>';
+  if(bg)s+='<image '+mapImageAttr(bg)+' x="0" y="0" width="'+W+'" height="'+H+'" preserveAspectRatio="xMidYMid slice"/>';
   s+='<text class="reg" x="225" y="545" text-anchor="middle">Млечный Путь</text><text class="reg small2" x="225" y="530" text-anchor="middle">наша галактика</text><text class="reg" x="712" y="540" text-anchor="middle">Галактика Андромеда</text><text class="reg small2" x="712" y="524" text-anchor="middle">здесь действуют Стражи Галактики</text><text class="reg small2" x="928" y="300" text-anchor="middle">край вселенной</text>';
   if(!bg)s+='<circle class="empire" cx="375" cy="122" r="86"/>';
   s+='<text class="reg" x="375" y="226" text-anchor="middle">Империя Кри</text><text class="reg small2" x="375" y="242" text-anchor="middle">Большое Магелланово Облако</text>';
@@ -2508,27 +2513,27 @@ function spaceMap(){
     if(id==='__tree'){var ring='';Object.keys(D.tree).forEach(function(t,k){var a=k/9*6.283;ring+='<circle cx="'+(Math.cos(a)*25).toFixed(1)+'" cy="'+(Math.sin(a)*25).toFixed(1)+'" r="3.4" fill="'+PCOL[t]+'"/>'});extra='<g class="spin">'+ring+'</g>'}
     if(id==='ego-planet'||id==='titan')extra='<ellipse rx="'+(r+11)+'" ry="'+(r*0.32).toFixed(1)+'" class="pring" transform="rotate(-18)"/>';
     s+='<g class="pl" data-sp="'+id+'" data-drag="'+key+'" transform="translate('+p[0]+' '+p[1]+')" tabindex="0" role="button" aria-label="'+esc(n[1])+'"><title>'+esc(n[1])+'</title><circle r="'+(r+4)+'" fill="'+col+'" opacity=".55" filter="url(#sglow)"/>'+extra+'<circle class="body" r="'+r+'" fill="url(#pg-'+gid+')"/><circle r="'+r+'" fill="url(#term)" pointer-events="none"/>'+lab+'</g>'});
-  return '<div class="spacewrap'+(bg?' has-bg':'')+'"><canvas id="spc" aria-hidden="true"></canvas><svg class="smap" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Схема космоса КВМ"><defs>'+defs+'</defs>'+s+'</svg></div>'+
+  return '<div class="spacewrap'+(bg?' has-bg':'')+'"><canvas id="spc" aria-hidden="true"></canvas><svg data-lazy-images class="smap" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Схема космоса КВМ"><defs>'+defs+'</defs>'+s+'</svg></div>'+
   mapImgBtns(['map-space','mi-knowhere'],'Фон лучше делать 16:9 (например, 2400×1350). Картинки планет — квадратные, планета по центру: на карте их обрежет кругом. Голову Целестиала лучше загрузить в PNG с прозрачным фоном — её не обрезает. Остальные планеты: нажмите на планету, и в панели справа появится загрузка.')}
 // --- древо Иггдрасиль: фон и картинки миров ---
 function treeMap(){
   var T=D.tree,W=1000,H=650,bg=imgSrc('map-tree'),defs='<filter id="rglow" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="7"/></filter><linearGradient id="term2" x1="0" y1="0" x2="1" y2="1"><stop offset=".45" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></linearGradient>',s='',labels='';
-  if(bg)s+='<image href="'+esc(bg)+'" x="0" y="0" width="'+W+'" height="'+H+'" preserveAspectRatio="xMidYMid slice"/>';
+  if(bg)s+='<image '+mapImageAttr(bg)+' x="0" y="0" width="'+W+'" height="'+H+'" preserveAspectRatio="xMidYMid slice"/>';
   Object.keys(T).forEach(function(id,k){var key='tree:'+id,pt=mapPos(key,[T[id][0],T[id][1]]),sc=mapScale(key),name=id==='midgard'?'Мидгард (Земля)':PL[id].n,n=id==='midgard'?0:PL[id].pr.length,icon=imgSrc('mi-'+id),R=Math.round(27*sc);
     var body;if(icon){body='<circle r="'+(R*1.25+6)+'" fill="'+PCOL[id]+'" opacity=".5" filter="url(#rglow)"/>'+mapIconSVG(icon,Math.round(R*1.25),false)}
     else{defs+=planetDefs('r'+id,PCOL[id]);body='<circle r="'+Math.round(36*sc)+'" fill="'+PCOL[id]+'" opacity=".6" filter="url(#rglow)"/><ellipse class="orbit" rx="'+Math.round(44*sc)+'" ry="'+Math.round(13*sc)+'"/><circle class="body" r="'+R+'" fill="url(#pg-r'+id+')"/><circle r="'+R+'" fill="url(#term2)" pointer-events="none"/>'}
     s+='<g class="realm'+(icon?' has-img':'')+'" data-yg="'+id+'" data-drag="'+key+'" transform="translate('+pt[0]+' '+pt[1]+')" tabindex="0" role="button" aria-label="'+esc(name)+'" style="animation-delay:'+(1.0+k*0.09).toFixed(2)+'s"><title>'+esc(name)+'</title>'+body+(n&&!icon?'<text class="rn" y="6" text-anchor="middle">'+n+'</text>':'')+'</g>';
     labels+='<g class="realm-label" data-realm-label="'+id+'" transform="translate('+pt[0]+' '+pt[1]+')" style="animation-delay:'+(1.0+k*0.09).toFixed(2)+'s"><text class="rl" y="'+Math.round((icon?R*1.25:R)+25)+'" text-anchor="middle">'+esc(name)+'</text></g>'});
   s+='<g class="realm-label-layer" aria-hidden="true">'+labels+'</g>';
-  return '<div class="treewrap'+(bg?' has-bg':'')+'"><canvas id="ygc" aria-hidden="true"></canvas><svg class="ymap" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Девять миров на древе Иггдрасиль"><defs>'+defs+'</defs>'+s+'</svg></div>'+
+  return '<div class="treewrap'+(bg?' has-bg':'')+'"><canvas id="ygc" aria-hidden="true"></canvas><svg data-lazy-images class="ymap" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Девять миров на древе Иггдрасиль"><defs>'+defs+'</defs>'+s+'</svg></div>'+
   mapImgBtns(['map-tree'],'Фон древа лучше делать в пропорции примерно 3:2 (например, 2400×1560). Картинки миров: нажмите на мир, и в панели справа появится загрузка. Миры можно перетащить на ветви вашей картинки.')}
 // --- Земля: режим «картинка» ---
 function earthImgOn(){return !!imgSrc('map-earth')&&MS.view!=='globe'}
 function earthModeSeg(){if(!imgSrc('map-earth'))return '';var on=earthImgOn();return '<div class="seg" role="group" aria-label="Вид карты Земли"><button type="button" data-mview="img" class="'+(on?'on':'')+'" aria-pressed="'+on+'">Карта-картинка</button><button type="button" data-mview="globe" class="'+(!on?'on':'')+'" aria-pressed="'+(!on)+'">Глобус</button></div>'}
-function earthImgHTML(){var src=imgSrc('map-earth');if(!src)return '';var W=2000,H=1000,s='<image href="'+esc(src)+'" x="0" y="0" width="'+W+'" height="'+H+'" preserveAspectRatio="none"/>';
+function earthImgHTML(){var src=imgSrc('map-earth');if(!src)return '';var W=2000,H=1000,s='<image '+mapImageAttr(src)+' x="0" y="0" width="'+W+'" height="'+H+'" preserveAspectRatio="none"/>';
   D.pl.filter(function(x){return x.t==='e'&&x.lat!=null&&(x.grp!=='nyc'||x.id==='new-york')}).forEach(function(x){var key='earth:'+x.id,p=mapPos(key,[Math.round((x.lon+180)/360*W),Math.round((90-x.lat)/180*H)]),sc=mapScale(key),r=(x.id==='new-york'?11:7)*sc;
     s+='<g class="epin'+(MS.sel===x.id?' sel':'')+'" data-msel="'+x.id+'" data-drag="'+key+'" transform="translate('+p[0]+' '+p[1]+')" tabindex="0" role="button" aria-label="'+esc(x.n)+'"><title>'+esc(x.n)+'</title><circle r="'+(r+6)+'" class="epin-g"/><circle r="'+r+'" class="epin-c"/></g>'});
-  return '<div class="earthimg"><svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Карта Земли с местами КВМ">'+s+'</svg></div>'}
+  return '<div class="earthimg"><svg data-lazy-images viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Карта Земли с местами КВМ">'+s+'</svg></div>'}
 // --- Нью-Йорк ---
 var NYCM=null,NYCL=false;
 function nycBounds(x){var b=NYCM.bounds;return x.lat!=null&&x.lon>=b[0]&&x.lon<=b[1]&&x.lat>=b[2]&&x.lat<=b[3]}
@@ -2537,7 +2542,7 @@ function nycProj(lon,lat){var b=NYCM.bounds,k=NYCM.H/(b[3]-b[2]),cl=Math.cos(NYC
 function nycPins(){var W=NYCM.W;return nycPlaces().map(function(x){var key='nyc:'+x.id,p=mapPos(key,nycProj(x.lon,x.lat)),sc=mapScale(key),anc=p[0]>W-90?'end':p[0]<90?'start':'middle';
   return '<g class="nyc-pin" data-ny="'+x.id+'" data-drag="'+key+'" transform="translate('+p[0]+' '+p[1]+')" tabindex="0" role="button" aria-label="'+esc(x.n)+'"><title>'+esc(x.n)+'</title><circle r="'+(13*sc).toFixed(1)+'" class="nyc-pg"/><circle r="'+(8.5*sc).toFixed(1)+'" class="nyc-pc"/><text class="nyc-pl" y="'+(-15*sc).toFixed(0)+'" text-anchor="'+anc+'">'+esc(x.n)+'</text></g>'}).join('')}
 function nycInner(){if(!NYCM)return '<p class="muted pad">Загружаю карту Нью-Йорка…</p>';var M=NYCM,W=M.W,H=M.H,img=imgSrc('map-nyc');
-  if(img)return '<svg class="nycmap" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Карта Нью-Йорка с местами КВМ"><defs><filter id="nyc-mglow" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="3"/></filter></defs><image href="'+esc(img)+'" x="0" y="0" width="'+W+'" height="'+H+'" preserveAspectRatio="xMidYMid slice"/>'+nycPins()+nycFarPins()+'</svg>';
+  if(img)return '<svg data-lazy-images class="nycmap" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Карта Нью-Йорка с местами КВМ"><defs><filter id="nyc-mglow" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="3"/></filter></defs><image '+mapImageAttr(img)+' x="0" y="0" width="'+W+'" height="'+H+'" preserveAspectRatio="xMidYMid slice"/>'+nycPins()+nycFarPins()+'</svg>';
   var defs='<defs><radialGradient id="nyc-sea" cx="45%" cy="40%" r="80%"><stop offset="0" stop-color="#1B1F52"/><stop offset="1" stop-color="#070821"/></radialGradient><linearGradient id="nyc-land" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8F84FF"/><stop offset="1" stop-color="#6656E0"/></linearGradient>'+
    '<filter id="nyc-glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="9"/></filter><filter id="nyc-mglow" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="3"/></filter>'+
    '<pattern id="nyc-blocks" width="11" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(29)"><rect x="1" y="1" width="9" height="5" rx=".6" fill="#B9B2FF" opacity=".55"/></pattern><pattern id="nyc-park" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#2B2F86"/><circle cx="3" cy="3" r="1.4" fill="#3E46A8"/></pattern>'+
@@ -2548,7 +2553,7 @@ function nycInner(){if(!NYCM)return '<p class="muted pad">Загружаю ка�
    M.land.map(function(l){return '<path d="'+l[1]+'" fill="none" stroke="#C9C3FF" stroke-width="1.2" opacity=".9" pointer-events="none"/>'}).join('')+
    M.bridges.map(function(x){return '<path d="'+x[1]+'" stroke="#E4E0FF" stroke-width="3" stroke-linecap="round" opacity=".9"><title>'+esc(x[0])+'</title></path>'}).join('')+
    M.labels.map(function(l){return '<text class="nyc-lb '+l[3]+'" x="'+l[1]+'" y="'+l[2]+'" text-anchor="middle">'+esc(l[0])+'</text>'}).join('');
-  return '<svg class="nycmap" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Карта Нью-Йорка с местами КВМ">'+defs+s+nycPins()+nycFarPins()+'</svg>'}
+  return '<svg data-lazy-images class="nycmap" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Карта Нью-Йорка с местами КВМ">'+defs+s+nycPins()+nycFarPins()+'</svg>'}
 function nycLoad(){if(NYCM||NYCL)return;NYCL=true;fetch('maps/nyc.json').then(function(r){if(!r.ok)throw new Error(r.status);return r.json()}).then(function(j){NYCM=j;var w=document.getElementById('nycwrap');if(w)w.innerHTML=nycInner();var l=document.getElementById('nyclist');if(l)l.innerHTML=nycListHTML()})
   .catch(function(){NYCL=false;var w=document.getElementById('nycwrap');if(w)w.innerHTML='<p class="muted pad">Карта Нью-Йорка не загрузилась. Обновите страницу.</p>'})}
 function nycFar(){return D.pl.filter(function(x){return x.grp==='nyc'&&x.id!=='new-york'&&x.lat!=null&&!nycBounds(x)})}
@@ -2583,6 +2588,7 @@ document.addEventListener('pointerup',function(){if(!DRG)return;var d=DRG;DRG=nu
 document.addEventListener('click',function(e){if(MAPDRAGGED&&Date.now()-MAPDRAGGED<350&&e.target.closest&&e.target.closest('[data-drag]')){e.stopPropagation();e.preventDefault()}},true);
 document.addEventListener('keydown',function(e){var t=e.target;if((e.key==='Enter'||e.key===' ')&&t.hasAttribute&&(t.hasAttribute('data-ny')||t.hasAttribute('data-msel'))&&t.tagName!=='BUTTON'&&t.tagName!=='A'){e.preventDefault();t.dispatchEvent(new MouseEvent('click',{bubbles:true}))}});
 
+if(typeof navigator!=='undefined'&&'serviceWorker' in navigator&&typeof location!=='undefined'&&/^https?:$/.test(location.protocol)){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){})},{once:true})}
 setThemeBtn();setSpoilBtn();
 admInit();
 if((window.KVM_PUBLIC||!window.claude)&&GH&&GH.token)ghEnable(false);

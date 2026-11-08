@@ -53,3 +53,5 @@ jobs:
         run: node --test scripts/tests/editorial-cleanup.test.mjs
       - name: Check map side images and Nine Realms label layering
         run: node --test scripts/tests/maps-side-labels.test.mjs
+      - name: Check fast image loading and browser cache safety
+        run: node --test scripts/tests/image-performance.test.mjs
