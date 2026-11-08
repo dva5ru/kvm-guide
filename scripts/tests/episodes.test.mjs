@@ -12,7 +12,7 @@ const id=n=>'wandavision-s1-e'+n;
 
 test('all nine WandaVision episodes have distinct content, dates, roles, chronology and credit-scene status',()=>{
   const d=clone();const out=hydrateAppearances(d),eps=Object.values(d.episodes).filter(e=>e.projectId==='wandavision');
-  assert.equal(eps.length,9);assert.equal(Object.keys(d.episodes).length,35);
+  assert.equal(eps.length,9);assert.equal(Object.keys(d.episodes).length,70);
   assert.equal(new Set(eps.map(e=>e.plot)).size,9);
   for(const [i,e]of eps.entries()){
     assert.equal(e.id,id(i+1));assert.equal(e.season,1);assert.equal(e.number,i+1);assert.equal(e.status,'released');
@@ -24,11 +24,14 @@ test('all nine WandaVision episodes have distinct content, dates, roles, chronol
   assert.deepEqual(eps.map(e=>e.post.length),[0,0,0,0,0,0,1,1,2]);
 });
 
-test('all 26 existing episode URLs, plots, casts and legacy text keys remain intact',t=>{
+test('all 26 episode URLs, casts and edit keys remain intact, apart from separated credits scene',t=>{
   const s=loadGuide();t.after(s.close);const {g,doc}=s;g.SPO.mode='off';assert.equal(baseline.episodes.length,26);
   for(const b of baseline.episodes){
     g.go('ep-'+b.id);assert.equal(doc.querySelector('main h1').textContent,g.D.episodes[b.id].title);
-    assert.equal(createHash('sha256').update(g.D.episodes[b.id].plot).digest('hex'),b.plotSHA256);
+    if(b.id==='what-if-1-9'){
+      assert.ok(!g.D.episodes[b.id].plot.includes('После титров'),'credit scene removed from synopsis');
+      assert.equal(g.D.episodes[b.id].post.length,1);
+    }else assert.equal(createHash('sha256').update(g.D.episodes[b.id].plot).digest('hex'),b.plotSHA256);
     const migratedCast=b.cast.map(cid=>g.D.characterAppearanceAliases[g.D.episodes[b.id].projectId+'::'+cid]||cid);
     assert.deepEqual(Array.from(g.EREG[b.id][3]),migratedCast,b.id);
     assert.equal(g.ref(b.legacyKey)[0],g.D.episodes[b.id]);assert.equal(g.ref(b.legacyKey)[1],'plot');

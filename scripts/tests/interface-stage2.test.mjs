@@ -103,7 +103,7 @@ test('all declared routes, generated links and thematic shortcuts resolve',t=>{
     ...g.D.p.map(x=>'f-'+x.id),...g.D.c.map(x=>'c-'+x.id),...g.D.pl.map(x=>'p-'+x.id),
     ...g.D.ev.map(x=>'e-'+x.id),...g.D.ln.map(x=>'l-'+x.id),...g.artAll().map(x=>'a-'+x.id),
     ...g.D.enc.races.map(x=>'r-'+x[0]),...g.D.enc.orgs.map(x=>'o-'+x[0]),...g.D.routes.map(x=>'w-'+x[0]),
-    ...g.D.p.flatMap(p=>(p.eps||[]).map(e=>'ep-'+p.id+'-'+e[0]))]);
+    ...g.D.p.flatMap(p=>(p.eps||[]).map(e=>'ep-'+e.id))]);
   for(const route of routes){
     g.go(route);assert.notEqual(doc.querySelector('main h1')?.textContent,'Страница не найдена',route);
     for(const link of doc.querySelectorAll('main a[href^="#"]')){const h=link.getAttribute('href').slice(1);if(h)routes.add(h)}

@@ -33,6 +33,8 @@ jobs:
         run: node --test scripts/tests/spoiler-smart.test.mjs
       - name: Check generic episodes, WandaVision and legacy editing compatibility
         run: node --test scripts/tests/episodes.test.mjs
+      - name: Check Loki, Agatha, Wakanda, Groot and What If episode metadata
+        run: node --test scripts/tests/series-stage5.test.mjs
       - name: Check grouped series, multiple character groups and completed character cards
         run: node --test scripts/tests/character-series-groups.test.mjs
       - name: Check Groot identities, project items and reciprocal variant navigation

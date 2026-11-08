@@ -9,12 +9,12 @@ const clone=()=>structuredClone(raw);
 
 test('one canonical registry preserves project links and derives episode casts, descriptions and credits',t=>{
   const db=clone(),{records}=hydrateAppearances(db),s=loadGuide();t.after(s.close);
-  assert.equal(records.size,raw.appearances.length);assert.ok(records.size>=1282);assert.ok(raw.appearances.some(a=>a.id==='homecoming::tinkerer'));assert.equal(raw.appearances.reduce((n,a)=>n+a.episodes.length,0),349);
+  assert.equal(records.size,raw.appearances.length);assert.ok(records.size>=1282);assert.ok(raw.appearances.some(a=>a.id==='homecoming::tinkerer'));assert.equal(raw.appearances.reduce((n,a)=>n+a.episodes.length,0),481);
   assert.equal(raw.epRoles,undefined);assert.equal(raw.appearanceCredits,undefined);
   assert.ok(raw.c.every(c=>c.notes===undefined&&c.app===undefined));assert.ok(raw.p.every(p=>p.cs===undefined));
   for(const p of db.p){
     assert.deepEqual(JSON.parse(JSON.stringify(s.g.P[p.id].cs)),p.cs,p.id+' cast');
-    for(const e of p.eps||[])assert.deepEqual(JSON.parse(JSON.stringify(s.g.P[p.id].eps.find(x=>x[0]===e[0])[3])),e[3],p.id+'/'+e[0]);
+    for(const e of p.eps||[])assert.deepEqual(JSON.parse(JSON.stringify(s.g.P[p.id].eps.find(x=>x.id===e.id)[3])),e[3],p.id+'/'+e[0]);
   }
   for(const c of db.c){
     assert.deepEqual(JSON.parse(JSON.stringify(s.g.C[c.id].app)),c.app,c.id+' order');
