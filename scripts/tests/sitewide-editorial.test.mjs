@@ -7,7 +7,7 @@ const db=JSON.parse(html.match(/id="kvm-data">([\s\S]*?)<\/script>/)[1]);
 const projects=new Map(db.p.map(p=>[p.id,p]));
 const appearances=new Map(db.appearances.map(a=>[a.id,a]));
 test('premiere dates are independent from story years and chronological spans',()=>{
-  assert.equal(projects.size,156);
+  assert.equal(projects.size,157);
   for(const p of db.p){
     assert.equal(p.release.date,p.r||null,p.id);
     assert.equal(p.release.year,p.y||null,p.id);
@@ -20,7 +20,7 @@ test('premiere dates are independent from story years and chronological spans',(
   assert.deepEqual(projects.get('dofp').periods.slice(0,2).map(p=>p.when),['1973','2023']);
 });
 test('six appearance kinds preserve independent version and placement data',()=>{
-  assert.equal(appearances.size,1324);
+  assert.equal(appearances.size,1326);
   const types=new Set(['main','episodic','cameo','voice','archival','credits']);
   for(const a of db.appearances){
     assert.ok(types.has(a.appearanceType),a.id);
