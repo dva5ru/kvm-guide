@@ -507,3 +507,7 @@ main.wrap .panel.pad{padding:clamp(18px,2vw,24px)}
   :root[data-theme="light"] .top-v6 #themeBtn::before{content:"☀"}
   :root[data-theme="dark"] .top-v6 #themeBtn::before{content:"☾"}
 }
+
+/* Atlas globe retains its native zoom controls; avoid duplicate buttons. */
+.atlas-map-panel.globe-on > .atlas-controls{display:none}
+.atlas-nav button,.atlas-nav a{font-family:inherit;font-size:13px;font-weight:600}
