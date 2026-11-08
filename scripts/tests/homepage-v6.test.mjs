@@ -106,14 +106,16 @@ test('spoiler preferences hide narrative descriptions on the homepage',t=>{
   assert.equal(s.errors.length,0,s.errors.join('\n'));
 });
 
-test('hero stylesheet uses six seamless diagonal portraits and horizontal-scroll fallback',()=>{
+test('hero stylesheet has subtle diagonal separators and slanted outer edges',()=>{
   const css=readFileSync(new URL('../../home-v6.css',import.meta.url),'utf8');
-  assert.match(css,/\.h6-hero-art\{[^}]*display:flex;gap:0;/,'six portraits without grid gutters');
-  assert.match(css,/\.h6-portrait\{[^}]*margin-left:calc\(-1 \* var\(--h6-slice-overlap\)\)/,'each slanted slice overlaps the previous one');
-  assert.match(css,/\.h6-portrait:first-child\{[^}]*margin-left:0/,'first slice starts flush');
-  assert.match(css,/\.h6-portrait:last-child\{[^}]*100% 0,100% 100%/,'last slice covers the right edge');
-  assert.match(css,/\.h6-portrait\{[^}]*clip-path:polygon\(/);
-  assert.match(css,/@media\(max-width:1000px\)\{[\s\S]*?flex-direction:column/);
-  assert.match(css,/@media\(max-width:520px\)\{[\s\S]*?overflow-x:auto/);
-  assert.match(css,/\.h6-portrait-5 \.h6-portrait-img\{/);
+  assert.match(css,/\.h6-hero-art\{[^}]*--h6-slice-divider-half:1\.5px;/,'3px total diagonal gap between photos');
+  assert.match(css,/\.h6-hero-art\{[^}]*display:flex;gap:0;/,'separators come from clipped panel edges, not rectangular gutters');
+  assert.match(css,/\.h6-hero-art\{[^}]*background:inherit;/,'gaps and outer corners use the hero background, not black bars');
+  assert.match(css,/\.h6-portrait\{[^}]*margin-left:calc\(-1 \* var\(--h6-slice-overlap\)\)/,'each slanted slice retains its overlap');
+  assert.match(css,/\.h6-portrait\{[^}]*clip-path:polygon\(calc\(var\(--h6-slice-overlap\) \+ var\(--h6-slice-divider-half\)\)/,'each interior panel has a diagonal inset');
+  assert.match(css,/\.h6-portrait:first-child\{[^}]*clip-path:polygon\(var\(--h6-slice-overlap\) 0/,'first portrait keeps a slanted left edge');
+  assert.match(css,/\.h6-portrait:last-child\{[^}]*calc\(100% - var\(--h6-slice-overlap\)\) 100%/,'last portrait keeps a slanted right edge');
+  assert.match(css,/@media\(max-width:1000px\)\{[\s\S]*?flex-direction:column/,'stacked layout on tablets');
+  assert.match(css,/@media\(max-width:520px\)\{[\s\S]*?overflow-x:auto/,'horizontal scrolling on narrow phones');
+  assert.match(css,/\.h6-portrait-5 \.h6-portrait-img\{/,'six original Avengers still use individual image framing');
 });
