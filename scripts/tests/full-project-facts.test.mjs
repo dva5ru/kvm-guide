@@ -22,8 +22,8 @@ const correctedCredits = {
 };
 
 test('fact check covers all catalog projects and six newly recorded appearances', () => {
-  assert.equal(projects.size, 156);
-  assert.equal(db.appearances.length, 1324);
+  assert.equal(projects.size, 157);
+  assert.equal(db.appearances.length, 1326);
   for (const a of db.appearances) {
     assert.ok(projects.has(a.projectId), a.id + ' project missing');
     assert.ok(people.has(a.characterId), a.id + ' character missing');
