@@ -35,6 +35,7 @@ test('26 What If episodes have dates, source-backed English titles, consistent R
     assert.ok(ep.title.startsWith('Что, если… '),ep.id);
     assert.match(ep.date,/^20[0-9]{2}-[0-9]{2}-[0-9]{2}$/);
     assert.ok(ep.sources.length>=2,ep.id);
+    assert.ok(ep.events.length>=2&&ep.changes.length&&ep.connections.length>=1,ep.id+' editorial fields');
     assert.match(ep.chronology,/Альтернативная реальность/);
   }
 });
@@ -63,4 +64,12 @@ test('all nine Agatha episodes and four Eyes of Wakanda episodes are linked to t
   }
   assert.deepEqual(Object.values(d.episodes).filter(e=>e.projectId==='eyes-of-wakanda').map(e=>e.date), Array(4).fill('2025-08-01'));
   assert.ok(d.appearances.some(a=>a.id==='agatha::mrs-hart'&&a.episodes.length===2));
+});
+
+test('What If season one finale keeps the mid-credit scene separate and does not claim Steve is seen',()=>{
+ const ep=db.episodes['what-if-1-9'];
+ assert.equal(ep.post.length,1);
+ assert.equal(ep.post[0].placement,'mid');
+ assert.ok(!ep.plot.includes('После титров'));
+ assert.ok(ep.post[0].text.includes('Личность'));
 });
