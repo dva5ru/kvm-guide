@@ -248,6 +248,8 @@ table.app a:hover{text-decoration:underline}
 .mside p{font-size:15px;margin-top:8px}
 .mside .chips{margin-top:12px}
 .mside h4{margin:16px 0 6px;font-size:14px;color:var(--muted);font-weight:600}
+.mside .map-place-visual{display:grid;place-items:center;height:176px;margin:12px 0 14px;overflow:hidden;border:1px solid rgba(156,177,217,.26);border-radius:12px;background:radial-gradient(circle at 50% 42%,#253453 0%,#10182c 62%,#060a15 100%)}
+.mside .map-place-visual img{display:block;width:min(100%,230px);height:100%;object-fit:contain;transform:scale(1.09);filter:drop-shadow(0 9px 16px rgba(0,0,0,.45))}
 .evlist{list-style:none;margin:0;padding:0}
 .evlist li{font-size:15px;padding:5px 0;border-bottom:1px solid var(--soft)}
 .evlist a{text-decoration:none;font-weight:500}
@@ -379,8 +381,9 @@ table.app td:first-child{width:32px}
 #ygbox.in .yg-trunk,#ygbox.in .yg-root{animation:draw 1.1s cubic-bezier(.4,0,.2,1) forwards}
 #ygbox.in .yg-br{animation:draw .9s cubic-bezier(.4,0,.2,1) forwards}
 @keyframes draw{to{stroke-dashoffset:0}}
-.realm{opacity:0}
-#ygbox.in .realm{animation:pop .5s cubic-bezier(.2,.9,.3,1.3) forwards}
+.realm,.realm-label{opacity:0}
+.realm-label-layer{pointer-events:none}
+#ygbox.in .realm,#ygbox.in .realm-label{animation:pop .5s cubic-bezier(.2,.9,.3,1.3) forwards}
 @keyframes pop{from{opacity:0}to{opacity:1}}
 .rl{fill:#F2EEDF;font-family:var(--f-display);font-size:16px;font-weight:600;paint-order:stroke;stroke:#0b0f1e;stroke-width:4px;stroke-linejoin:round;pointer-events:none}
 .rn{fill:#fff;font-family:var(--f-display);font-size:18px;font-weight:700;pointer-events:none}
@@ -420,7 +423,7 @@ main.enter{animation:rise .38s cubic-bezier(.2,.7,.2,1) both}
 .map .mk{transition:fill .2s ease}
 @media (prefers-reduced-motion:reduce){
   .ymap .yg-trunk,.ymap .yg-root,.ymap .yg-br{stroke-dashoffset:0}
-  .realm{opacity:1}
+  .realm,.realm-label{opacity:1}
   .star,.spin{animation:none!important}
 }
 .apps{list-style:none;margin:0;padding:0}
@@ -1028,11 +1031,17 @@ function mapView(){
 }
 var PCOL={kyln:'#8C8C99',contraxia:'#CFE3F2',berhert:'#3F8F4F',torfa:'#B08A5A',tarnax:'#6E8F5A',aladna:'#E6A0C8','zen-whoberi':'#5E9E7A',lamentis:'#C2603A',moon:'#BDBDBD','counter-earth':'#4B9C5A',morag:'#3F7E9C',xandar:'#2E9E8F',sovereign:'#D4AF37',sakaar:'#C7883A',knowhere:'#9A7B55','ego-planet':'#D6C27A',vormir:'#6B5BA8',titan:'#B5552E',hala:'#4A6FD1','omnipotence-city':'#E2C46B',
  asgard:'#D9A441',vanaheim:'#5FA05A',alfheim:'#9FD3E8',jotunheim:'#7FB3D5',midgard:'#3D7BD9',nidavellir:'#8E8E8E',svartalfheim:'#5B4B7E',muspelheim:'#D9502A',niflheim:'#6E7A8A'};
+function mapPlaceVisual(id,name){
+  var src=imgSrc('mi-'+id);
+  if(!src&&(id==='midgard'||id==='__earth'))src=imgSrc('mi-'+(id==='midgard'?'__earth':'midgard'));
+  if(!src)return '';
+  return '<div class="map-place-visual"><img src="'+esc(src)+'" alt="'+esc(name)+'" loading="lazy" decoding="async"></div>';
+}
 function placeSide(id){
-  if(id==='__earth'||id==='midgard')return '<h3>Земля (Мидгард)</h3><p>Главная планета КВМ. Все места на Земле отмечены на карте мира выше.</p><p style="margin-top:14px"><button type="button" class="btn" data-scroll="kmapbox">К карте Земли</button></p>';
-  if(id==='__tree')return '<h3>Девять миров</h3><p>Асгард и другие миры, которые держит мировое древо Иггдрасиль. Попасть туда можно по радужному мосту Бифрёст.</p><p style="margin-top:14px"><button type="button" class="btn" data-scroll="ygbox">К Девяти мирам</button></p>';
+  if(id==='__earth'||id==='midgard')return '<h3>Земля (Мидгард)</h3>'+mapPlaceVisual(id,'Земля (Мидгард)')+'<p>Главная планета КВМ. Все места на Земле отмечены на карте мира выше.</p><p style="margin-top:14px"><button type="button" class="btn" data-scroll="kmapbox">К карте Земли</button></p>';
+  if(id==='__tree')return '<h3>Девять миров</h3>'+mapPlaceVisual(id,'Девять миров')+'<p>Асгард и другие миры, которые держит мировое древо Иггдрасиль. Попасть туда можно по радужному мосту Бифрёст.</p><p style="margin-top:14px"><button type="button" class="btn" data-scroll="ygbox">К Девяти мирам</button></p>';
   var x=PL[id];if(!x)return '';
-  return '<h3>'+esc(x.n)+'</h3>'+SPW(x.pr,'<p>'+esc(x.ab)+'</p>')+(x.ev.length?'<h4>События</h4><ul class="evlist">'+x.ev.map(function(eid){var e=EV[eid];return '<li><a href="#e-'+eid+'">'+esc(evName(e))+'</a> <span class="muted">'+esc(e.w)+'</span></li>'}).join('')+'</ul>':'')+
+  return '<h3>'+esc(x.n)+'</h3>'+mapPlaceVisual(id,x.n)+SPW(x.pr,'<p>'+esc(x.ab)+'</p>')+(x.ev.length?'<h4>События</h4><ul class="evlist">'+x.ev.map(function(eid){var e=EV[eid];return '<li><a href="#e-'+eid+'">'+esc(evName(e))+'</a> <span class="muted">'+esc(e.w)+'</span></li>'}).join('')+'</ul>':'')+
   (x.pr.length?'<h4>Проекты ('+x.pr.length+')</h4><div class="chips">'+x.pr.map(pLink).join('')+'</div>':'<p class="muted" style="margin-top:10px">В фильмах и сериалах это место только упоминается.</p>')+'<p style="margin-top:14px"><a href="#p-'+x.id+'">Страница места</a></p>';
 }
 function rng(seed){return function(){seed=(seed*16807)%2147483647;return seed/2147483647}}
@@ -2503,12 +2512,14 @@ function spaceMap(){
   mapImgBtns(['map-space','mi-knowhere'],'Фон лучше делать 16:9 (например, 2400×1350). Картинки планет — квадратные, планета по центру: на карте их обрежет кругом. Голову Целестиала лучше загрузить в PNG с прозрачным фоном — её не обрезает. Остальные планеты: нажмите на планету, и в панели справа появится загрузка.')}
 // --- древо Иггдрасиль: фон и картинки миров ---
 function treeMap(){
-  var T=D.tree,W=1000,H=650,bg=imgSrc('map-tree'),defs='<filter id="rglow" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="7"/></filter><linearGradient id="term2" x1="0" y1="0" x2="1" y2="1"><stop offset=".45" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></linearGradient>',s='';
+  var T=D.tree,W=1000,H=650,bg=imgSrc('map-tree'),defs='<filter id="rglow" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="7"/></filter><linearGradient id="term2" x1="0" y1="0" x2="1" y2="1"><stop offset=".45" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></linearGradient>',s='',labels='';
   if(bg)s+='<image href="'+esc(bg)+'" x="0" y="0" width="'+W+'" height="'+H+'" preserveAspectRatio="xMidYMid slice"/>';
   Object.keys(T).forEach(function(id,k){var key='tree:'+id,pt=mapPos(key,[T[id][0],T[id][1]]),sc=mapScale(key),name=id==='midgard'?'Мидгард (Земля)':PL[id].n,n=id==='midgard'?0:PL[id].pr.length,icon=imgSrc('mi-'+id),R=Math.round(27*sc);
     var body;if(icon){body='<circle r="'+(R*1.25+6)+'" fill="'+PCOL[id]+'" opacity=".5" filter="url(#rglow)"/>'+mapIconSVG(icon,Math.round(R*1.25),false)}
     else{defs+=planetDefs('r'+id,PCOL[id]);body='<circle r="'+Math.round(36*sc)+'" fill="'+PCOL[id]+'" opacity=".6" filter="url(#rglow)"/><ellipse class="orbit" rx="'+Math.round(44*sc)+'" ry="'+Math.round(13*sc)+'"/><circle class="body" r="'+R+'" fill="url(#pg-r'+id+')"/><circle r="'+R+'" fill="url(#term2)" pointer-events="none"/>'}
-    s+='<g class="realm'+(icon?' has-img':'')+'" data-yg="'+id+'" data-drag="'+key+'" transform="translate('+pt[0]+' '+pt[1]+')" tabindex="0" role="button" aria-label="'+esc(name)+'" style="animation-delay:'+(1.0+k*0.09).toFixed(2)+'s"><title>'+esc(name)+'</title>'+body+'<text class="rl" y="'+Math.round((icon?R*1.25:R)+25)+'" text-anchor="middle">'+esc(name)+'</text>'+(n&&!icon?'<text class="rn" y="6" text-anchor="middle">'+n+'</text>':'')+'</g>'});
+    s+='<g class="realm'+(icon?' has-img':'')+'" data-yg="'+id+'" data-drag="'+key+'" transform="translate('+pt[0]+' '+pt[1]+')" tabindex="0" role="button" aria-label="'+esc(name)+'" style="animation-delay:'+(1.0+k*0.09).toFixed(2)+'s"><title>'+esc(name)+'</title>'+body+(n&&!icon?'<text class="rn" y="6" text-anchor="middle">'+n+'</text>':'')+'</g>';
+    labels+='<g class="realm-label" data-realm-label="'+id+'" transform="translate('+pt[0]+' '+pt[1]+')" style="animation-delay:'+(1.0+k*0.09).toFixed(2)+'s"><text class="rl" y="'+Math.round((icon?R*1.25:R)+25)+'" text-anchor="middle">'+esc(name)+'</text></g>'});
+  s+='<g class="realm-label-layer" aria-hidden="true">'+labels+'</g>';
   return '<div class="treewrap'+(bg?' has-bg':'')+'"><canvas id="ygc" aria-hidden="true"></canvas><svg class="ymap" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Девять миров на древе Иггдрасиль"><defs>'+defs+'</defs>'+s+'</svg></div>'+
   mapImgBtns(['map-tree'],'Фон древа лучше делать в пропорции примерно 3:2 (например, 2400×1560). Картинки миров: нажмите на мир, и в панели справа появится загрузка. Миры можно перетащить на ветви вашей картинки.')}
 // --- Земля: режим «картинка» ---
@@ -2564,7 +2575,10 @@ var DRG=null,MAPDRAGGED=0;
 document.addEventListener('pointerdown',function(e){if(!ADM.edit||e.button>0)return;var g=e.target.closest&&e.target.closest('[data-drag]');if(!g||!g.ownerSVGElement)return;var tr=g.getAttribute('transform')||'',m=tr.match(/translate\(([-\d.]+)[ ,]+([-\d.]+)\)/);if(!m)return;
   DRG={g:g,svg:g.ownerSVGElement,key:g.getAttribute('data-drag'),x0:+m[1],y0:+m[2],sx:e.clientX,sy:e.clientY,moved:false,rest:tr.replace(/translate\([^)]*\)/,'')};});
 document.addEventListener('pointermove',function(e){if(!DRG)return;var dx=e.clientX-DRG.sx,dy=e.clientY-DRG.sy;if(!DRG.moved&&Math.abs(dx)+Math.abs(dy)<5)return;DRG.moved=true;var ctm=DRG.svg.getScreenCTM(),k=ctm&&ctm.a?1/ctm.a:1;
-  DRG.nx=DRG.x0+dx*k;DRG.ny=DRG.y0+dy*k;DRG.g.setAttribute('transform','translate('+DRG.nx.toFixed(1)+' '+DRG.ny.toFixed(1)+')'+DRG.rest);DRG.g.classList.add('dragging');e.preventDefault()});
+  DRG.nx=DRG.x0+dx*k;DRG.ny=DRG.y0+dy*k;var nextTransform='translate('+DRG.nx.toFixed(1)+' '+DRG.ny.toFixed(1)+')'+DRG.rest;
+  DRG.g.setAttribute('transform',nextTransform);
+  if(DRG.key.indexOf('tree:')===0){var overlay=DRG.svg.querySelector('[data-realm-label="'+DRG.key.slice(5)+'"]');if(overlay)overlay.setAttribute('transform',nextTransform)}
+  DRG.g.classList.add('dragging');e.preventDefault()});
 document.addEventListener('pointerup',function(){if(!DRG)return;var d=DRG;DRG=null;d.g.classList.remove('dragging');if(!d.moved)return;OVR.pos=OVR.pos||{};var old=OVR.pos[d.key];OVR.pos[d.key]=[Math.round(d.nx),Math.round(d.ny)].concat(old&&old[2]?[old[2]]:[]);MAPDRAGGED=Date.now();saveDraft();toast('Новое место точки сохранено в черновике. Нажмите «Опубликовать».')},true);
 document.addEventListener('click',function(e){if(MAPDRAGGED&&Date.now()-MAPDRAGGED<350&&e.target.closest&&e.target.closest('[data-drag]')){e.stopPropagation();e.preventDefault()}},true);
 document.addEventListener('keydown',function(e){var t=e.target;if((e.key==='Enter'||e.key===' ')&&t.hasAttribute&&(t.hasAttribute('data-ny')||t.hasAttribute('data-msel'))&&t.tagName!=='BUTTON'&&t.tagName!=='A'){e.preventDefault();t.dispatchEvent(new MouseEvent('click',{bubbles:true}))}});
