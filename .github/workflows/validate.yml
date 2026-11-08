@@ -43,6 +43,8 @@ jobs:
         run: node --test scripts/tests/full-project-facts.test.mjs
       - name: Check concept-six homepage, editorial dates and admin editing
         run: node --test scripts/tests/homepage-v6.test.mjs
+      - name: Check mobile navigation and search dropdown
+        run: node --test scripts/tests/mobile-header-search.test.mjs
       - name: Check story periods, appearance versions, editions and upcoming project facts
         run: node --test scripts/tests/sitewide-editorial.test.mjs
       - name: Check story fields contain no production or editorial commentary
