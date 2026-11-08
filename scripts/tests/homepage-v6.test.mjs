@@ -1,5 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import {loadGuide,click,editMode} from './guide-dom.mjs';
 
 const SECTION_NAMES=['Киновселенная Marvel','Как смотреть КВМ','В фокусе','Что посмотреть','Недавно вышло','Скоро','История персонажа','Случайное открытие'];
@@ -12,7 +13,10 @@ test('concept-six homepage shows sections in approved order and retains working 
     ['hero','ways','focus','picks','recent','upcoming','history','random']);
   for(const name of SECTION_NAMES)assert.ok(doc.querySelector('main').textContent.includes(name),name);
   const heroes=doc.querySelectorAll('.h6-portrait[href^="#c-"]');
-  assert.equal(heroes.length,6,'six existing character links');
+  assert.equal(heroes.length,5,'five non-overlapping character links');
+  assert.deepEqual([...heroes].map(x=>x.getAttribute('href')),['#c-tony','#c-steve','#c-wanda','#c-loki','#c-thor']);
+  assert.ok(doc.querySelector('.h6-hero-copy h1'),'text column remains in place');
+  assert.ok(doc.querySelector('.h6-hero-art[role="group"]'),'independent visual column');
   assert.equal(doc.querySelectorAll('.h6-picks-grid a').length,4);
   assert.ok(doc.querySelector('.top-v6 nav.tabs a[href="#watch"]'));
   assert.ok(doc.querySelector('.top-v6 #q'));
@@ -93,4 +97,12 @@ test('spoiler preferences hide narrative descriptions on the homepage',t=>{
   assert.ok(doc.querySelector('.h6-history .spoil'),'character history protected');
   assert.ok(doc.querySelector('.h6-random-box'),'encyclopedia component present');
   assert.equal(s.errors.length,0,s.errors.join('\n'));
+});
+
+test('hero stylesheet uses a five-column clipped layout and a compact horizontal-scroll fallback',()=>{
+  const css=readFileSync(new URL('../../home-v6.css',import.meta.url),'utf8');
+  assert.match(css,/\.h6-hero-art\{display:grid;grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
+  assert.match(css,/\.h6-portrait\{[^}]*clip-path:polygon\(/);
+  assert.match(css,/@media\(max-width:520px\)\{[\s\S]*?grid-auto-flow:column/);
+  assert.doesNotMatch(css,/\.h6-portrait-5\{/);
 });
