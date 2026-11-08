@@ -35,7 +35,11 @@ test('26 What If episodes have dates, source-backed English titles, consistent R
     assert.ok(ep.title.startsWith('Что, если… '),ep.id);
     assert.match(ep.date,/^20[0-9]{2}-[0-9]{2}-[0-9]{2}$/);
     assert.ok(ep.sources.length>=2,ep.id);
-    assert.ok(ep.events.length>=2&&ep.changes.length&&ep.connections.length>=1,ep.id+' editorial fields');
+    assert.ok(ep.events.length>=2&&ep.changes.length&&Array.isArray(ep.connections),ep.id+' editorial fields');
+    for(const connection of ep.connections){
+      assert.ok(connection.type&&connection.id&&connection.text,ep.id+' valid connection');
+      if(connection.type==='project') assert.ok(db.p.some(p=>p.id===connection.id),ep.id+' known project link');
+    }
     assert.ok(ep.chronology.length>30,ep.id+' specific chronology');
   }
 });
