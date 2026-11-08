@@ -382,3 +382,128 @@ main.wrap:has(.h6-page){padding:0 15px}
   .h6-release-image{height:185px}
   .h6-project-card{flex-basis:70%}
 }
+
+
+/* Editorial refinement: a consistent left edge, spacious search and controls. */
+.top-v6 > .wrap,main.wrap{max-width:1320px;padding-inline:28px}
+.top-v6 .top-row{max-width:none;margin:0;justify-content:flex-start;gap:12px;min-height:70px}
+.top-v6 nav.tabs{justify-content:flex-start;gap:3px;flex:1 1 auto}
+.top-v6 nav.tabs a{padding-inline:7px}
+.top-v6 .top-tools{gap:8px;margin-left:auto;align-items:center}
+.top-v6 .search{flex:0 1 400px;width:clamp(320px,30vw,400px);max-width:none}
+.top-v6 .search input,
+.top-v6 .theme-btn{
+  height:44px;min-height:44px;box-sizing:border-box;border-radius:4px;
+  font-size:14px;line-height:1.3;
+}
+.top-v6 .search input{padding:0 14px;width:100%}
+.top-v6 .theme-btn{display:inline-flex;align-items:center;justify-content:center;padding:0 12px}
+.top-v6 #themeBtn{min-width:95px;white-space:nowrap}
+.top-v6 #spoilBtn{min-width:138px;white-space:nowrap}
+.top-v6 .sres{
+  left:auto;right:0;width:min(680px,calc(100vw - 56px));
+  max-height:min(72vh,620px);max-height:min(72dvh,620px);
+}
+.top-v6 .sres a{grid-template-columns:120px minmax(0,1fr);gap:16px;padding:13px 16px}
+.top-v6 .sres small{font-size:12px}
+
+/* Keep text comfortably inset from the edges of cards and content panels. */
+.h6-page .h6-project-card{border:1px solid var(--h6-line);overflow:hidden}
+.h6-page .h6-project-info{padding:18px 18px 20px}
+.h6-page .h6-release-body{padding:clamp(20px,2vw,27px)}
+.h6-page .h6-way-copy{padding:clamp(22px,3vw,48px)}
+.h6-page .h6-feature-copy{padding:clamp(28px,4vw,60px)}
+.h6-page .h6-random-copy{padding:clamp(24px,3.5vw,50px)}
+.h6-page .h6-empty{padding:26px}
+main.wrap .ptile{padding:clamp(17px,2vw,24px)}
+main.wrap .art-card{padding:18px}
+main.wrap .hcard{padding:16px}
+main.wrap .row{padding-inline:12px}
+main.wrap .panel.pad{padding:clamp(18px,2vw,24px)}
+
+/* Upcoming releases: display existing real posters without overlaying the text. */
+.h6-page .h6-soon-main{
+  display:grid;grid-template-columns:minmax(160px,36%) minmax(0,1fr);
+  align-items:stretch;min-height:420px;padding:0;overflow:hidden;
+}
+.h6-page .h6-soon-main::before{right:22px;top:19px;width:54px;height:3px;z-index:1}
+.h6-soon-poster{min-width:0;overflow:hidden;background:#272a31}
+.h6-soon-poster-img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.h6-soon-poster .h6-photo-empty{height:100%;min-height:0;padding:14px;font-size:clamp(15px,2vw,24px)}
+.h6-soon-main-copy{
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+  gap:11px;padding:clamp(24px,3vw,40px);min-width:0;
+}
+.h6-page .h6-soon-main h3{font-size:clamp(30px,3.4vw,46px);max-width:none;margin:8px 0;overflow-wrap:anywhere}
+.h6-page .h6-soon-main .h6-soon-date{margin-top:6px}
+.h6-page .h6-soon-summary{min-width:0;margin:0;line-height:1.55}
+.h6-page .h6-soon-main .h6-soon-arrow{margin-top:12px}
+.h6-page .h6-soon-item{
+  display:grid;grid-template-columns:62px minmax(0,1fr) auto;
+  align-items:center;gap:14px;padding:11px 16px;min-height:112px;
+}
+.h6-soon-item .h6-soon-poster{width:62px;height:90px;min-width:0}
+.h6-soon-item-copy{min-width:0}
+.h6-page .h6-soon-item h3{font-size:clamp(17px,1.65vw,23px);margin:5px 0 0;overflow-wrap:anywhere}
+.h6-page .h6-soon-item .h6-soon-date{display:block;margin:0;min-width:0;grid-column:auto;font-size:11px}
+.h6-page .h6-soon-item .h6-soon-arrow{margin:0;align-self:center}
+
+@media (max-width:1180px) and (min-width:761px){
+  .top-v6 .top-row{flex-wrap:wrap;gap:8px;padding-block:12px}
+  .top-v6 nav.tabs{order:0;width:100%;flex:1 0 100%;justify-content:flex-start}
+  .top-v6 .top-tools{order:1;width:100%;margin-left:0;justify-content:flex-start}
+  .top-v6 .search{width:min(560px,53vw);flex:0 1 560px}
+}
+@media (max-width:760px){
+  .top-v6 > .wrap,main.wrap{padding-inline:16px}
+  .top-v6 .top-row{
+    display:grid;grid-template-columns:minmax(0,1fr) 44px 44px;
+    align-items:center;gap:8px;min-height:0;padding-block:9px;
+  }
+  .top-v6 .nav-menu{min-height:44px;height:44px;grid-column:1;grid-row:1}
+  .top-v6 .top-tools{display:contents}
+  .top-v6 .spoil-wrap{grid-column:2;grid-row:1;position:static}
+  .top-v6 #spoilBtn,.top-v6 #themeBtn{
+    height:44px;min-height:44px;width:44px;min-width:44px;max-width:44px;
+    padding:0;border-radius:4px;overflow:hidden;text-overflow:clip;
+  }
+  .top-v6 .search{grid-column:1/-1;grid-row:2;width:100%;max-width:none;flex:none;margin:0}
+  .top-v6 .search input{width:100%;height:44px;min-height:44px;padding:0 13px;font-size:16px}
+  .top-v6 .sres{width:100%;max-height:min(60vh,500px);max-height:min(60dvh,500px);left:0;right:0}
+  .top-v6 .sres a{grid-template-columns:92px minmax(0,1fr);gap:10px;padding:12px}
+  .top-v6 nav.tabs{grid-column:1/-1;grid-row:3;justify-content:flex-start}
+  .h6-page .h6-soon-layout{grid-template-columns:minmax(0,1fr)}
+  .h6-page .h6-soon-main{grid-template-columns:minmax(150px,36%) minmax(0,1fr)}
+  .h6-page .h6-soon-item{grid-template-columns:62px minmax(0,1fr) auto;gap:12px;padding:12px 16px}
+  .h6-page .h6-release-body{padding:20px}
+  .h6-page .h6-way-copy{padding:24px}
+  .h6-page .h6-project-info{padding:16px 15px 18px}
+  .h6-page .h6-random-copy{padding:24px}
+}
+@media (max-width:520px){
+  .h6-page .h6-soon-main{grid-template-columns:minmax(0,1fr);min-height:0}
+  .h6-soon-main .h6-soon-poster{height:260px}
+  .h6-soon-main .h6-soon-poster-img{object-fit:contain}
+  .h6-soon-main-copy{padding:24px}
+  .h6-page .h6-soon-main h3{font-size:clamp(29px,7vw,36px)}
+  .h6-page .h6-soon-item{grid-template-columns:58px minmax(0,1fr) auto;gap:10px;padding:10px 12px}
+  .h6-soon-item .h6-soon-poster{width:58px;height:86px}
+  .h6-page .h6-soon-item h3{font-size:18px}
+  .h6-page .h6-soon-item .h6-soon-arrow{font-size:19px}
+  .h6-page .h6-project-info{padding:15px 14px 18px}
+  .h6-page .h6-release-body{padding:18px}
+}
+@media (max-width:370px){
+  .top-v6 .sres a{grid-template-columns:78px minmax(0,1fr);gap:8px}
+  .h6-soon-main .h6-soon-poster{height:230px}
+}
+
+
+/* Compact mobile controls expose a single clear symbol, never a clipped word. */
+@media (max-width:760px){
+  .top-v6 #spoilBtn,.top-v6 #themeBtn{font-size:0!important}
+  .top-v6 #spoilBtn::before{content:"👁";font-size:20px;line-height:1}
+  .top-v6 #themeBtn::before{content:"◐";font-size:21px;line-height:1}
+  :root[data-theme="light"] .top-v6 #themeBtn::before{content:"☀"}
+  :root[data-theme="dark"] .top-v6 #themeBtn::before{content:"☾"}
+}

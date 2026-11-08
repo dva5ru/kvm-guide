@@ -45,6 +45,8 @@ jobs:
         run: node --test scripts/tests/homepage-v6.test.mjs
       - name: Check mobile navigation and search dropdown
         run: node --test scripts/tests/mobile-header-search.test.mjs
+      - name: Check wider header, upcoming posters and random discovery
+        run: node --test scripts/tests/homepage-polish.test.mjs
       - name: Check story periods, appearance versions, editions and upcoming project facts
         run: node --test scripts/tests/sitewide-editorial.test.mjs
       - name: Check story fields contain no production or editorial commentary
