@@ -2588,7 +2588,7 @@ document.addEventListener('pointerup',function(){if(!DRG)return;var d=DRG;DRG=nu
 document.addEventListener('click',function(e){if(MAPDRAGGED&&Date.now()-MAPDRAGGED<350&&e.target.closest&&e.target.closest('[data-drag]')){e.stopPropagation();e.preventDefault()}},true);
 document.addEventListener('keydown',function(e){var t=e.target;if((e.key==='Enter'||e.key===' ')&&t.hasAttribute&&(t.hasAttribute('data-ny')||t.hasAttribute('data-msel'))&&t.tagName!=='BUTTON'&&t.tagName!=='A'){e.preventDefault();t.dispatchEvent(new MouseEvent('click',{bubbles:true}))}});
 
-if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){})},{once:true})}
+if(typeof navigator!=='undefined'&&'serviceWorker' in navigator&&typeof location!=='undefined'&&/^https?:$/.test(location.protocol)){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){})},{once:true})}
 setThemeBtn();setSpoilBtn();
 admInit();
 if((window.KVM_PUBLIC||!window.claude)&&GH&&GH.token)ghEnable(false);
