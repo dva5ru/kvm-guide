@@ -44,7 +44,7 @@ main.wrap:has(.h6-page){max-width:1320px;padding:0 28px 0}
 .h6-actions{display:flex;align-items:center;flex-wrap:wrap;gap:11px}
 .h6-hero{display:grid;grid-template-columns:minmax(0,43%) minmax(0,57%);min-height:clamp(460px,42vw,560px);background:#f4f4f5;overflow:hidden;position:relative}
 .h6-hero-copy{min-width:0;padding:clamp(42px,5vw,72px) clamp(20px,2.6vw,36px) clamp(40px,5vw,68px) clamp(26px,4vw,58px);display:flex;flex-direction:column;align-items:flex-start;justify-content:center;position:relative;isolation:isolate;z-index:1}
-.h6-hero h1{max-width:100%;font-size:clamp(39px,4.45vw,62px);line-height:1.04;text-transform:uppercase;letter-spacing:-.02em}
+.h6-hero h1{max-width:100%;font-size:clamp(34px,3.5vw,48px);line-height:1.04;text-transform:uppercase;letter-spacing:-.02em}
 .h6-hero .h6-lead{max-width:450px;margin:23px 0 27px;color:#42464e;font-size:clamp(15px,1.3vw,17px);line-height:1.65}
 .h6-hero-art{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px;align-self:stretch;min-width:0;min-height:460px;overflow:hidden;background:#111216;isolation:isolate}
 .h6-portrait{position:relative;display:block;min-width:0;height:100%;overflow:hidden;background:#262a31;clip-path:polygon(19% 0,100% 0,81% 100%,0 100%);filter:grayscale(.12);transition:filter .25s;scroll-snap-align:start}
@@ -171,6 +171,12 @@ main.wrap:has(.h6-page){max-width:1320px;padding:0 28px 0}
 .h6-hero{grid-template-columns:minmax(0,44%) minmax(0,56%)}
 .h6-hero-art{min-height:420px}
 }
+@media(max-width:1000px){
+.h6-hero{display:flex;flex-direction:column;min-height:0}
+.h6-hero-copy{padding:44px clamp(24px,5vw,50px) 36px}
+.h6-hero h1{font-size:clamp(42px,6vw,58px)}
+.h6-hero-art{width:100%;height:clamp(260px,36vw,350px);min-height:0;flex:none}
+}
 @media(max-width:760px){
 .top-v6 .top-row{flex-wrap:wrap;min-height:57px;padding:8px 0;gap:9px}
 .top-v6 .brand b{font-size:23px}
@@ -230,6 +236,7 @@ main.wrap:has(.h6-page){padding:0 15px}
 @media(max-width:420px){
 .top-v6 .search{width:80px}.top-v6 .search input{width:100%}.top-v6 .top-tools{gap:3px}
 .h6-hero-copy{padding:38px 18px}
+.h6-hero h1{font-size:clamp(30px,8vw,36px)}
 .h6-way-panel{grid-template-columns:1fr}
 .h6-way-poster{height:180px;min-height:180px}
 .h6-way-copy{padding:22px}
