@@ -92,3 +92,20 @@ test('I Am Groot divides into two five-episode seasons with separate dates, role
   assert.ok(h.episodes.get('i-am-groot-s1-e5')[3].includes('rocket'));
   assert.ok(h.episodes.get('i-am-groot-s2-e5')[3].includes('uatu'));
 });
+
+
+test('series episode participants preserve the unified appearance classifications',()=>{
+  assert.equal(db.appearances.length,1324);
+  for(const id of ['loki-2::he-who-remains','agatha::mrs-hart','i-am-groot::rocket','i-am-groot::uatu']){
+    const a=db.appearances.find(row=>row.id===id);
+    assert.ok(a,id);
+    assert.ok(['main','episodic','cameo','voice','archival','credits'].includes(a.appearanceType),id);
+    assert.equal(a.versionId,a.characterId,id);
+    assert.ok(['voice','on-screen'].includes(a.delivery),id);
+    assert.equal(a.placement,'main',id);
+  }
+  for(const id of ['loki-1','loki-2','agatha','eyes-of-wakanda','i-am-groot']){
+    const p=db.p.find(project=>project.id===id);
+    assert.ok(p?.release&&Array.isArray(p.periods),id+' lost release / story periods');
+  }
+});
