@@ -497,3 +497,13 @@ main.wrap .panel.pad{padding:clamp(18px,2vw,24px)}
   .top-v6 .sres a{grid-template-columns:78px minmax(0,1fr);gap:8px}
   .h6-soon-main .h6-soon-poster{height:230px}
 }
+
+
+/* Compact mobile controls expose a single clear symbol, never a clipped word. */
+@media (max-width:760px){
+  .top-v6 #spoilBtn,.top-v6 #themeBtn{font-size:0!important}
+  .top-v6 #spoilBtn::before{content:"👁";font-size:20px;line-height:1}
+  .top-v6 #themeBtn::before{content:"◐";font-size:21px;line-height:1}
+  :root[data-theme="light"] .top-v6 #themeBtn::before{content:"☀"}
+  :root[data-theme="dark"] .top-v6 #themeBtn::before{content:"☾"}
+}
