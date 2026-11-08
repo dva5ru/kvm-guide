@@ -9,7 +9,7 @@ const clone=()=>structuredClone(raw);
 
 test('one canonical registry preserves project links and derives episode casts, descriptions and credits',t=>{
   const db=clone(),{records}=hydrateAppearances(db),s=loadGuide();t.after(s.close);
-  assert.equal(records.size,raw.appearances.length);assert.ok(records.size>=1282);assert.ok(raw.appearances.some(a=>a.id==='homecoming::tinkerer'));assert.equal(raw.appearances.reduce((n,a)=>n+a.episodes.length,0),420);
+  assert.equal(records.size,raw.appearances.length);assert.ok(records.size>=1282);assert.ok(raw.appearances.some(a=>a.id==='homecoming::tinkerer'));assert.equal(raw.appearances.reduce((n,a)=>n+a.episodes.length,0),469);
   assert.equal(raw.epRoles,undefined);assert.equal(raw.appearanceCredits,undefined);
   assert.ok(raw.c.every(c=>c.notes===undefined&&c.app===undefined));assert.ok(raw.p.every(p=>p.cs===undefined));
   for(const p of db.p){

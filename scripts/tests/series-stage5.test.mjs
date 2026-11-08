@@ -47,3 +47,20 @@ test('WandaVision episode nine keeps post-credit scenes out of the main plot',()
   assert.ok(ep.post[0].text.includes('Монике'));
   assert.ok(ep.post[1].text.includes('Даркхолд'));
 });
+
+test('all nine Agatha episodes and four Eyes of Wakanda episodes are linked to their respective cast',()=>{
+  const d=structuredClone(db), hydrated=hydrateAppearances(d);
+  const seasons=[['agatha',9],['eyes-of-wakanda',4]];
+  for(const [pid,count]of seasons){
+    const eps=Object.values(d.episodes).filter(e=>e.projectId===pid);
+    assert.equal(eps.length,count,pid);
+    for(const e of eps){
+      assert.ok(e.plot.length>250,e.id+' full story');
+      assert.ok(e.originalTitle&&e.date&&e.chronology&&e.events.length&&e.changes.length,e.id+' content');
+      assert.ok(e.sources.length>=2,e.id+' sources');
+      assert.ok(hydrated.episodes.get(e.id)[3].length>=1,e.id+' participant links');
+    }
+  }
+  assert.deepEqual(Object.values(d.episodes).filter(e=>e.projectId==='eyes-of-wakanda').map(e=>e.date), Array(4).fill('2025-08-01'));
+  assert.ok(d.appearances.some(a=>a.id==='agatha::mrs-hart'&&a.episodes.length===2));
+});
