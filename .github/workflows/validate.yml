@@ -51,3 +51,5 @@ jobs:
         run: node --test scripts/tests/sitewide-editorial.test.mjs
       - name: Check story fields contain no production or editorial commentary
         run: node --test scripts/tests/editorial-cleanup.test.mjs
+      - name: Check map side images and Nine Realms label layering
+        run: node --test scripts/tests/maps-side-labels.test.mjs
