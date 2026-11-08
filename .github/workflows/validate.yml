@@ -45,3 +45,5 @@ jobs:
         run: node --test scripts/tests/homepage-v6.test.mjs
       - name: Check story periods, appearance versions, editions and upcoming project facts
         run: node --test scripts/tests/sitewide-editorial.test.mjs
+      - name: Check story fields contain no production or editorial commentary
+        run: node --test scripts/tests/editorial-cleanup.test.mjs

@@ -23,7 +23,7 @@ test('future Marvel project cards are unique, complete and linked', () => {
   for (const id of added) {
     const p = projects.get(id);
     assert.ok(p, 'missing '+id);
-    assert.ok(p.t && p.en && p.ab, 'missing project details '+id);
+    assert.ok(p.t && p.en && p.release, 'missing project metadata '+id);
     assert.ok(['soon','alt','linked','non','dev'].includes(p.s));
     assert.ok(Array.isArray(p.refs));
     for (const ref of p.refs) assert.ok(projects.has(ref), 'broken reference '+id+' -> '+ref);
