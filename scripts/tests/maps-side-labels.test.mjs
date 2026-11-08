@@ -18,6 +18,8 @@ test('the cosmic map reuses the selected planet image in the side card',t=>{
   assert.ok(preview,'the selected planet has an image inside its side panel');
   assert.equal(preview.getAttribute('src'),mapImage.getAttribute('href'));
   assert.match(preview.getAttribute('alt'),/Контраксия/);
+  const reveal=side.querySelector('.spoil-btn');
+  if(reveal)click(s.w,reveal);
   assert.match(side.textContent,/Заснеженная планета/);
   assert.ok(side.querySelector('a[href="#p-contraxia"]'),'the place detail link is preserved');
 });
