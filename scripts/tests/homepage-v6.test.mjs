@@ -103,6 +103,7 @@ test('hero stylesheet uses a five-column clipped layout and a compact horizontal
   const css=readFileSync(new URL('../../home-v6.css',import.meta.url),'utf8');
   assert.ok(css.includes('.h6-hero-art{display:grid;grid-template-columns:repeat(5,minmax(0,1fr))'),'five equal portrait tracks');
   assert.match(css,/\.h6-portrait\{[^}]*clip-path:polygon\(/);
+  assert.match(css,/@media\(max-width:1000px\)\{[\s\S]*?flex-direction:column/);
   assert.match(css,/@media\(max-width:520px\)\{[\s\S]*?grid-auto-flow:column/);
   assert.doesNotMatch(css,/\.h6-portrait-5\{/);
 });
