@@ -17,7 +17,7 @@
   ];
   var DEFAULT_HEROES=['tony','wanda','loki','steve'];
   var VERIFIED_DATES={doomsday:1,'secret-wars':1,'x-men-mcu':1,'black-panther-3':1};
-  var ctxNow=null, randomIndex=0, active={focus:0,history:0}, sliders={}, ticker=null, observers=[], mounted=false;
+  var ctxNow=null, randomIndex=-1, lastRandomKey='', active={focus:0,history:0}, sliders={}, ticker=null, observers=[], mounted=false;
 
   function esc(v){return String(v==null?'':v).replace(/[&<>"]/g,function(ch){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]})}
   function cfg(ctx,key,fallback){
@@ -133,11 +133,17 @@
   function soonCard(ctx,p,big){
     var date=releaseDate(p);
     var when=date?ctx.fdate(date):'Дата не объявлена';
-    return '<a class="'+(big?'h6-soon-main':'h6-soon-item')+'" href="#f-'+esc(p.id)+'">'+
-      (big?'<span class="h6-soon-overline">БЛИЖАЙШАЯ ПРЕМЬЕРА</span>':'<span class="h6-soon-overline">ПРЕДСТОИТ</span>')+
+    // Reuse the published project poster rather than inventing a replacement image.
+    var poster='<div class="h6-soon-poster'+(big?' h6-soon-poster-main':'')+'">'+
+      photoPanel(ctx,'f-'+p.id,p.t,'h6-soon-poster-img')+'</div>';
+    if(big)return '<a class="h6-soon-main" href="#f-'+esc(p.id)+'">'+poster+
+      '<div class="h6-soon-main-copy"><span class="h6-soon-overline">БЛИЖАЙШАЯ ПРЕМЬЕРА</span>'+
       '<span class="h6-soon-date">'+esc(when)+'</span><h3>'+esc(p.t)+'</h3>'+
-      (big?'<div class="h6-soon-summary">'+synopsis(ctx,p.ab,[p.id])+'</div>':'')+
-      '<span class="h6-soon-arrow" aria-hidden="true">↗</span></a>';
+      '<div class="h6-soon-summary">'+synopsis(ctx,p.ab,[p.id])+'</div>'+
+      '<span class="h6-soon-arrow" aria-hidden="true">↗</span></div></a>';
+    return '<a class="h6-soon-item" href="#f-'+esc(p.id)+'">'+poster+
+      '<div class="h6-soon-item-copy"><span class="h6-soon-date">'+esc(when)+'</span>'+
+      '<h3>'+esc(p.t)+'</h3></div><span class="h6-soon-arrow" aria-hidden="true">↗</span></a>';
   }
   function upcoming(ctx){
     var rows=future(ctx);return '<section class="h6-section h6-upcoming">'+sectionTitle('Скоро','Каталог','#catalog')+
@@ -174,8 +180,22 @@
     ctx.D.ev.forEach(function(x){put('events','e-'+x.id,x.n,x.ab,'e-'+x.id,x.pr,'Событие')});
     return o.filter(function(x){return !ctx.isHid('h.random','home')&&!ctx.OVR.hide[x.id]&&!ctx.OVR.hide[x.id+'@'+x.route]});
   }
+  function chooseRandom(ctx){
+    var list=randomPool(ctx);
+    if(!list.length){randomIndex=-1;lastRandomKey='';return}
+    // Remember the last entry across refreshes, but never let the first array item be the default.
+    var previous=lastRandomKey;
+    if(!previous){try{previous=window.sessionStorage.getItem('kvm-home6-last-random')||''}catch(e){}}
+    var choices=list.filter(function(x){return x.id!==previous});
+    if(!choices.length)choices=list;
+    var selected=choices[Math.floor(Math.random()*choices.length)];
+    randomIndex=list.findIndex(function(x){return x.id===selected.id});
+    lastRandomKey=selected.id;
+    try{window.sessionStorage.setItem('kvm-home6-last-random',lastRandomKey)}catch(e){}
+  }
   function randomContent(ctx){
     var list=randomPool(ctx);if(!list.length)return '<div class="h6-empty">Материалы пока недоступны с текущими настройками.</div>';
+    if(randomIndex<0||randomIndex>=list.length)chooseRandom(ctx);
     var x=list[((randomIndex%list.length)+list.length)%list.length];
     var completelyHidden=ctx.SPO.mode==='all'&&x.projects.length>0;
     var title=completelyHidden?'Материал энциклопедии':x.name;
@@ -185,7 +205,7 @@
       (completelyHidden?'<p>'+esc(info)+'</p>':synopsis(ctx,info,x.projects))+
       '<div class="h6-actions"><button class="h6-button h6-button-red" type="button" data-h6-shuffle>Удиви меня</button><a class="h6-button h6-button-outline" href="#'+esc(x.id)+'">Открыть карточку</a></div></div>';
   }
-  function random(ctx){return '<section class="h6-section h6-random">'+sectionTitle('Случайное открытие','','')+
+  function random(ctx){chooseRandom(ctx);return '<section class="h6-section h6-random">'+sectionTitle('Случайное открытие','','')+
     '<div class="h6-random-box" id="h6-random-content">'+randomContent(ctx)+'</div></section>'}
   function footer(){return '<footer class="h6-footer"><a href="#home" aria-label="На главную">КВМ</a><span>Независимый путеводитель по киновселенной Marvel.</span><a href="#encyclopedia">Энциклопедия ↗</a></footer>'}
   function tools(ctx){return ctx.ADM.edit?'<div class="h6-admin" aria-label="Настройки главной страницы">'+
@@ -309,7 +329,7 @@
       document.querySelectorAll('[data-h6-way]').forEach(function(el){el.setAttribute('aria-selected',String(el.dataset.h6Way===k))});return;
     }
     if(target.hasAttribute('data-h6-shuffle')){
-      var count=randomPool(ctxNow).length;if(count>1)randomIndex=(randomIndex+1+Math.floor(Math.random()*(count-1)))%count;
+      chooseRandom(ctxNow);
       var box=document.getElementById('h6-random-content');if(box)box.innerHTML=randomContent(ctxNow);return;
     }
     if(target.hasAttribute('data-h6-step')){var parts=target.dataset.h6Step.split(':');changeSlide(parts[0],Number(parts[1]),true);return}
