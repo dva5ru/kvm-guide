@@ -17,7 +17,13 @@ test('concept-six homepage shows sections in approved order and retains working 
   assert.deepEqual([...heroes].map(x=>x.getAttribute('href')),['#c-tony','#c-steve','#c-thor','#c-bruce','#c-natasha','#c-clint']);
   assert.ok(doc.querySelector('.h6-hero-copy h1'),'text column remains in place');
   assert.ok(doc.querySelector('.h6-hero-art[role="group"][aria-label="Шесть оригинальных Мстителей"]'),'independent visual column');
-  assert.ok([...heroes].every(x=>x.querySelector('img.h6-portrait-img[src]')),'all six portraits use available images');
+  // The DOM fixture does not load persisted image assignments; verify the published image registry instead.
+  const imageRegistry=JSON.parse(readFileSync(new URL('../../content.json',import.meta.url),'utf8')).img;
+  for(const id of ['tony','steve','thor','bruce','natasha','clint']){
+    const src=imageRegistry['c-'+id];
+    assert.ok(src,'portrait image assignment exists for '+id);
+    assert.ok(readFileSync(new URL('../../'+src.split('?')[0],import.meta.url)).byteLength>0,'portrait image file exists for '+id);
+  }
   assert.equal(doc.querySelectorAll('.h6-picks-grid a').length,4);
   assert.ok(doc.querySelector('.top-v6 nav.tabs a[href="#watch"]'));
   assert.ok(doc.querySelector('.top-v6 #q'));
