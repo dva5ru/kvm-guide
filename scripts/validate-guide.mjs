@@ -13,6 +13,21 @@ hydrateAppearances(db);
 
 const projects = new Map(db.p.map(p => [p.id, p]));
 const characters = new Map(db.c.map(c => [c.id, c]));
+const periodKinds = new Set(['main','flashback','epilogue','origin','future','credits','outside-time','time-travel','multiverse','new-footage']);
+const appearanceTypes = new Set(['main','episodic','cameo','voice','archival','credits']);
+for (const p of db.p) {
+  if (!p.release || p.release.date !== (p.r || null) || p.release.year !== (p.y || null) || !['day','month','year','unknown'].includes(p.release.precision)) throw Error('Invalid premiere metadata: '+p.id);
+  if (!Array.isArray(p.periods) || p.periods.some(t => !periodKinds.has(t.kind) || typeof t.when !== 'string' || !t.when.trim() || typeof t.note !== 'string')) throw Error('Invalid project time periods: '+p.id);
+  if (p.announcement && (!p.announcement.summary || !Array.isArray(p.announcement.sources) || !p.announcement.sources.length || p.announcement.sources.some(url=>!/^https:\/\//.test(url)))) throw Error('Unverified film announcement: '+p.id);
+}
+for (const a of db.appearances) {
+  if (!appearanceTypes.has(a.appearanceType) || a.versionId !== a.characterId || !['voice','archival','on-screen'].includes(a.delivery) || !['main','credits','main-and-credits'].includes(a.placement)) throw Error('Invalid appearance classification: '+a.id);
+  if (a.role === 'X' && (!Array.isArray(a.versionRef) || !a.versionRef.length || !['episodes','alternate'].includes(a.versionScope))) throw Error('Missing alternative version identity: '+a.id);
+  if (a.originProjectId && !db.p.some(p=>p.id===a.originProjectId)) throw Error('Unknown version origin: '+a.id);
+  if (a.announcementStatus && (a.announcementStatus!=='announced' || !/^https:\/\//.test(a.announcementSource||''))) throw Error('Unsourced announced participant: '+a.id);
+}
+console.log('Validated: premiere periods and six appearance types');
+
 if (projects.size !== db.p.length || characters.size !== db.c.length) throw new Error('Duplicate entity IDs');
 for(const c of db.c){
   if(!Array.isArray(c.groups)||!c.groups.length||c.groups.some(g=>typeof g!=='string'||!g.trim()||g!==g.trim())||new Set(c.groups).size!==c.groups.length||c.g!==c.groups[0])throw Error('Invalid character groups: '+c.id);
