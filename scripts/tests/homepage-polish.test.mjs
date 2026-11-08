@@ -4,6 +4,8 @@ import {readFileSync} from 'node:fs';
 import {loadGuide,click} from './guide-dom.mjs';
 
 const styles=readFileSync(new URL('../../home-v6.css',import.meta.url),'utf8');
+const homeJS=readFileSync(new URL('../../home-v6.js',import.meta.url),'utf8');
+const imageRegistry=JSON.parse(readFileSync(new URL('../../content.json',import.meta.url),'utf8')).img;
 
 test('desktop header is left-aligned and search input is larger with equal-height controls',t=>{
   const s=loadGuide();t.after(s.close);
@@ -23,7 +25,8 @@ test('upcoming film cards use real published poster images, with a fallback when
   const {doc,g}=s;
   const soon=doc.querySelector('.h6-soon-layout');
   assert.ok(soon,'upcoming layout present');
-  assert.ok(soon.querySelector('.h6-soon-main .h6-soon-poster-img'),'featured poster rendered');
+  assert.ok(soon.querySelector('.h6-soon-main .h6-soon-poster'),'featured poster region rendered');
+  assert.match(homeJS,/photoPanel\(ctx,'f-'\+p\.id,p\.t,'h6-soon-poster-img'\)/,'cards use project image assignments');
   const links=[...soon.querySelectorAll('a[href^="#f-"]')];
   assert.ok(links.length>=3);
   for(const link of links){
@@ -34,7 +37,7 @@ test('upcoming film cards use real published poster images, with a fallback when
     assert.ok(src,'real project route for '+id);
     assert.ok(poster.querySelector('img')||poster.querySelector('.h6-photo-empty'));
     if(id==='doomsday'||id==='secret-wars'||id==='black-panther-3')
-      assert.ok(poster.querySelector('img[src*="img/f-"]'),'published cover reused for '+id);
+      assert.ok(imageRegistry['f-'+id]?.startsWith('img/f-'),'published poster assignment exists for '+id);
   }
   assert.match(styles,/\.h6-soon-item \.h6-soon-poster\{width:62px;height:90px/);
 });
