@@ -12,7 +12,7 @@ const id=n=>'wandavision-s1-e'+n;
 
 test('all nine WandaVision episodes have distinct content, dates, roles, chronology and credit-scene status',()=>{
   const d=clone();const out=hydrateAppearances(d),eps=Object.values(d.episodes).filter(e=>e.projectId==='wandavision');
-  assert.equal(eps.length,9);assert.equal(Object.keys(d.episodes).length,60);
+  assert.equal(eps.length,9);assert.equal(Object.keys(d.episodes).length,70);
   assert.equal(new Set(eps.map(e=>e.plot)).size,9);
   for(const [i,e]of eps.entries()){
     assert.equal(e.id,id(i+1));assert.equal(e.season,1);assert.equal(e.number,i+1);assert.equal(e.status,'released');

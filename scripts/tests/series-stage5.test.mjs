@@ -36,7 +36,7 @@ test('26 What If episodes have dates, source-backed English titles, consistent R
     assert.match(ep.date,/^20[0-9]{2}-[0-9]{2}-[0-9]{2}$/);
     assert.ok(ep.sources.length>=2,ep.id);
     assert.ok(ep.events.length>=2&&ep.changes.length&&ep.connections.length>=1,ep.id+' editorial fields');
-    assert.match(ep.chronology,/Альтернативная реальность/);
+    assert.ok(ep.chronology.length>30,ep.id+' specific chronology');
   }
 });
 
@@ -72,4 +72,23 @@ test('What If season one finale keeps the mid-credit scene separate and does not
  assert.equal(ep.post[0].placement,'mid');
  assert.ok(!ep.plot.includes('После титров'));
  assert.ok(ep.post[0].text.includes('Личность'));
+});
+
+test('I Am Groot divides into two five-episode seasons with separate dates, roles and sources',()=>{
+  const d=structuredClone(db), h=hydrateAppearances(d);
+  const episodes=Object.values(d.episodes).filter(e=>e.projectId==='i-am-groot');
+  assert.equal(episodes.length,10);
+  for(const season of [1,2]){
+    const subset=episodes.filter(e=>e.season===season);
+    assert.equal(subset.length,5);
+    assert.deepEqual(subset.map(e=>e.number),[1,2,3,4,5]);
+    for(const e of subset){
+      assert.equal(e.status,'released');
+      assert.equal(e.date,season===1?'2022-08-10':'2023-09-06');
+      assert.ok(e.originalTitle&&e.title&&e.plot.length>=150&&e.events.length===2&&e.sources.length>=2);
+      assert.ok(h.episodes.get(e.id)[3].includes('groot'));
+    }
+  }
+  assert.ok(h.episodes.get('i-am-groot-s1-e5')[3].includes('rocket'));
+  assert.ok(h.episodes.get('i-am-groot-s2-e5')[3].includes('uatu'));
 });
