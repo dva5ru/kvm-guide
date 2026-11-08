@@ -754,8 +754,20 @@ nav.tabs a{min-height:40px;display:inline-flex;align-items:center}
 .place-image{margin:18px 0}.place-image img{display:block;max-width:100%;max-height:420px;object-fit:contain;border-radius:10px}
 .portrait-trigger{border:0;background:transparent;padding:0;cursor:zoom-in;color:inherit}
 .photo-lightbox{position:fixed;inset:0;z-index:10000;background:rgba(5,8,12,.94);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;padding:28px}
-.photo-lightbox img{max-width:min(96vw,1200px);max-height:80vh;object-fit:contain}.photo-lightbox p{color:#eee}
-.photo-lightbox button{position:absolute;top:20px;right:24px;padding:12px;border:1px solid #999;border-radius:50%;background:#171b21;color:white;cursor:pointer}
+.photo-lightbox .photo-zoom-stage{position:relative;max-width:min(96vw,1200px);max-height:80vh}
+.photo-lightbox .photo-zoom-stage>img{display:block;max-width:100%;max-height:80vh;object-fit:contain;border-radius:5px}
+.photo-zoom-hotspots{position:absolute;inset:0;display:flex}
+.photo-zoom-hotspot{min-width:0;padding:0;border:0;background:transparent;color:#fff;cursor:pointer;touch-action:manipulation}
+.photo-zoom-hotspot--prev,.photo-zoom-hotspot--next{flex:0 0 28%}
+.photo-zoom-hotspot--close{flex:1}
+.photo-zoom-hotspot--prev::before,.photo-zoom-hotspot--next::before{display:block;font-size:clamp(30px,4vw,48px);line-height:1;text-shadow:0 2px 12px #000;opacity:.55;transition:opacity .18s}
+.photo-zoom-hotspot--prev::before{content:'‹'}
+.photo-zoom-hotspot--next::before{content:'›'}
+.photo-zoom-hotspot--prev:hover::before,.photo-zoom-hotspot--next:hover::before,.photo-zoom-hotspot--prev:focus-visible::before,.photo-zoom-hotspot--next:focus-visible::before{opacity:1}
+.photo-zoom-hotspot:focus-visible{outline:2px solid #fff;outline-offset:-4px}
+.photo-lightbox .photo-zoom-caption{color:#eee;margin:0;text-align:center;font-size:14px;max-width:min(96vw,1200px)}
+.photo-zoom-count{color:#aeb3ba;margin-left:10px;font-variant-numeric:tabular-nums}
+@media(max-width:640px){.photo-lightbox{padding:16px;gap:12px}.photo-lightbox .photo-zoom-stage{max-width:100%;max-height:84vh}.photo-lightbox .photo-zoom-stage>img{max-height:84vh}}
 
 .bio-events{margin:24px 0}.bio-event{padding:10px 0;border-bottom:1px solid var(--border,rgba(140,140,140,.2));font-size:14px}
 .bio-event a{font-weight:600}.bio-event p{margin:7px 0 0}
@@ -2206,12 +2218,66 @@ function orgView(o){var pr=o[3].split(',').filter(function(x){return P[x]}),mem=
 function orgsView(){return '<h1>Организации</h1><p class="lead" style="margin-top:10px">Спецслужбы, тайные общества и другие организации КВМ.</p><div class="ptiles" style="margin-top:20px">'+D.enc.orgs.map(function(o){return '<a class="panel ptile" href="#o-'+o[0]+'"><b>'+esc(o[1])+'</b><span>'+projectCount(o[3])+'</span></a>'}).join('')+'</div>'}
 
 
-function showPhoto(key){var src=imgSrc(key);if(!src)return;var old=document.getElementById('photo-zoom');if(old)old.remove();
- var overlay=document.createElement('div');overlay.id='photo-zoom';overlay.className='photo-lightbox';overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');overlay.setAttribute('aria-label','Просмотр фотографии');
- overlay.innerHTML='<button type="button" data-zoom-close aria-label="Закрыть">✕</button><img src="'+esc(src)+'" alt="'+esc(keyName(key))+'"><p>'+esc(keyName(key))+'</p>';document.body.appendChild(overlay);overlay.querySelector('button').focus()
+// All portraits for one character form a single gallery; other images stay standalone.
+var PHOTO_ZOOM=null;
+function photoKeys(key){
+ var cid=key.indexOf('c-')===0?key.slice(2).split('--look-')[0]:'';
+ if(!cid||!C[cid])return [key];
+ var base='c-'+cid,keys=(imgSrc(base)?[base]:[]).concat(charLookKeys(cid)).filter(function(k){return !!imgSrc(k)});
+ return keys.indexOf(key)>=0?keys:[key]
 }
-document.addEventListener('click',function(e){var el=e.target.closest('[data-zoom-key]');if(el){e.preventDefault();showPhoto(el.getAttribute('data-zoom-key'))}else if(e.target.closest('[data-zoom-close]')||e.target.id==='photo-zoom'){var z=document.getElementById('photo-zoom');if(z)z.remove()}});
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){var z=document.getElementById('photo-zoom');if(z)z.remove()}else if(e.key==='Enter'&&e.target.hasAttribute('data-zoom-key'))showPhoto(e.target.getAttribute('data-zoom-key'))});
+function photoClose(){
+ var overlay=document.getElementById('photo-zoom'),opener=PHOTO_ZOOM&&PHOTO_ZOOM.opener;
+ if(overlay)overlay.remove();
+ PHOTO_ZOOM=null;
+ if(opener&&opener.isConnected&&typeof opener.focus==='function')opener.focus()
+}
+function photoUpdate(){
+ if(!PHOTO_ZOOM)return;
+ var overlay=document.getElementById('photo-zoom');if(!overlay)return;
+ var keys=PHOTO_ZOOM.keys,index=PHOTO_ZOOM.index,key=keys[index],many=keys.length>1;
+ overlay.innerHTML='<div class="photo-zoom-stage"><img src="'+esc(imgSrc(key))+'" alt="'+esc(keyName(key))+'"><div class="photo-zoom-hotspots">'+
+ (many?'<button type="button" class="photo-zoom-hotspot photo-zoom-hotspot--prev" data-zoom-action="prev" aria-label="Предыдущая фотография"></button>':'')+
+ '<button type="button" class="photo-zoom-hotspot photo-zoom-hotspot--close" data-zoom-action="close" aria-label="Закрыть просмотр фотографии"></button>'+
+ (many?'<button type="button" class="photo-zoom-hotspot photo-zoom-hotspot--next" data-zoom-action="next" aria-label="Следующая фотография"></button>':'')+
+ '</div></div><p class="photo-zoom-caption">'+esc(keyName(key))+(many?'<span class="photo-zoom-count">'+(index+1)+' / '+keys.length+'</span>':'')+'</p>'
+}
+function photoStep(delta){
+ if(!PHOTO_ZOOM||PHOTO_ZOOM.keys.length<2)return;
+ var focused=document.activeElement,action=focused&&focused.getAttribute&&focused.getAttribute('data-zoom-action');
+ PHOTO_ZOOM.index=(PHOTO_ZOOM.index+delta+PHOTO_ZOOM.keys.length)%PHOTO_ZOOM.keys.length;
+ photoUpdate();
+ var overlay=document.getElementById('photo-zoom'),next=overlay&&overlay.querySelector('[data-zoom-action="'+(action||'close')+'"]');
+ if(next)next.focus()
+}
+function showPhoto(key,opener){
+ if(!imgSrc(key))return;
+ if(PHOTO_ZOOM)photoClose();
+ var keys=photoKeys(key);
+ PHOTO_ZOOM={keys:keys,index:Math.max(0,keys.indexOf(key)),opener:opener||document.activeElement};
+ var overlay=document.createElement('div');
+ overlay.id='photo-zoom';overlay.className='photo-lightbox';
+ overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');overlay.setAttribute('aria-label','Просмотр фотографии');
+ document.body.appendChild(overlay);photoUpdate();
+ var center=overlay.querySelector('[data-zoom-action="close"]');if(center)center.focus()
+}
+document.addEventListener('click',function(e){
+ var trigger=e.target.closest('[data-zoom-key]');
+ if(trigger){e.preventDefault();showPhoto(trigger.getAttribute('data-zoom-key'),trigger);return}
+ var action=e.target.closest('[data-zoom-action]');
+ if(action&&action.closest('#photo-zoom')){
+  e.preventDefault();
+  var choice=action.getAttribute('data-zoom-action');
+  if(choice==='close')photoClose();else if(choice==='prev')photoStep(-1);else if(choice==='next')photoStep(1);
+ }else if(e.target.id==='photo-zoom')photoClose()
+});
+document.addEventListener('keydown',function(e){
+ if(PHOTO_ZOOM){
+  if(e.key==='Escape'){e.preventDefault();photoClose();return}
+  if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();photoStep(e.key==='ArrowRight'?1:-1);return}
+ }
+ if(e.key==='Enter'&&e.target.hasAttribute('data-zoom-key')){e.preventDefault();showPhoto(e.target.getAttribute('data-zoom-key'),e.target)}
+});
 
 
 // ===== Единая офлайн-защита от спойлеров =====
