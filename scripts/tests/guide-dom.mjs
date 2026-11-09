@@ -15,7 +15,7 @@ export function loadGuide(options={}){
   w.scrollTo=()=>{};w.requestAnimationFrame=()=>0;w.matchMedia=()=>({matches:true,addListener(){},removeListener(){}});
   w.HTMLElement.prototype.scrollIntoView=()=>{};
   w.HTMLCanvasElement.prototype.getContext=function(){return new Proxy({canvas:this},{get:(t,k)=>k in t?t[k]:k==='createLinearGradient'||k==='createRadialGradient'?()=>({addColorStop(){}}):()=>{}})};
-  const instrumented=app.replace(/setThemeBtn\(\);setSpoilBtn\(\);\s*admInit\(\);[\s\S]*?\nroute\(\);\s*(?:imgQueueLoad\(\);\s*)?\}\)\(\);\s*$/,`
+  const instrumented=app.replace(/admInit\(\);[\s\S]*?\nroute\(\);\s*(?:imgQueueLoad\(\);\s*)?\}\)\(\);\s*$/,`
     globalThis.guide={D,P,C,PL,EV,LN,ADM,SPO,VIEWS,LEGACY,ITEM_CATS,SPK,
       EP_LOOKUP,EP_ALIAS,EREG,episodeList,episodeNote,episodeHref,route,buildSearch,runSearch,artAll,artGet,artView,itemProjects,projectItems,episodeView,teamsView,orgView,raceView,appearanceCredit,creditTag,
       applyCopy,copyKey,copyValue,copySave,universalEdit,applyOVR,setText,getT,ref,textFields,contentResults,

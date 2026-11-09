@@ -17,7 +17,7 @@ test('precompiled index loads and has individual fact tags, without a runtime AI
   assert.ok(ix.entries['tl.125']);
   assert.ok(ix.entries['ev.emergence']);
   assert.ok(ix.entries['ev.forget']);
-  assert.equal(s.doc.querySelector('script[src="spoiler-index.js"]')!==null,true);
+  assert.equal(s.doc.querySelector('script[src="spoiler-index.js"]'),null);
   assert.equal(s.errors.length,0,s.errors.join(' | '));
 });
 
@@ -80,42 +80,21 @@ test('changed content is conservatively protected rather than trusted with stale
   assert.match(doc.querySelector('main').textContent,/НЕОЖИДАННЫЙ ФИНАЛ/);
 });
 
-test('new settings allow watch order, explicit watched projects and spoiler strength',t=>{
-  const s=loadGuide();t.after(s.close);const {g,w,doc}=s;
-  click(w,doc.getElementById('spoilBtn'));
-  let p=doc.getElementById('spoilPanel');
-  assert.ok(p);
-  assert.match(p.textContent,/Защита от спойлеров/);
-  let mode=p.querySelector('input[name="spSmartMode"][value="upto"]');
-  mode.checked=true;mode.dispatchEvent(new w.Event('change',{bubbles:true}));
-  p=doc.getElementById('spoilPanel');
-  assert.ok(p.querySelector('#spSmartOrder'));
-  const pick=p.querySelector('#spSmartLast');
-  pick.value=String(g.D.p.find(x=>x.id==='thor-lt').ord);
-  pick.dispatchEvent(new w.Event('change',{bubbles:true}));
-  assert.equal(g.spSeen('eternals'),true);
-  const level=doc.querySelector('input[name="spSmartLevel"][value="strict"]');
-  level.checked=true;level.dispatchEvent(new w.Event('change',{bubbles:true}));
-  assert.equal(g.SPO.level,'strict');
-  assert.equal(JSON.parse(w.localStorage.getItem('kvm-spoil')).level,'strict');
+test('spoiler preferences are disabled on the public site',t=>{
+  const s=loadGuide();t.after(s.close);const {g,doc}=s;
+  assert.equal(g.SPO.mode,'off');
+  assert.equal(doc.getElementById('spoilBtn'),null);
+  assert.equal(doc.getElementById('spoilPanel'),null);
+  assert.equal(doc.querySelector('.spoil-btn'),null);
+  assert.ok(doc.querySelector('.h6-release-summary').textContent.trim().length>0);
 });
 
-test('admin can correct sentence tags and publishes overrides through the standard draft schema',t=>{
-  const ctx=loadGuide();t.after(ctx.close);const {g,w,doc}=ctx;
+test('admin spoiler-label editor is absent until its redesign',t=>{
+  const s=loadGuide();t.after(s.close);const {g,doc,w}=s;
   g.ADM.can=true;g.ADM.on=true;
+  g.go('home');
+  assert.equal(doc.querySelector('[data-adm="spoilers"]'),null);
   const entry=doc.createElement('button');entry.setAttribute('data-adm','spoilers');doc.body.appendChild(entry);
   click(w,entry);
-  const panel=doc.getElementById('admset');
-  assert.ok(panel,'spoiler tag editor opens');
-  const q=panel.querySelector('[data-sp-tag-query]');
-  q.value='ev.emergence';q.dispatchEvent(new w.Event('input',{bubbles:true}));
-  const field=doc.querySelector('[data-sp-edit-key="ev.emergence"]');
-  assert.ok(field,'can search concrete MCU event');
-  const level=field.querySelector('[data-sp-tag-level="0"]');
-  level.value='0';level.dispatchEvent(new w.Event('change',{bubbles:true}));
-  const saved=g.getOvr();
-  assert.equal(saved.spoilers['ev.emergence'][1][0][0],0);
-  assert.equal(JSON.parse(w.localStorage.getItem('kvm-draft:/kvm-guide/:v1')).spoilers['ev.emergence'][1][0][0],0);
-  const fresh=loadGuide();t.after(fresh.close);fresh.g.setOvr(saved);
-  assert.equal(fresh.g.getOvr().spoilers['ev.emergence'][1][0][0],0);
+  assert.equal(doc.getElementById('admset'),null);
 });

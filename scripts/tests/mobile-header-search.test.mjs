@@ -11,7 +11,8 @@ test('header no longer repeats the KVM brand, while navigation remains accessibl
   assert.equal(s.doc.querySelector('.top-v6 .brand'),null);
   assert.ok(s.doc.querySelector('.top-v6 nav.tabs a[href="#home"]'),'home navigation remains');
   assert.equal(s.doc.querySelector('#h6-menu').getAttribute('aria-controls'),'h6-nav');
-  assert.equal(s.doc.querySelector('#spoilBtn').getAttribute('aria-label'),'Защита от спойлеров');
+  assert.equal(s.doc.querySelector('#spoilBtn'),null);
+  assert.equal(s.doc.querySelector('#themeBtn'),null);
   assert.doesNotMatch(markup,/<a class="brand"[^>]*>[\s\S]*?<b>КВМ<\/b><\/a>/);
 });
 

@@ -11,12 +11,12 @@ test('desktop header is left-aligned and search input is larger with equal-heigh
   const s=loadGuide();t.after(s.close);
   assert.equal(s.doc.querySelectorAll('.top-v6 nav.tabs a').length,6);
   assert.ok(s.doc.querySelector('#q'));
-  assert.ok(s.doc.querySelector('#spoilBtn'));
-  assert.ok(s.doc.querySelector('#themeBtn'));
+  assert.equal(s.doc.querySelector('#spoilBtn'),null);
+  assert.equal(s.doc.querySelector('#themeBtn'),null);
   assert.match(styles,/\.top-v6 > \.wrap,main\.wrap\{max-width:1320px;padding-inline:28px\}/);
   assert.match(styles,/\.top-v6 nav\.tabs\{justify-content:flex-start/);
   assert.match(styles,/\.top-v6 \.search\{flex:0 1 400px;width:clamp\(320px,30vw,400px\)/);
-  assert.match(styles,/\.top-v6 \.search input,\s*\.top-v6 \.theme-btn\{[^}]*height:44px;min-height:44px/);
+  assert.match(styles,/\.top-v6 \.search input\{[^}]*height:44px;min-height:44px/);
   assert.match(styles,/\.top-v6 \.sres\{[^}]*width:min\(680px,calc\(100vw - 56px\)\)/);
   assert.match(styles,/@media \(max-width:760px\)\{[\s\S]*?\.top-v6 \.search\{grid-column:1\/-1;grid-row:2;width:100%/);
 });
