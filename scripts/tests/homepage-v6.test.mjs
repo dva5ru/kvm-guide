@@ -27,8 +27,8 @@ test('concept-six homepage shows sections in approved order and retains working 
   assert.equal(doc.querySelectorAll('.h6-picks-grid a').length,4);
   assert.ok(doc.querySelector('.top-v6 nav.tabs a[href="#watch"]'));
   assert.ok(doc.querySelector('.top-v6 #q'));
-  assert.ok(doc.querySelector('.top-v6 #spoilBtn'));
-  assert.ok(doc.querySelector('.top-v6 #themeBtn'));
+  assert.equal(doc.querySelector('.top-v6 #spoilBtn'),null);
+  assert.equal(doc.querySelector('.top-v6 #themeBtn'),null);
   assert.equal(errors.length,0,errors.join('\n'));
 });
 
@@ -97,11 +97,12 @@ test('sections respect existing admin hide flags',t=>{
   assert.ok(doc.querySelector('.h6-recent'));
 });
 
-test('spoiler preferences hide narrative descriptions on the homepage',t=>{
+test('narrative descriptions show without spoiler protection',t=>{
   const s=loadGuide();t.after(s.close);const {g,doc}=s;
-  g.SPO.mode='all';g.go('home');
-  assert.ok(doc.querySelector('.h6-release-summary .spoil'),'release synopsis protected');
-  assert.ok(doc.querySelector('.h6-history .spoil'),'character history protected');
+  assert.equal(g.SPO.mode,'off');
+  assert.equal(doc.querySelector('.h6-page .spoil'),null);
+  assert.ok(doc.querySelector('.h6-release-summary').textContent.trim().length>0);
+  assert.ok(doc.querySelector('.h6-history').textContent.trim().length>0);
   assert.ok(doc.querySelector('.h6-random-box'),'encyclopedia component present');
   assert.equal(s.errors.length,0,s.errors.join('\n'));
 });
