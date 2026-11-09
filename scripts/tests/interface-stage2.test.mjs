@@ -123,7 +123,7 @@ test('block controls cover encyclopedia and respect local hiding and guest previ
 });
 
 test('spoilers conceal item descriptions, path headings, participant notes and late team membership',t=>{
-  const s=loadGuide();t.after(s.close);const {g,doc}=s;g.SPO.level='strict';
+  const s=loadGuide();t.after(s.close);const {g,doc}=s;g.SPO.mode='all';g.SPO.level='strict';
   for(const a of g.artAll()){
     g.go('a-'+a.id);const text=doc.getElementById('main').textContent;
     const tags=s.w.KVM_SPOILER_INDEX.entries['art.'+a.id+'.ab']?.[1]||[];
@@ -163,7 +163,7 @@ test('undo, redo and exported settings preserve text, copy and block edits toget
 });
 
 test('map events, races, organizations and biographies keep narrative descriptions outside hidden DOM',t=>{
-  const s=loadGuide();t.after(s.close);const {g,doc}=s;
+  const s=loadGuide();t.after(s.close);const {g,doc}=s;g.SPO.mode='all';
   const sentinel='СЕКРЕТНЫЙ СЮЖЕТНЫЙ ПОВОРОТ';
   const place=g.D.pl[0];place.ab=sentinel;g.go('map');assert.ok(!doc.querySelector('main').textContent.includes(sentinel));
   const event=g.D.ev[0];event.ab=sentinel;g.go('p-'+event.pl);assert.ok(!doc.querySelector('main').textContent.includes(sentinel));
