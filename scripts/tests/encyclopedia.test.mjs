@@ -29,7 +29,7 @@ function load() {
     window:{addEventListener:empty,innerWidth:1200,scrollY:0,scrollTo:empty},
     MutationObserver:class {observe(){}},
   };
-  const app = originalApp.replace(/setThemeBtn\(\);setSpoilBtn\(\);\s*admInit\(\);[\s\S]*?\nroute\(\);\s*(?:imgQueueLoad\(\);\s*)?\}\)\(\);\s*$/,`
+  const app = originalApp.replace(/admInit\(\);[\s\S]*?\nroute\(\);\s*(?:imgQueueLoad\(\);\s*)?\}\)\(\);\s*$/,`
     globalThis.guide={D,ITEM_CATS,VIEWS,ADM,OVR,IMG,artAll,artGet,artView,artCard,encView,route,imgMatch,imgTarget,imgIndex,buildSearch,linkRx,lk,SPK,SPO,LK,RT,getSearch:()=>sIdx};
   })();`);
   assert.notEqual(app, originalApp, 'test bootstrap replaces only final initialization');
@@ -104,14 +104,14 @@ test('item text links target containers and category changes do not lose old pho
   assert.match(g.artView(g.artGet('stormbreaker')),/img\/previous-stormbreaker.jpg/);
 });
 
-test('search indexes all requested objects and hides plot descriptions by default', () => {
+test('search indexes all requested objects and shows plot descriptions by default', () => {
   const g=load();g.buildSearch();
   for(const x of coverage.entries) assert.ok(g.getSearch().some(r=>r.h==='#a-'+x.id),x.id);
   assert.ok(g.getSearch().find(r=>r.h==='#a-stormbreaker').s.includes('громсекира'));
   assert.ok(g.getSearch().find(r=>r.h==='#a-venom-symbiote').s.includes('симбиот'));
-  assert.equal(g.SPO.mode,'all');
+  assert.equal(g.SPO.mode,'off');
   const a=g.artGet('thanos-double-sword');
-  assert.ok(!g.artView(a).includes(a.ab));
-  assert.ok(Object.values(g.SPK).some(value=>value.includes('Большой меч с лезвиями')));
+  assert.ok(g.artView(a).includes(a.ab));
+  assert.equal(Object.keys(g.SPK).length,0);
   assert.ok(g.LK&&g.RT,'unrelated relationship graph state preserved');
 });
