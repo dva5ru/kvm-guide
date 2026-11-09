@@ -111,7 +111,8 @@ test('search indexes all requested objects and shows plot descriptions by defaul
   assert.ok(g.getSearch().find(r=>r.h==='#a-venom-symbiote').s.includes('симбиот'));
   assert.equal(g.SPO.mode,'off');
   const a=g.artGet('thanos-double-sword');
-  assert.ok(g.artView(a).includes(a.ab));
-  assert.equal(Object.keys(g.SPK).length,0);
+  const rendered=g.artView(a);
+  assert.ok(rendered.includes('Большой меч'),'description is present in reader-facing markup');
+  assert.ok(!rendered.includes('data-spk'),'description is not hidden behind a spoiler control');
   assert.ok(g.LK&&g.RT,'unrelated relationship graph state preserved');
 });
