@@ -1,0 +1,5003 @@
+{
+  "date": "2026-11-10",
+  "inputFile": "KVM_Guide_реестр_мест_проверка_2026-11-10(1).xlsx",
+  "scope": "Новые места только основной вселенной КВМ, подтверждённой саги Защитников и связанных с основной историей пространств вне времени. Альтернативные миры не добавляются.",
+  "verification": "Проверены все строки и все вкладки файла. Появления новых карточек сопоставлены с перечнями сюжетных сцен. Каталог съёмок — вторичный указатель сцен; GPS площадок не переносится в сюжет. Это не покадровый пересмотр всех проектов.",
+  "precisionRules": {
+    "landmark": "Географически идентифицируемый объект",
+    "city": "Центр города; не адрес конкретной сцены",
+    "area": "Район; положение приблизительное",
+    "region": "Регион; координата обозначает регион",
+    "historic-site": "Место исторического города/памятника",
+    "address": "Сюжетный адрес/перекрёсток; положение приблизительное",
+    "schematic": "Только точка на схеме связей, не географические координаты",
+    "mobile": "Мобильный объект без фиксированной GPS-точки"
+  },
+  "addedPlaceIds": [
+    "earth-616",
+    "queens",
+    "statue-of-liberty",
+    "bella-coola",
+    "rose-hill",
+    "delacroix",
+    "maria-rambeau-house",
+    "baltimore",
+    "culver-university",
+    "missouri",
+    "roxxcart",
+    "oshkosh",
+    "salem",
+    "ixtenco",
+    "tenochtitlan",
+    "druig-village",
+    "gilgamesh-house",
+    "hiroshima",
+    "gupta-court",
+    "kolkata",
+    "berlin",
+    "riga",
+    "broek-op-langedijk",
+    "bern",
+    "krausberg",
+    "morocco-widows",
+    "sambisa",
+    "pompeii",
+    "garden",
+    "valhalla",
+    "eternity-realm",
+    "indigarr",
+    "orgoscope",
+    "world-forge",
+    "soulworld",
+    "shadow-realm",
+    "kun-lun",
+    "helicarrier",
+    "saber-station",
+    "barton-farm",
+    "stark-lake-house",
+    "bloodstone-manor",
+    "gulmira",
+    "kunar",
+    "las-vegas",
+    "long-beach",
+    "stark-industries-long-beach",
+    "ten-rings-cave",
+    "bagram",
+    "edwards-afb",
+    "stark-malibu-house",
+    "pegasus-facility",
+    "mjolnir-crater",
+    "bifrost",
+    "odin-vault",
+    "caesars-palace",
+    "stark-expo",
+    "hammer-industries",
+    "randys-donuts",
+    "rebirth-lab",
+    "augsburg",
+    "ssr-london",
+    "whip-and-fiddle",
+    "grand-central",
+    "chrysler-building",
+    "selvig-lab",
+    "shawarma-restaurant",
+    "smithsonian",
+    "jctc",
+    "lagos-institute",
+    "leipzig-halle-airport",
+    "siberian-hydra-base",
+    "museum-great-britain",
+    "warrior-falls",
+    "mount-bashenga",
+    "jabariland",
+    "border-tribe-village",
+    "busan-casino",
+    "gwangan-bridge",
+    "cormorant-and-tun",
+    "scott-storage",
+    "vanished-memorial",
+    "venice-davinci-museum",
+    "st-marks-square",
+    "prague-opera",
+    "charles-bridge",
+    "the-shard",
+    "feast",
+    "midtown-school",
+    "ajak-farm",
+    "alaska-plateau",
+    "glenfinnan",
+    "phastos-house",
+    "natural-history-museum",
+    "arete",
+    "jason-quill-house",
+    "krylor",
+    "counter-earth-suburb",
+    "temporal-loom",
+    "wanda-vision-house",
+    "agatha-house",
+    "westview-library",
+    "westview-square",
+    "computational-services",
+    "sword-response-base",
+    "parkside-general",
+    "wanda-mountain-cabin",
+    "wilson-dock",
+    "wilson-house",
+    "isaiah-house",
+    "grc-riga-camp",
+    "brass-monkey",
+    "sharon-apartment",
+    "grc-new-york",
+    "munich",
+    "vilnius",
+    "bratislava",
+    "khan-house",
+    "coles-school",
+    "circle-q",
+    "jersey-mosque",
+    "sana-house",
+    "karachi-station",
+    "partition-station",
+    "bangle-temple",
+    "dodc-supermax",
+    "bishop-penthouse",
+    "hawkeye-auction",
+    "rogers-theater",
+    "kb-toys",
+    "rockefeller-center",
+    "grills-apartment",
+    "fat-man-auto",
+    "bishop-security",
+    "bishop-cemetery",
+    "new-skrullos",
+    "fury-england-house",
+    "sonya-office",
+    "vossoyedineniye-square",
+    "la-selva-oscura",
+    "fairbanks-house",
+    "portsmouth",
+    "brixton",
+    "fury-finnish-cache",
+    "hmnb-clyde",
+    "rhodey-hotel",
+    "downing-street",
+    "oaxaca",
+    "ross-rally",
+    "camp-echo-one",
+    "white-house",
+    "walter-reed",
+    "anacostia-bolling",
+    "japan-pm-residence",
+    "peoc",
+    "glkh",
+    "legal-ease",
+    "jen-apartment",
+    "mystic-castle",
+    "banner-mexico-lab",
+    "blonsky-retreat",
+    "putnam-asylum",
+    "spector-house",
+    "alexander-tomb",
+    "sienkiewicz-hospital",
+    "taweret-boat",
+    "borough-market",
+    "old-selkie",
+    "roys-electronics",
+    "tottenham-police",
+    "saint-mabyn",
+    "vision-mindspace",
+    "emerson-suites",
+    "reevolution-gala",
+    "paladin-base",
+    "horton-estate",
+    "jo-carrington-tomb",
+    "paladin-airfield",
+    "jo-carrington-apartment",
+    "lisa-park",
+    "chambers-street",
+    "nelson-murdock",
+    "matt-apartment",
+    "josies-bar",
+    "new-york-bulletin",
+    "saint-agnes",
+    "matt-church",
+    "fogwells-gym",
+    "union-allied-site",
+    "harlems-paradise",
+    "pops-barbershop",
+    "crispus-attucks",
+    "seagate",
+    "luke-harlem-apartment",
+    "mount-olivet",
+    "alias-investigations",
+    "hogarth-chao-benowitz",
+    "lukes-bar",
+    "metro-general",
+    "trish-apartment",
+    "northeastern-correctional",
+    "rand-enterprises",
+    "chikara-dojo",
+    "harold-penthouse",
+    "birch-hospital",
+    "anzhou-factory",
+    "midland-circle",
+    "royal-dragon",
+    "precinct-29",
+    "phnom-penh",
+    "claire-apartment",
+    "seventh-circle",
+    "yelena-budapest-flat",
+    "melina-farm",
+    "albany-terminal",
+    "wanda-orchard",
+    "oxe-vault",
+    "nyc-city-hall",
+    "fisk-red-hook-prison",
+    "red-hook",
+    "melvin-workshop",
+    "rikers-island",
+    "precinct-15",
+    "nypd-fleet-services",
+    "skully-pawn",
+    "snake-creek",
+    "yucca-valley",
+    "chuck-eastman-house",
+    "chinese-theatre",
+    "dodc-la",
+    "hollywood",
+    "hong-kong-sanctum",
+    "novi-grad",
+    "oakland",
+    "kamar-taj"
+  ],
+  "decisions": [
+    {
+      "row": 1,
+      "name": "Нью-Йорк",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "new-york"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 2,
+      "name": "База Мстителей",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "avengers-compound"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 3,
+      "name": "Школа Ксавьера (Уэстчестер)",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "xavier-school"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 4,
+      "name": "Уэствью, Нью-Джерси",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "westview"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 5,
+      "name": "Джерси-Сити",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "jersey-city"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 6,
+      "name": "Лагерь Лихай, Нью-Джерси",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "camp-lehigh"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 7,
+      "name": "Вашингтон",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "washington"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 8,
+      "name": "Малибу",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "malibu"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 9,
+      "name": "Лос-Анджелес",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "la"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 10,
+      "name": "Сан-Франциско и Окленд",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "san-francisco"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 11,
+      "name": "Пуэнте-Антигуо, Нью-Мексико",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "new-mexico"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 12,
+      "name": "Чикаго",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "chicago"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 13,
+      "name": "Тамаха, Оклахома",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "oklahoma"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 14,
+      "name": "Майами",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "miami"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 15,
+      "name": "Кембридж (MIT)",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "boston"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 16,
+      "name": "Новый Орлеан",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "new-orleans"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 17,
+      "name": "Огайо",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "ohio"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 18,
+      "name": "Арктика",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "arctic"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 19,
+      "name": "Рио-де-Жанейро",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "rio"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 20,
+      "name": "Куба",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "cuba"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 21,
+      "name": "Талокан",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "talokan"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 22,
+      "name": "Гаити",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "haiti"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 23,
+      "name": "Лондон",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "london"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 24,
+      "name": "Эдинбург",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "edinburgh"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 25,
+      "name": "Париж",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "paris"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 26,
+      "name": "Норвегия: Тёнсберг и Новый Асгард",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "norway"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 27,
+      "name": "Штутгарт",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "germany"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 28,
+      "name": "Альпы (базы Гидры)",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "europe-ww2"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 29,
+      "name": "Вена",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "vienna"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 30,
+      "name": "Лейпциг",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "leipzig"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 31,
+      "name": "Бухарест",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "bucharest"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 32,
+      "name": "Будапешт",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "budapest"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 33,
+      "name": "Соковия",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "sokovia"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 34,
+      "name": "Прага",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "prague"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 35,
+      "name": "Венеция",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "venice"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 36,
+      "name": "Монако",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "monaco"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 37,
+      "name": "Москва",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "moscow"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 38,
+      "name": "Сибирь",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "siberia"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 39,
+      "name": "Троя",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "troy"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 40,
+      "name": "Адуа (Эфиопия)",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "adwa"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 41,
+      "name": "Лагос",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "lagos"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 42,
+      "name": "Ваканда",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "wakanda"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 43,
+      "name": "Йоханнесбург",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "johannesburg"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 44,
+      "name": "Египет",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "cairo"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 45,
+      "name": "Месопотамия (Вавилон)",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "mesopotamia"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 46,
+      "name": "Афганистан",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "afghanistan"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 47,
+      "name": "Карачи",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "karachi"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 48,
+      "name": "Мумбаи",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "mumbai"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 49,
+      "name": "Катманду и Камар-Тадж",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "kathmandu"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 50,
+      "name": "Та Ло",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "ta-lo"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 51,
+      "name": "Гонконг",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "hong-kong"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 52,
+      "name": "Сеул",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "seoul"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 53,
+      "name": "Пусан",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "busan"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 54,
+      "name": "Токио",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "tokyo"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 55,
+      "name": "Куала-Лумпур",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "kuala-lumpur"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 56,
+      "name": "Мадрипур",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "madripoor"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 57,
+      "name": "Остров Целестиала",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "tiamut"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 58,
+      "name": "Гора Вандагор",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "asgard"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 59,
+      "name": "Башня Мстителей",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "jotunheim"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 60,
+      "name": "Нью-Йоркский Санктум",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "svartalfheim"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 61,
+      "name": "Трискелион Щ.И.Т.а",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "nidavellir"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 62,
+      "name": "Адская кухня",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "xandar"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 63,
+      "name": "Гарлем",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "morag"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 64,
+      "name": "Бруклин",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "knowhere"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 65,
+      "name": "Макао",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "vormir"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 66,
+      "name": "Гринвич",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "titan"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 67,
+      "name": "Тауэрский мост",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "sakaar"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 68,
+      "name": "Лондонский Санктум",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "hala"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 69,
+      "name": "Асгард",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "ego-planet"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 70,
+      "name": "Йотунхейм",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "sovereign"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 71,
+      "name": "Свартальфхейм",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "counter-earth"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 72,
+      "name": "Нидавеллир",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "omnipotence-city"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 73,
+      "name": "Ксандар",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "moon"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 74,
+      "name": "Мораг",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "vanaheim"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 75,
+      "name": "Небытие",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "alfheim"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 76,
+      "name": "Вормир",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "muspelheim"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 77,
+      "name": "Титан",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "niflheim"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 78,
+      "name": "Сакаар",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "quantum-realm"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 79,
+      "name": "Хала",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "dark-dimension"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 80,
+      "name": "Эго",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "tva"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 81,
+      "name": "Суверен",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "void"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 82,
+      "name": "Контр-Земля",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "citadel"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 83,
+      "name": "Город всемогущества",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "witches-road"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 84,
+      "name": "Луна (Аттилан)",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "earth-838"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 85,
+      "name": "Ванахейм",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "earth-828"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 86,
+      "name": "Альвхейм",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "earth-10005"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 87,
+      "name": "Муспельхейм",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "wundagore"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 88,
+      "name": "Нифльхейм и Хельхейм",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "kyln"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 89,
+      "name": "Килн",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "contraxia"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 90,
+      "name": "Контраксия",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "berhert"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 91,
+      "name": "Бергерт",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "torfa"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 92,
+      "name": "Торфа",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "tarnax"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 93,
+      "name": "Тарнакс IV",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "aladna"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 94,
+      "name": "Аладна",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "zen-whoberi"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 95,
+      "name": "Зен-Вобери",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "lamentis"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 96,
+      "name": "Ламентис-1",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "avengers-tower"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 97,
+      "name": "Квантовый мир",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "new-york-sanctum"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 98,
+      "name": "Тёмное измерение",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "baxter-building"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 99,
+      "name": "УВИ (Управление временными изменениями)",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "red-room-base"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 100,
+      "name": "Пустота",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "the-raft"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 101,
+      "name": "Цитадель в конце времени",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "triskelion"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 102,
+      "name": "Дорога ведьм",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "duat"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 103,
+      "name": "Дуат",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "field-reeds"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 104,
+      "name": "Тростниковые поля",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "hells-kitchen"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 105,
+      "name": "Цитадель Канга в Квантовом мире",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "harlem"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 106,
+      "name": "Зеркальное измерение",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "sword-headquarters"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 107,
+      "name": "Астральный план",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "wakanda-golden-city"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 108,
+      "name": "План предков",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "new-asgard"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 109,
+      "name": "Измерение Нур",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "shangchi-compound"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 110,
+      "name": "Летающая база Красной комнаты",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "ennead-chamber"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 111,
+      "name": "Тюрьма «Плот»",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "quantum-kang-city"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 112,
+      "name": "Штаб М.Е.Ч.а",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "brooklyn"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 113,
+      "name": "Золотой город Ваканды",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "macau"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 114,
+      "name": "Новый Асгард",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "mirror-dimension"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 115,
+      "name": "База «Десяти колец»",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "astral-plane"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 116,
+      "name": "Зал Совета богов",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "ancestral-plane"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 117,
+      "name": "Земля-838",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "noor-dimension"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 118,
+      "name": "Земля-828",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "london-greenwich"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 119,
+      "name": "Земля-10005",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "london-tower-bridge"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 120,
+      "name": "Здание Бакстера",
+      "inputProjects": "",
+      "status": "existing",
+      "placeIds": [
+        "london-sanctum"
+      ],
+      "reason": "Существующая карточка сохранена. Исходные связи не удаляются."
+    },
+    {
+      "row": 121,
+      "name": "Квинс (Нью-Йорк)",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "queens"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 122,
+      "name": "Статуя Свободы",
+      "inputProjects": "x-men;nwh;endgame",
+      "status": "added",
+      "placeIds": [
+        "statue-of-liberty"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 123,
+      "name": "Канада: Альберта и озеро Алкали",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "bella-coola"
+      ],
+      "reason": "Смешанная запись разделена: добавлена Белла-Кула из «Невероятного Халка»; Альберта, Лафлин-Сити и Алкали из линии Fox отложены."
+    },
+    {
+      "row": 124,
+      "name": "Алькатрас (Сан-Франциско)",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 125,
+      "name": "Три-Майл-Айленд (Пенсильвания)",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 126,
+      "name": "Зона 51 (Невада)",
+      "inputProjects": "venom-3;aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 127,
+      "name": "Роуз-Хилл, Теннесси",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "rose-hill"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 128,
+      "name": "Луизиана",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "delacroix",
+        "maria-rambeau-house"
+      ],
+      "reason": "Штат Луизиана разделён на Делакруа и дом Марии Рамбо; их не объединяют в один адрес."
+    },
+    {
+      "row": 129,
+      "name": "Балтимор",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "baltimore"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 130,
+      "name": "Университет Калвер (Виргиния)",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "culver-university"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 131,
+      "name": "Миссури",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "missouri"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 132,
+      "name": "Хейвен-Хиллс, Алабама (2050)",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "roxxcart"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 133,
+      "name": "Брокстон, Оклахома (1982)",
+      "inputProjects": "loki-2",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 134,
+      "name": "Ошкош, Висконсин (1985)",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "oshkosh"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 135,
+      "name": "Салем, Массачусетс (1693)",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "salem"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 136,
+      "name": "Портленд, Орегон",
+      "inputProjects": "",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 137,
+      "name": "Гавайи",
+      "inputProjects": "",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 138,
+      "name": "Тампа, Флорида",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 139,
+      "name": "Эль-Пасо (граница США и Мексики)",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 140,
+      "name": "Северная Дакота («Эдем»)",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 141,
+      "name": "Мексика",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "ixtenco"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 142,
+      "name": "Коста-Рика",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 143,
+      "name": "Перу, Амазония (1973)",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 144,
+      "name": "Аргентина",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 145,
+      "name": "Теночтитлан (1521)",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "tenochtitlan"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 146,
+      "name": "Амазония",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "druig-village"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 147,
+      "name": "Австралия",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "gilgamesh-house"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 148,
+      "name": "Хиросима (1945)",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "hiroshima"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 149,
+      "name": "Индия: империя Гуптов (400 год)",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "gupta-court"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 150,
+      "name": "Нагасаки (1945)",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 151,
+      "name": "Калькутта",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "kolkata"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 152,
+      "name": "Берлин",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "berlin"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 153,
+      "name": "Рига (Латвия)",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "riga"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 154,
+      "name": "Брук-оп-Лангедейк (Нидерланды)",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "broek-op-langedijk"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 155,
+      "name": "Берн (1999)",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "bern"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 156,
+      "name": "Аццано (Италия)",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "krausberg"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 157,
+      "name": "Марокко",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "morocco-widows"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 158,
+      "name": "Женева",
+      "inputProjects": "",
+      "status": "merged",
+      "placeIds": [
+        "vienna"
+      ],
+      "reason": "Заседание ООН в финале «Чёрной Пантеры» — Вена; Женеву не добавлять по этой сцене."
+    },
+    {
+      "row": 159,
+      "name": "Лес Самбиса (Нигерия)",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "sambisa"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 160,
+      "name": "Беларусь (1946)",
+      "inputProjects": "",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 161,
+      "name": "Польша",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 162,
+      "name": "Малайзия",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 163,
+      "name": "Помпеи (79 год)",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "pompeii"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 164,
+      "name": "Китай (эпоха Мин)",
+      "inputProjects": "",
+      "status": "needs-evidence",
+      "placeIds": [],
+      "reason": "Уточнить эпоху, персонажа и сцену «Глаз Ваканды» по серии; географический центр Китая не является местом действия."
+    },
+    {
+      "row": 165,
+      "name": "Сад (планета 0259-S)",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "garden"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 166,
+      "name": "Вальгалла",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "valhalla"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 167,
+      "name": "Врата Вечности (центр Вселенной)",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "eternity-realm"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 168,
+      "name": "Индигарр",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "indigarr"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 169,
+      "name": "Оргоскоп",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "orgoscope"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 170,
+      "name": "Клинтар",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 171,
+      "name": "Кузница миров",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "world-forge"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 172,
+      "name": "Мир души",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "soulworld"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 173,
+      "name": "Царство теней",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "shadow-realm"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 174,
+      "name": "К’ун-Лунь",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "kun-lun"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 175,
+      "name": "Планета Ноль",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 176,
+      "name": "Небесный мир",
+      "inputProjects": "what-if-2",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 177,
+      "name": "Хеликэрриер Щ.И.Т.а",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "helicarrier"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 178,
+      "name": "Станция «С.А.Б.Е.Р.»",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "saber-station"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 179,
+      "name": "Ферма Бартонов",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "barton-farm"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 180,
+      "name": "Дом Тони у озера",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "stark-lake-house"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 181,
+      "name": "Поместье Бладстоунов",
+      "inputProjects": "",
+      "status": "added",
+      "placeIds": [
+        "bloodstone-manor"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 182,
+      "name": "Земля-616",
+      "inputProjects": "dsmom",
+      "status": "added",
+      "placeIds": [
+        "earth-616"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 183,
+      "name": "Вселенная Сэма Рэйми (Земля-96283)",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 184,
+      "name": "Вселенная Марка Уэбба (Земля-120703)",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 185,
+      "name": "Вселенная Венома (Sony)",
+      "inputProjects": "venom-1;venom-2;venom-3",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 186,
+      "name": "Земля-1610",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 187,
+      "name": "Земля-65",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 188,
+      "name": "Земля-42",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 189,
+      "name": "Земля-928 (Нуэва-Йорк)",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 190,
+      "name": "Земля-50101 (Мумбаттан)",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 191,
+      "name": "Вселенная Зловещего Стрэнджа",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 192,
+      "name": "Штаб Иллюминатов (Земля-838)",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 193,
+      "name": "Подземный мир (Земля-828)",
+      "inputProjects": "",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 194,
+      "name": "Гульмира, Афганистан",
+      "inputProjects": "iron-man",
+      "status": "added",
+      "placeIds": [
+        "gulmira"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 195,
+      "name": "Провинция Кунар, Афганистан",
+      "inputProjects": "iron-man",
+      "status": "added",
+      "placeIds": [
+        "kunar"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 196,
+      "name": "Лас-Вегас",
+      "inputProjects": "iron-man",
+      "status": "added",
+      "placeIds": [
+        "las-vegas"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 197,
+      "name": "Лонг-Бич, Калифорния",
+      "inputProjects": "iron-man;iron-man-2",
+      "status": "added",
+      "placeIds": [
+        "long-beach"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 198,
+      "name": "Комплекс Stark Industries (Лонг-Бич)",
+      "inputProjects": "iron-man;iron-man-2",
+      "status": "added",
+      "placeIds": [
+        "stark-industries-long-beach"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 199,
+      "name": "Пещера «Десяти колец» в Афганистане",
+      "inputProjects": "iron-man",
+      "status": "added",
+      "placeIds": [
+        "ten-rings-cave"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 200,
+      "name": "Авиабаза Баграм",
+      "inputProjects": "iron-man",
+      "status": "added",
+      "placeIds": [
+        "bagram"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 201,
+      "name": "Авиабаза Эдвардс",
+      "inputProjects": "iron-man;iron-man-2",
+      "status": "added",
+      "placeIds": [
+        "edwards-afb"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 202,
+      "name": "Поместье Старка в Малибу",
+      "inputProjects": "iron-man;iron-man-2;iron-man-3",
+      "status": "added",
+      "placeIds": [
+        "stark-malibu-house"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 203,
+      "name": "База проекта «Пегас»",
+      "inputProjects": "thor;avengers",
+      "status": "added",
+      "placeIds": [
+        "pegasus-facility"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 204,
+      "name": "Место падения Мьёльнира",
+      "inputProjects": "thor",
+      "status": "added",
+      "placeIds": [
+        "mjolnir-crater"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 205,
+      "name": "Мост Бифрёст",
+      "inputProjects": "thor;thor2;ragnarok",
+      "status": "added",
+      "placeIds": [
+        "bifrost"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 206,
+      "name": "Сокровищница Одина",
+      "inputProjects": "thor;ragnarok",
+      "status": "added",
+      "placeIds": [
+        "odin-vault"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 207,
+      "name": "Лас-Вегас: Caesars Palace",
+      "inputProjects": "iron-man",
+      "status": "added",
+      "placeIds": [
+        "caesars-palace"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 208,
+      "name": "Stark Expo (Флашинг-Медоус)",
+      "inputProjects": "iron-man-2;cap1",
+      "status": "added",
+      "placeIds": [
+        "stark-expo"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 209,
+      "name": "Hammer Industries (Квинс)",
+      "inputProjects": "iron-man-2",
+      "status": "added",
+      "placeIds": [
+        "hammer-industries"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 210,
+      "name": "Ресторан Randy’s Donuts",
+      "inputProjects": "iron-man-2",
+      "status": "added",
+      "placeIds": [
+        "randys-donuts"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 211,
+      "name": "Проект «Перерождение»: лаборатория Эрскина",
+      "inputProjects": "cap1",
+      "status": "added",
+      "placeIds": [
+        "rebirth-lab"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 212,
+      "name": "Аугсбург, Германия",
+      "inputProjects": "cap1",
+      "status": "added",
+      "placeIds": [
+        "augsburg"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 213,
+      "name": "База Гидры в Краусберге",
+      "inputProjects": "cap1",
+      "status": "added",
+      "placeIds": [
+        "krausberg"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 214,
+      "name": "Штаб SSR в Лондоне",
+      "inputProjects": "cap1;agent-carter-series",
+      "status": "added",
+      "placeIds": [
+        "ssr-london"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 215,
+      "name": "Паб Whip and Fiddle",
+      "inputProjects": "cap1",
+      "status": "added",
+      "placeIds": [
+        "whip-and-fiddle"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 216,
+      "name": "Гранд-Сентрал-терминал",
+      "inputProjects": "avengers;endgame",
+      "status": "added",
+      "placeIds": [
+        "grand-central"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 217,
+      "name": "Крайслер-билдинг",
+      "inputProjects": "avengers",
+      "status": "added",
+      "placeIds": [
+        "chrysler-building"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 218,
+      "name": "База проекта «Объединённая тёмная энергия»",
+      "inputProjects": "avengers",
+      "status": "added",
+      "placeIds": [
+        "pegasus-facility"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 219,
+      "name": "Секретная лаборатория Селвига",
+      "inputProjects": "avengers",
+      "status": "added",
+      "placeIds": [
+        "selvig-lab"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 220,
+      "name": "Шаверма-ресторан Мстителей",
+      "inputProjects": "avengers",
+      "status": "added",
+      "placeIds": [
+        "shawarma-restaurant"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 221,
+      "name": "Хеликарриер Щ.И.Т. — палуба",
+      "inputProjects": "avengers;cap2",
+      "status": "added",
+      "placeIds": [
+        "helicarrier"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 222,
+      "name": "Музей «Смитсоновский институт»",
+      "inputProjects": "cap2;fws",
+      "status": "added",
+      "placeIds": [
+        "smithsonian"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 223,
+      "name": "Объединённый контртеррористический центр (Берлин)",
+      "inputProjects": "civil-war",
+      "status": "added",
+      "placeIds": [
+        "jctc"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 224,
+      "name": "Институт инфекционных заболеваний (Лагос)",
+      "inputProjects": "civil-war",
+      "status": "added",
+      "placeIds": [
+        "lagos-institute"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 225,
+      "name": "Аэропорт Лейпциг/Галле",
+      "inputProjects": "civil-war",
+      "status": "added",
+      "placeIds": [
+        "leipzig-halle-airport"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 226,
+      "name": "База Гидры в Сибири",
+      "inputProjects": "civil-war",
+      "status": "added",
+      "placeIds": [
+        "siberian-hydra-base"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 227,
+      "name": "Музей Великобритании (Лондон)",
+      "inputProjects": "black-panther",
+      "status": "added",
+      "placeIds": [
+        "museum-great-britain"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 228,
+      "name": "Водопад Воинов",
+      "inputProjects": "black-panther",
+      "status": "added",
+      "placeIds": [
+        "warrior-falls"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 229,
+      "name": "Гора Башенга",
+      "inputProjects": "black-panther",
+      "status": "added",
+      "placeIds": [
+        "mount-bashenga"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 230,
+      "name": "Земли племени Джабари",
+      "inputProjects": "black-panther",
+      "status": "added",
+      "placeIds": [
+        "jabariland"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 231,
+      "name": "Пограничное племя Ваканды: поселение",
+      "inputProjects": "black-panther",
+      "status": "added",
+      "placeIds": [
+        "border-tribe-village"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 232,
+      "name": "Казино в Пусане",
+      "inputProjects": "black-panther",
+      "status": "added",
+      "placeIds": [
+        "busan-casino"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 233,
+      "name": "Мост Кванан (Пусан)",
+      "inputProjects": "black-panther",
+      "status": "added",
+      "placeIds": [
+        "gwangan-bridge"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 234,
+      "name": "Дом семьи Старков у озера",
+      "inputProjects": "endgame",
+      "status": "added",
+      "placeIds": [
+        "stark-lake-house"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 235,
+      "name": "Паб «Корморан и тунец»",
+      "inputProjects": "endgame",
+      "status": "added",
+      "placeIds": [
+        "cormorant-and-tun"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 236,
+      "name": "Ресторан совместных встреч Мстителей",
+      "inputProjects": "endgame",
+      "status": "needs-evidence",
+      "placeIds": [],
+      "reason": "Ошибочная формулировка: в закусочной «Финала» встречаются Стив, Наташа, Скотт и Брюс. Точное имя и отдельная необходимость карточки не подтверждены."
+    },
+    {
+      "row": 237,
+      "name": "Склад хранения машины Скотта",
+      "inputProjects": "endgame",
+      "status": "added",
+      "placeIds": [
+        "scott-storage"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 238,
+      "name": "Тайная хижина Тони Старка",
+      "inputProjects": "endgame",
+      "status": "added",
+      "placeIds": [
+        "stark-lake-house"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 239,
+      "name": "Мемориал пропавшим в Сан-Франциско",
+      "inputProjects": "endgame",
+      "status": "added",
+      "placeIds": [
+        "vanished-memorial"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 240,
+      "name": "Музей Леонардо да Винчи (Венеция)",
+      "inputProjects": "ffh",
+      "status": "added",
+      "placeIds": [
+        "venice-davinci-museum"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 241,
+      "name": "Площадь Святого Марка",
+      "inputProjects": "ffh",
+      "status": "added",
+      "placeIds": [
+        "st-marks-square"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 242,
+      "name": "Оперный театр Праги",
+      "inputProjects": "ffh",
+      "status": "added",
+      "placeIds": [
+        "prague-opera"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 243,
+      "name": "Карлов мост",
+      "inputProjects": "ffh",
+      "status": "added",
+      "placeIds": [
+        "charles-bridge"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 244,
+      "name": "Башня «Шард» (Лондон)",
+      "inputProjects": "ffh",
+      "status": "added",
+      "placeIds": [
+        "the-shard"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 245,
+      "name": "F.E.A.S.T. (Нью-Йорк)",
+      "inputProjects": "ffh",
+      "status": "added",
+      "placeIds": [
+        "feast"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 246,
+      "name": "Школа Мидтаун (Квинс)",
+      "inputProjects": "homecoming;ffh;nwh;endgame",
+      "status": "added",
+      "placeIds": [
+        "midtown-school"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 247,
+      "name": "Мост Венецианских каналов",
+      "inputProjects": "ffh",
+      "status": "merged",
+      "placeIds": [
+        "venice"
+      ],
+      "reason": "Обобщённое название нескольких мостов; без идентификации не создаётся отдельная точка."
+    },
+    {
+      "row": 248,
+      "name": "Южная Дакота (ферма Аяк)",
+      "inputProjects": "eternals",
+      "status": "added",
+      "placeIds": [
+        "ajak-farm"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 249,
+      "name": "Аляска (плато)",
+      "inputProjects": "eternals",
+      "status": "added",
+      "placeIds": [
+        "alaska-plateau"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 250,
+      "name": "Ирак, современный Вавилон",
+      "inputProjects": "eternals",
+      "status": "merged",
+      "placeIds": [
+        "mesopotamia"
+      ],
+      "reason": "Руины современного Вавилона и исторические сады — разные периоды одного места."
+    },
+    {
+      "row": 251,
+      "name": "Гленфиннан, Шотландия",
+      "inputProjects": "eternals",
+      "status": "added",
+      "placeIds": [
+        "glenfinnan"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 252,
+      "name": "Дом Фастоса (Чикаго)",
+      "inputProjects": "eternals",
+      "status": "added",
+      "placeIds": [
+        "phastos-house"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 253,
+      "name": "Деревня Друига (Амазония)",
+      "inputProjects": "eternals",
+      "status": "added",
+      "placeIds": [
+        "druig-village"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 254,
+      "name": "Дом Гильгамеша (Австралия)",
+      "inputProjects": "eternals",
+      "status": "added",
+      "placeIds": [
+        "gilgamesh-house"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 255,
+      "name": "Лондонский Музей естественной истории",
+      "inputProjects": "eternals",
+      "status": "added",
+      "placeIds": [
+        "natural-history-museum"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 256,
+      "name": "Сад Вавилона",
+      "inputProjects": "eternals",
+      "status": "merged",
+      "placeIds": [
+        "mesopotamia"
+      ],
+      "reason": "Руины современного Вавилона и исторические сады — разные периоды одного места."
+    },
+    {
+      "row": 257,
+      "name": "Лаборатории «Арете»",
+      "inputProjects": "gotg3",
+      "status": "added",
+      "placeIds": [
+        "arete"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 258,
+      "name": "Дом Джейсона Квилла",
+      "inputProjects": "gotg3",
+      "status": "added",
+      "placeIds": [
+        "jason-quill-house"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 259,
+      "name": "Пустыня Крилор",
+      "inputProjects": "gotg3",
+      "status": "added",
+      "placeIds": [
+        "krylor"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 260,
+      "name": "Жилой квартал Контр-Земли",
+      "inputProjects": "gotg3",
+      "status": "added",
+      "placeIds": [
+        "counter-earth-suburb"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 261,
+      "name": "Офисы корпорации ОргоКорп",
+      "inputProjects": "gotg3",
+      "status": "added",
+      "placeIds": [
+        "orgoscope"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 262,
+      "name": "Площадка Временных хранителей УВИ",
+      "inputProjects": "loki-1",
+      "status": "merged",
+      "placeIds": [
+        "tva"
+      ],
+      "reason": "Помещение существующей базы УВИ; включено в перечень её внутренних зон."
+    },
+    {
+      "row": 263,
+      "name": "Архивы УВИ",
+      "inputProjects": "loki-1;loki-2",
+      "status": "merged",
+      "placeIds": [
+        "tva"
+      ],
+      "reason": "Помещение существующей базы УВИ; включено в перечень её внутренних зон."
+    },
+    {
+      "row": 264,
+      "name": "Суд УВИ (зал 37)",
+      "inputProjects": "loki-1",
+      "status": "merged",
+      "placeIds": [
+        "tva"
+      ],
+      "reason": "Помещение существующей базы УВИ; включено в перечень её внутренних зон."
+    },
+    {
+      "row": 265,
+      "name": "Кафетерий УВИ",
+      "inputProjects": "loki-1",
+      "status": "merged",
+      "placeIds": [
+        "tva"
+      ],
+      "reason": "Помещение существующей базы УВИ; включено в перечень её внутренних зон."
+    },
+    {
+      "row": 266,
+      "name": "Театр времени УВИ №25",
+      "inputProjects": "loki-1",
+      "status": "merged",
+      "placeIds": [
+        "tva"
+      ],
+      "reason": "Помещение существующей базы УВИ; включено в перечень её внутренних зон."
+    },
+    {
+      "row": 267,
+      "name": "Роксскарт (Хейвен-Хиллс)",
+      "inputProjects": "loki-1",
+      "status": "added",
+      "placeIds": [
+        "roxxcart"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 268,
+      "name": "Салина, Оклахома (1858)",
+      "inputProjects": "loki-1",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 269,
+      "name": "Экс-ан-Прованс, Франция (1549)",
+      "inputProjects": "loki-1",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 270,
+      "name": "Пустыня Гоби, Монголия",
+      "inputProjects": "loki-1",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 271,
+      "name": "Двор и Монастырь Экс-ан-Прованса",
+      "inputProjects": "loki-1",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 272,
+      "name": "База УВИ «Хронопорт»",
+      "inputProjects": "loki-2",
+      "status": "merged",
+      "placeIds": [
+        "tva"
+      ],
+      "reason": "Хронопорт — часть базы УВИ, не самостоятельное географическое место."
+    },
+    {
+      "row": 273,
+      "name": "Темпоральный ткацкий станок",
+      "inputProjects": "loki-2",
+      "status": "added",
+      "placeIds": [
+        "temporal-loom"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 274,
+      "name": "Автомат УВИ",
+      "inputProjects": "loki-2",
+      "status": "merged",
+      "placeIds": [
+        "tva"
+      ],
+      "reason": "Торговые автоматы находятся в кафетерии УВИ; самостоятельная карточка не нужна."
+    },
+    {
+      "row": 275,
+      "name": "Кинотеатр «Леопольд» (Лондон 1977)",
+      "inputProjects": "loki-2",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 276,
+      "name": "Всемирная Колумбова выставка 1893 года",
+      "inputProjects": "loki-2",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 277,
+      "name": "Пасадина, Калифорния (1994)",
+      "inputProjects": "loki-2",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 278,
+      "name": "Мастерская А. Д. Дуга",
+      "inputProjects": "loki-2",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 279,
+      "name": "Дом Дона (Кливленд)",
+      "inputProjects": "loki-2",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 280,
+      "name": "Кливленд, Огайо",
+      "inputProjects": "loki-2",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 281,
+      "name": "Музыкальный магазин Rooster Records",
+      "inputProjects": "loki-2",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 282,
+      "name": "Дом Ванды и Вижна в Уэствью",
+      "inputProjects": "wandavision",
+      "status": "added",
+      "placeIds": [
+        "wanda-vision-house"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 283,
+      "name": "Дом Агаты Харкнесс в Уэствью",
+      "inputProjects": "wandavision;agatha",
+      "status": "added",
+      "placeIds": [
+        "agatha-house"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 284,
+      "name": "Библиотека Уэствью",
+      "inputProjects": "wandavision",
+      "status": "added",
+      "placeIds": [
+        "westview-library"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 285,
+      "name": "Площадь Уэствью",
+      "inputProjects": "wandavision;agatha",
+      "status": "added",
+      "placeIds": [
+        "westview-square"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 286,
+      "name": "Computational Services Inc.",
+      "inputProjects": "wandavision",
+      "status": "added",
+      "placeIds": [
+        "computational-services"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 287,
+      "name": "Полевой лагерь М.Е.Ч.а у Уэствью",
+      "inputProjects": "wandavision",
+      "status": "added",
+      "placeIds": [
+        "sword-response-base"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 288,
+      "name": "Больница Parkside General",
+      "inputProjects": "wandavision",
+      "status": "added",
+      "placeIds": [
+        "parkside-general"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 289,
+      "name": "Отступление Ванды у горного озера",
+      "inputProjects": "wandavision",
+      "status": "added",
+      "placeIds": [
+        "wanda-mountain-cabin"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 290,
+      "name": "Кладбище/мемориал Уэствью",
+      "inputProjects": "wandavision",
+      "status": "needs-evidence",
+      "placeIds": [],
+      "reason": "Кладбище/мемориал Уэствью не идентифицированы; не придумывать сюжетную сцену."
+    },
+    {
+      "row": 291,
+      "name": "Морской причал семьи Уилсон",
+      "inputProjects": "fws",
+      "status": "added",
+      "placeIds": [
+        "wilson-dock"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 292,
+      "name": "Дом семьи Уилсон",
+      "inputProjects": "fws",
+      "status": "added",
+      "placeIds": [
+        "wilson-house"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 293,
+      "name": "Дом Исайи Брэдли",
+      "inputProjects": "fws",
+      "status": "added",
+      "placeIds": [
+        "isaiah-house"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 294,
+      "name": "Пункт переселения GRC (Рига)",
+      "inputProjects": "fws",
+      "status": "added",
+      "placeIds": [
+        "grc-riga-camp"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 295,
+      "name": "Бар «Латунная обезьяна»",
+      "inputProjects": "fws",
+      "status": "added",
+      "placeIds": [
+        "brass-monkey"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 296,
+      "name": "Бар «Принцесса»",
+      "inputProjects": "fws",
+      "status": "merged",
+      "placeIds": [
+        "madripoor"
+      ],
+      "reason": "«Принцесса» видна как городской бар; не приписывать ей встречу с Селби из Brass Monkey."
+    },
+    {
+      "row": 297,
+      "name": "Апартаменты Шэрон Картер (Мадрипур)",
+      "inputProjects": "fws",
+      "status": "added",
+      "placeIds": [
+        "sharon-apartment"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 298,
+      "name": "Штаб GRC (Нью-Йорк)",
+      "inputProjects": "fws",
+      "status": "added",
+      "placeIds": [
+        "grc-new-york"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 299,
+      "name": "Мюнхен, Германия",
+      "inputProjects": "fws",
+      "status": "added",
+      "placeIds": [
+        "munich"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 300,
+      "name": "Вильнюс, Литва",
+      "inputProjects": "fws",
+      "status": "added",
+      "placeIds": [
+        "vilnius"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 301,
+      "name": "Братислава, Словакия",
+      "inputProjects": "fws",
+      "status": "added",
+      "placeIds": [
+        "bratislava"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 302,
+      "name": "Штаб GRC в Риге",
+      "inputProjects": "fws",
+      "status": "added",
+      "placeIds": [
+        "grc-riga-camp"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 303,
+      "name": "Дом семьи Хан",
+      "inputProjects": "ms-marvel",
+      "status": "added",
+      "placeIds": [
+        "khan-house"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 304,
+      "name": "Школа Коулс (Джерси-Сити)",
+      "inputProjects": "ms-marvel",
+      "status": "added",
+      "placeIds": [
+        "coles-school"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 305,
+      "name": "Круг Q (Circle Q)",
+      "inputProjects": "ms-marvel",
+      "status": "added",
+      "placeIds": [
+        "circle-q"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 306,
+      "name": "Мечеть Джерси-Сити",
+      "inputProjects": "ms-marvel",
+      "status": "added",
+      "placeIds": [
+        "jersey-mosque"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 307,
+      "name": "AvengerCon",
+      "inputProjects": "ms-marvel",
+      "status": "merged",
+      "placeIds": [
+        "camp-lehigh"
+      ],
+      "reason": "AvengerCon — мероприятие в лагере Лихай; добавлена связь ms-marvel, не вторая географическая карточка."
+    },
+    {
+      "row": 308,
+      "name": "Дом Саны в Карачи",
+      "inputProjects": "ms-marvel",
+      "status": "added",
+      "placeIds": [
+        "sana-house"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 309,
+      "name": "Железнодорожный вокзал Карачи",
+      "inputProjects": "ms-marvel",
+      "status": "added",
+      "placeIds": [
+        "karachi-station"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 310,
+      "name": "Железнодорожная станция периода Раздела Индии",
+      "inputProjects": "ms-marvel",
+      "status": "added",
+      "placeIds": [
+        "partition-station"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 311,
+      "name": "Храм «Десяти колец» в Индии",
+      "inputProjects": "ms-marvel",
+      "status": "added",
+      "placeIds": [
+        "bangle-temple"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 312,
+      "name": "Тюрьма DODC для усиленных",
+      "inputProjects": "ms-marvel;she-hulk",
+      "status": "added",
+      "placeIds": [
+        "dodc-supermax"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 313,
+      "name": "Верховный суд DODC",
+      "inputProjects": "ms-marvel",
+      "status": "needs-evidence",
+      "placeIds": [],
+      "reason": "«Верховный суд DODC» не подтверждён как физическая локация."
+    },
+    {
+      "row": 314,
+      "name": "Дом семьи Бишоп",
+      "inputProjects": "hawkeye",
+      "status": "added",
+      "placeIds": [
+        "bishop-penthouse"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 315,
+      "name": "Аукцион в отеле Нью-Йорка",
+      "inputProjects": "hawkeye",
+      "status": "added",
+      "placeIds": [
+        "hawkeye-auction"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 316,
+      "name": "Театр «Роджерс: Мюзикл»",
+      "inputProjects": "hawkeye",
+      "status": "added",
+      "placeIds": [
+        "rogers-theater"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 317,
+      "name": "Заброшенный магазин игрушек KB Toys",
+      "inputProjects": "hawkeye",
+      "status": "added",
+      "placeIds": [
+        "kb-toys"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 318,
+      "name": "Рокфеллер-центр",
+      "inputProjects": "hawkeye",
+      "status": "added",
+      "placeIds": [
+        "rockefeller-center"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 319,
+      "name": "Квартира Гриллса",
+      "inputProjects": "hawkeye",
+      "status": "added",
+      "placeIds": [
+        "grills-apartment"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 320,
+      "name": "Автомастерская Fat Man",
+      "inputProjects": "hawkeye",
+      "status": "added",
+      "placeIds": [
+        "fat-man-auto"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 321,
+      "name": "Штаб Bishop Security",
+      "inputProjects": "hawkeye",
+      "status": "added",
+      "placeIds": [
+        "bishop-security"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 322,
+      "name": "Кладбище в Нью-Йорке (Бишоп)",
+      "inputProjects": "hawkeye",
+      "status": "added",
+      "placeIds": [
+        "bishop-cemetery"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 323,
+      "name": "Российская ядерная площадка «Новый Скруллос»",
+      "inputProjects": "secret-invasion",
+      "status": "added",
+      "placeIds": [
+        "new-skrullos"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 324,
+      "name": "Дом Ника Фьюри в Англии",
+      "inputProjects": "secret-invasion",
+      "status": "added",
+      "placeIds": [
+        "fury-england-house"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 325,
+      "name": "Офис Сони Фолсворт",
+      "inputProjects": "secret-invasion",
+      "status": "added",
+      "placeIds": [
+        "sonya-office"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 326,
+      "name": "Площадь Воссоединения (Москва)",
+      "inputProjects": "secret-invasion",
+      "status": "added",
+      "placeIds": [
+        "vossoyedineniye-square"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 327,
+      "name": "«La Selva Oscura», собрание скруллов",
+      "inputProjects": "secret-invasion",
+      "status": "added",
+      "placeIds": [
+        "la-selva-oscura"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 328,
+      "name": "Портсмут, дом Роберта Фэрбенкса",
+      "inputProjects": "secret-invasion",
+      "status": "added",
+      "placeIds": [
+        "fairbanks-house"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 329,
+      "name": "Портсмут, Англия",
+      "inputProjects": "secret-invasion",
+      "status": "added",
+      "placeIds": [
+        "portsmouth"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 330,
+      "name": "Брикстон (Лондон)",
+      "inputProjects": "secret-invasion",
+      "status": "added",
+      "placeIds": [
+        "brixton"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 331,
+      "name": "Финляндия: секретный тайник Фьюри",
+      "inputProjects": "secret-invasion",
+      "status": "added",
+      "placeIds": [
+        "fury-finnish-cache"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 332,
+      "name": "База ВМС Клайд",
+      "inputProjects": "secret-invasion",
+      "status": "added",
+      "placeIds": [
+        "hmnb-clyde"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 333,
+      "name": "Дом Джеймса Роудса (отель Лондона)",
+      "inputProjects": "secret-invasion",
+      "status": "added",
+      "placeIds": [
+        "rhodey-hotel"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 334,
+      "name": "Здание Даунинг-стрит, 10",
+      "inputProjects": "secret-invasion",
+      "status": "added",
+      "placeIds": [
+        "downing-street"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 335,
+      "name": "Оахака, Мексика",
+      "inputProjects": "bnw",
+      "status": "added",
+      "placeIds": [
+        "oaxaca"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 336,
+      "name": "Нью-Гэмпшир, предвыборная встреча Росса",
+      "inputProjects": "bnw",
+      "status": "added",
+      "placeIds": [
+        "ross-rally"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 337,
+      "name": "Лагерь Эхо-1 (Западная Виргиния)",
+      "inputProjects": "bnw",
+      "status": "added",
+      "placeIds": [
+        "camp-echo-one"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 338,
+      "name": "Белый дом",
+      "inputProjects": "bnw;cap2;fws",
+      "status": "added",
+      "placeIds": [
+        "white-house"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 339,
+      "name": "Медицинский центр Уолтера Рида",
+      "inputProjects": "bnw",
+      "status": "added",
+      "placeIds": [
+        "walter-reed"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 340,
+      "name": "Военная база Анакостия-Боллинг",
+      "inputProjects": "bnw",
+      "status": "added",
+      "placeIds": [
+        "anacostia-bolling"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 341,
+      "name": "Резиденция премьер-министра Японии",
+      "inputProjects": "bnw",
+      "status": "added",
+      "placeIds": [
+        "japan-pm-residence"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 342,
+      "name": "Президентский оперативный центр ЧС",
+      "inputProjects": "bnw",
+      "status": "added",
+      "placeIds": [
+        "peoc"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 343,
+      "name": "Комиссия по энергетике Иллинойса",
+      "inputProjects": "ironheart",
+      "status": "needs-evidence",
+      "placeIds": [],
+      "reason": "Условное название учреждения не подтверждено конкретной сценой."
+    },
+    {
+      "row": 344,
+      "name": "Юридическая фирма GLK&H",
+      "inputProjects": "she-hulk",
+      "status": "added",
+      "placeIds": [
+        "glkh"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 345,
+      "name": "Бар Legal Ease",
+      "inputProjects": "she-hulk",
+      "status": "added",
+      "placeIds": [
+        "legal-ease"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 346,
+      "name": "Квартира Дженнифер Уолтерс",
+      "inputProjects": "she-hulk",
+      "status": "added",
+      "placeIds": [
+        "jen-apartment"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 347,
+      "name": "Бар «Мистический замок»",
+      "inputProjects": "she-hulk",
+      "status": "added",
+      "placeIds": [
+        "mystic-castle"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 348,
+      "name": "Мексиканский пляж Брюса Бэннера",
+      "inputProjects": "she-hulk",
+      "status": "added",
+      "placeIds": [
+        "banner-mexico-lab"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 349,
+      "name": "Ретрит Эмиля Блонски",
+      "inputProjects": "she-hulk",
+      "status": "added",
+      "placeIds": [
+        "blonsky-retreat"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 350,
+      "name": "Медучреждение Патнам",
+      "inputProjects": "moon-knight",
+      "status": "added",
+      "placeIds": [
+        "putnam-asylum"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 351,
+      "name": "Дом семьи Спекторов (Чикаго)",
+      "inputProjects": "moon-knight",
+      "status": "added",
+      "placeIds": [
+        "spector-house"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 352,
+      "name": "Гробница Александра Македонского",
+      "inputProjects": "moon-knight",
+      "status": "added",
+      "placeIds": [
+        "alexander-tomb"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 353,
+      "name": "Психиатрическая больница Сенкевича",
+      "inputProjects": "moon-knight",
+      "status": "added",
+      "placeIds": [
+        "sienkiewicz-hospital"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 354,
+      "name": "Лодка Таурет в Дуате",
+      "inputProjects": "moon-knight",
+      "status": "added",
+      "placeIds": [
+        "taweret-boat"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 355,
+      "name": "Лондон: рынок Боро",
+      "inputProjects": "visionquest",
+      "status": "added",
+      "placeIds": [
+        "borough-market"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 356,
+      "name": "Паб «Старая шелки» (Эдинбург)",
+      "inputProjects": "visionquest",
+      "status": "added",
+      "placeIds": [
+        "old-selkie"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 357,
+      "name": "Магазин Roy’s Ultimate Electronics",
+      "inputProjects": "visionquest",
+      "status": "added",
+      "placeIds": [
+        "roys-electronics"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 358,
+      "name": "Полиция Тоттенхэма",
+      "inputProjects": "visionquest",
+      "status": "added",
+      "placeIds": [
+        "tottenham-police"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 359,
+      "name": "Санаторий Святой Мабин",
+      "inputProjects": "visionquest",
+      "status": "added",
+      "placeIds": [
+        "saint-mabyn"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 360,
+      "name": "Ментальное пространство Вижна",
+      "inputProjects": "visionquest",
+      "status": "added",
+      "placeIds": [
+        "vision-mindspace"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 361,
+      "name": "Мотель Emerson Express & Suites",
+      "inputProjects": "visionquest",
+      "status": "added",
+      "placeIds": [
+        "emerson-suites"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 362,
+      "name": "Гала «Реэволюция человека»",
+      "inputProjects": "visionquest",
+      "status": "added",
+      "placeIds": [
+        "reevolution-gala"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 363,
+      "name": "База Паладина в Мадрипуре",
+      "inputProjects": "visionquest",
+      "status": "added",
+      "placeIds": [
+        "paladin-base"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 364,
+      "name": "Поместье Финеаса Хортона (Англия)",
+      "inputProjects": "visionquest",
+      "status": "added",
+      "placeIds": [
+        "horton-estate"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 365,
+      "name": "Могила Джо Кэррингтон",
+      "inputProjects": "visionquest",
+      "status": "added",
+      "placeIds": [
+        "jo-carrington-tomb"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 366,
+      "name": "Авиаплощадка Паладина (Англия)",
+      "inputProjects": "visionquest",
+      "status": "added",
+      "placeIds": [
+        "paladin-airfield"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 367,
+      "name": "Квартира Джо Кэррингтон (Бруклин)",
+      "inputProjects": "visionquest",
+      "status": "added",
+      "placeIds": [
+        "jo-carrington-apartment"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 368,
+      "name": "Лондонский парк у дома Лизы",
+      "inputProjects": "visionquest",
+      "status": "added",
+      "placeIds": [
+        "lisa-park"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 369,
+      "name": "Станция метро Chambers Street",
+      "inputProjects": "hawkeye",
+      "status": "added",
+      "placeIds": [
+        "chambers-street"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 370,
+      "name": "Психиатрическая клиника Святой Мабин",
+      "inputProjects": "visionquest",
+      "status": "added",
+      "placeIds": [
+        "saint-mabyn"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 371,
+      "name": "«Автобус» Колсона (The Bus)",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 372,
+      "name": "«Площадка» Щ.И.Т. (Playground)",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 373,
+      "name": "Узел «Хаб» Щ.И.Т. (The Hub)",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 374,
+      "name": "Академия Щ.И.Т. — научный отдел",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 375,
+      "name": "Засекреченный объект «Гостевой дом»",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 376,
+      "name": "«Холодильник» Щ.И.Т. (The Fridge)",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 377,
+      "name": "База «Провиденс» Щ.И.Т.",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 378,
+      "name": "«Песочница» Щ.И.Т. (The Sandbox)",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 379,
+      "name": "Лаборатория «Сороконожка»",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 380,
+      "name": "Объект Кибертек (Пало-Альто)",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 381,
+      "name": "Льяктапата, Перу",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 382,
+      "name": "Стокгольм",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 383,
+      "name": "Злода, Беларусь",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 384,
+      "name": "Севилья",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 385,
+      "name": "Сидней",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 386,
+      "name": "Гавана",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 387,
+      "name": "Сан-Хуан, Пуэрто-Рико",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 388,
+      "name": "Подземный храм Кри (Сан-Хуан)",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 389,
+      "name": "Посмертие (Afterlife), Непал",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 390,
+      "name": "Корабль «Илиада» Щ.И.Т.",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 391,
+      "name": "Хижина Фьюри («Уединение»)",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 392,
+      "name": "Ванкувер",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 393,
+      "name": "Бахрейн",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 394,
+      "name": "Фару, Португалия",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 395,
+      "name": "Танжер, Марокко",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 396,
+      "name": "Сиэтл, Вашингтон",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 397,
+      "name": "Штаб ATCU",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 398,
+      "name": "База Гидры Уорда (Мэриленд)",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 399,
+      "name": "Замок Гидры (Глостершир)",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 400,
+      "name": "Центр «Далёкая звезда» (Distant Star)",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 401,
+      "name": "Богота, Колумбия",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 402,
+      "name": "Нейпервилл, Иллинойс",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 403,
+      "name": "Лаборатории Momentum Alternative Energy",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 404,
+      "name": "Автомастерская Кanelo’s Auto & Body",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 405,
+      "name": "Электростанция Roxxon",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 406,
+      "name": "Фреймворк / Матрица АИДЫ",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 407,
+      "name": "Трискелион внутри Фреймворка",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 408,
+      "name": "Академия Щ.И.Т. во Фреймворке",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 409,
+      "name": "Исправительный центр Гидры во Фреймворке",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 410,
+      "name": "Скрытая база Иванова (Высшего)",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 411,
+      "name": "Маяк Щ.И.Т. на озере Онтарио",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 412,
+      "name": "Маяк в будущем (2091)",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 413,
+      "name": "Временной бар Дика в Маяке",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 414,
+      "name": "Военная база Blue Raven Ridge",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 415,
+      "name": "Космический корабль Коваса",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 416,
+      "name": "Риверс-Энд, штат Нью-Йорк",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 417,
+      "name": "Китсон, планета",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 418,
+      "name": "Рино, Невада",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 419,
+      "name": "Каслтон, Индиана",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 420,
+      "name": "Зона 51 (1955)",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 421,
+      "name": "Бар времён сухого закона в Нью-Йорке",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 422,
+      "name": "Штаб Щ.И.Т. 1980-х",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 423,
+      "name": "Штаб Кибертек на Кубе",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 424,
+      "name": "Отель «Гриффит» (Нью-Йорк)",
+      "inputProjects": "agent-carter-series",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 425,
+      "name": "Офисы SSR (Нью-Йорк)",
+      "inputProjects": "agent-carter-series",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 426,
+      "name": "Закусочная L&L Automat",
+      "inputProjects": "agent-carter-series",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 427,
+      "name": "Ночной клуб La Martinique",
+      "inputProjects": "agent-carter-series",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 428,
+      "name": "Нефтеперерабатывающий завод Roxxon (Бруклин)",
+      "inputProjects": "agent-carter-series",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 429,
+      "name": "Академия Красной комнаты (Беларусь)",
+      "inputProjects": "agent-carter-series",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 430,
+      "name": "Особняк Говарда Старка (Нью-Йорк)",
+      "inputProjects": "agent-carter-series",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 431,
+      "name": "Сцена аэропорта Говарда Старка",
+      "inputProjects": "agent-carter-series",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 432,
+      "name": "Офис «Нельсон и Мёрдок»",
+      "inputProjects": "dd-1;dd-2;dd-3;defenders",
+      "status": "added",
+      "placeIds": [
+        "nelson-murdock"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 433,
+      "name": "Квартира Мэтта Мёрдока",
+      "inputProjects": "dd-1;dd-2;dd-3;defenders",
+      "status": "added",
+      "placeIds": [
+        "matt-apartment"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 434,
+      "name": "Бар Джози",
+      "inputProjects": "dd-1;dd-2;dd-3;defenders",
+      "status": "added",
+      "placeIds": [
+        "josies-bar"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 435,
+      "name": "«Нью-Йорк Бюллетин»",
+      "inputProjects": "dd-1;dd-2;dd-3;defenders",
+      "status": "added",
+      "placeIds": [
+        "new-york-bulletin"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 436,
+      "name": "Церковь Мэтта / Приют Святой Агнессы",
+      "inputProjects": "dd-1;dd-3;defenders",
+      "status": "added",
+      "placeIds": [
+        "saint-agnes",
+        "matt-church"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 437,
+      "name": "Спортзал Фогвелла",
+      "inputProjects": "dd-1;dd-3",
+      "status": "added",
+      "placeIds": [
+        "fogwells-gym"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 438,
+      "name": "Стройплощадка Union Allied",
+      "inputProjects": "dd-1",
+      "status": "added",
+      "placeIds": [
+        "union-allied-site"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 439,
+      "name": "Ночной клуб «Гарлемский рай»",
+      "inputProjects": "lc-1;lc-2",
+      "status": "added",
+      "placeIds": [
+        "harlems-paradise"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 440,
+      "name": "Парикмахерская Попа",
+      "inputProjects": "lc-1;lc-2;defenders",
+      "status": "added",
+      "placeIds": [
+        "pops-barbershop"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 441,
+      "name": "Комплекс Криспуса Аттакса",
+      "inputProjects": "lc-1",
+      "status": "added",
+      "placeIds": [
+        "crispus-attucks"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 442,
+      "name": "Тюрьма Сигейт",
+      "inputProjects": "lc-1;defenders;os-all-hail",
+      "status": "added",
+      "placeIds": [
+        "seagate"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 443,
+      "name": "Квартира Люка Кейджа",
+      "inputProjects": "lc-1;lc-2",
+      "status": "added",
+      "placeIds": [
+        "luke-harlem-apartment"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 444,
+      "name": "Церковь Маунт-Оливет (Гарлем)",
+      "inputProjects": "lc-1",
+      "status": "added",
+      "placeIds": [
+        "mount-olivet"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 445,
+      "name": "Офис «Алиас: расследования»",
+      "inputProjects": "jj-1;jj-2;jj-3;defenders",
+      "status": "added",
+      "placeIds": [
+        "alias-investigations"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 446,
+      "name": "Адвокатская контора Hogarth, Chao & Benowitz",
+      "inputProjects": "jj-1;if-1",
+      "status": "added",
+      "placeIds": [
+        "hogarth-chao-benowitz"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 447,
+      "name": "Бар Люка Кейджа (первый сезон Джессики)",
+      "inputProjects": "jj-1",
+      "status": "added",
+      "placeIds": [
+        "lukes-bar"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 448,
+      "name": "Больница Metro-General",
+      "inputProjects": "jj-1;if-1;dd-1",
+      "status": "added",
+      "placeIds": [
+        "metro-general"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 449,
+      "name": "Квартира Триш Уокер",
+      "inputProjects": "jj-1;jj-2;jj-3",
+      "status": "added",
+      "placeIds": [
+        "trish-apartment"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 450,
+      "name": "Северо-восточная исправительная колония",
+      "inputProjects": "jj-1",
+      "status": "added",
+      "placeIds": [
+        "northeastern-correctional"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 451,
+      "name": "Rand Enterprises (Нью-Йорк)",
+      "inputProjects": "if-1;if-2;defenders",
+      "status": "added",
+      "placeIds": [
+        "rand-enterprises"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 452,
+      "name": "Додзё Chikara",
+      "inputProjects": "if-1;if-2;defenders",
+      "status": "added",
+      "placeIds": [
+        "chikara-dojo"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 453,
+      "name": "Пентхаус Гарольда Мичама",
+      "inputProjects": "if-1",
+      "status": "added",
+      "placeIds": [
+        "harold-penthouse"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 454,
+      "name": "Больница Бирч",
+      "inputProjects": "if-1",
+      "status": "added",
+      "placeIds": [
+        "birch-hospital"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 455,
+      "name": "Аньчжоу, Китай",
+      "inputProjects": "if-1",
+      "status": "added",
+      "placeIds": [
+        "anzhou-factory"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 456,
+      "name": "Завод Аньчжоу",
+      "inputProjects": "if-1",
+      "status": "added",
+      "placeIds": [
+        "anzhou-factory"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 457,
+      "name": "Комплекс Руки в Нью-Йорке",
+      "inputProjects": "if-1;defenders",
+      "status": "added",
+      "placeIds": [
+        "midland-circle"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 458,
+      "name": "Кольцевой комплекс Мидленд-Серкл",
+      "inputProjects": "defenders",
+      "status": "added",
+      "placeIds": [
+        "midland-circle"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 459,
+      "name": "Пещера под Мидленд-Серкл",
+      "inputProjects": "defenders",
+      "status": "added",
+      "placeIds": [
+        "midland-circle"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 460,
+      "name": "Ресторан «Королевский дракон»",
+      "inputProjects": "defenders",
+      "status": "added",
+      "placeIds": [
+        "royal-dragon"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 461,
+      "name": "29-й участок полиции Нью-Йорка",
+      "inputProjects": "defenders",
+      "status": "added",
+      "placeIds": [
+        "precinct-29"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 462,
+      "name": "Пномпень, Камбоджа",
+      "inputProjects": "defenders",
+      "status": "added",
+      "placeIds": [
+        "phnom-penh"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 463,
+      "name": "Дом Клэр Темпл",
+      "inputProjects": "defenders;lc-1;if-1",
+      "status": "added",
+      "placeIds": [
+        "claire-apartment"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 464,
+      "name": "Небесный мир Каххори — вход через Запретное озеро",
+      "inputProjects": "what-if-2",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 465,
+      "name": "Запретное озеро (Каххори)",
+      "inputProjects": "what-if-2",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 466,
+      "name": "Мир «Что, если…?» — Земля с нападением Питера Квилла",
+      "inputProjects": "what-if-2",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 467,
+      "name": "Тюрьма «Седьмой круг»",
+      "inputProjects": "black-widow",
+      "status": "added",
+      "placeIds": [
+        "seventh-circle"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 468,
+      "name": "Конспиративная квартира Елены (Будапешт)",
+      "inputProjects": "black-widow",
+      "status": "added",
+      "placeIds": [
+        "yelena-budapest-flat"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 469,
+      "name": "Дом Мелины Востокофф",
+      "inputProjects": "black-widow",
+      "status": "added",
+      "placeIds": [
+        "melina-farm"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 470,
+      "name": "Железнодорожная станция Олбани",
+      "inputProjects": "black-widow",
+      "status": "added",
+      "placeIds": [
+        "albany-terminal"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 471,
+      "name": "Штаб Иллюминатов на Земле-838",
+      "inputProjects": "dsmom",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 472,
+      "name": "Яблоневый сад Ванды",
+      "inputProjects": "dsmom",
+      "status": "added",
+      "placeIds": [
+        "wanda-orchard"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 473,
+      "name": "База Кассандры Новы в Пустоте",
+      "inputProjects": "deadpool-wolverine",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 474,
+      "name": "Хранилище O.X.E. в Юте",
+      "inputProjects": "thunderbolts",
+      "status": "added",
+      "placeIds": [
+        "oxe-vault"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 475,
+      "name": "Офис мэра Фиска (Нью-Йорк)",
+      "inputProjects": "dd-ba-1;dd-ba-2",
+      "status": "added",
+      "placeIds": [
+        "nyc-city-hall"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 476,
+      "name": "Секретная тюрьма Фиска в Ред-Хук",
+      "inputProjects": "dd-ba-1;dd-ba-2",
+      "status": "added",
+      "placeIds": [
+        "fisk-red-hook-prison"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 477,
+      "name": "Порт Ред-Хук",
+      "inputProjects": "dd-ba-1;dd-ba-2",
+      "status": "added",
+      "placeIds": [
+        "red-hook"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 478,
+      "name": "Мастерская Мелвина Поттера",
+      "inputProjects": "dd-1;dd-2;dd-3",
+      "status": "added",
+      "placeIds": [
+        "melvin-workshop"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 479,
+      "name": "Здание Бакстера: штаб Фантастической четвёрки",
+      "inputProjects": "ff-first-steps",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    },
+    {
+      "row": 480,
+      "name": "Убежище Рокетта в Уэствью",
+      "inputProjects": "agatha",
+      "status": "needs-evidence",
+      "placeIds": [],
+      "reason": "Название «убежище Рокетта» не подтверждено."
+    },
+    {
+      "row": 481,
+      "name": "Здание городской тюрьмы Райкерс",
+      "inputProjects": "dd-ba-1;dd-ba-2",
+      "status": "added",
+      "placeIds": [
+        "rikers-island"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 482,
+      "name": "Полицейский участок №15 (Нью-Йорк)",
+      "inputProjects": "dd-1;jj-1;dd-ba-2",
+      "status": "added",
+      "placeIds": [
+        "precinct-15"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 483,
+      "name": "Полиция Нью-Йорка: служба автопарка",
+      "inputProjects": "dd-ba-1",
+      "status": "added",
+      "placeIds": [
+        "nypd-fleet-services"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 484,
+      "name": "Лавка Скалли (Тамаха)",
+      "inputProjects": "echo",
+      "status": "added",
+      "placeIds": [
+        "skully-pawn"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 485,
+      "name": "Авторазбор Snake Creek Salvage",
+      "inputProjects": "echo",
+      "status": "added",
+      "placeIds": [
+        "snake-creek"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 486,
+      "name": "Долина Юкка, Калифорния",
+      "inputProjects": "wonder-man",
+      "status": "added",
+      "placeIds": [
+        "yucca-valley"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 487,
+      "name": "Дом Чака Истмана (долина Юкка)",
+      "inputProjects": "wonder-man",
+      "status": "added",
+      "placeIds": [
+        "chuck-eastman-house"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 488,
+      "name": "Китайский театр в Голливуде",
+      "inputProjects": "wonder-man",
+      "status": "added",
+      "placeIds": [
+        "chinese-theatre"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 489,
+      "name": "Департамент по ликвидации последствий — Лос-Анджелес",
+      "inputProjects": "wonder-man",
+      "status": "added",
+      "placeIds": [
+        "dodc-la"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 490,
+      "name": "Больница Белвью (Нью-Йорк)",
+      "inputProjects": "bnd",
+      "status": "needs-evidence",
+      "placeIds": [],
+      "reason": "Уточнить сцену и сюжетное имя больницы в Brand New Day; съёмочная площадка не достаточна."
+    },
+    {
+      "row": 491,
+      "name": "Инглвуд, Калифорния",
+      "inputProjects": "iron-man-2",
+      "status": "added",
+      "placeIds": [
+        "randys-donuts"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 492,
+      "name": "Олбани, штат Нью-Йорк",
+      "inputProjects": "black-widow;dd-ba-2",
+      "status": "merged",
+      "placeIds": [
+        "albany-terminal"
+      ],
+      "reason": "В этом этапе сохранён подтверждённый вокзал «Чёрной Вдовы»; связи второго сезона требуют отдельной сверки."
+    },
+    {
+      "row": 493,
+      "name": "Голливуд, Лос-Анджелес",
+      "inputProjects": "wonder-man",
+      "status": "added",
+      "placeIds": [
+        "hollywood"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 494,
+      "name": "Мавет",
+      "inputProjects": "aos",
+      "status": "deferred-continuity",
+      "placeIds": [],
+      "reason": "Marvel Television/ABC/Hulu или смешанный кандидат; отложен для отдельной сверки включения в официальную основную линейку. Это не утверждение о неканоничности."
+    },
+    {
+      "row": 495,
+      "name": "Гонконгский Санктум",
+      "inputProjects": "doctor-strange",
+      "status": "added",
+      "placeIds": [
+        "hong-kong-sanctum"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 496,
+      "name": "Нови-Град (Соковия)",
+      "inputProjects": "aou",
+      "status": "added",
+      "placeIds": [
+        "novi-grad"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 497,
+      "name": "Орбитальная станция S.A.B.E.R.",
+      "inputProjects": "the-marvels;secret-invasion;ffh",
+      "status": "added",
+      "placeIds": [
+        "saber-station"
+      ],
+      "reason": "Сюжетная локация основной линии КВМ; место съёмки не используется как сюжетный адрес."
+    },
+    {
+      "row": 498,
+      "name": "Лагерь Лихай — объект альтернативной зомби-линии",
+      "inputProjects": "what-if-1",
+      "status": "deferred-alternate",
+      "placeIds": [],
+      "reason": "Другая вселенная или ответвление времени; вне первой очереди основной хронологии."
+    }
+  ]
+}

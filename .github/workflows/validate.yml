@@ -55,5 +55,7 @@ jobs:
         run: node --test scripts/tests/maps-side-labels.test.mjs
       - name: Verify interactive map atlas, zoom and city drilldowns
         run: node --test scripts/tests/maps-atlas.test.mjs
+      - name: Check main MCU places, source registry and map coordinates
+        run: node --test scripts/tests/mcu-places-main.test.mjs
       - name: Check fast image loading and browser cache safety
         run: node --test scripts/tests/image-performance.test.mjs
