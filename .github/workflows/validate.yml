@@ -45,6 +45,8 @@ jobs:
         run: node --test scripts/tests/full-project-facts.test.mjs
       - name: Check concept-six homepage, editorial dates and admin editing
         run: node --test scripts/tests/homepage-v6.test.mjs
+      - name: Check scroll choreography and reduced-motion accessibility
+        run: node --test scripts/tests/homepage-motion.test.mjs
       - name: Check mobile navigation and search dropdown
         run: node --test scripts/tests/mobile-header-search.test.mjs
       - name: Check wider header, upcoming posters and random discovery
