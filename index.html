@@ -781,7 +781,8 @@ nav.tabs a{min-height:40px;display:inline-flex;align-items:center}
 /* Compact atlas panels and in-universe place previews */
 .atlas-mapwrap>.mside{align-self:start;min-width:0;max-height:min(620px,72vh);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
 .atlas-side-photo{display:grid;place-items:center;overflow:hidden;border-radius:10px;margin:12px 0;background:#111d2f;aspect-ratio:16/9;border:1px solid rgba(140,159,185,.28)}
-.atlas-side-photo img{display:block;width:100%;height:100%;object-fit:cover}
+.mside .atlas-side-photo img{display:block;width:100%;height:100%;object-fit:cover;transform:none;filter:none}
+.mside .atlas-side-icon img{object-fit:contain;width:min(100%,230px);filter:drop-shadow(0 8px 9px rgba(0,0,0,.5))}
 .atlas-side-photo-empty{min-height:110px;background:linear-gradient(135deg,#182333,#293145);color:#c1cbd6;font-size:13px;text-align:center;padding:14px}
 .atlas-side-more{margin:10px 0 0;border-top:1px solid var(--soft);padding-top:10px}
 .atlas-side-more summary{font-size:13px;cursor:pointer;color:var(--red);font-weight:650}
@@ -1169,8 +1170,8 @@ function mapPlaceVisual(id,name){
   return '<div class="map-place-visual"><img src="'+esc(src)+'" alt="'+esc(name)+'" loading="lazy" decoding="async"></div>';
 }
 function atlasSidePhoto(x){
-  var src=imgSrc('pl-'+x.id)||imgSrc('mi-'+x.id);
-  return src?'<div class="atlas-side-photo"><img src="'+esc(src)+'" alt="'+esc(x.n)+'" loading="lazy" decoding="async"></div>':
+  var photo=imgSrc('pl-'+x.id),src=photo||imgSrc('mi-'+x.id);
+  return src?'<div class="atlas-side-photo map-place-visual'+(!photo?' atlas-side-icon':'')+'"><img src="'+esc(src)+'" alt="'+esc(x.n)+'" loading="lazy" decoding="async"></div>':
     '<div class="atlas-side-photo atlas-side-photo-empty">Фото места пока не добавлено</div>';
 }
 function atlasSideProjects(ids){
@@ -1784,7 +1785,7 @@ function eventView(e){return '<button class="back" type="button" data-back>← �
 function placeView(x){var TT={e:'Место на Земле',c:'Космос',r:'Измерение или пространство',u:'Вселенная',o:'Особая локация'},mcu=x.pr.filter(function(id){return MCU[P[id].s]}),oth=x.pr.filter(function(id){return !MCU[P[id].s]});
   return '<button class="back" type="button" data-back>← Назад</button>'+placeMeta(x)+'<h1>'+esc(x.n)+'</h1><div class="badges"><span class="chip">'+TT[x.t]+'</span>'+(placeAtlasContext(x)?'<a class="chip" href="#map" data-show-on-map="'+x.id+'">Показать на карте Marvel</a>':'')+'</div>'+
   (imgSrc('pl-'+x.id)?'<div class="place-image"><button type="button" data-zoom-key="pl-'+x.id+'" class="portrait-trigger" aria-label="Увеличить фото места"><img loading="lazy" src="'+esc(imgSrc('pl-'+x.id))+'" alt="'+esc(x.n)+'"></button></div>':'')+imgOneBtn('pl-'+x.id)+'<p class="about" style="margin-top:16px">'+(ADM.edit?E('pl.'+x.id+'.ab',x.ab,ctxP(x.pr),x.id):spField('pl.'+x.id,x.ab,x.pr,ctxP(x.pr),x.id))+'</p>'+
-  placeLocalMap(x)+placeScheme(x)+(x.interiorZones?'<section><h2>Внутри локации</h2><div class="chips">'+x.interiorZones.map(function(n){return '<span class="chip">'+esc(n)+'</span>'}).join('')+'</div></section>':'')+placeSceneRefs(x)+
+  placeLocalMap(x)+(placeHasGeo(x)&&!placeChildren(x).length?'':placeScheme(x))+(x.interiorZones?'<section><h2>Внутри локации</h2><div class="chips">'+x.interiorZones.map(function(n){return '<span class="chip">'+esc(n)+'</span>'}).join('')+'</div></section>':'')+placeSceneRefs(x)+
   (x.ev.length?'<section><h2>Что здесь произошло</h2><ul class="tl" style="margin-top:16px">'+x.ev.map(evItem).join('')+'</ul></section>':'')+
   (mcu.length?'<section><h2>Проекты КВМ</h2><div class="grid" style="margin-top:14px">'+mcu.map(card).join('')+'</div></section>':'')+(oth.length?'<section><h2>Вне КВМ</h2><div class="grid" style="margin-top:14px">'+oth.map(card).join('')+'</div></section>':'')+sourceLinks(x)}
 
