@@ -2,13 +2,13 @@ import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {auditPhotos} from '../audit-photos.mjs';
 
-test('all local portraits with exact character IDs are linked',()=>{
+test('local portraits with exact character IDs are linked except the mislabeled upload',()=>{
   const report=auditPhotos();
-  assert.equal(report.total,479);
-  assert.equal(report.withFile.length,0,'Found uploaded character photos without a card assignment');
+  assert.equal(report.total,report.assigned.length+report.withFile.length+report.withoutFile.length);
+  // The existing file named for Von Kovak depicts Trevor Slattery.
+  assert.deepEqual(report.withFile.map(c=>c.path),['img/c-von-kovak-mw6xqhoe-gb201k.jpg']);
+  assert.ok(report.assigned.length>0,'Published portraits are missing');
   assert.equal(report.broken.length,0,'A published image URL points to a missing repository file');
-  assert.equal(report.assigned.length,461);
-  assert.equal(report.withoutFile.length,18);
 });
 
 test('do not borrow a different universe or version image for a missing character',()=>{

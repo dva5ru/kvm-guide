@@ -61,7 +61,9 @@ test('all stored alternative cards have reciprocal switches and distinct people 
     assert.equal(nav.querySelector('[aria-current="page"]').getAttribute('href'),'#c-'+id);
   }
   for(const [a,b]of [['peter','peter-maguire'],['peter','peter-garfield'],['peter','peter-yfnsm'],['peter','peter-b-parker'],['loki','sylvie'],['loki','classic-loki'],['loki','alligator-loki'],['kang','he-who-remains'],['kang','victor-timely'],['deadpool','nicepool'],['deadpool','dogpool'],['deadpool','ladypool'],['johnny','johnny-evans'],['blade','blade-mcu'],['elektra','elektra-n'],['green-goblin','norman-yfnsm'],['jean','jean-mcu']])assert.equal(g.C[a].verGroup,g.C[b].verGroup,a+'/'+b);
-  for(const id of ['steve','pietro-fake','rocket','robbie-reyes']){g.go('c-'+id);assert.equal(doc.querySelector('.ver-switch'),null,id)}
+  for(const id of ['pietro-fake','robbie-reyes','virgil-horton','phineas-horton']){g.go('c-'+id);assert.equal(doc.querySelector('.ver-switch'),null,id)}
+  assert.ok(g.D.versions.steve.includes('steve-zombies'));
+  assert.ok(g.D.versions.rocket.includes('rocket-zombies'));
   assert.ok(!g.D.versions.peter.includes('miles-morales-anim'),'Miles is not Peter Parker');
   assert.ok(!g.D.versions.johnny.includes('steve'),'Chris Evans does not make Steve and Johnny variants');
 });
