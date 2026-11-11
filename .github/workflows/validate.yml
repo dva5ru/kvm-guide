@@ -17,6 +17,8 @@ jobs:
         run: npm ci --ignore-scripts
       - name: Check embedded JSON, JavaScript, and character connections
         run: node scripts/validate-guide.mjs
+      - name: Check PRO mode filters in catalog and chronology
+        run: node --test scripts/tests/pro-mode.test.mjs
       - name: Check artifact and material photo workflows
         run: node --test scripts/tests/photos.test.mjs
       - name: Check character photo gallery interactions
