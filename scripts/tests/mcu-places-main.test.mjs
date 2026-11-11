@@ -61,7 +61,7 @@ test('all new location routes render sources and a geographic or schematic point
   for(const id of review.addedPlaceIds){
     s.g.go('p-'+id);
     assert.equal(s.doc.querySelector('main h1').textContent,byId.get(id).n,id);
-    assert.ok(s.doc.querySelector('.place-sources a'),id+' sources are inaccessible');
+    assert.equal(s.doc.querySelector('.place-sources'),null,id+' must not show public sources');
     assert.ok(s.doc.querySelector('.place-node,.atlas-preview-link'),id+' has no atlas preview or schematic node');
     assert.ok(!/NaN|undefined/.test(s.doc.querySelector('main').innerHTML),id+' has broken rendered values');
     assert.ok(s.doc.title.startsWith(byId.get(id).n),id+' has an incorrect title');
