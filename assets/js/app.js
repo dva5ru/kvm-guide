@@ -1371,7 +1371,7 @@ function ghLoginHTML(err){return '<div class="modal" id="admset" role="dialog" a
   '<label class="fld">Токен доступа GitHub<input id="ghToken" type="password" autocomplete="off" placeholder="github_pat_…"></label>'+
   '<p class="muted" style="font-size:14px">Токен создаётся на GitHub: Settings → Developer settings → Personal access tokens → Fine-grained tokens. Доступ — только к этому репозиторию, право Contents: Read and write.</p>'+
   '<div class="hero-actions"><button type="button" class="btn primary" data-gh-login>Войти</button></div></div></div>'}
-function guessRepo(){var h=location.hostname,m=h.match(/^([^.]+)\.github\.io$/);if(!m)return '';var seg=location.pathname.split('/').filter(Boolean)[0];return m[1]+'/'+(seg||m[1]+'.github.io')}
+function guessRepo(){var h=location.hostname,m=h.match(/^([^.]+)\.github\.io$/);if(!m)return 'dva5ru/kvm-guide';var seg=location.pathname.split('/').filter(Boolean)[0];return m[1]+'/'+(seg||m[1]+'.github.io')}
 function ghLogin(){var repo=(document.getElementById('ghRepo').value||'').trim().replace(/^https?:\/\/github\.com\//,'').replace(/\/+$/,''),br=(document.getElementById('ghBranch').value||'main').trim(),tk=(document.getElementById('ghToken').value||'').trim();
   if(!repo||!tk){openGhLogin('Заполните репозиторий и токен');return}GH={repo:repo,branch:br,token:tk};
   ghApi('').then(function(j){if(!j)throw new Error('репозиторий не найден или токен к нему не подходит');if(!(j.permissions&&j.permissions.push))throw new Error('у токена нет права записи в репозиторий');
