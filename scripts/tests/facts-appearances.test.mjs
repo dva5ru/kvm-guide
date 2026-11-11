@@ -8,8 +8,8 @@ const raw=JSON.parse(html.match(/id="kvm-data">([\s\S]*?)<\/script>/)[1]);
 const clone=()=>structuredClone(raw);
 
 test('one canonical registry preserves project links and derives episode casts, descriptions and credits',t=>{
-  const db=clone(),{records}=hydrateAppearances(db),s=loadGuide();t.after(s.close);
-  assert.equal(records.size,raw.appearances.length);assert.ok(records.size>=1282);assert.ok(raw.appearances.some(a=>a.id==='homecoming::tinkerer'));assert.equal(raw.appearances.reduce((n,a)=>n+a.episodes.length,0),481);
+  const db=clone(),{records,episodes}=hydrateAppearances(db),s=loadGuide();t.after(s.close);
+  assert.equal(records.size,raw.appearances.length);assert.ok(records.size>=1282);assert.ok(raw.appearances.some(a=>a.id==='homecoming::tinkerer'));assert.equal(raw.appearances.reduce((n,a)=>n+a.episodes.length,0),[...episodes.values()].reduce((n,e)=>n+e[3].length,0));
   assert.equal(raw.epRoles,undefined);assert.equal(raw.appearanceCredits,undefined);
   assert.ok(raw.c.every(c=>c.notes===undefined&&c.app===undefined));assert.ok(raw.p.every(p=>p.cs===undefined));
   for(const p of db.p){
@@ -49,8 +49,9 @@ test('Wanda origin, Loki credit sequences and adamantium timeline no longer cont
   assert.match(g.artGet('mind').ab,/до опытов/);
   assert.match(g.P['what-if-1'].eps[6][2],/до титров/);
   assert.ok(!g.artGet('adamantium').path.some(step=>step[0]==='2025'));
-  g.go('f-loki-1');assert.match(doc.querySelector('main').textContent,/Серия 4, сцена в середине титров/);assert.match(doc.querySelector('main').textContent,/Серия 6, объявление/);
-  g.go('f-loki-2');assert.match(doc.querySelector('main').textContent,/Серия 1, сцена в середине титров/);
+  g.go('f-loki-1');assert.match(doc.querySelector('main').textContent,/Сезон 1, серия 4В середине титров/);
+  assert.equal(g.D.episodes['loki-1-s1-e6'].post.length,0);
+  g.go('f-loki-2');assert.match(doc.querySelector('main').textContent,/Сезон 2, серия 1В середине титров/);
   g.SPO.mode='all';g.go('f-loki-2');assert.ok(!doc.querySelector('main').textContent.includes('McDonald’s'));
 });
 
