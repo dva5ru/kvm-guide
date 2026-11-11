@@ -758,14 +758,27 @@ nav.tabs a{min-height:40px;display:inline-flex;align-items:center}
 /* Nested MCU location maps and provenance */
 .place-breadcrumb{display:flex;flex-wrap:wrap;gap:.5rem;font-size:.9rem;color:var(--muted);margin:1rem 0}
 .place-location-note{font-size:.9rem;color:var(--muted);line-height:1.6;max-width:80ch;margin:.7rem 0}
-.place-scheme,.place-local-map,.place-scenes{margin-top:2rem}.place-scheme>.muted{margin:.5rem 0 1.2rem}
-.place-scheme-root{display:flex;justify-content:center;margin-bottom:1.5rem}.place-scheme-root a{padding:.7rem 1rem;border:1px solid var(--line,#39364b);border-radius:8px;text-align:center}
-.place-scheme-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px;padding-top:20px;border-top:1px solid var(--line,#39364b)}
-.place-node{display:flex;align-items:center;gap:12px;padding:16px;border:1px solid var(--soft);border-radius:6px;min-height:70px;background:var(--surface);color:var(--ink);overflow-wrap:anywhere;text-decoration:none}
-.place-node-dot{width:12px;height:12px;flex:0 0 12px;border-radius:50%;background:#9385ff;box-shadow:0 0 0 5px #9385ff18}.place-node.selected{border-color:#9385ff}.place-node:hover{border-color:#b7adff}
+.place-scheme,.place-local-map,.place-scenes{margin-top:2rem}
+.place-scheme-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.place-scheme-head h2{margin:0}
+.place-scheme-count{display:inline-flex;align-items:center;justify-content:center;min-width:27px;height:24px;padding:0 7px;border-radius:5px;background:var(--surface2);color:var(--muted);font:600 12px/1 var(--f-body)}
+.place-scheme-context{display:flex;flex-wrap:wrap;align-items:baseline;gap:5px;margin:0 0 13px;color:var(--muted);font-size:13px}
+.place-scheme-context a{font-weight:600;color:var(--ink);text-decoration:none;text-underline-offset:3px}
+.place-scheme-context a:hover{text-decoration:underline}
+.place-scheme-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,210px),1fr));gap:7px}
+.place-node{display:flex;align-items:center;gap:10px;min-height:46px;min-width:0;padding:9px 11px;border:1px solid var(--soft);border-radius:7px;background:var(--surface);color:var(--ink);font-size:13.5px;line-height:1.35;text-decoration:none;transition:background-color .16s ease,border-color .16s ease}
+.place-node-label{min-width:0;overflow-wrap:anywhere}
+.place-node-dot{width:6px;height:6px;flex:0 0 6px;border-radius:2px;background:#9ba3af}
+.place-node::after{content:'›';margin-left:auto;color:var(--muted);opacity:0;font-size:17px;line-height:1}
+.place-node:hover{background:var(--surface2);border-color:#aeb6c2}
+.place-node:hover::after{opacity:1}
+.place-node.selected{background:#fff3f3;border-color:#efbdc0}
+.place-node.selected .place-node-dot{background:var(--red)}
+.place-node.selected::after{content:'';width:3px;height:17px;flex:0 0 3px;border-radius:2px;background:var(--red);opacity:1}
+
 .place-local-map svg{display:block;width:min(100%,800px);height:auto;aspect-ratio:1.6;background:var(--surface2);border:1px solid var(--soft);border-radius:6px;margin:14px 0 6px}.place-map-tiles{filter:saturate(.45)}.place-map-pin{fill:#754ee8}.place-map-halo{opacity:.22}.place-map-pin.selected{fill:var(--red)}.place-map-attribution{font-size:12px;margin-bottom:12px;color:var(--muted)}
 .place-sources{margin:2rem 0;border-top:1px solid var(--line,#39364b);padding-top:1rem}.place-sources summary{cursor:pointer}.place-sources ul{line-height:1.8;overflow-wrap:anywhere;padding-left:1.4rem}.place-scenes ul{list-style:none;padding:0}.place-scenes li{padding:1rem 0;border-bottom:1px solid var(--line,#39364b)}.place-scenes .chips{margin:.6rem 0}.place-scenes p{line-height:1.6}
-@media(max-width:600px){.place-node{padding:14px}.place-scheme-grid{grid-template-columns:1fr}.place-local-map .chips{gap:6px}.place-breadcrumb{font-size:.8rem}}
+@media(max-width:600px){.place-scheme-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,165px),1fr));gap:6px}.place-node{min-height:44px;padding:9px 10px;font-size:13px}.place-local-map .chips{gap:6px}.place-breadcrumb{font-size:.8rem}}
 
 /* Compact atlas panels and in-universe place previews */
 .atlas-mapwrap>.mside{align-self:start;min-width:0;max-height:min(620px,72vh);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
