@@ -1,8 +1,8 @@
 /* Homepage concept 6. The catalog, images, overrides and router remain owned by index.html. */
 (function () {
   'use strict';
-  var KEYS=['hero','ways','focus','picks','recent','soon','history','random'];
-  var LABELS={hero:'Первый экран',ways:'Как смотреть КВМ',focus:'В фокусе',picks:'Что посмотреть',recent:'Недавно вышло',soon:'Скоро',history:'История персонажа',random:'Случайное открытие'};
+  var KEYS=['hero','ways','focus','analysis','picks','recent','soon','history','random'];
+  var LABELS={hero:'Первый экран',ways:'Как смотреть КВМ',focus:'В фокусе',analysis:'Разборы КВМ',picks:'Что посмотреть',recent:'Недавно вышло',soon:'Скоро',history:'История персонажа',random:'Случайное открытие'};
   var DEFAULT_FOCUS=[
     {target:'o-tva',title:'Локи и Управление временными изменениями',text:'Откуда взялось УВИ, как оно следит за временными линиями и какое место занимает в истории Локи.',image:'c-loki',project:'loki-1'},
     {target:'w-wakanda',title:'Почему Ваканда скрывалась от мира',text:'История страны, её ресурсов и решений, которые определили отношения Ваканды с остальным миром.',image:'f-black-panther',project:'black-panther'},
@@ -111,6 +111,24 @@
   function focus(ctx){
     var rows=focusRows(ctx);return rows.length?sliderShell('focus','В фокусе',focusSlide(ctx,rows[0]),rows.length):'';
   }
+
+  function analysis(ctx){
+    var rows=[
+      {title:'Почему армия Земли не пришла на помощь Мстителям?',desc:'Полицейские, Национальная гвардия, Щ.И.Т. и финальная битва с Таносом: что показывают фильмы и что остаётся вопросом.',img:'f-endgame',label:'ОПУБЛИКОВАНО · ЗАЩИТА ЗЕМЛИ',href:'articles.html#army'},
+      {title:'Как мир пережил пять лет после щелчка Таноса?',desc:'Государства, экономика и возвращение миллиардов людей.',img:'f-infinity-war',label:'ГОТОВИМ · ОБЩЕСТВО'},
+      {title:'Имела ли Ваканда право скрывать свои технологии?',desc:'Изоляция, безопасность и ответственность перед миром.',img:'f-black-panther',label:'ГОТОВИМ · ПОЛИТИКА'}
+    ];
+    return '<section class="h6-section h6-analysis" aria-labelledby="h6-analysis-title">'+
+      '<div class="h6-section-title"><h2 id="h6-analysis-title">Вопросы без простых ответов</h2><a href="articles.html">Все разборы <span aria-hidden="true">↗</span></a></div>'+
+      '<p class="h6-section-sub">Не пересказываем сюжеты: исследуем спорные вопросы, сверяем реплики и сцены, отделяем факты от предположений.</p>'+
+      '<div class="h6-analysis-grid">'+rows.map(function(x,i){
+        var inside='<div class="h6-analysis-photo">'+photoPanel(ctx,x.img,x.title,'h6-analysis-img')+'</div>'+
+          '<div class="h6-analysis-body"><span class="h6-analysis-meta">'+esc(x.label)+'</span><h3>'+esc(x.title)+'</h3><p>'+esc(x.desc)+'</p>'+
+          (x.href?'<span class="h6-analysis-link">Читать разбор <span aria-hidden="true">↗</span></span>':'<span class="h6-analysis-soon">Скоро</span>')+'</div>';
+        return x.href?'<a class="h6-analysis-card h6-analysis-card-main" href="'+esc(x.href)+'">'+inside+'</a>':
+          '<article class="h6-analysis-card h6-analysis-card-planned">'+inside+'</article>';
+      }).join('')+'</div></section>';
+  }
   function pickRows(ctx){return cfg(ctx,'picks',DEFAULT_PICKS).filter(function(x){return x&&ctx.P[x.id]&&visibleProject(ctx.P[x.id])}).slice(0,4)}
   function projectTile(ctx,p,reason){
     var img=photoPanel(ctx,'f-'+p.id,p.t,'h6-card-img');
@@ -212,8 +230,9 @@
   function tools(ctx){return ctx.ADM.edit?'<div class="h6-admin" aria-label="Настройки главной страницы">'+
     '<strong>Главная · концепция № 6</strong><button type="button" data-h6-edit="focus">Темы в фокусе</button><button type="button" data-h6-edit="picks">Выбор редакции</button><button type="button" data-h6-edit="heroes">Персонажи</button><button type="button" data-h6-edit="order">Порядок блоков</button></div>':''}
   function render(ctx){
-    var blocks={hero:hero,ways:watchWays,focus:focus,picks:picks,recent:recentBlock,soon:upcoming,history:history,random:random};
+    var blocks={hero:hero,ways:watchWays,focus:focus,analysis:analysis,picks:picks,recent:recentBlock,soon:upcoming,history:history,random:random};
     var order=cfg(ctx,'order',KEYS).filter(function(k,i,a){return KEYS.indexOf(k)>=0&&a.indexOf(k)===i});
+    if(order.indexOf('analysis')<0){var focusPos=order.indexOf('focus');order.splice(focusPos<0?order.length:focusPos+1,0,'analysis')}
     KEYS.forEach(function(k){if(order.indexOf(k)<0)order.push(k)});
     return '<div class="h6-page">'+tools(ctx)+order.map(function(k){
       return ctx.B('h.'+k,'home',LABELS[k],blocks[k](ctx));

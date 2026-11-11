@@ -3,14 +3,14 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {loadGuide,click,editMode} from './guide-dom.mjs';
 
-const SECTION_NAMES=['Киновселенная Marvel','Как смотреть КВМ','В фокусе','Что посмотреть','Недавно вышло','Скоро','История персонажа','Случайное открытие'];
+const SECTION_NAMES=['Киновселенная Marvel','Как смотреть КВМ','В фокусе','Вопросы без простых ответов','Что посмотреть','Недавно вышло','Скоро','История персонажа','Случайное открытие'];
 
 test('concept-six homepage shows sections in approved order and retains working routes',t=>{
   const s=loadGuide();t.after(s.close);const {doc,errors}=s;
   const sections=[...doc.querySelectorAll('.h6-page > section.h6-hero, .h6-page > section.h6-section')];
-  assert.equal(sections.length,8,'eight homepage sections');
-  assert.deepEqual(sections.map(x=>x.classList.contains('h6-hero')?'hero':x.className.match(/h6-(ways|focus|picks|recent|upcoming|history|random)/)?.[1]),
-    ['hero','ways','focus','picks','recent','upcoming','history','random']);
+  assert.equal(sections.length,9,'nine homepage sections');
+  assert.deepEqual(sections.map(x=>x.classList.contains('h6-hero')?'hero':x.className.match(/h6-(ways|focus|analysis|picks|recent|upcoming|history|random)/)?.[1]),
+    ['hero','ways','focus','analysis','picks','recent','upcoming','history','random']);
   for(const name of SECTION_NAMES)assert.ok(doc.querySelector('main').textContent.includes(name),name);
   const heroes=doc.querySelectorAll('.h6-portrait[href^="#c-"]');
   assert.equal(heroes.length,6,'six original Avengers character links');
@@ -119,4 +119,22 @@ test('hero stylesheet has subtle diagonal separators and slanted outer edges',()
   assert.match(css,/@media\(max-width:1000px\)\{[\s\S]*?flex-direction:column/,'stacked layout on tablets');
   assert.match(css,/@media\(max-width:520px\)\{[\s\S]*?overflow-x:auto/,'horizontal scrolling on narrow phones');
   assert.match(css,/\.h6-portrait-5 \.h6-portrait-img\{/,'six original Avengers still use individual image framing');
+});
+
+
+test('analytical articles appear alongside focus without pretending planned essays are published',t=>{
+  const s=loadGuide();t.after(s.close);const {doc,errors}=s;
+  const cards=[...doc.querySelectorAll('.h6-analysis-card')];
+  assert.equal(cards.length,3,'three editorial prompts shown');
+  assert.equal(doc.querySelectorAll('.h6-analysis-card-main[href="articles.html#army"]').length,1);
+  assert.equal(doc.querySelectorAll('.h6-analysis-card-planned a').length,0,'unpublished essays have no dead links');
+  assert.ok(doc.querySelector('.h6-analysis a[href="articles.html"]'),'section links to essays hub');
+  const article=readFileSync(new URL('../../articles.html',import.meta.url),'utf8');
+  assert.match(article,/id="army"/,'published essay has valid anchor');
+  assert.match(article,/Does the army know what's happening here/,'exact excerpt is documented');
+  assert.match(article,/Граница канона/,'article distinguishes conjecture from canon');
+  assert.match(article,/Иллюстрация из каталога фильмов. Не кадр конкретной сцены/,'film poster is not mislabeled as a screenshot');
+  for(const file of ['f-endgame.jpg','f-infinity-war.jpg','f-black-panther.jpg'])
+    assert.ok(readFileSync(new URL('../../img/'+file,import.meta.url)).byteLength>0,'published teaser image exists: '+file);
+  assert.equal(errors.length,0,errors.join('\n'));
 });
