@@ -72,11 +72,13 @@ test('season, episode, character and location pages give reciprocal links', t =>
   }
   s.g.go('c-kevin-ai');
   assert.ok(s.doc.querySelector('main a[href="#ep-she-hulk-s1-e9"]'));
+  assert.equal(s.doc.querySelector('main .place-sources'), null);
   assert.doesNotMatch(s.doc.querySelector('main').textContent, /Исполнитель базовой версии/);
   s.g.go('c-lisa-molinari');
   assert.ok(s.doc.querySelector('main a[href="#ep-visionquest-s1-e8"]'));
   s.g.go('p-saint-mabyn');
   assert.ok(s.doc.querySelector('.place-scenes a[href="#ep-visionquest-s1-e2"]'));
+  assert.ok(s.doc.querySelector('main .place-sources a[href^="https://"]'));
   assert.equal(s.g.ref('p.she-hulk.post.0')[0], s.g.D.episodes['she-hulk-s1-e4'].post[0]);
   assert.equal(s.g.ref('p.fws.post.0')[0], s.g.D.episodes['fws-s1-e6'].post[0]);
 });
