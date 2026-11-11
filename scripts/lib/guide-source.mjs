@@ -2,15 +2,21 @@
 // Сайт разделён на файлы (index.html, assets/css, assets/js, data/), а тестам нужен цельный вид страницы,
 // поэтому здесь стили, код и данные собираются обратно на свои места — ровно так, как их получает браузер.
 import {readFileSync} from 'node:fs';
+import {mergeAppearanceDetails,mergeEpisodeDetails} from './data-merge.mjs';
 const root=new URL('../../',import.meta.url);
 export const read=path=>readFileSync(new URL(path,root),'utf8');
 export function dataManifest(){const m=read('index.html').match(/<script type="application\/json" id="kvm-data-files">([\s\S]*?)<\/script>/);return m?JSON.parse(m[1]):null}
-// Собирает все файлы data/ в одну базу — в том же порядке разделов, что и загрузчик сайта.
+// Собирает все файлы data/ в одну полную базу — основные файлы и все группы по запросу,
+// тем же способом, что и загрузчик сайта.
 export function guideData(){
   const man=dataManifest();const all={},D={};
   for(const f of man.files)Object.assign(all,JSON.parse(read(f.path)));
+  for(const files of Object.values(man.lazy||{}))for(const f of files)if(f.keys){const j=JSON.parse(read(f.path));for(const k of f.keys)all[k]=j[k]}
   for(const k of man.order)if(k in all)D[k]=all[k];
   for(const k in all)if(!(k in D))D[k]=all[k];
+  for(const files of Object.values(man.lazy||{}))for(const f of files){
+    if(f.merge==='appearance-details')mergeAppearanceDetails(D.appearances,JSON.parse(read(f.path)).appearanceDetails);
+    if(f.merge==='episode-details')mergeEpisodeDetails(D.episodes,JSON.parse(read(f.path)).episodeDetails)}
   return D;
 }
 export function guideHtml(){

@@ -742,6 +742,13 @@ function ref(key){key=appearanceTextKey(key);var k=key.split('.'),t=k[0],o;
   return null}
 function getT(key){var r=ref(key);return r?r[0][r[1]]:''}
 var ORIGINAL_APPEARANCE_TEXT={};
+// Догрузка данных по частям: подробности вливаются в базовые записи, а правки редактора накладываются заново сверху.
+function withBaseData(fn){Object.keys(ORIG).forEach(function(k){var r=ref(k);if(r)r[0][r[1]]=ORIG[k]});ORIG={};
+  Object.keys(ORIGINAL_APPEARANCE_TEXT).forEach(function(id){AREG[id].description=ORIGINAL_APPEARANCE_TEXT[id]});ORIGINAL_APPEARANCE_TEXT={};
+  fn();applyOVR()}
+// Какие группы данных нужны странице. Поиск, каталог, хронология и главная работают на основных данных.
+function dataNeeds(h){if(!window.KVMData)return [];if(ADM.can||ADM.edit)return KVMData.groups();
+  if(/^(f|c)-/.test(h)||h.indexOf('ep-')===0)return ['details'];if(h==='map')return ['maps','geo'];if(/^p-/.test(h))return ['maps'];return []}
 function applyOVR(){Object.keys(ORIG).forEach(function(k){var r=ref(k);if(r)r[0][r[1]]=ORIG[k]});ORIG={};
   Object.keys(ORIGINAL_APPEARANCE_TEXT).forEach(function(id){AREG[id].description=ORIGINAL_APPEARANCE_TEXT[id]});ORIGINAL_APPEARANCE_TEXT={};
   Object.keys(OVR.text).forEach(function(k){var r=ref(k);if(!r)return;var parts=appearanceTextKey(k).split('.'),id=parts[0]==='c'&&parts[2]==='note'?parts.slice(3).join('.')+'::'+parts[1]:parts[0]==='project-appearance'?parts[1]+'::'+parts[2]:null;
@@ -1159,7 +1166,7 @@ document.addEventListener('click',function(e){
     if(at.hasAttribute('data-bshow')){var bl2=at.closest('.blk'),bk=bl2.getAttribute('data-bk'),lk2=bk+'@'+bl2.getAttribute('data-bp');if(at.getAttribute('data-bshow')==='all')delete OVR.hide[bk];else if(OVR.hide[bk])OVR.hide[lk2]=-1;else delete OVR.hide[lk2];saveDraft();rerender();return}
     if(at.hasAttribute('data-unhide')){delete OVR.hide[at.getAttribute('data-unhide')];saveDraft();var m0=document.getElementById('admset');if(m0)m0.outerHTML=settingsHTML();rerender();return}
     var act=at.getAttribute('data-adm');
-    if(act==='edit'){ADM.edit=!ADM.edit;admBar();rerender();return}
+    if(act==='edit'){if(!ADM.edit&&window.KVMData&&!KVMData.has()){KVMData.all().then(function(){ADM.edit=true;admBar();rerender()},function(e){toast('Не удалось загрузить данные для правки: '+(e&&e.message||'ошибка'))});return}ADM.edit=!ADM.edit;admBar();rerender();return}
     if(act==='texts'){closeModal();document.body.insertAdjacentHTML('beforeend',contentEditor());return}
     if(act==='settings'){var m1=document.getElementById('admset');if(m1)m1.remove();ADM.retFocus=at;document.body.insertAdjacentHTML('beforeend',settingsHTML());var mc=document.querySelector('#admset [data-adm="close"]');if(mc)mc.focus();return}
     if(act==='close'){closeModal();return}
@@ -1359,7 +1366,7 @@ function ghLogin(){var repo=(document.getElementById('ghRepo').value||'').trim()
   ghApi('').then(function(j){if(!j)throw new Error('репозиторий не найден или токен к нему не подходит');if(!(j.permissions&&j.permissions.push))throw new Error('у токена нет права записи в репозиторий');
     try{localStorage.setItem('kvm-gh',JSON.stringify(GH))}catch(e){}closeModal();ghEnable(true)}).catch(function(e){GH=null;openGhLogin('Не получилось войти: '+e.message)})}
 function openGhLogin(err){var m=document.getElementById('admset');if(m)m.remove();document.body.insertAdjacentHTML('beforeend',ghLoginHTML(err));var f=document.getElementById(GH&&GH.repo?'ghToken':'ghRepo');if(f)f.focus()}
-function ghEnable(fresh){ADM.can=true;ADM.on=true;ADM.gh=true;ADM.assets=null;
+function ghEnable(fresh){if(window.KVMData&&!KVMData.has()){KVMData.all().then(function(){ghEnable(fresh)},function(e){toast('Не удалось загрузить данные редактора: '+(e&&e.message||'ошибка'))});return}ADM.can=true;ADM.on=true;ADM.gh=true;ADM.assets=null;
   ADM.art={publish:function(x){if(typeof x==='string')return Promise.reject({code:'not_supported'});var json=x['content.json'].content;return ghPut('content.json',b64utf8(json),'Публикация правок путеводителя')}};
   LASTSNAP=JSON.stringify(OVR);
   ghGet('content.json').then(function(j){if(j&&j.content)acceptPublished(JSON.parse(utf8b64(j.content)))}).catch(function(){});
@@ -1420,6 +1427,10 @@ function route(){
   var h=location.hash.replace(/^#/,''),qi=h.indexOf('?'),QP={};if(qi>=0){QP=qsParse(h.slice(qi+1));h=h.slice(0,qi)}
   try{h=decodeURIComponent(h)}catch(e){}
   if(!h)h='home';if(LEGACY[h])h=LEGACY[h];
+  var need=dataNeeds(h);if(need.length&&!KVMData.has(need)){var token=h;
+    main.innerHTML='<p data-kvm-loading class="muted" style="padding:24px">Загружаю…</p>';
+    KVMData.ensure(need).then(function(){var now=location.hash.replace(/^#/,'').split('?')[0];try{now=decodeURIComponent(now)}catch(e){}if((now||'home')===token||LEGACY[now]===token)route()},
+      function(e){KVMData.showError(e&&e.message,'Не удалось загрузить раздел',function(){route()})});return}
   if(qi>=0)proReadQS(QP);if(h==='catalog'&&qi>=0)ctFromQS(QP);if(h==='timeline'&&qi>=0){if(QP.scope)TLV.scope=QP.scope;if(QP.view)TLV.view=QP.view;if(QP.order)TLV.order=QP.order}
   if(h==='admin'){if(window.claude&&!window.KVM_PUBLIC)h='home';else{if(GH&&GH.token){if(!ADM.gh)setTimeout(function(){ghEnable(false)},0)}else setTimeout(function(){openGhLogin()},0);h='home'}}
   if(h==='events'){TLV.view='events'}
@@ -1982,7 +1993,8 @@ document.addEventListener('pointerup',function(){if(!DRG)return;var d=DRG;DRG=nu
 document.addEventListener('click',function(e){if(MAPDRAGGED&&Date.now()-MAPDRAGGED<350&&e.target.closest&&e.target.closest('[data-drag]')){e.stopPropagation();e.preventDefault()}},true);
 document.addEventListener('keydown',function(e){var t=e.target;if((e.key==='Enter'||e.key===' ')&&t.hasAttribute&&(t.hasAttribute('data-ny')||t.hasAttribute('data-msel'))&&t.tagName!=='BUTTON'&&t.tagName!=='A'){e.preventDefault();t.dispatchEvent(new MouseEvent('click',{bubbles:true}))}});
 
-if(typeof navigator!=='undefined'&&'serviceWorker' in navigator&&typeof location!=='undefined'&&/^https?:$/.test(location.protocol)){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){})},{once:true})}
+if(typeof navigator!=='undefined'&&'serviceWorker' in navigator&&typeof location!=='undefined'&&/^https?:$/.test(location.protocol)){var swReg=function(){navigator.serviceWorker.register('./sw.js').catch(function(){})};if(document.readyState==='complete')swReg();else window.addEventListener('load',swReg,{once:true})}
+if(window.KVMData)KVMData.setMerger(withBaseData);
 admInit();
 if((window.KVM_PUBLIC||!window.claude)&&GH&&GH.token)ghEnable(false);
 route();
