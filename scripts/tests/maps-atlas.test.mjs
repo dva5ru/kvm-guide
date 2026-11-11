@@ -2,28 +2,23 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {loadGuide,click} from './guide-dom.mjs';
 
-test('the atlas navigates between all map sections with working zoom controls',t=>{
+test('the atlas has Earth zoom while cosmos and Nine Worlds retain a fixed camera',t=>{
   const s=loadGuide();t.after(s.close);s.g.go('map');
   for(const id of ['kmapbox','nycbox','londonbox','spacebox','ygbox','dimensionsbox']){
     assert.ok(s.doc.getElementById(id),'missing atlas section '+id);
   }
   assert.ok(s.doc.querySelector('.atlas-nav [data-scroll="londonbox"]'));
-  const space=s.doc.querySelector('#spacebox .smap');
-  assert.ok(space);
-  const before=space.getAttribute('viewBox');
-  click(s.w,s.doc.querySelector('[data-atlas-zoom="space:in"]'));
-  assert.notEqual(space.getAttribute('viewBox'),before,'zoom changes cosmic map camera');
-  click(s.w,s.doc.querySelector('[data-atlas-zoom="space:out"]'));
-  click(s.w,s.doc.querySelector('[data-atlas-zoom="space:reset"]'));
+  const space=s.doc.querySelector('#spacebox .smap'),tree=s.doc.querySelector('#ygbox .ymap');
+  assert.ok(space&&tree);
   assert.equal(space.getAttribute('viewBox'),'0 0 1000 560');
-  const tree=s.doc.querySelector('#ygbox .ymap');
-  const treeBefore=tree.getAttribute('viewBox');
-  click(s.w,s.doc.querySelector('[data-atlas-zoom="tree:in"]'));
-  assert.notEqual(tree.getAttribute('viewBox'),treeBefore);
-  const earth=s.doc.querySelector('#kmap');
-  const earthBefore=earth.getAttribute('viewBox');
+  assert.equal(tree.getAttribute('viewBox'),'0 0 1000 650');
+  assert.equal(s.doc.querySelector('[data-atlas-zoom^="space:"]'),null);
+  assert.equal(s.doc.querySelector('[data-atlas-zoom^="tree:"]'),null);
+  const earth=s.doc.querySelector('#kmap'),before=earth.getAttribute('viewBox');
   click(s.w,s.doc.querySelector('[data-atlas-zoom="earth:in"]'));
-  assert.notEqual(earth.getAttribute('viewBox'),earthBefore);
+  assert.notEqual(earth.getAttribute('viewBox'),before);
+  assert.equal(space.getAttribute('viewBox'),'0 0 1000 560');
+  assert.equal(tree.getAttribute('viewBox'),'0 0 1000 650');
 });
 
 test('London has address-grounded pins, and places without locations stay off the map',t=>{
