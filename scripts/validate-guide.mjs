@@ -1,8 +1,9 @@
 import { hydrateAppearances } from './lib/appearance-registry.mjs';
 import { readFileSync } from 'node:fs';
 import { Script } from 'node:vm';
+import {guideHtml} from './lib/guide-source.mjs';
 
-const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+const html = guideHtml();
 const dataMatch = html.match(/<script type="application\/json" id="kvm-data">([\s\S]*?)<\/script>/);
 const scriptMatch = html.match(/<script id="kvm-app">([\s\S]*?)<\/script>/);
 if (!dataMatch || !scriptMatch) throw new Error('Missing embedded application or data');
@@ -134,3 +135,12 @@ for(const [id,name,description,history]of itemRows){
 }
 for(const id of Object.keys(db.enc.itemMeta))if(!itemIds.has(id))throw Error('Orphan item metadata '+id);
 console.log('Validated:',itemRows.length,'categorized encyclopedia items');
+
+// Версии файлов из assets/: адреса должны совпадать с текущим содержимым (иначе посетители получат старую версию из кеша).
+import {PAGES as ASSET_PAGES,assetHash} from './stamp-assets.mjs';
+import {existsSync as assetExists,readFileSync as assetRead} from 'node:fs';
+for(const page of ASSET_PAGES){const url=new URL('../'+page,import.meta.url);if(!assetExists(url))continue;
+  for(const m of assetRead(url,'utf8').matchAll(/(?:href|src)="(?:\.\/)?(assets\/[^"?#]+)(?:\?v=([0-9a-f]*))?"/g)){
+    if(!assetExists(new URL('../'+m[1],import.meta.url)))throw new Error(page+': нет файла '+m[1]);
+    if(m[2]!==assetHash(m[1]))throw new Error(page+': устарела версия '+m[1]+' — выполните npm run stamp');}}
+console.log('Validated: asset files and cache versions');

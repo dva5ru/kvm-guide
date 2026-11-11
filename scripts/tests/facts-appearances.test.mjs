@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {hydrateAppearances} from '../lib/appearance-registry.mjs';
 import {loadGuide,editMode} from './guide-dom.mjs';
-const html=readFileSync(new URL('../../index.html',import.meta.url),'utf8');
+import {guideHtml} from '../lib/guide-source.mjs';
+const html=guideHtml();
 const raw=JSON.parse(html.match(/id="kvm-data">([\s\S]*?)<\/script>/)[1]);
 const clone=()=>structuredClone(raw);
 

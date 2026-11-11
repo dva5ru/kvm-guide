@@ -2,8 +2,9 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { createContext, runInContext } from 'node:vm';
+import {guideHtml} from '../lib/guide-source.mjs';
 
-const html = readFileSync(new URL('../../index.html', import.meta.url), 'utf8');
+const html = guideHtml();
 const data = JSON.parse(html.match(/id="kvm-data">([\s\S]*?)<\/script>/)[1]);
 const app = html.match(/<script id="kvm-app">([\s\S]*?)<\/script>/)[1];
 // Evaluate the actual standalone image functions, with storage/network/DOM boundaries mocked.

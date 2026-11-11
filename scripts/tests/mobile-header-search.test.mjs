@@ -2,8 +2,9 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {loadGuide,click,input} from './guide-dom.mjs';
+import {guideHtml} from '../lib/guide-source.mjs';
 
-const markup=readFileSync(new URL('../../index.html',import.meta.url),'utf8');
+const markup=guideHtml();
 const css=readFileSync(new URL('../../assets/css/home-v6.css',import.meta.url),'utf8');
 
 test('header no longer repeats the KVM brand, while navigation remains accessible',t=>{

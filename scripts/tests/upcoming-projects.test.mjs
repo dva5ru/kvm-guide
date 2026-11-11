@@ -1,8 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import {guideHtml} from '../lib/guide-source.mjs';
 
-const html = readFileSync(new URL('../../index.html', import.meta.url), 'utf8');
+const html = guideHtml();
 const marker = '<script type="application/json" id="kvm-data">';
 const start = html.indexOf(marker);
 assert.ok(start >= 0, 'Embedded project catalogue must exist');

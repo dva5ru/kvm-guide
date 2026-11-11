@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-const html=readFileSync(new URL('../../index.html',import.meta.url),'utf8');
+import {guideHtml} from '../lib/guide-source.mjs';
+const html=guideHtml();
 const db=JSON.parse(html.split('<script type="application/json" id="kvm-data">')[1].split('</script>')[0]);
 const projects=new Map(db.p.map(p=>[p.id,p]));
 const overrides=JSON.parse(readFileSync(new URL('../../content.json',import.meta.url),'utf8'));

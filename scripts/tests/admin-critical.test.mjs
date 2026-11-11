@@ -2,8 +2,9 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {test} from 'node:test';
 import {createContext,runInContext} from 'node:vm';
+import {guideHtml} from '../lib/guide-source.mjs';
 
-const html=readFileSync(new URL('../../index.html',import.meta.url),'utf8');
+const html=guideHtml();
 const app=html.match(/<script id="kvm-app">([\s\S]*?)<\/script>/)[1];
 function add(c,name){
   const start=app.indexOf('function '+name+'(');
