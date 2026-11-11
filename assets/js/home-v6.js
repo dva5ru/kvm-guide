@@ -116,7 +116,7 @@
     var rows=[
       {title:"Почему Танос без Камней оказался опаснее Таноса с шестью Камнями?",desc:"Боевой опыт, Громсекира, неизвестный металл клинка и последствия Щелчка.",img:"f-infinity-war",label:"ОПУБЛИКОВАНО · СИЛА · ТАНОС",href:"article-thanos.html"},
       {title:"Кто из героев Marvel смог бы пережить Щелчок бесконечности?",desc:"Капитан Марвел, Тор, Росомаха, Дэдпул, Вижн, Альтрон, Икарис, Грут, Адам Уорлок и Ванда. Кто щёлкнул бы и кто пережил бы отдачу?",img:"f-deadpool-wolverine",label:"ОПУБЛИКОВАНО · ЭКСПЕРИМЕНТ · КАМНИ",href:"article-snap.html"},
-      {title:"Почему Мстители позволили разобрать Вижна на запчасти?",desc:"Кому принадлежало тело Вижна, что делал М.Е.Ч. и почему герои не вмешались?",img:"f-wandavision",label:"ОПУБЛИКОВАНО · ПРАВО · ВИЖН",href:"article-vision.html"}
+      {title:"Кто предал Вижна? Почему Мстители позволили разобрать своего товарища",desc:"Как М.Е.Ч. получил тело Вижна, почему Мстители не вмешались и что раскрыл «ВижнКвест».",img:"f-wandavision",label:"ОПУБЛИКОВАНО · ПРАВО · ВИЖН",href:"article-vision.html"}
     ];
     return '<section class="h6-section h6-analysis" aria-labelledby="h6-analysis-title">'+
       '<div class="h6-section-title"><h2 id="h6-analysis-title">Вопросы без простых ответов</h2><a href="articles.html">Все разборы <span aria-hidden="true">↗</span></a></div>'+
