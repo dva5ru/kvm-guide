@@ -18,7 +18,7 @@ test('Agents of SHIELD has seven navigable seasons and exactly 136 distinct epis
       assert.equal(ep.status,'released');
       assert.ok(ep.title&&ep.originalTitle&&ep.plot&&ep.chronology&&ep.date,ep.id);
       assert.ok(Array.isArray(ep.connections)&&Array.isArray(ep.sources));
-      assert.match(ep.date,/^20\\d{2}-\\d{2}-\\d{2}$/);
+      assert.match(ep.date,/^20\d{2}-\d{2}-\d{2}$/);
     }
   }
   const all=Object.values(d.episodes).filter(e=>e.projectId.startsWith('aos-'));
