@@ -9,8 +9,9 @@ export function assetHash(path){return createHash('sha1').update(readFileSync(ne
 export const ASSET_REF=/((?:href|src)=")(\.\/)?(assets\/[^"?#]+)(?:\?v=[0-9a-f]*)?(")/g;
 export const MANIFEST_RE=/(<script type="application\/json" id="kvm-data-files">)([\s\S]*?)(<\/script>)/;
 export function readManifest(html){const m=html.match(MANIFEST_RE);return m?JSON.parse(m[2]):null}
+export function manifestFiles(manifest){return manifest.files.concat(...Object.values(manifest.lazy||{}))}
 export function stampManifest(manifest){
-  for(const f of manifest.files)f.hash=assetHash(f.path);
+  for(const f of manifestFiles(manifest))f.hash=assetHash(f.path);
   const app=manifest.app.split('?')[0];manifest.app=app+'?v='+assetHash(app);
   return manifest;
 }
@@ -23,7 +24,7 @@ export function stamp(html){
 export function formatDataFiles(){
   const html=readFileSync(new URL('index.html',root),'utf8');const man=readManifest(html);const changed=[];
   if(!man)return changed;
-  for(const f of man.files){const url=new URL(f.path,root);const old=readFileSync(url,'utf8');let obj;
+  for(const f of manifestFiles(man)){const url=new URL(f.path,root);const old=readFileSync(url,'utf8');let obj;
     try{obj=JSON.parse(old)}catch(e){throw new Error(f.path+': ошибка в JSON — '+e.message)}
     const neu=formatData(obj);if(neu!==old){writeFileSync(url,neu);changed.push(f.path)}}
   return changed;
