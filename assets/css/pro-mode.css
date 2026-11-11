@@ -32,13 +32,27 @@
 }
 @media(prefers-reduced-motion:reduce){.pro-mode-track,.pro-mode-dot,.pro-group{transition:none}}
 
-/* Агенты Щ.И.Т.: компактные главы серий между фильмами в PRO-хронологии */
-.row.aos-timeline-row{display:block;padding:8px 18px 12px 56px;min-height:0;border-left:3px solid #647c92}
-.aos-timeline-entry{min-width:0;width:100%}
-.aos-timeline-entry summary{cursor:pointer;display:flex;align-items:center;gap:5px 18px;flex-wrap:wrap;line-height:1.5}
-.aos-timeline-entry summary b{font-weight:650}
-.aos-timeline-entry summary .muted{font-size:12px}
-.aos-timeline-episodes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:8px 20px;margin:12px 0 8px;padding-left:22px}
-.aos-timeline-episodes li{font-size:14px;line-height:1.4}
-.aos-timeline-season{font-size:12px;display:inline-block;margin:8px 0 0}
-@media(max-width:640px){.row.aos-timeline-row{padding:10px 12px}.aos-timeline-episodes{grid-template-columns:1fr}}
+/* Pro chronology: inline, expandable episode rows with the parent series poster intact. */
+.row.pro-series-row{row-gap:2px}
+.row.pro-series-split{padding-left:10px;border-left:3px solid var(--st-linked);background:color-mix(in srgb,var(--st-linked) 5%,transparent)}
+.pro-series-row .tl-series-episodes{grid-column:3 / -1;min-width:0;width:100%;margin:0 0 3px}
+.tl-series-episodes>summary{display:inline-flex;align-items:center;gap:9px;min-height:32px;padding:3px 0;cursor:pointer;color:var(--muted);font-size:13px;font-weight:600;list-style:none}
+.tl-series-episodes>summary::-webkit-details-marker{display:none}
+.tl-series-episodes>summary:hover,.tl-series-episodes[open]>summary{color:var(--red)}
+.tl-series-episodes>summary b{font-variant-numeric:tabular-nums;color:var(--ink)}
+.tl-series-chevron{display:inline-block;width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .18s ease}
+.tl-series-episodes[open] .tl-series-chevron{transform:rotate(225deg) translate(-2px,-1px)}
+.tl-series-episode-list{list-style:none;margin:2px 0 4px;padding:0;border-top:1px solid var(--soft)}
+.tl-series-episode-list li{margin:0;padding:0;border-bottom:1px solid var(--soft)}
+.tl-series-episode-list a{display:grid;grid-template-columns:58px minmax(0,1fr) auto;gap:10px;align-items:baseline;min-height:35px;padding:7px 8px;color:var(--ink);font-size:14px;line-height:1.35;text-decoration:none}
+.tl-series-episode-list a:hover,.tl-series-episode-list a:focus-visible{background:var(--surface2)}
+.tl-series-ep-code{color:var(--red);font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tl-series-ep-title{min-width:0;overflow-wrap:anywhere}
+.tl-series-ep-date{color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+@media(max-width:640px){
+ .row.pro-series-split{padding-left:6px}
+ .pro-series-row .tl-series-episodes{grid-column:3 / -1}
+ .tl-series-episode-list a{grid-template-columns:50px minmax(0,1fr);gap:6px;padding:8px 4px}
+ .tl-series-ep-date{display:none}
+}
+@media(prefers-reduced-motion:reduce){.tl-series-chevron{transition:none}}
