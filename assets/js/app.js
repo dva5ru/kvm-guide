@@ -1490,12 +1490,12 @@ function tlRow(p,num){var u=puni(p.id),tags=(u?'<span class="tag-u">'+esc(u)+'</
 function tlGroupByYear(list){var by={};list.forEach(function(p){(by[p.y]=by[p.y]||[]).push(p)});return Object.keys(by).sort().map(function(y){return '<div class="era"><div class="era-h"><h2>'+y+'</h2><small>'+by[y].length+' '+plural(by[y].length,['проект','проекта','проектов'])+'</small></div><ul class="rows">'+by[y].map(function(p){return tlRow(p,'')}).join('')+'</ul></div>'}).join('')}
 // Author-curated SHIELD crossover intervals: never modify the official Marvel order.
 var AOS_TIMELINE={
-  'os-all-hail':[[1,1,7,'Перед «Тором 2»']],
+  'iron-man-3':[[1,1,7,'Перед «Тором 2»']],
   'thor2':[[1,8,16,'После «Тора 2», до «Другой войны»']],
   'cap2':[[1,17,22,'Гидра внутри Щ.И.Т.а; события «Другой войны»']],
   'jj-1':[[2,1,19,'До «Эры Альтрона»']],
   'aou':[[2,20,22,'Хеликэрриер Фьюри и последствия «Эры Альтрона»']],
-  'defenders':[[3,1,19,'До «Противостояния»']],
+  'ant-man':[[3,1,19,'До «Противостояния»']],
   'civil-war':[[3,20,22,'После принятия Заковийского договора']],
   'homecoming':[[4,1,22,'Призрачный гонщик, ЖСМ и Фреймворк']],
   'ragnarok':[[5,1,18,'Возможное будущее и возвращение в 2018-й']],
@@ -1509,14 +1509,14 @@ function aosTimelineRows(anchor){
     return '<li class="row aos-timeline-row"><div class="aos-timeline-entry"><details><summary><b>Агенты Щ.И.Т. — сезон '+b[0]+', серии '+b[1]+'–'+b[2]+'</b><span class="muted">'+esc(b[3])+' · '+eps.length+' '+plural(eps.length,['серия','серии','серий'])+'</span></summary><ol class="aos-timeline-episodes">'+eps.map(function(e){return '<li><a href="#ep-'+esc(e.id)+'">'+b[0]+'×'+e[0]+' · '+esc(e.meta.title)+'</a></li>'}).join('')+'</ol></details><a class="aos-timeline-season" href="#f-'+p.id+'">Карточка сезона →</a></div></li>'
   }).join('')
 }
-function proChronoOrd(p){return p.id==='iron-man-3'?12.5:p.id==='os-all-hail'?12.6:p.ord}
+function proChronoOrd(p){return p.id==='iron-man-3'?12.5:p.ord}
 function tlList(){var out='';
   if(TLV.scope==='official'){var list=CANON.filter(isOfficial).filter(tlKind);if(!list.length)return '<div class="empty">Под этот тип ничего не подходит.</div>';
     if(TLV.order==='story'){D.eras.forEach(function(e){var it=list.filter(function(p){return p.era===e.id});if(!it.length)return;out+='<div class="era"><div class="era-h"><h2>'+esc(e.n)+'</h2><small>'+esc(e.y)+'</small></div><ul class="rows">'+it.map(function(p){return tlRow(p,p.ord)}).join('')+'</ul></div>'});return out}
     return tlGroupByYear(list.slice().sort(function(a,b){return relDate(a)<relDate(b)?-1:1}))}
   var main=CANON.filter(proAllowed),rest=D.p.filter(function(p){return !p.ord&&tlKind(p)&&proAllowed(p)});
   if(TLV.order==='release')return tlGroupByYear(main.filter(tlKind).concat(rest).sort(function(a,b){return relDate(a)<relDate(b)?-1:1}));
-  D.eras.forEach(function(e){var it=main.filter(function(p){return p.era===e.id}).sort(function(a,b){return proChronoOrd(a)-proChronoOrd(b)});if(!it.length)return;var rows=it.map(function(p){return (tlKind(p)?tlRow(p,(p.id==='iron-man-3'||p.id==='os-all-hail'||p.id==='thor2')?'':p.ord):'')+aosTimelineRows(p.id)}).join('');if(!rows)return;out+='<div class="era"><div class="era-h"><h2>'+esc(e.n)+'</h2><small>'+esc(e.y)+'</small></div><ul class="rows">'+rows+'</ul></div>'});
+  D.eras.forEach(function(e){var it=main.filter(function(p){return p.era===e.id}).sort(function(a,b){return proChronoOrd(a)-proChronoOrd(b)});if(!it.length)return;var rows=it.map(function(p){return (tlKind(p)?tlRow(p,(p.id==='iron-man-3'||p.id==='thor2')?'':p.ord):'')+aosTimelineRows(p.id)}).join('');if(!rows)return;out+='<div class="era"><div class="era-h"><h2>'+esc(e.n)+'</h2><small>'+esc(e.y)+'</small></div><ul class="rows">'+rows+'</ul></div>'});
   var G=[['soon','Объявленные проекты','Анонсированные проекты с подтверждённым планом выхода.'],['dev','В разработке','Планируется или обсуждается; официальная дата и выпуск не гарантированы.'],['linked','Связанные сериалы вне официального порядка','Сериалы Marvel Television и другие проекты, которые связаны с фильмами, но в официальный список не входят.'],['alt','Другие вселенные КВМ','Альтернативные миры: «Что, если…?» и «Зомби Marvel».'],['variant','Экранизации Fox и Sony','Отдельные киновселенные. Некоторые герои отсюда пересекались с КВМ через мультивселенную.'],['non','Отдельные экранизации','Мультфильмы и фильмы, не входящие в основную историю КВМ.']];
   G.forEach(function(g){var it=rest.filter(function(p){return p.s===g[0]&&!(p.sg==='aos'&&p.sn<=5&&PRO.inc.mcu&&PRO.inc['marvel-tv']&&(TLV.kind==='all'||TLV.kind==='series'))}).sort(function(a,b){return relDate(a)<relDate(b)?-1:1});if(!it.length)return;out+='<div class="era era-x"><div class="era-h"><h2>'+g[1]+'</h2><small>'+it.length+'</small></div><p class="muted era-note">'+g[2]+'</p><ul class="rows">'+it.map(function(p){return tlRow(p,'')}).join('')+'</ul></div>'});
   return out||'<div class="empty">В выбранных группах пока нет проектов.</div>'}
