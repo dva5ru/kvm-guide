@@ -561,6 +561,7 @@ main.wrap .panel.pad{padding:clamp(18px,2vw,24px)}
       transform .78s cubic-bezier(.2,.72,.2,1),
       box-shadow .32s ease,
       background-color .24s ease;
+    transition-delay:var(--h6-motion-delay,0ms),var(--h6-motion-delay,0ms),0ms,0ms;
   }
   .h6-page.h6-motion-ready :is(.h6-project-card,.h6-release-card,.h6-analysis-card,.h6-soon-main,.h6-soon-item).h6-motion-visible:is(:hover,:focus-visible) {
     transform:translate3d(0,-4px,0);
