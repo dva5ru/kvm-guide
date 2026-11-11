@@ -2,8 +2,9 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {hydrateAppearances} from '../lib/appearance-registry.mjs';
+import {guideHtml} from '../lib/guide-source.mjs';
 
-const html=readFileSync(new URL('../../index.html',import.meta.url),'utf8');
+const html=guideHtml();
 const marker='<script type="application/json" id="kvm-data">';
 const db=JSON.parse(html.split(marker)[1].split('</script>')[0]);
 

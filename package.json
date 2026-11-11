@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "validate": "node scripts/validate-guide.mjs",
-    "test": "node --test scripts/tests/*.test.mjs"
+    "test": "node --test scripts/tests/*.test.mjs",
+    "stamp": "node scripts/stamp-assets.mjs"
   },
   "devDependencies": {
     "jsdom": "31.0.0"

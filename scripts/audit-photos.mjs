@@ -1,10 +1,11 @@
 import {readFileSync, readdirSync, existsSync} from 'node:fs';
 import {resolve, join} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {guideHtml} from './lib/guide-source.mjs';
 
 const ROOT=resolve(fileURLToPath(new URL('..',import.meta.url)));
 export function auditPhotos(root=ROOT){
-  const html=readFileSync(join(root,'index.html'),'utf8');
+  const html=guideHtml();
   const match=html.match(/<script[^>]*id="kvm-data"[^>]*>([\s\S]*?)<\/script>/);
   if(!match)throw Error('Cannot find embedded kvm-data');
   const chars=JSON.parse(match[1]).c;

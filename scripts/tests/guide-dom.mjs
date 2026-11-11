@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {JSDOM,VirtualConsole} from 'jsdom';
+import {guideHtml} from '../lib/guide-source.mjs';
 
-export const html=readFileSync(new URL('../../index.html',import.meta.url),'utf8');
+export const html=guideHtml();
 const app=html.match(/<script id="kvm-app">([\s\S]*?)<\/script>/)[1];
 const spoilerIndex=readFileSync(new URL('../../assets/js/spoiler-index.js',import.meta.url),'utf8');
 const homepage=readFileSync(new URL('../../assets/js/home-v6.js',import.meta.url),'utf8');
