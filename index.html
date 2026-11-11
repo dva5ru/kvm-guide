@@ -934,13 +934,13 @@ function appearanceKind(p,id){var a=AREG[p.id+'::'+id];return a&&APPEARANCE_LABE
 function appearanceVariant(p,id){var a=AREG[p.id+'::'+id];if(!a||!a.versionLabel)return '';var source=a.originProjectId&&P[a.originProjectId];return '<span class="muted appearance-version"> · '+esc(a.versionLabel)+(source?' — '+esc(source.t):a.versionScope==='episodes'?' (по сериям)':'')+'</span>'}
 function editionOnlyView(p){var original=P[p.editionOf],cx=ctxP([p.id]),K='p.'+p.id+'.',more=(p.cs||[]).filter(function(a){return !original||!original.cs.some(function(b){return b[0]===a[0]})});var facts=projectTimeFacts(p);var scenes=p.post&&p.post.length?'<ul class="keys">'+p.post.map(function(t,i){return '<li><b>'+(p.post.length>1?(i+1)+'-я сцена. ':'')+'</b>'+spField(K+'post.'+i,t,[p.id],cx)+'</li>'}).join('')+'</ul>':'';
  return '<button class="back" type="button" data-back>← Назад</button><div class="dhead"><div class="cvcol">'+cover(p,'big')+imgOneBtn('f-'+p.id)+'</div><div class="info"><h1>'+EH(K+'t',p.t)+'</h1>'+editionBar(p)+'<div class="badges">'+stBadge(p.s)+'</div>'+B('p.facts',p.id,'Факты','<dl class="facts">'+facts.map(function(f){return '<div><dt>'+esc(f[0])+'</dt><dd>'+esc(f[1])+'</dd></div>'}).join('')+'</dl>')+'</div></div>'+
- '<div class="cols"><div><h2>Отличия от оригинала</h2><p class="about">'+SPW([p.id],esc(p.editionDifferences||'Дополнительная редакция фильма.'),true)+'</p>'+(p.editionSource?'<p><a target="_blank" rel="noopener noreferrer" href="'+esc(p.editionSource)+'">Источник об отличиях</a></p>':'')+
+ '<div class="cols"><div><h2>Отличия от оригинала</h2><p class="about">'+SPW([p.id],esc(p.editionDifferences||'Дополнительная редакция фильма.'),true)+'</p>'+''+
  (scenes?B('p.post',p.id,'Дополнительные сцены','<h2 style="margin-top:26px">Дополнительные сцены</h2>'+scenes):'')+
  (more.length?'<section><h2>Новые участники дополнительных сцен</h2><div class="chips">'+more.map(function(a){return cPhotoLink(a[0])+appearanceVariant(p,a[0])+creditTag(p,a[0])}).join('')+'</div></section>':'')+
  '</div><div><h3>Оригинал</h3>'+pLink(p.editionOf)+'<p class="muted" style="margin-top:10px">Общий сюжет и персонажи оригинальной версии не дублируются.</p></div></div>';
 }
 function announcedFilmView(p){var K='p.'+p.id+'.',info=p.announcement||{},facts=projectTimeFacts(p),cast=(p.cs||[]).filter(function(x){var a=AREG[p.id+'::'+x[0]];return a&&a.announcementStatus==='announced'&&a.announcementSource});return '<button class="back" type="button" data-back>← Назад</button><div class="dhead"><div class="cvcol">'+cover(p,'big')+imgOneBtn('f-'+p.id)+'</div><div class="info"><h1>'+EH(K+'t',p.t)+'</h1><div class="badges">'+stBadge(p.s)+'</div>'+B('p.facts',p.id,'Факты','<dl class="facts">'+facts.map(function(f){return '<div><dt>'+esc(f[0])+'</dt><dd>'+esc(f[1])+'</dd></div>'}).join('')+'</dl>')+'</div></div>'+
- '<section class="panel pad"><h2>Подтверждённые сведения</h2><p class="about">'+esc(info.summary||'Официальное описание сюжета и персонажи пока не раскрыты.')+'</p>'+(info.sources&&info.sources.length?'<p class="muted" style="margin-top:10px">'+info.sources.map(function(url){return '<a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">Официальный источник</a>'}).join(' · ')+'</p>':'')+'</section>'+
+ '<section class="panel pad"><h2>Подтверждённые сведения</h2><p class="about">'+esc(info.summary||'Официальное описание сюжета и персонажи пока не раскрыты.')+'</p>'+''+'</section>'+
  (cast.length?'<section><h2>Объявленные персонажи ('+cast.length+')</h2><p class="muted">Заявлены до премьеры: это не экранные появления.</p><div class="chips">'+cast.map(function(row){return cPhotoLink(row[0])+creditTag(p,row[0])}).join('')+'</div></section>':'')+
  B('p.franchise',p.id,'Фильмы серии',filmSeriesList(p,ctxP([p.id])));
 }
@@ -1063,14 +1063,7 @@ function placeSceneRefs(x){if(!x.sceneRefs||!x.sceneRefs.length)return '';
     var ids=r.episodeIds||[];return '<li>'+pLink(r.projectId)+'<div class="chips">'+r.episodes.map(function(ep,i){return ids[i]?'<a class="chip" href="#ep-'+ids[i]+'">'+esc(ep)+'</a>':'<span class="chip">'+esc(ep)+'</span>'}).join('')+'</div><p>'+esc(r.scene)+'</p></li>';
   }).join('')+'</ul></section>';
 }
-function sourceLinks(x){if(!x.sources||!x.sources.length)return '';
-  return '<details class="place-sources"><summary>Источники</summary><ul>'+Array.from(new Set(x.sources)).map(function(url){
-    var source;try{source=new URL(url)}catch(e){return ''}
-    if(source.protocol!=='https:')return '';
-    var host=source.hostname.replace(/^www\./,''),label=source.pathname.split('/').filter(Boolean).pop();
-    return '<li><a href="'+esc(source.href)+'" target="_blank" rel="noopener noreferrer">'+esc(host)+(label?' — '+esc(label.replace(/[-_]/g,' ')):'')+'</a></li>';
-  }).join('')+'</ul></details>';
-}
+function sourceLinks(){return '';} // Research source URLs remain in the data, not in public cards.
 function placeScheme(x){var children=placeChildren(x),parent=placeParent(x),root=children.length?x:parent;
   if(!root&&!placeHasGeo(x))root=x;
   if(!root)return '';
@@ -1685,7 +1678,7 @@ function projectView(p){if(p.editionOf)return editionOnlyView(p);if(isFutureFilm
   editionBar(p)+'<div class="badges">'+stBadge(p.s)+'</div><p class="muted" style="margin-top:8px;font-size:15px">'+esc(D.st[p.s][1])+'</p>'+
   B('p.facts',pg,'Факты','<dl class="facts">'+facts.map(function(f){return '<div><dt>'+f[0]+'</dt><dd>'+esc(f[1])+'</dd></div>'}).join('')+'</dl>')+'</div></div>'+
   '<div class="cols"><div>'+B('p.about',pg,'Короткое описание',p.ab||ADM.edit?'<p class="about">'+(ADM.edit?E(K+'ab',p.ab,cx):spField('p.'+p.id+'.ab',p.ab,[p.id],cx))+'</p>':'')+
-  B('p.diff',pg,'Отличия редакции',p.editionDifferences?'<div class="panel pad" style="margin-top:24px"><h2>Чем отличается эта версия</h2><p>'+esc(p.editionDifferences)+'</p>'+(p.editionSource?'<p><a href="'+esc(p.editionSource)+'" target="_blank" rel="noopener noreferrer">Источник</a></p>':'')+'</div>':'')+B('p.story',pg,'Сюжет',p.sto||ADM.edit?'<h2 style="margin-top:28px">Сюжет</h2>'+storyHTML(p,K,cx):'')+
+  B('p.diff',pg,'Отличия редакции',p.editionDifferences?'<div class="panel pad" style="margin-top:24px"><h2>Чем отличается эта версия</h2><p>'+esc(p.editionDifferences)+'</p>'+''+'</div>':'')+B('p.story',pg,'Сюжет',p.sto||ADM.edit?'<h2 style="margin-top:28px">Сюжет</h2>'+storyHTML(p,K,cx):'')+
   B('p.key',pg,'Что важно для КВМ',p.imp||(p.key&&p.key.filter(Boolean).length)||ADM.edit?'<h2 style="margin-top:28px">Что важно для КВМ</h2>'+spProjectKeyHTML(p,K,cx):'')+
   B('p.firsts',pg,'Впервые появляются',firsts.length?'<h3 class="sub">Впервые появляются в КВМ ('+firsts.length+')</h3>'+SPW([p.id],'<div class="chips">'+firsts.map(function(f){return cPhotoLink(f[0])+(f[1]?'<span class="muted">другая вселенная</span>':'')}).join('')+'</div>'):'')+
   B('p.post',pg,'Сцены после титров',p.post!=null?'<h2 style="margin-top:28px">Сцены после титров</h2>'+spProjectPosts(p,K,cx,post):'')+
