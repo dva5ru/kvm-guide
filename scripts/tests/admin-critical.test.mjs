@@ -12,18 +12,21 @@ function add(c,name){
   const tail=app.slice(start),end=tail.slice(1).search(/\n(?:function |var |PUB=|\/\/|document\.|window\.)/);
   runInContext(end<0?tail:tail.slice(0,end+1),c);
 }
-const empty=()=>({ts:1,text:{},img:{},hide:{},nav:{},copy:{}});
+const OVERRIDE_FIELDS=['text','img','hide','nav','copy','spoilers','pos'];
+const empty=()=>({ts:1,text:{},img:{},hide:{},nav:{},copy:{},spoilers:{},pos:{}});
 
 test('published data updates untouched fields while preserving unsaved local text and image edits',()=>{
   const store=new Map(),base=empty();base.text.title='old';base.text.footer='old footer';
-  const draft=structuredClone(base);draft.text.title='draft';draft.img['a-vibranium']='img/draft.jpg';
-  const newer=structuredClone(base);newer.ts=9;newer.text.title='remote';newer.text.footer='fresh footer';newer.img['a-shield']='img/remote.jpg';
-  const c=createContext({OVR:draft,PUB:base,ADM:{},localStorage:{setItem:(k,v)=>store.set(k,v)},DRAFT_KEY:'draft',
+  const draft=structuredClone(base);draft.text.title='draft';draft.text['editorial.snap.vision.heading']='Вижн';draft.img['a-vibranium']='img/draft.jpg';
+  const newer=structuredClone(base);newer.ts=9;newer.text.title='remote';newer.text.footer='fresh footer';newer.img['a-shield']='img/remote.jpg';newer.pos['space:earth']=[42,50];
+  const c=createContext({OVERRIDE_FIELDS,OVR:draft,PUB:base,ADM:{},localStorage:{setItem:(k,v)=>store.set(k,v)},DRAFT_KEY:'draft',
     applyOVR(){},applyNav(){},rerender(){},admBar(){},toast(){}});
   for(const fn of ['clone','normOvr','overrideEqual','acceptPublished'])add(c,fn);
   c.acceptPublished(newer);
   assert.equal(c.OVR.text.title,'draft');
   assert.equal(c.OVR.text.footer,'fresh footer');
+  assert.equal(c.OVR.text['editorial.snap.vision.heading'],'Вижн');
+  assert.deepEqual(Array.from(c.OVR.pos['space:earth']),[42,50]);
   assert.equal(c.OVR.img['a-vibranium'],'img/draft.jpg');
   assert.equal(c.OVR.img['a-shield'],'img/remote.jpg');
   assert.equal(c.PUB.text.title,'remote');
@@ -35,7 +38,7 @@ test('loading draft before fetch never overwrites it even with older timestamp',
   const draft=structuredClone(base);draft.ts=2;draft.text.title='unpublished';
   store.set('draft',JSON.stringify(draft));
   const server=structuredClone(base);server.ts=11;server.img['a-uru']='img/uru.jpg';
-  const c=createContext({OVR:base,PUB:structuredClone(base),ADM:{},DRAFT_KEY:'draft',
+  const c=createContext({OVERRIDE_FIELDS,OVR:base,PUB:structuredClone(base),ADM:{},DRAFT_KEY:'draft',
     localStorage:{getItem:k=>store.get(k)||null,setItem:(k,v)=>store.set(k,v)},
     fetch:async()=>({ok:true,json:async()=>server}),applyOVR(){},applyNav(){},rerender(){},admBar(){},admCaps(){},toast(){}});
   for(const fn of ['clone','normOvr','draftRead','overrideEqual','acceptPublished','admInit'])add(c,fn);
