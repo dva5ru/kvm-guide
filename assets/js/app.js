@@ -199,8 +199,10 @@ function placeScheme(x){var children=placeChildren(x),parent=placeParent(x),root
   if(!root)return '';
   var list=children.length?children:placeChildren(root);
   if(!list.length)list=[x];
-  return '<section class="place-scheme" aria-label="Схема мест"><h2>'+esc(children.length?'Места внутри локации':'На схеме локации')+'</h2><p class="muted">Связи мест · без масштаба</p>'+
-    '<div class="place-scheme-root"><a href="#p-'+root.id+'">'+esc(root.n)+'</a></div><div class="place-scheme-grid">'+list.map(function(p){return '<a class="place-node'+(p.id===x.id?' selected':'')+'" href="#p-'+p.id+'"'+(p.id===x.id?' aria-current="page"':'')+'><span class="place-node-dot" aria-hidden="true"></span><span>'+esc(p.n)+'</span></a>'}).join('')+'</div></section>';
+  return '<section class="place-scheme" aria-label="Места внутри локации">'+
+    '<div class="place-scheme-head"><h2>Места внутри локации</h2><span class="place-scheme-count">'+list.length+'</span></div>'+
+    '<p class="place-scheme-context"><span>Локация:</span> <a href="#p-'+root.id+'">'+esc(root.n)+'</a></p>'+
+    '<nav class="place-scheme-grid" aria-label="Выбрать место">'+list.map(function(p){return '<a class="place-node'+(p.id===x.id?' selected':'')+'" href="#p-'+p.id+'"'+(p.id===x.id?' aria-current="page"':'')+'><span class="place-node-dot" aria-hidden="true"></span><span class="place-node-label">'+esc(p.n)+'</span></a>'}).join('')+'</nav></section>';
 }
 
 function placeAtlasContext(x){
