@@ -20,7 +20,7 @@ test('premiere dates are independent from story years and chronological spans',(
   assert.deepEqual(projects.get('dofp').periods.slice(0,2).map(p=>p.when),['1973','2023']);
 });
 test('six appearance kinds preserve independent version and placement data',()=>{
-  assert.equal(appearances.size,1326);
+  assert.equal(appearances.size,1357);
   const types=new Set(['main','episodic','cameo','voice','archival','credits']);
   for(const a of db.appearances){
     assert.ok(types.has(a.appearanceType),a.id);

@@ -99,7 +99,7 @@ test('I Am Groot divides into two five-episode seasons with separate dates, role
 
 
 test('series episode participants preserve the unified appearance classifications',()=>{
-  assert.equal(db.appearances.length,1326);
+  assert.equal(db.appearances.length,1357);
   for(const id of ['loki-2::he-who-remains','agatha::mrs-hart','i-am-groot::rocket','i-am-groot::uatu']){
     const a=db.appearances.find(row=>row.id===id);
     assert.ok(a,id);
