@@ -1313,6 +1313,46 @@ function cssv(n){return getComputedStyle(document.documentElement).getPropertyVa
 function glMarkers(){var out=[],nyc=nycList(),nycN=nyc.reduce(function(a,x){return a+cnt(x)},0),ny=PL['new-york'];
   atlasEarthPlaces().forEach(function(x){if(placeHasGeo(x)&&x.grp!=='nyc'&&atlasVisible(x))out.push({id:x.id,n:x.n,lon:x.lon,lat:x.lat,c:cnt(x)})});out.push({id:'__nyc',n:'Нью-Йорк',lon:ny.lon,lat:ny.lat,c:nycN,nyc:1});return out}
 var GCTX=null;
+function glPlaceLabels(ctx, items, points, width, height) {
+  var placed = [], occupied = [], padding = 4;
+  var ranked = items.slice().sort(function(a, b) {
+    function priority(m) { return m.hover ? 4 : m.selected ? 3 : m.nyc ? 2 : 1; }
+    return priority(b) - priority(a) || (b.count || 0) - (a.count || 0) || a.id.localeCompare(b.id);
+  });
+  function intersects(a, b, gap) {
+    return a[0] < b[0] + b[2] + gap && a[0] + a[2] + gap > b[0] &&
+      a[1] < b[1] + b[3] + gap && a[1] + a[3] + gap > b[1];
+  }
+  ranked.forEach(function(m) {
+    var fontSize = m.selected || m.hover ? 13 : 12;
+    ctx.font = '600 ' + fontSize + 'px "Golos Text",system-ui,sans-serif';
+    var labelWidth = Math.ceil(ctx.measureText(m.text).width) + 10, labelHeight = fontSize + 9;
+    var gap = m.radius + 9, midY = m.y - labelHeight / 2, midX = m.x - labelWidth / 2;
+    var positions = [
+      [m.x + gap, midY], [m.x - gap - labelWidth, midY],
+      [midX, m.y - gap - labelHeight], [midX, m.y + gap],
+      [m.x + gap, m.y - gap - labelHeight], [m.x - gap - labelWidth, m.y - gap - labelHeight],
+      [m.x + gap, m.y + gap], [m.x - gap - labelWidth, m.y + gap]
+    ];
+    for (var i = 0; i < positions.length; i++) {
+      var box = [positions[i][0], positions[i][1], labelWidth, labelHeight];
+      if (box[0] < padding || box[1] < padding ||
+          box[0] + box[2] > width - padding || box[1] + box[3] > height - padding) continue;
+      if (occupied.some(function(other) { return intersects(box, other, 4); })) continue;
+      if (points.some(function(dot) {
+        if (dot.id === m.id) return false;
+        var nearX = Math.max(box[0], Math.min(dot.x, box[0] + box[2]));
+        var nearY = Math.max(box[1], Math.min(dot.y, box[1] + box[3]));
+        return Math.pow(nearX - dot.x, 2) + Math.pow(nearY - dot.y, 2) < Math.pow(dot.radius + 3, 2);
+      })) continue;
+      occupied.push(box);
+      placed.push({ id: m.id, text: m.text, x: box[0] + 5, y: box[1] + labelHeight - 6,
+        fontSize: fontSize, box: box });
+      break;
+    }
+  });
+  return placed;
+}
 window.drawGlobe=function(){var cv=document.getElementById('globe');if(!cv||!window.d3)return;var x=GCTX||(GCTX=globeSize());if(!x)return;var w=GL.w,h=GL.h,base=Math.min(w,h)/2*0.9,sc=base*GL.k;
   var proj=d3.geoOrthographic().translate([w/2,h/2]).scale(sc).rotate(GL.rot).clipAngle(90).precision(.4),path=d3.geoPath(proj,x),cx=w/2,cy=h/2;
   x.clearRect(0,0,w,h);
@@ -1324,11 +1364,30 @@ window.drawGlobe=function(){var cv=document.getElementById('globe');if(!cv||!win
   var sh=x.createRadialGradient(cx-sc*.4,cy-sc*.45,sc*.2,cx,cy,sc*1.02);sh.addColorStop(0,'rgba(255,255,255,.10)');sh.addColorStop(.6,'rgba(0,0,0,0)');sh.addColorStop(1,'rgba(0,10,30,.35)');x.beginPath();path({type:'Sphere'});x.fillStyle=sh;x.fill();
   x.beginPath();path({type:'Sphere'});x.strokeStyle=cssv('--edge');x.lineWidth=1;x.stroke();
   var cen=[-GL.rot[0],-GL.rot[1]],t=performance.now()/1000;GL.hits=[];
-  glMarkers().forEach(function(m){if(d3.geoDistance([m.lon,m.lat],cen)>1.5)return;var p=proj([m.lon,m.lat]);if(!p)return;var r=m.c?(m.nyc?5+Math.sqrt(m.c)*1.3:3.5+Math.sqrt(m.c)*1.7):3,sel=MS.sel===m.id||(m.nyc&&PL[MS.sel]&&PL[MS.sel].grp==='nyc');
-    if(sel){var pr=r+4+((t*1.2)%1)*14;x.beginPath();x.arc(p[0],p[1],pr,0,6.283);x.strokeStyle='rgba(255,201,40,'+(1-((t*1.2)%1))+')';x.lineWidth=2;x.stroke()}
-    x.beginPath();x.arc(p[0],p[1],r,0,6.283);x.fillStyle=sel?'#FFC928':m.c?(m.nyc?'#1F5BFF':'#E2252B'):'rgba(255,255,255,.85)';x.fill();x.lineWidth=1.5;x.strokeStyle=sel?'#14161B':'#fff';x.stroke();
-    GL.hits.push([m.id,p[0],p[1],r+6]);
-    if(GL.k>=2||sel||(m.nyc&&GL.k>=1)){x.font='600 '+(sel?13:12)+'px "Golos Text",system-ui,sans-serif';x.lineWidth=3;x.strokeStyle='rgba(255,255,255,.9)';var lb=m.nyc?'Нью-Йорк':m.n.split(/[:(]/)[0].trim();x.strokeText(lb,p[0]+r+4,p[1]+4);x.fillStyle='#14161B';x.fillText(lb,p[0]+r+4,p[1]+4)}});
+  var dots=[],candidates=[];
+  glMarkers().forEach(function(m){
+    if(d3.geoDistance([m.lon,m.lat],cen)>1.5)return;
+    var p=proj([m.lon,m.lat]);if(!p)return;
+    var r=m.c?(m.nyc?5+Math.sqrt(m.c)*1.3:3.5+Math.sqrt(m.c)*1.7):3;
+    var selected=MS.sel===m.id||(m.nyc&&PL[MS.sel]&&PL[MS.sel].grp==='nyc'),hover=GL.hover===m.id;
+    dots.push({id:m.id,x:p[0],y:p[1],radius:r});
+    if(selected){var pr=r+4+((t*1.2)%1)*14;x.beginPath();x.arc(p[0],p[1],pr,0,6.283);x.strokeStyle='rgba(255,201,40,'+(1-((t*1.2)%1))+')';x.lineWidth=2;x.stroke()}
+    x.beginPath();x.arc(p[0],p[1],r,0,6.283);
+    x.fillStyle=selected?'#FFC928':m.c?(m.nyc?'#1F5BFF':'#E2252B'):'rgba(255,255,255,.85)';
+    x.fill();x.lineWidth=1.5;x.strokeStyle=selected?'#14161B':'#fff';x.stroke();
+    GL.hits.push([m.id,p[0],p[1],Math.max(r+6,12)]);
+    if(GL.k>=2||selected||hover||(m.nyc&&GL.k>=1)){
+      candidates.push({id:m.id,text:m.nyc?'Нью-Йорк':m.n.split(/[:(]/)[0].trim(),
+        x:p[0],y:p[1],radius:r,count:m.c,nyc:!!m.nyc,selected:selected,hover:hover});
+    }
+  });
+  // Отображаем подписи отдельным слоем, только в свободных местах.
+  // Все точки остаются интерактивными даже когда их подпись скрыта.
+  glPlaceLabels(x,candidates,dots,w,h).forEach(function(m){
+    x.font='600 '+m.fontSize+'px "Golos Text",system-ui,sans-serif';
+    x.lineWidth=3;x.lineJoin='round';x.strokeStyle='rgba(255,255,255,.94)';
+    x.strokeText(m.text,m.x,m.y);x.fillStyle='#14161B';x.fillText(m.text,m.x,m.y);
+  });
 };
 function glLoop(){if(!document.getElementById('globe')||GL.visible===false||document.hidden){GL.raf=null;return}
   if(GL.anim){var a=GL.anim,q=Math.min(1,(performance.now()-a.t0)/a.d),e=q<.5?2*q*q:1-Math.pow(-2*q+2,2)/2;GL.rot=[a.r0[0]+(a.r1[0]-a.r0[0])*e,a.r0[1]+(a.r1[1]-a.r0[1])*e];GL.k=a.k0+(a.k1-a.k0)*e;if(q>=1)GL.anim=null}
@@ -1341,7 +1400,13 @@ function initGlobe(){var cv=document.getElementById('globe');if(!cv)return;if(!w
   cv.closest('.mapbox').classList.add('globe-on');GCTX=null;GCTX=globeSize();
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;if(reduce)GL.auto=false;
   cv.addEventListener('pointerdown',function(e){GL.drag={x:e.clientX,y:e.clientY,rot:GL.rot.slice(),moved:0};GL.auto=false;GL.anim=null;cv.setPointerCapture(e.pointerId)});
-  cv.addEventListener('pointermove',function(e){var d=GL.drag;if(!d)return;var dx=e.clientX-d.x,dy=e.clientY-d.y;d.moved=Math.max(d.moved,Math.abs(dx)+Math.abs(dy));var s=0.3/GL.k;GL.rot=[d.rot[0]+dx*s,Math.max(-85,Math.min(85,d.rot[1]-dy*s))]});
+  cv.addEventListener('pointermove',function(e){var d=GL.drag;
+    if(d){var dx=e.clientX-d.x,dy=e.clientY-d.y;d.moved=Math.max(d.moved,Math.abs(dx)+Math.abs(dy));var s=0.3/GL.k;GL.rot=[d.rot[0]+dx*s,Math.max(-85,Math.min(85,d.rot[1]-dy*s))];return}
+    var b=cv.getBoundingClientRect(),px=e.clientX-b.left,py=e.clientY-b.top,best=null;
+    GL.hits.forEach(function(h){var dist=Math.hypot(h[1]-px,h[2]-py);if(dist<h[3]&&(!best||dist<best[1]))best=[h[0],dist]});
+    GL.hover=best?best[0]:null;cv.style.cursor=GL.hover?'pointer':'grab';
+  });
+  cv.addEventListener('pointerleave',function(){if(!GL.drag){GL.hover=null;cv.style.cursor='grab'}});
   cv.addEventListener('pointerup',function(e){var d=GL.drag;GL.drag=null;if(d&&d.moved<5){var b=cv.getBoundingClientRect(),px=e.clientX-b.left,py=e.clientY-b.top,best=null;GL.hits.forEach(function(h){var dd=Math.hypot(h[1]-px,h[2]-py);if(dd<h[3]&&(!best||dd<best[1]))best=[h[0],dd]});if(best)selectPlace(best[0])}});
   cv.addEventListener('wheel',function(e){e.preventDefault();GL.anim=null;GL.k=Math.max(.9,Math.min(9,GL.k*(e.deltaY<0?1.12:.89)))},{passive:false});
   if(window.ResizeObserver){if(GL.ro)GL.ro.disconnect();GL.ro=new ResizeObserver(function(){if(!document.getElementById('globe'))return;GCTX=null;GCTX=globeSize();drawGlobe()});GL.ro.observe(cv.parentNode)}
