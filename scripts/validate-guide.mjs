@@ -33,6 +33,9 @@ if (projects.size !== db.p.length || characters.size !== db.c.length) throw new 
 for(const c of db.c){
   if(!Array.isArray(c.groups)||!c.groups.length||c.groups.some(g=>typeof g!=='string'||!g.trim()||g!==g.trim())||new Set(c.groups).size!==c.groups.length||c.g!==c.groups[0])throw Error('Invalid character groups: '+c.id);
 }
+const groupCounts=new Map();
+for(const c of db.c)for(const g of c.groups)groupCounts.set(g,(groupCounts.get(g)||0)+1);
+for(const [group,count] of groupCounts)if(count<4)throw Error('Incomplete character group (<4): '+group+' ('+count+')');
 for(const team of db.enc.teams)for(const row of team[4]){
   if(!projects.has(row[1]))throw Error('Unknown team project: '+team[0]);
   for(const cid of row[2].split(',').filter(Boolean))if(!characters.has(cid))throw Error('Unknown team member: '+team[0]+'/'+cid);
