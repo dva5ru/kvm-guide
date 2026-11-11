@@ -108,7 +108,7 @@ test('narrative descriptions show without spoiler protection',t=>{
 });
 
 test('hero stylesheet has subtle diagonal separators and slanted outer edges',()=>{
-  const css=readFileSync(new URL('../../home-v6.css',import.meta.url),'utf8');
+  const css=readFileSync(new URL('../../assets/css/home-v6.css',import.meta.url),'utf8');
   assert.match(css,/\.h6-hero-art\{[^}]*--h6-slice-divider-half:1\.5px;/,'3px total diagonal gap between photos');
   assert.match(css,/\.h6-hero-art\{[^}]*display:flex;gap:0;/,'separators come from clipped panel edges, not rectangular gutters');
   assert.match(css,/\.h6-hero-art\{[^}]*background:inherit;/,'gaps and outer corners use the hero background, not black bars');

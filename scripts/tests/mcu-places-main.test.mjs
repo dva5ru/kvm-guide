@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {loadGuide,click,html} from './guide-dom.mjs';
 
 const data=JSON.parse(html.match(/id="kvm-data">([\s\S]*?)<\/script>/)[1]);
-const review=JSON.parse(readFileSync(new URL('../../audit/mcu-places-main-2026-11-10.json',import.meta.url),'utf8'));
+const review=JSON.parse(readFileSync(new URL('../../audit/data/mcu-places-main-2026-11-10.json',import.meta.url),'utf8'));
 const byId=new Map(data.pl.map(p=>[p.id,p]));
 
 test('all 498 input rows have a disposition and each new place is linked reciprocally to MCU projects',()=>{

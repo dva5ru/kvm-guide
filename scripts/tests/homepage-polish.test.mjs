@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {loadGuide,click} from './guide-dom.mjs';
 
-const styles=readFileSync(new URL('../../home-v6.css',import.meta.url),'utf8');
-const homeJS=readFileSync(new URL('../../home-v6.js',import.meta.url),'utf8');
+const styles=readFileSync(new URL('../../assets/css/home-v6.css',import.meta.url),'utf8');
+const homeJS=readFileSync(new URL('../../assets/js/home-v6.js',import.meta.url),'utf8');
 const imageRegistry=JSON.parse(readFileSync(new URL('../../content.json',import.meta.url),'utf8')).img;
 
 test('desktop header is left-aligned and search input is larger with equal-height controls',t=>{

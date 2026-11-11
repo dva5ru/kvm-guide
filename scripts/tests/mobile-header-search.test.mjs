@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {loadGuide,click,input} from './guide-dom.mjs';
 
 const markup=readFileSync(new URL('../../index.html',import.meta.url),'utf8');
-const css=readFileSync(new URL('../../home-v6.css',import.meta.url),'utf8');
+const css=readFileSync(new URL('../../assets/css/home-v6.css',import.meta.url),'utf8');
 
 test('header no longer repeats the KVM brand, while navigation remains accessible',t=>{
   const s=loadGuide();t.after(s.close);

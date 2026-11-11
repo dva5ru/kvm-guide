@@ -17,7 +17,7 @@ test('precompiled index loads and has individual fact tags, without a runtime AI
   assert.ok(ix.entries['tl.125']);
   assert.ok(ix.entries['ev.emergence']);
   assert.ok(ix.entries['ev.forget']);
-  assert.equal(s.doc.querySelector('script[src="spoiler-index.js"]'),null);
+  assert.equal(s.doc.querySelector('script[src="assets/js/spoiler-index.js"]'),null);
   assert.equal(s.errors.length,0,s.errors.join(' | '));
 });
 
