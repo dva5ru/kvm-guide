@@ -149,7 +149,7 @@ D.c.forEach(function(c){c.groups=cleanGroups(c.groups||[c.g]);
   Object.defineProperty(c,'g',{enumerable:true,configurable:true,get:function(){return c.groups[0]||''},set:function(v){c.groups=cleanGroups([String(v)].concat(c.groups.slice(1)))}});
   Object.defineProperty(GROUP_TEXT,c.id,{get:function(){return JSON.stringify(c.groups)},set:function(v){try{var gs=cleanGroups(JSON.parse(v));if(gs.length)c.groups=gs}catch(e){}}});
 });
-function characterGroups(c){return c.groups}
+function characterGroups(c){return cleanGroups(c.groups.map(function(g){return g==='Квест Вижна'||g==='ВижнКвест'?'Окружение Вижна':g}))}
 function groupChoices(){var gs=Object.create(null);D.c.forEach(function(c){characterGroups(c).forEach(function(g){gs[g]=1})});return Object.keys(gs).sort(function(a,b){return a.localeCompare(b,'ru')})}
 function characterGroupEditor(c){if(!ADM.edit)return '';return '<fieldset class="character-groups-editor"><legend>Группы персонажа</legend><div class="chips">'+groupChoices().map(function(g){return '<label class="chip"><input type="checkbox" data-character-group="'+esc(c.id)+'" value="'+esc(g)+'"'+(characterGroups(c).indexOf(g)>=0?' checked':'')+'> '+esc(g)+'</label>'}).join('')+'</div><form data-character-group-form="'+esc(c.id)+'"><label>Новая группа <input name="group" maxlength="60" required aria-label="Название новой группы"></label> <button class="btn" type="submit">Добавить</button></form></fieldset>'}
 function saveCharacterGroups(cid,groups){if(!ADM.can||!ADM.on||!ADM.edit||!C[cid])return;var gs=cleanGroups(groups);if(!gs.length){toast('Оставьте хотя бы одну группу');rerender();return}setText('c.'+cid+'.groups',JSON.stringify(gs))}
