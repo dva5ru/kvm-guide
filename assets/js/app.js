@@ -1,6 +1,6 @@
 (function(){
 'use strict';
-var D = JSON.parse(document.getElementById('kvm-data').textContent);
+var D = window.KVM_DATA || JSON.parse(document.getElementById('kvm-data').textContent);
 var P={},C={},PL={},EV={},LN={},ERA={};
 // Canonical episodes and appearances generate all legacy read models.
 if(D.appearanceSchemaVersion!==4||D.episodeSchemaVersion!==1)throw new Error('Missing episode registry');
@@ -1057,10 +1057,11 @@ function admPublish(){if(ADM.publishing)return;if(IMG_BUSY){toast('Дождит�
   ADM.art.publish({'content.json':{content:json,contentType:'application/json'}}).then(done).catch(function(e){
     if(e&&(e.code==='capability_disabled'||e.code==='not_declared'||e.code==='invalid_content')){try{localStorage.setItem(DRAFT_KEY,json)}catch(x){}ADM.art.publish(selfHTML(json)).then(done).catch(fail)}else fail(e)})}
 var ERRGUARD='<script>window.addEventListener("error",function(e){var m=document.getElementById("main");if(m&&!m.children.length){m.innerHTML="<div style=\\"padding:24px;font:16px system-ui\\"><h2>Сайт не смог загрузиться</h2><p>"+String(e.message||"ошибка").replace(/</g,"&lt;")+"</p><p>Пришлите этот текст разработчику.</p></div>"}});<\/script>\n';
-function selfHTML(json,pub){var data=document.getElementById('kvm-data').textContent,safe=json.replace(/</g,'\\u003c'),
+function selfHTML(json,pub){var dataEl=document.getElementById('kvm-data'),filesEl=document.getElementById('kvm-data-files'),safe=json.replace(/</g,'\\u003c'),
   links=[].map.call(document.querySelectorAll('link[rel="stylesheet"][href^="assets/"]'),function(l){return '<link rel="stylesheet"'+(l.id?' id="'+l.id+'"':'')+' href="'+l.getAttribute('href')+'">'}).join('\n'),
-  scripts=[].map.call(document.querySelectorAll('script[src^="assets/"]'),function(s){return '<script'+(s.id?' id="'+s.id+'"':'')+' src="'+s.getAttribute('src')+'"><\/script>'}).join('\n');
-  return '<!doctype html>\n<html lang="ru">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n<title>Путеводитель по КВМ</title>\n'+(pub?'<script>window.KVM_PUBLIC=1;<\/script>\n':'')+ERRGUARD+'<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">\n'+links+'\n</head>\n<body>\n'+SHELL_HEADER+'\n<main id="main" class="wrap" tabindex="-1"></main>\n'+SHELL_FOOTER+'\n<script type="application/json" id="kvm-data">'+data+'<\/script>\n<script type="application/json" id="kvm-ovr">'+safe+'<\/script>\n'+scripts+'\n<\/body>\n<\/html>'}
+  scripts=[].map.call(document.querySelectorAll('script[src^="assets/"]'),function(s){return s.id==='kvm-app'&&filesEl?'':'<script'+(s.id?' id="'+s.id+'"':'')+' src="'+s.getAttribute('src')+'"><\/script>'}).filter(Boolean).join('\n'),
+  data=(dataEl?'<script type="application/json" id="kvm-data">'+dataEl.textContent+'<\/script>\n':'')+(filesEl?'<script type="application/json" id="kvm-data-files">'+filesEl.textContent+'<\/script>\n':'');
+  return '<!doctype html>\n<html lang="ru">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n<title>Путеводитель по КВМ</title>\n'+(pub?'<script>window.KVM_PUBLIC=1;<\/script>\n':'')+ERRGUARD+'<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">\n'+links+'\n</head>\n<body>\n'+SHELL_HEADER+'\n<main id="main" class="wrap" tabindex="-1"></main>\n'+SHELL_FOOTER+'\n'+data+'<script type="application/json" id="kvm-ovr">'+safe+'<\/script>\n'+scripts+'\n<\/body>\n<\/html>'}
 function admExport(btn){var old=btn.textContent;btn.disabled=true;btn.textContent='Готовлю файл…';var out=clone(OVR);out.ts=Date.now();
   var keys=Object.keys(out.img).filter(function(k){return !/^data:/.test(out.img[k])});
   var failed=[];var chain=Promise.resolve();keys.forEach(function(k){chain=chain.then(function(){return fetchImg(out.img[k]).then(function(d){out.img[k]=d}).catch(function(e){failed.push(keyName(k)+' — '+(e&&e.message||'ошибка'));delete out.img[k]})})});

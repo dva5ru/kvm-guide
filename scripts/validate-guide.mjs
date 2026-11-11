@@ -137,10 +137,16 @@ for(const id of Object.keys(db.enc.itemMeta))if(!itemIds.has(id))throw Error('Or
 console.log('Validated:',itemRows.length,'categorized encyclopedia items');
 
 // Версии файлов из assets/: адреса должны совпадать с текущим содержимым (иначе посетители получат старую версию из кеша).
-import {PAGES as ASSET_PAGES,assetHash} from './stamp-assets.mjs';
+import {PAGES as ASSET_PAGES,assetHash,readManifest} from './stamp-assets.mjs';
+import {formatData} from './data-format.mjs';
 import {existsSync as assetExists,readFileSync as assetRead} from 'node:fs';
 for(const page of ASSET_PAGES){const url=new URL('../'+page,import.meta.url);if(!assetExists(url))continue;
   for(const m of assetRead(url,'utf8').matchAll(/(?:href|src)="(?:\.\/)?(assets\/[^"?#]+)(?:\?v=([0-9a-f]*))?"/g)){
     if(!assetExists(new URL('../'+m[1],import.meta.url)))throw new Error(page+': нет файла '+m[1]);
     if(m[2]!==assetHash(m[1]))throw new Error(page+': устарела версия '+m[1]+' — выполните npm run stamp');}}
+{const man=readManifest(assetRead(new URL('../index.html',import.meta.url),'utf8'));if(!man)throw new Error('index.html: нет списка файлов данных (kvm-data-files)');
+  for(const f of man.files){const u=new URL('../'+f.path,import.meta.url);if(!assetExists(u))throw new Error('нет файла данных '+f.path);
+    if(f.hash!==assetHash(f.path))throw new Error('устарела версия '+f.path+' — выполните npm run stamp');
+    if(formatData(JSON.parse(assetRead(u,'utf8')))!==assetRead(u,'utf8'))throw new Error(f.path+': формат не единый — выполните npm run stamp')}
+  const app=man.app.split('?v=');if(app[1]!==assetHash(app[0]))throw new Error('устарела версия '+app[0]+' в списке данных — выполните npm run stamp')}
 console.log('Validated: asset files and cache versions');
