@@ -8,7 +8,7 @@ const db=JSON.parse(html.match(/id="kvm-data">([\s\S]*?)<\/script>/)[1]);
 const projects=new Map(db.p.map(p=>[p.id,p]));
 const appearances=new Map(db.appearances.map(a=>[a.id,a]));
 test('premiere dates are independent from story years and chronological spans',()=>{
-  assert.equal(projects.size,157);
+  assert.equal(projects.size,164); // Original 157 projects plus seven SHIELD seasons
   for(const p of db.p){
     assert.equal(p.release.date,p.r||null,p.id);
     assert.equal(p.release.year,p.y||null,p.id);
