@@ -122,19 +122,26 @@ test('hero stylesheet has subtle diagonal separators and slanted outer edges',()
 });
 
 
-test('analytical articles appear alongside focus without pretending planned essays are published',t=>{
+test('published analytic essays are linked from the homepage and illustrated by local media',t=>{
   const s=loadGuide();t.after(s.close);const {doc,errors}=s;
   const cards=[...doc.querySelectorAll('.h6-analysis-card')];
-  assert.equal(cards.length,3,'three editorial prompts shown');
-  assert.equal(doc.querySelectorAll('.h6-analysis-card-main[href="articles.html#army"]').length,1);
-  assert.equal(doc.querySelectorAll('.h6-analysis-card-planned a').length,0,'unpublished essays have no dead links');
+  assert.equal(cards.length,3,'three published essays featured on homepage');
+  for(const slug of ['thanos','snap','vision']){
+    assert.equal(doc.querySelectorAll('.h6-analysis-card-main[href="article-'+slug+'.html"]').length,1,'featured essay '+slug+' links to its own page');
+  }
+  assert.equal(doc.querySelectorAll('.h6-analysis-card-planned').length,0,'no featured essay is incorrectly marked as a draft');
   assert.ok(doc.querySelector('.h6-analysis a[href="articles.html"]'),'section links to essays hub');
-  const article=readFileSync(new URL('../../articles.html',import.meta.url),'utf8');
-  assert.match(article,/id="army"/,'published essay has valid anchor');
-  assert.match(article,/Does the army know what's happening here/,'exact excerpt is documented');
-  assert.match(article,/Граница канона/,'article distinguishes conjecture from canon');
-  assert.match(article,/Иллюстрация из каталога фильмов. Не кадр конкретной сцены/,'film poster is not mislabeled as a screenshot');
-  for(const file of ['f-endgame.jpg','f-infinity-war.jpg','f-black-panther.jpg'])
-    assert.ok(readFileSync(new URL('../../img/'+file,import.meta.url)).byteLength>0,'published teaser image exists: '+file);
+  const hub=readFileSync(new URL('../../articles.html',import.meta.url),'utf8');
+  assert.match(hub,/id="army"/,'original published article remains available');
+  assert.match(hub,/Does the army know what's happening here/,'existing verified movie dialogue remains');
+  assert.match(hub,/Граница канона/,'original article still distinguishes conjecture from canon');
+  for(const slug of ['vision','armor','civil-war','thanos','snap']){
+    assert.ok(hub.includes('article-'+slug+'.html'),'hub lists '+slug);
+    const article=readFileSync(new URL('../../article-'+slug+'.html',import.meta.url),'utf8');
+    assert.match(article,/Источники и метод/,'essay '+slug+' includes a source section');
+    assert.match(article,/Иллюстрация из медиатеки KVM Guide/,'essay '+slug+' labels cover media honestly');
+  }
+  for(const file of ['f-endgame.jpg','f-infinity-war.jpg','f-deadpool-wolverine.jpg','f-wandavision.jpg'])
+    assert.ok(readFileSync(new URL('../../img/'+file,import.meta.url)).byteLength>0,'featured illustration exists: '+file);
   assert.equal(errors.length,0,errors.join('\n'));
 });
