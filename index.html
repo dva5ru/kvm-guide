@@ -880,6 +880,7 @@ nav.tabs a{min-height:40px;display:inline-flex;align-items:center}
 </style>
 <link rel="stylesheet" href="home-v6.css">
 <script src="home-v6.js"></script>
+<link rel="stylesheet" href="pro-mode.css">
 </head>
 <body>
 <header class="top top-v6">
@@ -1998,8 +1999,8 @@ new MutationObserver(function(){lazyBg(main);lazyMapImages(main)}).observe(main,
 // состояние фильтров в адресе
 function qsParse(q){var o={};function dec(s){try{return decodeURIComponent(s.replace(/\+/g,' '))}catch(e){return s}}
   (q||'').split('&').forEach(function(kv){if(!kv)return;var eq=kv.indexOf('='),k=dec(eq<0?kv:kv.slice(0,eq));if(k==='__proto__'||k==='constructor'||k==='prototype')return;o[k]=dec(eq<0?'':kv.slice(eq+1))});return o}
-function ctToQS(){var q=[];if(CT2.kind!=='all')q.push('k='+CT2.kind);if(CT2.sort!=='release')q.push('s='+CT2.sort);if(CT2.q)q.push('q='+encodeURIComponent(CT2.q));var hidden=['mcu','linked','other'].filter(function(a){return !CT2.aff[a]});if(hidden.length)q.push('no='+hidden.join(','));if(CT2.uni!=='all')q.push('u='+CT2.uni);if(CT2.stage!=='all')q.push('st='+CT2.stage);if(CT2.studio!=='all')q.push('studio='+CT2.studio);return q.join('&')}
-function ctFromQS(o){CT2.kind=['all','film','series','other'].indexOf(o.k)>=0?o.k:'film';CT2.sort=['release','story','abc'].indexOf(o.s)>=0?o.s:'release';CT2.q=o.q||'';CT2.aff=o.no?{mcu:1,linked:1,other:1}:{mcu:1,linked:0,other:0};(o.no||'').split(',').forEach(function(a){if(Object.prototype.hasOwnProperty.call(CT2.aff,a))CT2.aff[a]=0});CT2.uni=['all','main','other'].indexOf(o.u)>=0?o.u:'all';CT2.stage=['all','out','soon'].indexOf(o.st)>=0?o.st:'all';CT2.studio=Object.prototype.hasOwnProperty.call(D.studios,o.studio)?o.studio:'all';if(ctActive())CT2.open=true}
+function ctToQS(){var q=[];if(CT2.pro){q.push('pro=1');if(proSelectedQS())q.push(proSelectedQS())}if(CT2.kind!=='all')q.push('k='+CT2.kind);if(CT2.sort!=='release')q.push('s='+CT2.sort);if(CT2.q)q.push('q='+encodeURIComponent(CT2.q));var hidden=['mcu','linked','other'].filter(function(a){return !CT2.aff[a]});if(hidden.length)q.push('no='+hidden.join(','));if(CT2.uni!=='all')q.push('u='+CT2.uni);if(CT2.stage!=='all')q.push('st='+CT2.stage);if(CT2.studio!=='all')q.push('studio='+CT2.studio);return q.join('&')}
+function ctFromQS(o){CT2.pro=o.pro==='1';CT2.kind=['all','film','series','other'].indexOf(o.k)>=0?o.k:'all';CT2.sort=['release','story','abc'].indexOf(o.s)>=0?o.s:'release';CT2.q=o.q||'';CT2.aff=o.no?{mcu:1,linked:1,other:1}:CT2.pro?{mcu:1,linked:1,other:1}:{mcu:1,linked:0,other:0};(o.no||'').split(',').forEach(function(a){if(Object.prototype.hasOwnProperty.call(CT2.aff,a))CT2.aff[a]=0});CT2.uni=['all','main','other'].indexOf(o.u)>=0?o.u:'all';CT2.stage=['all','out','soon'].indexOf(o.st)>=0?o.st:'all';CT2.studio=Object.prototype.hasOwnProperty.call(D.studios,o.studio)?o.studio:'all';if(ctActive())CT2.open=true}
 function syncURL(base,qs){var h='#'+base+(qs?'?'+qs:'');if(location.hash!==h){try{history.replaceState(null,'',h);CUR=base}catch(e){}}}
 function toast(t){var x=document.createElement('div');x.className='toast';x.textContent=t;document.body.appendChild(x);setTimeout(function(){x.classList.add('out')},3200);setTimeout(function(){x.remove()},3800)}
 function admInit(){
@@ -2078,7 +2079,9 @@ document.addEventListener('click',function(e){
     if(act==='discard'){if(confirm('Отменить все неопубликованные изменения?')){OVR=clone(PUB);applyOVR();try{localStorage.removeItem(DRAFT_KEY)}catch(x){}applyNav();admBar();rerender()}return}
     return}
   if(e.target.closest('[data-gh-login]')){ghLogin();return}
-  var t=e.target.closest('[data-legend],[data-tls],[data-tlv],[data-tle],[data-tlo],[data-ct-kind2],[data-ct-sort2],[data-ct-open],[data-ct-reset],[data-go-tl],[data-lkview],[data-stone-go],[data-art-go],[data-img-del],[data-img-clear],[data-unm],[data-stone],[data-art],[data-lk],[data-gz],[data-sp],[data-yg],[data-scroll],[data-evm],[data-tl-mode],[data-ct-st],[data-hs-g],[data-mr],[data-mk],[data-msel],[data-back],[data-ct-only],[data-show-on-map],[data-hs-goto],[data-lk-go]');if(!t)return;
+  var t=e.target.closest('[data-pro-toggle],[data-pro-group],[data-pro-all],[data-legend],[data-tls],[data-tlv],[data-tle],[data-tlo],[data-ct-kind2],[data-ct-sort2],[data-ct-open],[data-ct-reset],[data-go-tl],[data-lkview],[data-stone-go],[data-art-go],[data-img-del],[data-img-clear],[data-unm],[data-stone],[data-art],[data-lk],[data-gz],[data-sp],[data-yg],[data-scroll],[data-evm],[data-tl-mode],[data-ct-st],[data-hs-g],[data-mr],[data-mk],[data-msel],[data-back],[data-ct-only],[data-show-on-map],[data-hs-goto],[data-lk-go]');if(!t)return;
+  if(t.hasAttribute('data-pro-toggle')){if(t.getAttribute('data-pro-toggle')==='catalog'){CT2.pro=!CT2.pro;CT2.aff=CT2.pro?{mcu:1,linked:1,other:1}:{mcu:1,linked:0,other:0};CT2.uni='all';CT2.stage='all';CT2.studio='all';CT2.open=false;ctRefresh(true)}else{TLV.scope=TLV.scope==='official'?'extended':'official';syncURL('timeline',proTimelineQS());rerender()}return}
+  if(t.hasAttribute('data-pro-group')||t.hasAttribute('data-pro-all')){if(t.hasAttribute('data-pro-all')){var v=t.getAttribute('data-pro-all')==='1'?1:0;PRO_GROUPS.forEach(function(g){PRO.inc[g[0]]=v})}else{var key=t.getAttribute('data-pro-group');if(Object.prototype.hasOwnProperty.call(PRO.inc,key))PRO.inc[key]=PRO.inc[key]?0:1}proSave();if(CUR==='catalog')ctRefresh(true);else{syncURL('timeline',proTimelineQS());rerender()}return}
   if(t.hasAttribute('data-tls')){TLV.scope=t.getAttribute('data-tls');syncURL('timeline','scope='+TLV.scope+'&view='+TLV.view+'&order='+TLV.order);rerender();return}
   if(t.hasAttribute('data-tlv')){TLV.view=t.getAttribute('data-tlv');if(location.hash==='#events'){history.replaceState(null,'','#timeline');CUR='timeline'}rerender();return}
   if(t.hasAttribute('data-tle')){TLV.evk=t.getAttribute('data-tle');rerender();return}
@@ -2088,7 +2091,7 @@ document.addEventListener('click',function(e){
   if(t.hasAttribute('data-ct-kind2')){CT2.kind=t.getAttribute('data-ct-kind2');main.querySelectorAll('[data-ct-kind2]').forEach(function(b){var on=b===t;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});ctRefresh();return}
   if(t.hasAttribute('data-ct-sort2')){CT2.sort=t.getAttribute('data-ct-sort2');main.querySelectorAll('[data-ct-sort2]').forEach(function(b){var on=b===t;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});ctRefresh();return}
   if(t.hasAttribute('data-ct-open')){CT2.open=!CT2.open;var pn=document.getElementById('ctPanel');if(pn)pn.hidden=!CT2.open;t.setAttribute('aria-expanded',CT2.open);return}
-  if(t.hasAttribute('data-ct-reset')){CT2.q='';CT2.kind='film';CT2.aff={mcu:1,linked:0,other:0};CT2.uni='all';CT2.stage='all';CT2.studio='all';ctRefresh(true);return}
+  if(t.hasAttribute('data-ct-reset')){CT2.q='';CT2.kind='all';CT2.aff=CT2.pro?{mcu:1,linked:1,other:1}:{mcu:1,linked:0,other:0};CT2.uni='all';CT2.stage='all';CT2.studio='all';PRO_GROUPS.forEach(function(g){PRO.inc[g[0]]=1});proSave();ctRefresh(true);return}
   if(t.hasAttribute('data-lkview')){LKV=t.getAttribute('data-lkview');var w0=document.getElementById('lk-wrap');if(w0){w0.className='mapwrap lk-'+LKV}main.querySelectorAll('[data-lkview]').forEach(function(b){b.classList.toggle('on',b===t)});return}
   if(t.hasAttribute('data-stone-go')){var sg=t.getAttribute('data-stone-go');if(sg)ST.stone=sg;if(location.hash==='#stones'){e.preventDefault();route()}return}
   if(t.hasAttribute('data-art-go')){ST.art=t.getAttribute('data-art-go');if(location.hash==='#stones'){e.preventDefault();route()}return}
@@ -2323,7 +2326,7 @@ function route(){
   var h=location.hash.replace(/^#/,''),qi=h.indexOf('?'),QP={};if(qi>=0){QP=qsParse(h.slice(qi+1));h=h.slice(0,qi)}
   try{h=decodeURIComponent(h)}catch(e){}
   if(!h)h='home';if(LEGACY[h])h=LEGACY[h];
-  if(h==='catalog'&&qi>=0)ctFromQS(QP);if(h==='timeline'&&qi>=0){if(QP.scope)TLV.scope=QP.scope;if(QP.view)TLV.view=QP.view;if(QP.order)TLV.order=QP.order}
+  if(qi>=0)proReadQS(QP);if(h==='catalog'&&qi>=0)ctFromQS(QP);if(h==='timeline'&&qi>=0){if(QP.scope)TLV.scope=QP.scope;if(QP.view)TLV.view=QP.view;if(QP.order)TLV.order=QP.order}
   if(h==='admin'){if(window.claude&&!window.KVM_PUBLIC)h='home';else{if(GH&&GH.token){if(!ADM.gh)setTimeout(function(){ghEnable(false)},0)}else setTimeout(function(){openGhLogin()},0);h='home'}}
   if(h==='events'){TLV.view='events'}
   if(ENC_KEYS[h]&&OVR.nav[h]&&!ADM.on)h='encyclopedia';
@@ -2342,6 +2345,34 @@ function route(){
 var NAV6T={home:'Главная',timeline:'Хронология',catalog:'Каталог',heroes:'Герои',encyclopedia:'Энциклопедия',watch:'Как смотреть'};
 function applyNav(){document.querySelectorAll('nav.tabs a').forEach(function(a){a.style.display=''})}
 // ---------- хронология: официальная и расширенная ----------
+// PRO-режим: группировка по метаданным, а не по названию источника.
+var PRO_GROUPS=[['mcu','КВМ'],['netflix','Netflix'],['marvel-tv','Marvel Television'],['animation','Альтернативная анимация'],['fox-xmen','Fox · Люди Икс'],['fox-f4','Fox · Фантастическая четвёрка'],['fox-other','Fox · другие'],['sony','Sony'],['other','Другие студии']];
+var PRO={inc:{}};
+PRO_GROUPS.forEach(function(g){PRO.inc[g[0]]=1});
+try{var proPrefs=JSON.parse(localStorage.getItem('kvm-pro-groups')||'{}');PRO_GROUPS.forEach(function(g){if(proPrefs[g[0]]===0)PRO.inc[g[0]]=0})}catch(e){}
+function proGroup(p){
+  if(p.st==='netflix')return 'netflix';
+  if(p.st==='abc'||p.st==='freeform'||p.st==='hulu')return 'marvel-tv';
+  if((p.k==='anim'||p.k==='animated-film')&&(p.s==='alt'||p.s==='non'))return 'animation';
+  if(p.st==='fox'||p.st==='fx'){
+    if(/^ff-(2005|2007)$/.test(p.id)||p.id==='fant4stic')return 'fox-f4';
+    if(p.id==='daredevil-2003'||p.id==='elektra-2005')return 'fox-other';
+    return 'fox-xmen';
+  }
+  if(p.st==='sony')return 'sony';
+  return p.st==='marvel'||p.st==='sony-marvel'?'mcu':'other';
+}
+function proAllowed(p){return !!PRO.inc[proGroup(p)]}
+function proSelectedQS(){var excluded=PRO_GROUPS.filter(function(g){return !PRO.inc[g[0]]}).map(function(g){return g[0]});return excluded.length?'pg='+excluded.join(','):''}
+function proReadQS(q){if(!Object.prototype.hasOwnProperty.call(q,'pg'))return;var excluded=q.pg.split(',');PRO_GROUPS.forEach(function(g){PRO.inc[g[0]]=excluded.indexOf(g[0])<0?1:0})}
+function proSave(){try{localStorage.setItem('kvm-pro-groups',JSON.stringify(PRO.inc))}catch(e){}}
+function proTimelineQS(){return 'scope='+TLV.scope+'&view='+TLV.view+'&order='+TLV.order+(TLV.scope==='extended'&&proSelectedQS()?'&'+proSelectedQS():'')}
+function proToggle(which,on){
+  return '<div class="pro-mode-row"><button type="button" class="pro-mode-switch'+(on?' is-on':'')+'" data-pro-toggle="'+which+'" role="switch" aria-checked="'+on+'" aria-label="PRO-режим, расширенная подборка"><span class="pro-mode-track" aria-hidden="true"><span class="pro-mode-dot"></span></span><span>PRO-режим</span></button><span class="pro-mode-hint">'+(on?'Выберите вселенные и студии для включения в подборку':'Включите для расширенного выбора проектов')+'</span></div>';
+}
+function proChoices(){
+  return '<section class="pro-groups" aria-label="Проекты каких студий показывать"><div class="pro-groups-header"><strong>Включить</strong><div><button type="button" data-pro-all="1">Все</button><button type="button" data-pro-all="0">Ничего</button></div></div><div class="pro-groups-list">'+PRO_GROUPS.map(function(g){var on=!!PRO.inc[g[0]],count=D.p.filter(function(p){return proGroup(p)===g[0]}).length;return '<button type="button" class="pro-group'+(on?' is-on':'')+'" aria-pressed="'+on+'" data-pro-group="'+g[0]+'"><span class="pro-check" aria-hidden="true">'+(on?'✓':'')+'</span>'+g[1]+' <small>'+count+'</small></button>'}).join('')+'</div></section>';
+}
 var TLV={scope:'official',view:'projects',order:'story',kind:'all',evk:'all'};
 var AUTHOR_PLACED={bnd:1};
 function isOfficial(p){return !!(p.ord&&p.s!=='soon'&&!AUTHOR_PLACED[p.id])}
@@ -2354,17 +2385,15 @@ function tlList(){var out='';
   if(TLV.scope==='official'){var list=CANON.filter(isOfficial).filter(tlKind);if(!list.length)return '<div class="empty">Под этот тип ничего не подходит.</div>';
     if(TLV.order==='story'){D.eras.forEach(function(e){var it=list.filter(function(p){return p.era===e.id});if(!it.length)return;out+='<div class="era"><div class="era-h"><h2>'+esc(e.n)+'</h2><small>'+esc(e.y)+'</small></div><ul class="rows">'+it.map(function(p){return tlRow(p,p.ord)}).join('')+'</ul></div>'});return out}
     return tlGroupByYear(list.slice().sort(function(a,b){return relDate(a)<relDate(b)?-1:1}))}
-  var main=CANON.filter(tlKind),rest=D.p.filter(function(p){return !p.ord&&tlKind(p)});
+  var main=CANON.filter(tlKind).filter(proAllowed),rest=D.p.filter(function(p){return !p.ord&&tlKind(p)&&proAllowed(p)});
   if(TLV.order==='release')return tlGroupByYear(main.concat(rest).sort(function(a,b){return relDate(a)<relDate(b)?-1:1}));
   D.eras.forEach(function(e){var it=main.filter(function(p){return p.era===e.id});if(!it.length)return;out+='<div class="era"><div class="era-h"><h2>'+esc(e.n)+'</h2><small>'+esc(e.y)+'</small></div><ul class="rows">'+it.map(function(p){return tlRow(p,p.ord)}).join('')+'</ul></div>'});
   var G=[['soon','Объявленные проекты','Анонсированные проекты с подтверждённым планом выхода.'],['dev','В разработке','Планируется или обсуждается; официальная дата и выпуск не гарантированы.'],['linked','Связанные сериалы вне официального порядка','Сериалы Marvel Television и другие проекты, которые связаны с фильмами, но в официальный список не входят.'],['alt','Другие вселенные КВМ','Альтернативные миры: «Что, если…?» и «Зомби Marvel».'],['variant','Экранизации Fox и Sony','Отдельные киновселенные. Некоторые герои отсюда пересекались с КВМ через мультивселенную.'],['non','Отдельные экранизации','Мультфильмы и фильмы, не входящие в основную историю КВМ.']];
   G.forEach(function(g){var it=rest.filter(function(p){return p.s===g[0]}).sort(function(a,b){return relDate(a)<relDate(b)?-1:1});if(!it.length)return;out+='<div class="era era-x"><div class="era-h"><h2>'+g[1]+'</h2><small>'+it.length+'</small></div><p class="muted era-note">'+g[2]+'</p><ul class="rows">'+it.map(function(p){return tlRow(p,'')}).join('')+'</ul></div>'});
-  return out}
+  return out||'<div class="empty">В выбранных группах пока нет проектов.</div>'}
 function tlEvents(){if(TLV.scope!=='official')return evDetail();return evDetail(D.tl.filter(function(t){return t[3].some(function(id){return P[id]&&isOfficial(P[id])})}),D.ev.filter(function(e){return e.pr.some(function(id){return P[id]&&isOfficial(P[id])})}))}
 function timeline(){var off=TLV.scope==='official',ev=TLV.view==='events';EVS.mode=TLV.evk;
-  return '<h1>Хронология</h1><div class="tl-switch" role="group" aria-label="Какая хронология">'+
-  '<button type="button" data-tls="official" aria-pressed="'+off+'" class="'+(off?'on':'')+'"><b>Официальная КВМ</b><span>Порядок Marvel и Disney+</span></button>'+
-  '<button type="button" data-tls="extended" aria-pressed="'+(!off)+'" class="'+(!off?'on':'')+'"><b>Расширенная</b><span>С другими вселенными и связанными проектами</span></button></div>'+
+  return '<h1>Хронология</h1>'+proToggle('timeline',!off)+(!off&&!ev?proChoices():'')+
   '<div class="ctrl"><div class="seg" role="group" aria-label="Что показывать"><button type="button" data-tlv="projects" class="'+(!ev?'on':'')+'" aria-pressed="'+(!ev)+'">Проекты</button><button type="button" data-tlv="events" class="'+(ev?'on':'')+'" aria-pressed="'+ev+'">События</button></div>'+
   (ev?'<div class="seg" role="group" aria-label="Какие события"><button type="button" data-tle="all" class="'+(TLV.evk==='all'?'on':'')+'">Все события</button><button type="button" data-tle="key" class="'+(TLV.evk==='key'?'on':'')+'">Только ключевые</button></div>'
     :'<div class="seg" role="group" aria-label="Порядок"><button type="button" data-tlo="story" class="'+(TLV.order==='story'?'on':'')+'">По событиям</button><button type="button" data-tlo="release" class="'+(TLV.order==='release'?'on':'')+'">По выходу</button></div><label>Тип <select data-tlk><option value="all"'+(TLV.kind==='all'?' selected':'')+'>Все</option><option value="film"'+(TLV.kind==='film'?' selected':'')+'>Фильмы</option><option value="series"'+(TLV.kind==='series'?' selected':'')+'>Сериалы</option><option value="small"'+(TLV.kind==='small'?' selected':'')+'>Анимация и спецвыпуски</option></select></label>')+'</div>'+
@@ -2372,12 +2401,12 @@ function timeline(){var off=TLV.scope==='official',ev=TLV.view==='events';EVS.mo
     :(ev?'Все события, включая другие вселенные и время вне времени. Параллельные реальности не выстраиваются в одну линию — они вынесены отдельно.':'Авторский путеводитель: основная линия КВМ, затем связанные сериалы, другие вселенные КВМ и экранизации Fox и Sony. Пометки показывают, где происходит действие.'))+'</p>'+
   '<div id="tl-list">'+(ev?tlEvents():tlList())+'</div>'}
 // ---------- каталог ----------
-var CT2={q:'',kind:'film',sort:'release',open:false,aff:{mcu:1,linked:0,other:0},uni:'all',stage:'all',studio:'all'};
+var CT2={q:'',kind:'all',sort:'release',open:false,pro:false,aff:{mcu:1,linked:0,other:0},uni:'all',stage:'all',studio:'all'};
 function affOf(p){return /canon|alt|soon|dev/.test(p.s)?'mcu':p.s==='linked'?'linked':'other'}
 function inMain(p){var u=D.enc.universes[0];if(!u.__set){u.__set={};u[4].split(',').forEach(function(x){u.__set[x]=1})}return !!u.__set[p.id]}
-function ctActive(){var n=0;if(!CT2.aff.mcu||!CT2.aff.linked||!CT2.aff.other)n++;if(CT2.uni!=='all')n++;if(CT2.stage!=='all')n++;if(CT2.studio!=='all')n++;return n}
+function ctActive(){if(!CT2.pro)return 0;var n=PRO_GROUPS.filter(function(g){return !PRO.inc[g[0]]}).length;if(!CT2.aff.mcu||!CT2.aff.linked||!CT2.aff.other)n++;if(CT2.uni!=='all')n++;if(CT2.stage!=='all')n++;if(CT2.studio!=='all')n++;return n}
 function ctFiltered(){var q=norm(CT2.q);return D.p.filter(function(p){var k=CT2.kind==='all'||(CT2.kind==='film'?filmKind(p):CT2.kind==='series'?seriesKind(p):!filmKind(p)&&!seriesKind(p));
-  return k&&CT2.aff[affOf(p)]&&(CT2.uni==='all'||(CT2.uni==='main'?inMain(p):!inMain(p)))&&(CT2.stage==='all'||(CT2.stage==='out'?released(p):!released(p)))&&(CT2.studio==='all'||p.st===CT2.studio)&&(!q||norm(p.t+' '+p.en+' '+((D.en&&D.en.p[p.id])||'')).indexOf(q)>=0)})}
+  return k&&(CT2.pro?proAllowed(p):proGroup(p)==='mcu')&&CT2.aff[affOf(p)]&&(CT2.uni==='all'||(CT2.uni==='main'?inMain(p):!inMain(p)))&&(CT2.stage==='all'||(CT2.stage==='out'?released(p):!released(p)))&&(CT2.studio==='all'||p.st===CT2.studio)&&(!q||norm(p.t+' '+p.en+' '+((D.en&&D.en.p[p.id])||'')).indexOf(q)>=0)})}
 function ctBadge(p){if(p.s==='dev')return '<span class="cbadge soon">В разработке</span>';if(!released(p))return '<span class="cbadge soon">'+esc(relLabel(p))+'</span>';if(p.s==='alt'||(affOf(p)==='mcu'&&!inMain(p)))return '<span class="cbadge">Другая вселенная</span>';if(p.s==='linked')return '<span class="cbadge">Связанный проект</span>';if(affOf(p)==='other')return '<span class="cbadge">'+esc(D.studios[p.st]||'Вне КВМ')+'</span>';return ''}
 function ctCard(p){return '<a class="card" href="#f-'+p.id+'">'+cover(p)+'<b title="'+esc(p.t)+'">'+esc(p.t)+'</b><span class="meta">'+esc(years(p))+' · '+esc(D.k[p.k])+'</span>'+ctBadge(p)+'</a>'}
 function ctList(){var list=ctFiltered();list.sort(function(a,b){if(CT2.sort==='abc')return a.t.localeCompare(b.t,'ru');if(CT2.sort==='story'){var x=a.ord||9999,y=b.ord||9999;if(x!==y)return x-y}return relDate(a)<relDate(b)?-1:relDate(a)>relDate(b)?1:0});
@@ -2395,7 +2424,7 @@ function catalog(){var n=ctActive();
   return '<h1>Каталог</h1><div class="ct-top"><input type="search" data-ct-q2 placeholder="Найти фильм или сериал" value="'+esc(CT2.q)+'" aria-label="Поиск по названию">'+
   '<div class="seg" role="group" aria-label="Формат">'+[['all','Все'],['film','Фильмы'],['series','Сериалы'],['other','Остальное']].map(function(x){return '<button type="button" data-ct-kind2="'+x[0]+'" class="'+(CT2.kind===x[0]?'on':'')+'" aria-pressed="'+(CT2.kind===x[0])+'">'+x[1]+'</button>'}).join('')+'</div>'+
   '<div class="seg" role="group" aria-label="Порядок">'+[['release','По дате'],['story','По хронологии'],['abc','По названию']].map(function(x){return '<button type="button" data-ct-sort2="'+x[0]+'" class="'+(CT2.sort===x[0]?'on':'')+'" aria-pressed="'+(CT2.sort===x[0])+'">'+x[1]+'</button>'}).join('')+'</div>'+
-  '<button type="button" class="btn ct-fbtn" data-ct-open aria-expanded="'+CT2.open+'" aria-controls="ctPanel">Фильтры'+(n?' <i class="cnt">'+n+'</i>':'')+'</button></div>'+ctPanel()+'<div id="ct-list">'+ctList()+'</div>'}
+  (CT2.pro?'<button type="button" class="btn ct-fbtn" data-ct-open aria-expanded="'+CT2.open+'" aria-controls="ctPanel">Точные фильтры'+(n?' <i class="cnt">'+n+'</i>':'')+'</button>':'')+'</div>'+proToggle('catalog',CT2.pro)+(CT2.pro?proChoices()+ctPanel():'')+'<div id="ct-list">'+ctList()+'</div>'}
 function ctRefresh(full){syncURL('catalog',ctToQS());if(full){var y=window.scrollY;main.innerHTML=catalog();window.scrollTo(0,y)}else{var l=document.getElementById('ct-list');if(l)l.innerHTML=ctList();var b=document.querySelector('[data-ct-open]');if(b){var n=ctActive();b.innerHTML='Фильтры'+(n?' <i class="cnt">'+n+'</i>':'')}}}
 
 // Схема условная: Земля-616 не равна Священной линии в целом.
