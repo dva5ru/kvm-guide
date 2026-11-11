@@ -452,5 +452,62 @@
   });
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMobileNav()});
   window.addEventListener('resize',function(){if(window.innerWidth>760)closeMobileNav()});
+
+  // Other routes already have a short page-enter animation. Replace the eager
+  // card animation with viewport-based reveals, leaving complex map layers alone.
+  var siteMotionStarted=false;
+  function initSiteMotion(){
+    if(siteMotionStarted||!('MutationObserver' in window)||!('IntersectionObserver' in window))return;
+    var main=document.getElementById('main');
+    if(!main)return;
+    siteMotionStarted=true;
+    var currentObserver=null,queued=false;
+    function refresh(){
+      if(currentObserver){currentObserver.disconnect();currentObserver=null}
+      main.classList.remove('kvm-site-motion-enabled');
+      if(motionReduced()||main.querySelector('.h6-page'))return;
+      var selectors=[
+        ':scope > h1',
+        ':scope > .lead',
+        '.dhead h1',
+        '.grid > .card',
+        '.hgrid > .hcard',
+        '.ptiles > .ptile',
+        '.tiles > .tile',
+        '.rows > li',
+        '.eps > .ep',
+        '.character-looks-grid > *',
+        'section > h2'
+      ];
+      var nodes=Array.prototype.slice.call(main.querySelectorAll(selectors.join(',')));
+      nodes=nodes.filter(function(el){
+        return !el.closest('.atlas-section,.atlas-map-panel,.mapbox,.modal-c,[hidden],[aria-hidden="true"]');
+      }).slice(0,260);
+      if(!nodes.length)return;
+      nodes.forEach(function(el,index){
+        el.classList.add('kvm-site-motion-item');
+        el.style.setProperty('--kvm-motion-delay',(index%4)*65+'ms');
+      });
+      currentObserver=new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(!entry.isIntersecting)return;
+          entry.target.classList.add('kvm-site-motion-visible');
+          currentObserver.unobserve(entry.target);
+        });
+      },{threshold:.06,rootMargin:'0px 0px -5% 0px'});
+      main.classList.add('kvm-site-motion-enabled');
+      nodes.forEach(function(el){currentObserver.observe(el)});
+    }
+    var routeWatcher=new MutationObserver(function(){
+      if(queued)return;
+      queued=true;
+      Promise.resolve().then(function(){queued=false;refresh()});
+    });
+    routeWatcher.observe(main,{childList:true});
+    refresh();
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',initSiteMotion,{once:true});
+  }else initSiteMotion();
   window.KVMHome6={render:render,mount:mount,unmount:unmount,recent:recent,future:future};
 })();
