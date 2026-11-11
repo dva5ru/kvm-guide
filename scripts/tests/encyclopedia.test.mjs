@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 
 const html = readFileSync(new URL('../../index.html', import.meta.url), 'utf8');
-const coverage = JSON.parse(readFileSync(new URL('../../audit/encyclopedia-80-coverage.json', import.meta.url), 'utf8'));
+const coverage = JSON.parse(readFileSync(new URL('../../audit/data/encyclopedia-80-coverage.json', import.meta.url), 'utf8'));
 const dataText = html.match(/id="kvm-data">([\s\S]*?)<\/script>/)[1];
 const originalApp = html.match(/<script id="kvm-app">([\s\S]*?)<\/script>/)[1];
 function load() {

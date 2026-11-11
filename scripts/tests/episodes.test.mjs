@@ -6,7 +6,7 @@ import {loadGuide,editMode,click,input} from './guide-dom.mjs';
 import {hydrateAppearances} from '../lib/appearance-registry.mjs';
 const html=readFileSync(new URL('../../index.html',import.meta.url),'utf8');
 const raw=JSON.parse(html.match(/id="kvm-data">([\s\S]*?)<\/script>/)[1]);
-const baseline=JSON.parse(readFileSync(new URL('../../audit/stage4-preserved-episodes.json',import.meta.url),'utf8'));
+const baseline=JSON.parse(readFileSync(new URL('../../audit/data/stage4-preserved-episodes.json',import.meta.url),'utf8'));
 const clone=()=>structuredClone(raw);
 const id=n=>'wandavision-s1-e'+n;
 

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {loadGuide,click} from './guide-dom.mjs';
 
-const css=readFileSync(new URL('../../home-v6.css',import.meta.url),'utf8');
+const css=readFileSync(new URL('../../assets/css/home-v6.css',import.meta.url),'utf8');
 
 test('scroll choreography progressively enhances existing homepage blocks',t=>{
   const s=loadGuide();t.after(s.close);

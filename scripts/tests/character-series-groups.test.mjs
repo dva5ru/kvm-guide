@@ -96,6 +96,6 @@ test('Stan Lee retains live-action cameos and excludes photographs, animation an
   for(const pid of removed)assert.equal(s.doc.querySelector('.cols a[href="#f-'+pid+'"]'),null,pid);
   assert.ok(!g.D.appearances.some(a=>a.characterId==='stan-lee'&&['blade-1','punisher-2','dd-3','wandavision','nwh','gotg3'].includes(a.projectId)),'deleted scenes, ambiguous portraits and dedications are not invented appearances');
   assert.match(g.C['stan-lee'].notes['black-panther'],/Т’Чаллы/);
-  const audit=JSON.parse(readFileSync(new URL('../../audit/character-series-groups-2026-11-07.json',import.meta.url)));
+  const audit=JSON.parse(readFileSync(new URL('../../audit/data/character-series-groups-2026-11-07.json',import.meta.url)));
   assert.equal(audit.stanLeeLiveActionFilter.projects,g.C['stan-lee'].app.length);
 });

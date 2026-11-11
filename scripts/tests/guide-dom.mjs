@@ -4,8 +4,8 @@ import {JSDOM,VirtualConsole} from 'jsdom';
 
 export const html=readFileSync(new URL('../../index.html',import.meta.url),'utf8');
 const app=html.match(/<script id="kvm-app">([\s\S]*?)<\/script>/)[1];
-const spoilerIndex=readFileSync(new URL('../../spoiler-index.js',import.meta.url),'utf8');
-const homepage=readFileSync(new URL('../../home-v6.js',import.meta.url),'utf8');
+const spoilerIndex=readFileSync(new URL('../../assets/js/spoiler-index.js',import.meta.url),'utf8');
+const homepage=readFileSync(new URL('../../assets/js/home-v6.js',import.meta.url),'utf8');
 export function loadGuide(options={}){
   const errors=[],vc=new VirtualConsole();
   vc.on('jsdomError',e=>errors.push(e.message));
