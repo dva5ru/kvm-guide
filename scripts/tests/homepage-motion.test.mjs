@@ -61,3 +61,37 @@ test('KVM motion remains subtle, responsive and accessible',()=>{
   assert.match(css,/@media \(max-width:760px\) and \(prefers-reduced-motion: no-preference\)/,'mobile motion is shorter');
   assert.match(css,/@media \(prefers-reduced-motion: reduce\)/,'visitor preference is respected');
 });
+
+test('interior catalog cards reveal on scroll without touching atlas maps',async t=>{
+  const s=loadGuide();t.after(s.close);
+  const {g,w,doc,errors}=s;
+  const observers=[];
+  w.matchMedia=()=>({matches:false,addListener(){},removeListener(){}});
+  w.IntersectionObserver=class {
+    constructor(callback,options){this.callback=callback;this.options=options||{};this.targets=[];observers.push(this)}
+    observe(el){this.targets.push(el)}
+    unobserve(el){this.targets=this.targets.filter(x=>x!==el)}
+    disconnect(){this.targets=[]}
+  };
+  w.KVMHome6.initSiteMotion();
+  g.go('catalog');
+  await Promise.resolve();
+  await Promise.resolve();
+  const main=doc.getElementById('main');
+  assert.ok(main.classList.contains('kvm-site-motion-enabled'),'catalog progressive motion active');
+  const cards=[...main.querySelectorAll('.grid > .card.kvm-site-motion-item')];
+  assert.ok(cards.length>2,'catalog items receive separate motion');
+  const observer=observers.find(o=>o.options.rootMargin==='0px 0px -5% 0px');
+  assert.ok(observer,'dedicated interior route IntersectionObserver');
+  observer.callback([{target:cards[0],isIntersecting:true}]);
+  assert.ok(cards[0].classList.contains('kvm-site-motion-visible'));
+  g.go('map');
+  await Promise.resolve();
+  await Promise.resolve();
+  assert.equal(doc.querySelectorAll('.atlas-section .kvm-site-motion-item').length,0,'interactive atlas untouched');
+  g.go('home');
+  await Promise.resolve();
+  await Promise.resolve();
+  assert.ok(!main.classList.contains('kvm-site-motion-enabled'),'home is handled by its own motion system');
+  assert.equal(errors.length,0,errors.join('\n'));
+});
