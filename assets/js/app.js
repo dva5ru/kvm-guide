@@ -78,7 +78,7 @@ function norm(s){return String(s==null?'':s).normalize('NFKC').toLowerCase().rep
 function stBadge(s){return '<span class="st st-'+s+'" title="'+esc(D.st[s][1])+'">'+esc(D.st[s][0])+'</span>'}
 var IMP=['','Полезно к «Судному дню»','Желательно к «Судному дню»','Важно к «Судному дню»'];
 function impBadge(){return ''}
-function cover(p,cls){var L=p.t.length,im=imgSrc('f-'+p.id)||(p.editionOf?imgSrc('f-'+p.editionOf):'');return '<span class="cover '+(cls||'')+(L>44?' xl':L>26?' lg':'')+(im?' has-img':'')+' s-'+p.s+'" style="--c:'+p.col+'"'+(im?' data-bg="'+esc(im)+'"':'')+' aria-hidden="true"><span class="cv-y">'+esc(years(p))+'</span><span class="cv-t">'+esc(p.t)+'</span></span>'}
+function cover(p,cls){var L=p.t.length,im=imgSrc('f-'+p.id)||(p.sg==='aos'?imgSrc('f-aos'):'')||(p.editionOf?imgSrc('f-'+p.editionOf):'');return '<span class="cover '+(cls||'')+(L>44?' xl':L>26?' lg':'')+(im?' has-img':'')+' s-'+p.s+'" style="--c:'+p.col+'"'+(im?' data-bg="'+esc(im)+'"':'')+' aria-hidden="true"><span class="cv-y">'+esc(years(p))+'</span><span class="cv-t">'+esc(p.t)+'</span></span>'}
 function initials(n){var w=n.split('/')[0].replace(/[()«»]/g,'').trim().split(/\s+/);return (w[0][0]+(w[1]?w[1][0]:'')).toUpperCase()}
 function mono(c,big){var im=imgSrc('c-'+c.id);return '<span class="mono'+(big?' big':'')+(im?' has-img':'')+'" style="--c:'+c.col+'"'+(im?' data-bg="'+esc(im)+'"':'')+' aria-hidden="true">'+(im?'':esc(initials(c.n)))+'</span>'}
 function pLink(id){var p=P[id];return p?'<a class="chip" href="#f-'+p.id+'"><span class="dot" style="--c:'+p.col+'"></span>'+esc(p.t)+' <i>'+esc(p.y)+'</i></a>':''}
@@ -138,7 +138,7 @@ var CT={st:{canon:1,alt:1,soon:1,dev:1,linked:1,variant:1,non:1},studio:'all',ki
 
 
 // ---------- project page ----------
-function seasonBar(p){if(!p.sg)return '';var l=D.sg[p.sg];return '<div class="seasons" role="group" aria-label="Сезоны">'+l.map(function(id,i){var q=P[id];return '<a class="season'+(id===p.id?' on':'')+'" href="#f-'+id+'"'+(id===p.id?' aria-current="page"':'')+'>Сезон '+(i+1)+' <i>'+esc(q.y)+'</i></a>'}).join('')+'</div>'}
+function seasonBar(p){if(!p.sg&&p.id!=='aos')return '';var l=D.sg[p.sg||p.id];return '<div class="seasons" role="group" aria-label="Сезоны">'+l.map(function(id,i){var q=P[id];return '<a class="season'+(id===p.id?' on':'')+'" href="#f-'+id+'"'+(id===p.id?' aria-current="page"':'')+'>Сезон '+(i+1)+' <i>'+esc(q.y)+'</i></a>'}).join('')+'</div>'}
 
 
 // ---------- heroes ----------
@@ -1488,15 +1488,37 @@ function tlKind(p){if(TLV.kind==='film')return filmKind(p);if(TLV.kind==='series
 function tlRow(p,num){var u=puni(p.id),tags=(u?'<span class="tag-u">'+esc(u)+'</span>':'')+(AUTHOR_PLACED[p.id]?'<span class="tag-u">место в порядке — авторское</span>':'')+(p.s==='soon'?'<span class="tag-u soon">'+esc(relLabel(p))+'</span>':'');
   return '<li class="row"><span class="num">'+(num||'')+'</span>'+cover(p,'mini')+'<a class="ttl" href="#f-'+p.id+'"><b>'+esc(p.t)+'</b><span>'+esc(D.k[p.k])+', '+esc(fwhen(p.r))+(p.w&&p.w!=='—'?'. Время действия: '+esc(p.w):'')+'</span></a><span class="side">'+tags+'</span></li>'}
 function tlGroupByYear(list){var by={};list.forEach(function(p){(by[p.y]=by[p.y]||[]).push(p)});return Object.keys(by).sort().map(function(y){return '<div class="era"><div class="era-h"><h2>'+y+'</h2><small>'+by[y].length+' '+plural(by[y].length,['проект','проекта','проектов'])+'</small></div><ul class="rows">'+by[y].map(function(p){return tlRow(p,'')}).join('')+'</ul></div>'}).join('')}
+// Author-curated SHIELD crossover intervals: never modify the official Marvel order.
+var AOS_TIMELINE={
+  'os-all-hail':[[1,1,7,'Перед «Тором 2»']],
+  'thor2':[[1,8,16,'После «Тора 2», до «Другой войны»']],
+  'cap2':[[1,17,22,'Гидра внутри Щ.И.Т.а; события «Другой войны»']],
+  'jj-1':[[2,1,19,'До «Эры Альтрона»']],
+  'aou':[[2,20,22,'Хеликэрриер Фьюри и последствия «Эры Альтрона»']],
+  'defenders':[[3,1,19,'До «Противостояния»']],
+  'civil-war':[[3,20,22,'После принятия Заковийского договора']],
+  'homecoming':[[4,1,22,'Призрачный гонщик, ЖСМ и Фреймворк']],
+  'ragnarok':[[5,1,18,'Возможное будущее и возвращение в 2018-й']],
+  'infinity-war':[[5,19,22,'Одновременно с вторжением Таноса; Щелчок не показан']]
+};
+function aosTimelineRows(anchor){
+  if(!PRO.inc['marvel-tv']||!PRO.inc.mcu||(TLV.kind!=='all'&&TLV.kind!=='series'))return '';
+  return (AOS_TIMELINE[anchor]||[]).map(function(b){
+    var p=P['aos-'+b[0]],eps=(p&&p.eps||[]).filter(function(e){return e[0]>=b[1]&&e[0]<=b[2]});
+    if(!eps.length)return '';
+    return '<li class="row aos-timeline-row"><div class="aos-timeline-entry"><details><summary><b>Агенты Щ.И.Т. — сезон '+b[0]+', серии '+b[1]+'–'+b[2]+'</b><span class="muted">'+esc(b[3])+' · '+eps.length+' '+plural(eps.length,['серия','серии','серий'])+'</span></summary><ol class="aos-timeline-episodes">'+eps.map(function(e){return '<li><a href="#ep-'+esc(e.id)+'">'+b[0]+'×'+e[0]+' · '+esc(e.meta.title)+'</a></li>'}).join('')+'</ol></details><a class="aos-timeline-season" href="#f-'+p.id+'">Карточка сезона →</a></div></li>'
+  }).join('')
+}
+function proChronoOrd(p){return p.id==='iron-man-3'?12.5:p.id==='os-all-hail'?12.6:p.ord}
 function tlList(){var out='';
   if(TLV.scope==='official'){var list=CANON.filter(isOfficial).filter(tlKind);if(!list.length)return '<div class="empty">Под этот тип ничего не подходит.</div>';
     if(TLV.order==='story'){D.eras.forEach(function(e){var it=list.filter(function(p){return p.era===e.id});if(!it.length)return;out+='<div class="era"><div class="era-h"><h2>'+esc(e.n)+'</h2><small>'+esc(e.y)+'</small></div><ul class="rows">'+it.map(function(p){return tlRow(p,p.ord)}).join('')+'</ul></div>'});return out}
     return tlGroupByYear(list.slice().sort(function(a,b){return relDate(a)<relDate(b)?-1:1}))}
-  var main=CANON.filter(tlKind).filter(proAllowed),rest=D.p.filter(function(p){return !p.ord&&tlKind(p)&&proAllowed(p)});
-  if(TLV.order==='release')return tlGroupByYear(main.concat(rest).sort(function(a,b){return relDate(a)<relDate(b)?-1:1}));
-  D.eras.forEach(function(e){var it=main.filter(function(p){return p.era===e.id});if(!it.length)return;out+='<div class="era"><div class="era-h"><h2>'+esc(e.n)+'</h2><small>'+esc(e.y)+'</small></div><ul class="rows">'+it.map(function(p){return tlRow(p,p.ord)}).join('')+'</ul></div>'});
+  var main=CANON.filter(proAllowed),rest=D.p.filter(function(p){return !p.ord&&tlKind(p)&&proAllowed(p)});
+  if(TLV.order==='release')return tlGroupByYear(main.filter(tlKind).concat(rest).sort(function(a,b){return relDate(a)<relDate(b)?-1:1}));
+  D.eras.forEach(function(e){var it=main.filter(function(p){return p.era===e.id}).sort(function(a,b){return proChronoOrd(a)-proChronoOrd(b)});if(!it.length)return;var rows=it.map(function(p){return (tlKind(p)?tlRow(p,(p.id==='iron-man-3'||p.id==='os-all-hail'||p.id==='thor2')?'':p.ord):'')+aosTimelineRows(p.id)}).join('');if(!rows)return;out+='<div class="era"><div class="era-h"><h2>'+esc(e.n)+'</h2><small>'+esc(e.y)+'</small></div><ul class="rows">'+rows+'</ul></div>'});
   var G=[['soon','Объявленные проекты','Анонсированные проекты с подтверждённым планом выхода.'],['dev','В разработке','Планируется или обсуждается; официальная дата и выпуск не гарантированы.'],['linked','Связанные сериалы вне официального порядка','Сериалы Marvel Television и другие проекты, которые связаны с фильмами, но в официальный список не входят.'],['alt','Другие вселенные КВМ','Альтернативные миры: «Что, если…?» и «Зомби Marvel».'],['variant','Экранизации Fox и Sony','Отдельные киновселенные. Некоторые герои отсюда пересекались с КВМ через мультивселенную.'],['non','Отдельные экранизации','Мультфильмы и фильмы, не входящие в основную историю КВМ.']];
-  G.forEach(function(g){var it=rest.filter(function(p){return p.s===g[0]}).sort(function(a,b){return relDate(a)<relDate(b)?-1:1});if(!it.length)return;out+='<div class="era era-x"><div class="era-h"><h2>'+g[1]+'</h2><small>'+it.length+'</small></div><p class="muted era-note">'+g[2]+'</p><ul class="rows">'+it.map(function(p){return tlRow(p,'')}).join('')+'</ul></div>'});
+  G.forEach(function(g){var it=rest.filter(function(p){return p.s===g[0]&&!(p.sg==='aos'&&p.sn<=5&&PRO.inc.mcu&&PRO.inc['marvel-tv']&&(TLV.kind==='all'||TLV.kind==='series'))}).sort(function(a,b){return relDate(a)<relDate(b)?-1:1});if(!it.length)return;out+='<div class="era era-x"><div class="era-h"><h2>'+g[1]+'</h2><small>'+it.length+'</small></div><p class="muted era-note">'+g[2]+'</p><ul class="rows">'+it.map(function(p){return tlRow(p,'')}).join('')+'</ul></div>'});
   return out||'<div class="empty">В выбранных группах пока нет проектов.</div>'}
 function tlEvents(){if(TLV.scope!=='official')return evDetail();return evDetail(D.tl.filter(function(t){return t[3].some(function(id){return P[id]&&isOfficial(P[id])})}),D.ev.filter(function(e){return e.pr.some(function(id){return P[id]&&isOfficial(P[id])})}))}
 function timeline(){var off=TLV.scope==='official',ev=TLV.view==='events';EVS.mode=TLV.evk;
