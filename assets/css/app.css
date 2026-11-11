@@ -792,3 +792,15 @@ nav.tabs a{min-height:40px;display:inline-flex;align-items:center}
 .atlas-preview-footer span{font-weight:600;color:var(--red)}
 .atlas-preview-link:hover{border-color:var(--red)}
 @media(max-width:900px){.atlas-mapwrap>.mside{position:static;max-height:390px;overflow-y:auto}.atlas-side-photo{max-height:210px}.atlas-compact-links{max-height:250px}}
+
+/* Компактный каталог фильтров персонажей. */
+.hero-groups{display:grid;gap:9px;margin:0 0 24px}
+.hero-group-all{display:flex}
+.hero-group-panel{border:1.5px solid var(--soft);border-radius:10px;background:var(--surface);overflow:hidden}
+.hero-group-panel>summary{cursor:pointer;display:flex;align-items:center;gap:12px;padding:11px 14px;font-weight:600;list-style:none}
+.hero-group-panel>summary::-webkit-details-marker{display:none}
+.hero-group-panel>summary::before{content:'▸';display:inline-block;color:var(--muted);font-size:13px;transition:transform .2s}
+.hero-group-panel[open]>summary::before{transform:rotate(90deg)}
+.hero-group-panel>summary small{margin-left:auto;font-weight:400;color:var(--muted)}
+.hero-group-panel>summary:hover{background:var(--surface2)}
+.hero-group-items{padding:3px 12px 14px}
