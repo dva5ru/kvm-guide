@@ -1507,8 +1507,21 @@ var AUTHOR_PLACED={bnd:1};
 function isOfficial(p){return !!(p.ord&&p.s!=='soon'&&!AUTHOR_PLACED[p.id])}
 var PUNI=null;function puni(id){if(!PUNI){PUNI={};D.enc.universes.forEach(function(u){if(u[0]==='u616')return;u[4].split(',').forEach(function(x){if(x&&!PUNI[x])PUNI[x]=u[1].split(' — ')[0]})})}return PUNI[id]||''}
 function tlKind(p){if(TLV.kind==='film')return filmKind(p);if(TLV.kind==='series')return seriesKind(p);if(TLV.kind==='small')return /anim|short|special/.test(p.k);return true}
+function tlEpisodeDetails(eps){
+  return '<details class="tl-series-episodes"><summary><span>Серии <b>'+eps.length+'</b></span><span class="tl-series-chevron" aria-hidden="true"></span></summary>'+
+    '<ol class="tl-series-episode-list">'+eps.map(function(e){var year=String(e.meta.date||'').slice(0,4);
+      return '<li><a href="#ep-'+esc(e.id)+'"><span class="tl-series-ep-code">S'+e.meta.season+':E'+e[0]+'</span><span class="tl-series-ep-title">'+esc(e.meta.title||'Серия '+e[0])+'</span>'+(year?'<span class="tl-series-ep-date">'+esc(year)+'</span>':'')+'</a></li>'
+    }).join('')+'</ol></details>'
+}
+function tlProSeriesRow(p,num,eps,title,note,tags){
+  return '<li class="row pro-series-row'+(note?' pro-series-split':'')+'"><span class="num">'+(num||'')+'</span>'+cover(p,'mini')+
+    '<a class="ttl" href="#f-'+p.id+'"><b>'+esc(title||p.t)+'</b><span>'+esc(D.k[p.k])+', '+esc(fwhen(p.r))+(note?' · '+esc(note):(p.w&&p.w!=='—'?'. Время действия: '+esc(p.w):''))+'</span></a>'+
+    '<span class="side">'+(tags||'')+'</span>'+tlEpisodeDetails(eps)+'</li>'
+}
 function tlRow(p,num){var u=puni(p.id),tags=(u?'<span class="tag-u">'+esc(u)+'</span>':'')+(AUTHOR_PLACED[p.id]?'<span class="tag-u">место в порядке — авторское</span>':'')+(p.s==='soon'?'<span class="tag-u soon">'+esc(relLabel(p))+'</span>':'');
-  return '<li class="row"><span class="num">'+(num||'')+'</span>'+cover(p,'mini')+'<a class="ttl" href="#f-'+p.id+'"><b>'+esc(p.t)+'</b><span>'+esc(D.k[p.k])+', '+esc(fwhen(p.r))+(p.w&&p.w!=='—'?'. Время действия: '+esc(p.w):'')+'</span></a><span class="side">'+tags+'</span></li>'}
+  if(TLV.scope==='extended'&&seriesKind(p)&&p.eps&&p.eps.length)return tlProSeriesRow(p,num,p.eps,p.t,'',tags);
+  return '<li class="row"><span class="num">'+(num||'')+'</span>'+cover(p,'mini')+'<a class="ttl" href="#f-'+p.id+'"><b>'+esc(p.t)+'</b><span>'+esc(D.k[p.k])+', '+esc(fwhen(p.r))+(p.w&&p.w!=='—'?'. Время действия: '+esc(p.w):'')+'</span></a><span class="side">'+tags+'</span></li>'
+}
 function tlGroupByYear(list){var by={};list.forEach(function(p){(by[p.y]=by[p.y]||[]).push(p)});return Object.keys(by).sort().map(function(y){return '<div class="era"><div class="era-h"><h2>'+y+'</h2><small>'+by[y].length+' '+plural(by[y].length,['проект','проекта','проектов'])+'</small></div><ul class="rows">'+by[y].map(function(p){return tlRow(p,'')}).join('')+'</ul></div>'}).join('')}
 // Author-curated SHIELD crossover intervals: never modify the official Marvel order.
 var AOS_TIMELINE={
@@ -1528,7 +1541,7 @@ function aosTimelineRows(anchor){
   return (AOS_TIMELINE[anchor]||[]).map(function(b){
     var p=P['aos-'+b[0]],eps=(p&&p.eps||[]).filter(function(e){return e[0]>=b[1]&&e[0]<=b[2]});
     if(!eps.length)return '';
-    return '<li class="row aos-timeline-row"><div class="aos-timeline-entry"><details><summary><b>Агенты Щ.И.Т. — сезон '+b[0]+', серии '+b[1]+'–'+b[2]+'</b><span class="muted">'+esc(b[3])+' · '+eps.length+' '+plural(eps.length,['серия','серии','серий'])+'</span></summary><ol class="aos-timeline-episodes">'+eps.map(function(e){return '<li><a href="#ep-'+esc(e.id)+'">'+b[0]+'×'+e[0]+' · '+esc(e.meta.title)+'</a></li>'}).join('')+'</ol></details><a class="aos-timeline-season" href="#f-'+p.id+'">Карточка сезона →</a></div></li>'
+    return tlProSeriesRow(p,'',eps,p.t+' · серии '+b[1]+'–'+b[2],b[3],'')
   }).join('')
 }
 function proChronoOrd(p){return p.id==='iron-man-3'?12.5:p.ord}
