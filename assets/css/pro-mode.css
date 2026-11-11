@@ -31,3 +31,14 @@
  .pro-mode-switch{font-size:18px}
 }
 @media(prefers-reduced-motion:reduce){.pro-mode-track,.pro-mode-dot,.pro-group{transition:none}}
+
+/* Агенты Щ.И.Т.: компактные главы серий между фильмами в PRO-хронологии */
+.row.aos-timeline-row{display:block;padding:8px 18px 12px 56px;min-height:0;border-left:3px solid #647c92}
+.aos-timeline-entry{min-width:0;width:100%}
+.aos-timeline-entry summary{cursor:pointer;display:flex;align-items:center;gap:5px 18px;flex-wrap:wrap;line-height:1.5}
+.aos-timeline-entry summary b{font-weight:650}
+.aos-timeline-entry summary .muted{font-size:12px}
+.aos-timeline-episodes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:8px 20px;margin:12px 0 8px;padding-left:22px}
+.aos-timeline-episodes li{font-size:14px;line-height:1.4}
+.aos-timeline-season{font-size:12px;display:inline-block;margin:8px 0 0}
+@media(max-width:640px){.row.aos-timeline-row{padding:10px 12px}.aos-timeline-episodes{grid-template-columns:1fr}}
