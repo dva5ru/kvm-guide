@@ -509,5 +509,5 @@
   if(document.readyState==='loading'){
     document.addEventListener('DOMContentLoaded',initSiteMotion,{once:true});
   }else initSiteMotion();
-  window.KVMHome6={render:render,mount:mount,unmount:unmount,recent:recent,future:future};
+  window.KVMHome6={render:render,mount:mount,unmount:unmount,recent:recent,future:future,initSiteMotion:initSiteMotion};
 })();
