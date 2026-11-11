@@ -155,12 +155,17 @@ function characterGroupEditor(c){if(!ADM.edit)return '';return '<fieldset class=
 function saveCharacterGroups(cid,groups){if(!ADM.can||!ADM.on||!ADM.edit||!C[cid])return;var gs=cleanGroups(groups);if(!gs.length){toast('Оставьте хотя бы одну группу');rerender();return}setText('c.'+cid+'.groups',JSON.stringify(gs))}
 function characterAppearances(c){return c.app.filter(function(a){var p=P[a[0]];return !(p.editionOf&&c.app.some(function(old){return old[0]===p.editionOf}))})}
 
+var HERO_TEAM_GROUPS='|Мстители|Громовержцы|Стражи Галактики|Ревущие командос|Щ.И.Т.|Гидра|Дора Миладже|Опустошители|Кри|Скруллы|Чёрный орден|Десять колец|УВИ|Наблюдатели|Варианты Локи|Люди Икс|Фантастическая четвёрка|Вечные|Защитники|Кунь-Лунь|Государственная власть|';
+var HERO_WORLD_GROUPS='|Ваканда|Уэствью|Асгард|Космос|Мультивселенная|Другие вселенные|Адская кухня|Улицы Нью-Йорка|Вторая мировая|';
+function heroGroupKind(g){return HERO_TEAM_GROUPS.indexOf('|'+g+'|')>=0?'teams':HERO_WORLD_GROUPS.indexOf('|'+g+'|')>=0?'worlds':'themes'}
+function heroGroupSection(title,list,counts,expanded){if(!list.length)return '';list.sort(function(a,b){return a.localeCompare(b,'ru')});return '<details class="hero-group-panel"'+(expanded||list.indexOf(HS.g)>=0?' open':'')+'><summary>'+esc(title)+' <small>'+list.length+'</small></summary><div class="chips hero-group-items">'+list.map(function(g){return '<button type="button" class="chip'+(HS.g===g?' on':'')+'" data-hs-g="'+esc(g)+'">'+esc(g)+' <i>'+counts[g]+'</i></button>'}).join('')+'</div></details>'}
+
 var HS={g:'all',q:'',dm:false};
 function heroes(){
   var gs=Object.create(null);D.c.forEach(function(c){characterGroups(c).forEach(function(g){gs[g]=(gs[g]||0)+1})});
   return '<h1>Герои</h1><p class="lead" style="margin-top:12px">Нажмите на героя, чтобы увидеть все его появления, камео и порядок просмотра.</p>'+
   '<div class="ctrl"><label><input type="text" data-hs-q placeholder="Имя или актёр" value="'+esc(HS.q)+'" aria-label="Поиск героя"></label></div>'+
-  '<div class="chips" role="group" aria-label="Группа" style="margin-bottom:20px"><button type="button" class="chip'+(HS.g==='all'?' on':'')+'" data-hs-g="all">Все <i>'+D.c.length+'</i></button>'+Object.keys(gs).map(function(g){return '<button type="button" class="chip'+(HS.g===g?' on':'')+'" data-hs-g="'+esc(g)+'">'+esc(g)+' <i>'+gs[g]+'</i></button>'}).join('')+'</div><div id="hs-list">'+hsList()+'</div>';
+  '<div class="hero-groups" role="group" aria-label="Группы персонажей"><div class="hero-group-all"><button type="button" class="chip'+(HS.g==='all'?' on':'')+'" data-hs-g="all">Все <i>'+D.c.length+'</i></button></div>'+heroGroupSection('Команды и фракции',Object.keys(gs).filter(function(g){return heroGroupKind(g)==='teams'}),gs,true)+heroGroupSection('Миры, места и эпохи',Object.keys(gs).filter(function(g){return heroGroupKind(g)==='worlds'}),gs,false)+heroGroupSection('Окружение и темы',Object.keys(gs).filter(function(g){return heroGroupKind(g)==='themes'}),gs,false)+'</div><div id="hs-list">'+hsList()+'</div>';
 }
 function hsList(){var q=norm(HS.q),list=D.c.filter(function(c){return (HS.g==='all'||characterGroups(c).indexOf(HS.g)>=0)&&(!HS.dm||D.dcSet[c.id])&&(!q||norm(c.n+' '+c.a).indexOf(q)>=0)}).sort(function(a,b){return b.app.length-a.app.length});
   if(!list.length)return '<div class="empty">Такого героя нет. Проверьте написание или выберите «Все».</div>';
