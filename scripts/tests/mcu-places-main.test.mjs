@@ -39,12 +39,17 @@ test('only geolocated Earth places have GPS and projected map coordinates',()=>{
       assert.ok(p.lat>=-90&&p.lat<=90);assert.ok(p.lon>=-180&&p.lon<=180);
       assert.ok(p.x>=0&&p.x<=1000);assert.ok(p.y>=0&&p.y<=520);
       assert.ok(['city','landmark','region','historic-site','area','address'].includes(p.location.precision));
+    }else if(p.mapApprox){
+      assert.equal(p.location.precision,'regional');
+      assert.ok(p.lat>=-90&&p.lat<=90&&p.lon>=-180&&p.lon<=180);
+      assert.ok(p.x>=0&&p.x<=1000&&p.y>=0&&p.y<=520);
     }else for(const k of ['lat','lon','x','y'])assert.equal(p[k],undefined,id+' must not have '+k);
     const seen=new Set([p.id]);let q=p;
     while(q.parentId){assert.ok(!seen.has(q.parentId),'hierarchy cycle');seen.add(q.parentId);q=byId.get(q.parentId)}
   }
-  for(const id of ['ta-lo','westview','avengers-compound','camp-lehigh']){
-    const p=byId.get(id);assert.notEqual(p.t,'e');assert.equal(p.lat,undefined);
+  assert.equal(byId.get('ta-lo').lat,undefined);
+  for(const id of ['westview','avengers-compound','camp-lehigh','maria-rambeau-house','gilgamesh-house']){
+    const p=byId.get(id);assert.equal(p.mapApprox,true);assert.equal(p.location.precision,'regional');
   }
   assert.equal(byId.get('baxter-building').parentId,'earth-828');
   assert.equal(byId.get('khan-house').lat,40.7155178);
@@ -57,7 +62,7 @@ test('all new location routes render sources and a geographic or schematic point
     s.g.go('p-'+id);
     assert.equal(s.doc.querySelector('main h1').textContent,byId.get(id).n,id);
     assert.ok(s.doc.querySelector('.place-sources a'),id+' sources are inaccessible');
-    assert.ok(s.doc.querySelector('.place-node,.place-map-pin'),id+' has no map or schematic node');
+    assert.ok(s.doc.querySelector('.place-node,.atlas-preview-link'),id+' has no atlas preview or schematic node');
     assert.ok(!/NaN|undefined/.test(s.doc.querySelector('main').innerHTML),id+' has broken rendered values');
     assert.ok(s.doc.title.startsWith(byId.get(id).n),id+' has an incorrect title');
   }
@@ -72,9 +77,9 @@ test('map controls filter other continuities and keep New Jersey off the NYC cit
   click(s.w,s.doc.querySelector('[data-sp="saber-station"]'));
   assert.match(s.doc.querySelector('#cside').textContent,/S.A.B.E.R./);
   s.g.go('p-jersey-city');
-  assert.ok(s.doc.querySelector('.place-map-pin[href="#p-khan-house"]'));
+  assert.ok(s.doc.querySelector('.atlas-preview-link[data-show-on-map="jersey-city"]'));
   click(s.w,s.doc.querySelector('.place-node[href="#p-khan-house"]'));
   s.g.go('p-khan-house');
   assert.match(s.doc.querySelector('main').textContent,/179 Grove Street/);
-  assert.ok(s.doc.querySelector('.place-map-pin.selected'));
+  assert.ok(s.doc.querySelector('.atlas-preview-link[data-show-on-map="khan-house"]'));
 });
