@@ -1,7 +1,8 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {loadGuide,click,editMode} from './guide-dom.mjs';
+import {JSDOM} from 'jsdom';
+import {loadGuide,click,editMode,input} from './guide-dom.mjs';
 
 const SECTION_NAMES=['Киновселенная Marvel','Как смотреть КВМ','В фокусе','Вопросы без простых ответов','Что посмотреть','Недавно вышло','Скоро','История персонажа','Случайное открытие'];
 
@@ -138,10 +139,78 @@ test('published analytic essays are linked from the homepage and illustrated by 
   for(const slug of ['vision','armor','civil-war','thanos','snap']){
     assert.ok(hub.includes('article-'+slug+'.html'),'hub lists '+slug);
     const article=readFileSync(new URL('../../article-'+slug+'.html',import.meta.url),'utf8');
-    assert.match(article,/Источники и метод/,'essay '+slug+' includes a source section');
-    assert.match(article,/Иллюстрация из медиатеки KVM Guide/,'essay '+slug+' labels cover media honestly');
+    assert.doesNotMatch(article,/Источники и метод|КОРОТКИЙ ОТВЕТ|медиатеки KVM Guide/,'essay '+slug+' omits editorial boilerplate');
+    assert.match(article,/<figure class="ed-cover"><img/,'essay '+slug+' retains its cover');
   }
   for(const file of ['f-endgame.jpg','f-infinity-war.jpg','f-deadpool-wolverine.jpg','f-wandavision.jpg'])
     assert.ok(readFileSync(new URL('../../img/'+file,import.meta.url)).byteLength>0,'featured illustration exists: '+file);
   assert.equal(errors.length,0,errors.join('\n'));
+});
+
+test('article editor saves a draft, uploads a cover and publishes the same changes to the article and cards', async t => {
+  const s = loadGuide();
+  t.after(s.close);
+  const {g, w, doc, errors} = s;
+  const articleHTML = readFileSync(new URL('../../article-snap.html', import.meta.url), 'utf8');
+  const articlesJS = readFileSync(new URL('../../assets/js/articles.js', import.meta.url), 'utf8');
+  w.fetch = async () => ({ok: true, text: async () => articleHTML});
+  w.eval(articlesJS);
+  g.go('admin/articles?article=snap');
+  assert.ok(doc.querySelector('[data-adm="login"]'));
+  assert.equal(doc.querySelector('[data-article-editor]'), null);
+
+  g.ADM.can = g.ADM.on = true;
+  w.Image = class {
+    width = 1800;
+    height = 1100;
+    set src(value) { queueMicrotask(() => this.onload()); }
+  };
+  w.HTMLCanvasElement.prototype.toDataURL = () => 'data:image/webp;base64,eA==';
+  g.ADM.assets = {upload: async () => ({url: 'img/editorial-snap-cover.webp?v=1'})};
+  let published;
+  g.ADM.art = {publish: async payload => { published = JSON.parse(payload['content.json'].content); }};
+  g.go('admin/articles?article=snap');
+  const settle = () => new Promise(resolve => setImmediate(resolve));
+  await settle();
+
+  const editor = doc.querySelector('[data-article-editor]');
+  assert.equal(editor.querySelector('select').options.length, 6);
+  const parts = [...editor.querySelectorAll('details')];
+  assert.deepEqual(parts.slice(1).map(part => part.querySelector('summary').textContent),
+    ['Капитан Марвел', 'Тор', 'Росомаха', 'Дэдпул', 'Вижн', 'Альтрон', 'Икарис', 'Грут', 'Адам Уорлок', 'Алая Ведьма']);
+  input(w, editor.querySelector('.article-editor-content input'), 'Новый заголовок');
+  const vision = parts.find(part => part.querySelector('summary').textContent === 'Вижн');
+  input(w, vision.querySelector('input'), 'Белый Вижн');
+  input(w, vision.querySelectorAll('textarea')[1], 'Синтетическое тело выдерживает <разряд>.');
+  const upload = editor.querySelector('[data-img-one="editorial-snap-cover"]');
+  Object.defineProperty(upload, 'files', {value: [new w.File(['image'], 'cover.webp', {type: 'image/webp'})]});
+  upload.dispatchEvent(new w.Event('change', {bubbles: true}));
+  for (let i = 0; i < 10 && !g.getOvr().img['editorial-snap-cover']; i++) await settle();
+  const draft = JSON.parse(w.localStorage.getItem('kvm-draft:/kvm-guide/:v1'));
+  assert.equal(draft.text['editorial.snap.title'], 'Новый заголовок');
+  assert.equal(draft.img['editorial-snap-cover'], 'img/editorial-snap-cover.webp?v=1');
+
+  g.go('home');
+  const card = doc.querySelector('.h6-analysis-card[href="article-snap.html"]');
+  assert.equal(card.querySelector('h3').textContent, 'Новый заголовок');
+  assert.match(card.querySelector('img').src, /editorial-snap-cover\.webp/);
+  click(w, doc.querySelector('[data-adm="publish"]'));
+  await settle();
+  assert.ok(published);
+  assert.equal(w.localStorage.getItem('kvm-draft:/kvm-guide/:v1'), null);
+
+  const page = new JSDOM(articleHTML, {url: 'https://example.test/kvm-guide/article-snap.html', runScripts: 'outside-only'});
+  t.after(() => page.window.close());
+  page.window.fetch = async () => ({ok: true, json: async () => published});
+  page.window.eval(articlesJS);
+  await settle();
+  const publicDoc = page.window.document;
+  assert.equal(publicDoc.querySelector('h1').textContent, 'Новый заголовок');
+  assert.equal(publicDoc.querySelector('.ed-cover img').getAttribute('src'), 'img/editorial-snap-cover.webp?v=1');
+  assert.equal(publicDoc.querySelector('#vision h2').textContent, 'Белый Вижн');
+  assert.equal(publicDoc.querySelector('.ed-aside a[href="#vision"]').textContent, 'Белый Вижн');
+  assert.match(publicDoc.querySelector('#vision p:nth-of-type(2)').textContent, /<разряд>/);
+  assert.ok(publicDoc.querySelector('#vision p:nth-of-type(2) a[href^="https://"]'), 'the episode link survives editing the paragraph');
+  assert.equal(publicDoc.querySelector('.ed-summary, .ed-method, figcaption'), null);
+  assert.equal(errors.length, 0, errors.join('\n'));
 });

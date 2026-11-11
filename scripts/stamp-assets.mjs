@@ -1,10 +1,10 @@
 // Проставляет версии (?v=отпечаток содержимого) к файлам из assets/ и data/ и приводит data/*.json к единому формату.
 // Запуск: npm run stamp — после любой правки файлов в assets/ или data/.
-import {readFileSync,writeFileSync,existsSync} from 'node:fs';
+import {readFileSync,writeFileSync,existsSync,readdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {formatData} from './data-format.mjs';
-export const PAGES=['index.html','articles.html','legal.html'];
 const root=new URL('../',import.meta.url);
+export const PAGES=['index.html','articles.html','legal.html',...readdirSync(root).filter(name=>/^article-.*\.html$/.test(name))];
 export function assetHash(path){return createHash('sha1').update(readFileSync(new URL(path,root))).digest('hex').slice(0,10)}
 export const ASSET_REF=/((?:href|src)=")(\.\/)?(assets\/[^"?#]+)(?:\?v=[0-9a-f]*)?(")/g;
 export const MANIFEST_RE=/(<script type="application\/json" id="kvm-data-files">)([\s\S]*?)(<\/script>)/;

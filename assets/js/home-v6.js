@@ -115,15 +115,20 @@
   function analysis(ctx){
     var rows=[
       {title:"Почему Танос без Камней оказался опаснее Таноса с шестью Камнями?",desc:"Боевой опыт, Громсекира, неизвестный металл клинка и последствия Щелчка.",img:"f-infinity-war",label:"ОПУБЛИКОВАНО · СИЛА · ТАНОС",href:"article-thanos.html"},
-      {title:"Кто из героев Marvel смог бы пережить Щелчок бесконечности?",desc:"Росомаха, Дэдпул, Тор, Ванда, Вижн и Капитан Марвел: кто выдержал бы Перчатку?",img:"f-deadpool-wolverine",label:"ОПУБЛИКОВАНО · ЭКСПЕРИМЕНТ · КАМНИ",href:"article-snap.html"},
+      {title:"Кто из героев Marvel смог бы пережить Щелчок бесконечности?",desc:"Капитан Марвел, Тор, Росомаха, Дэдпул, Вижн, Альтрон, Икарис, Грут, Адам Уорлок и Ванда. Кто щёлкнул бы и кто пережил бы отдачу?",img:"f-deadpool-wolverine",label:"ОПУБЛИКОВАНО · ЭКСПЕРИМЕНТ · КАМНИ",href:"article-snap.html"},
       {title:"Почему Мстители позволили разобрать Вижна на запчасти?",desc:"Кому принадлежало тело Вижна, что делал М.Е.Ч. и почему герои не вмешались?",img:"f-wandavision",label:"ОПУБЛИКОВАНО · ПРАВО · ВИЖН",href:"article-vision.html"}
     ];
     return '<section class="h6-section h6-analysis" aria-labelledby="h6-analysis-title">'+
       '<div class="h6-section-title"><h2 id="h6-analysis-title">Вопросы без простых ответов</h2><a href="articles.html">Все разборы <span aria-hidden="true">↗</span></a></div>'+
       '<p class="h6-section-sub">Не пересказываем сюжеты: исследуем спорные вопросы, сверяем реплики и сцены, отделяем факты от предположений.</p>'+
-      '<div class="h6-analysis-grid">'+rows.map(function(x,i){
-        var inside='<div class="h6-analysis-photo">'+photoPanel(ctx,x.img,x.title,'h6-analysis-img')+'</div>'+
-          '<div class="h6-analysis-body"><span class="h6-analysis-meta">'+esc(x.label)+'</span><h3>'+esc(x.title)+'</h3><p>'+esc(x.desc)+'</p>'+
+      '<div class="h6-analysis-grid">'+rows.map(function(x){
+        var id=x.href.slice('article-'.length,-'.html'.length);
+        var edited=window.KVMArticles?window.KVMArticles.presentation(ctx.OVR,id):{};
+        var title=edited.title||x.title,lead=edited.lead||x.desc;
+        var photo=edited.cover?'<img class="h6-analysis-img" src="'+esc(edited.cover)+'" alt="'+esc(edited.coverAlt??title)+'" loading="lazy" decoding="async">':
+          photoPanel(ctx,x.img,edited.coverAlt??title,'h6-analysis-img');
+        var inside=(edited.coverHidden?'':'<div class="h6-analysis-photo">'+photo+'</div>')+
+          '<div class="h6-analysis-body"><span class="h6-analysis-meta">'+esc(x.label)+'</span><h3>'+esc(title)+'</h3><p>'+esc(lead)+'</p>'+
           (x.href?'<span class="h6-analysis-link">Читать разбор <span aria-hidden="true">↗</span></span>':'<span class="h6-analysis-soon">Скоро</span>')+'</div>';
         return x.href?'<a class="h6-analysis-card h6-analysis-card-main" href="'+esc(x.href)+'">'+inside+'</a>':
           '<article class="h6-analysis-card h6-analysis-card-planned">'+inside+'</article>';

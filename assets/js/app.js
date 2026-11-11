@@ -670,7 +670,7 @@ function imgCopyUnmatched(){
   prompt('Скопируйте список:',content)
 }
 function imgMatchReason(u){var match=imgResolve(u.name);if(match.key)return 'Имя распознано. Нажмите «Поставить», чтобы назначить фото.';if(match.reason==='ambiguous')return 'Несколько подходящих карточек: '+match.candidates.slice(0,3).map(function(key){return keyName(key)+' ['+key+']'}).join('; ')+(match.candidates.length>3?'…':'')+'. Выберите нужную ниже.';return match.reason==='unknown-id'?'ID из имени файла не найден. Выберите карточку ниже.':'Не удалось однозначно определить карточку. Выберите её ниже.'}
-function keyName(k){var mn=typeof mapImgName==='function'?mapImgName(k):null;if(mn)return mn;if(k.indexOf('--look-')>=0){var cid=k.slice(2,k.indexOf('--look-'));return (C[cid]?C[cid].n:cid)+' — '+charLookLabel(k)}var id=k.slice(2);if(k.slice(0,3)==='pl-'){id=k.slice(3);return PL[id]?PL[id].n:id}if(k[0]==='f')return P[id]?P[id].t:id;if(k[0]==='a'){var a=artGet(id);return a?a.n:id}return C[id]?C[id].n:id}
+function keyName(k){var article=k.indexOf('editorial-')===0&&window.KVMArticles&&window.KVMArticles.photoArticle(k);if(article)return article[1];var mn=typeof mapImgName==='function'?mapImgName(k):null;if(mn)return mn;if(k.indexOf('--look-')>=0){var cid=k.slice(2,k.indexOf('--look-'));return (C[cid]?C[cid].n:cid)+' — '+charLookLabel(k)}var id=k.slice(2);if(k.slice(0,3)==='pl-'){id=k.slice(3);return PL[id]?PL[id].n:id}if(k[0]==='f')return P[id]?P[id].t:id;if(k[0]==='a'){var a=artGet(id);return a?a.n:id}return C[id]?C[id].n:id}
 function imgRefresh(){
   var active=document.activeElement,idx=active&&active.getAttribute&&active.getAttribute('data-unm-in'),selection=null;
   if(idx!==null&&idx!==undefined)try{selection=[active.selectionStart,active.selectionEnd]}catch(e){}
@@ -680,7 +680,7 @@ function imgRefresh(){
   if(r&&idx!==null&&idx!==undefined){var next=r.querySelector('[data-unm-in="'+idx+'"]');if(next&&!next.disabled){next.focus();if(selection&&selection[0]!==null)try{next.setSelectionRange(selection[0],selection[1])}catch(e){}}}
 }
 function imgEnqueue(task){var job=IMG_QUEUE.then(task);IMG_QUEUE=job.catch(function(){});return job}
-function imgUploadOne(input){var file=input.files[0],key=input.getAttribute('data-img-one'),page=CUR;if(!file)return;input.value='';input.disabled=true;IMG_BUSY++;imgRefresh();return imgEnqueue(function(){return (typeof mapImgMax==='function'&&mapImgMax(key)?shrinkMap(file,mapImgMax(key)):shrink(file)).then(function(url){return imgPut(key,url)})}).then(function(){toast('Картинка добавлена. Нажмите «Опубликовать».');if(CUR===page)rerender()}).catch(function(e){toast('Картинка не добавлена: '+(e&&e.message||'не удалось прочитать файл'));IMG_FAILED.push({name:file.name,error:e&&e.message||'ошибка обработки'})}).then(function(){IMG_BUSY--;input.disabled=false;imgRefresh()})}
+function imgUploadOne(input){var file=input.files[0],key=input.getAttribute('data-img-one'),page=CUR;if(!file)return;input.value='';input.disabled=true;IMG_BUSY++;imgRefresh();return imgEnqueue(function(){var max=key.indexOf('editorial-')===0?1440:typeof mapImgMax==='function'?mapImgMax(key):0;return (max?shrinkMap(file,max):shrink(file)).then(function(url){return imgPut(key,url)})}).then(function(){toast('Картинка добавлена. Нажмите «Опубликовать».');if(CUR===page)rerender()}).catch(function(e){toast('Картинка не добавлена: '+(e&&e.message||'не удалось прочитать файл'));IMG_FAILED.push({name:file.name,error:e&&e.message||'ошибка обработки'})}).then(function(){IMG_BUSY--;input.disabled=false;imgRefresh()})}
 function imgAssign(index){var u=UNM[index],input=document.querySelector('[data-unm-in="'+index+'"]');if(!u||u.done||u.pending)return;var value=input?input.value.trim():u.target||'',key=imgTarget(value);u.target=value;imgQueueSave();if(!key){if(input)input.classList.add('err');toast('Выберите точную карточку из подсказок: фильм, героя, артефакт или материал.');return}u.pending=true;IMG_BUSY++;imgRefresh();return imgEnqueue(function(){return imgPut(key,u.url)}).then(function(){u.done=true;IMG_OK.push(key);return imgQueueSave()}).catch(function(e){IMG_FAILED.push({name:u.name,error:e&&e.message||'ошибка загрузки'})}).then(function(){u.pending=false;IMG_BUSY--;imgRefresh()})}
 function imgHandle(files){var items=Array.prototype.slice.call(files||[]).filter(function(f){return /^image\//i.test(f.type)||(!f.type||f.type==='application/octet-stream')&&/\.(jpe?g|png|webp|gif|avif|bmp)$/i.test(f.name)});if(!items.length){toast('Выберите изображения');return}
   IMG_BUSY+=items.length;imgRefresh();
@@ -698,9 +698,9 @@ function imgResHTML(ok){return (IMG_BUSY?'<p class="muted" role="status">Ост�
   (UNM.some(function(u){return !u.done})?'<h3 class="sub">Выберите, куда поставить ('+UNM.filter(function(u){return !u.done}).length+')</h3><p class="muted">Неопознанные фото сохраняются в этом браузере. Если вы загружали их до обновления сайта, перезагрузите страницу: очередь восстановится. Совпадения можно назначить сразу одной кнопкой. Спорные имена требуют ручного выбора.</p>'+(imgRecoverable().length?'<button type="button" class="btn" data-unm-recover>Поставить распознанные ('+imgRecoverable().length+')</button> ':'')+'<button type="button" class="btn" data-unm-copy>Скопировать список неназначенных</button><datalist id="img-targets">'+imgIndex().filter(function(e,i,a){return a.findIndex(function(x){return x[0]===e[0]})===i}).map(function(e){return '<option value="'+esc(e[2]+' ['+e[0]+']')+'">'}).join('')+'</datalist>'+
    UNM.map(function(u,i){return u.done?'':'<div class="unm"><img src="'+u.url+'" alt=""><span>'+esc(u.name)+'<small class="muted">'+esc(imgMatchReason(u))+'</small></span><input type="text" list="img-targets" data-unm-in="'+i+'" value="'+esc(imgDefaultTarget(u))+'" placeholder="Название или ID карточки" aria-label="Куда поставить '+esc(u.name)+'"'+(u.pending?' disabled':'')+'><button type="button" class="btn" data-unm="'+i+'"'+(u.pending?' disabled':'')+'>'+(u.pending?'Сохраняю…':'Поставить')+'</button></div>'}).join(''):'')}
 var IMG_FOLDERS=[['heroes','Герои'],['places','Места'],['posters','Постеры'],['artifacts','Артефакты']];
-function imgFolder(k){return k.slice(0,3)==='pl-'?'places':k.slice(0,2)==='c-'?'heroes':k.slice(0,2)==='f-'?'posters':'artifacts'}
-function imgHaveHTML(){var ks=Object.keys(IMG).sort();return '<section id="img-have"><div class="sec-h"><h2>Мои картинки ('+ks.length+')</h2>'+(ks.length?'<button type="button" class="btn" data-img-clear>Удалить все</button>':'')+'</div>'+
- IMG_FOLDERS.map(function(f){var sub=ks.filter(function(k){return imgFolder(k)===f[0]});return '<section class="img-folder"><h3>'+f[1]+' <span class="muted">('+sub.length+')</span></h3>'+(sub.length?'<div class="hgrid">'+sub.map(function(k){var base=k.split('--look-')[0],dest=base.slice(0,3)==='pl-'?'p-'+base.slice(3):base;return '<div class="panel hcard"><img class="thumb" src="'+esc(IMG[k])+'" alt=""><span><b>'+esc(keyName(k))+'</b><a href="#'+dest+'">Открыть</a> · <button type="button" class="linkbtn" data-img-del="'+k+'">Убрать</button></span></div>'}).join('')+'</div>':'<p class="muted">Пока пусто.</p>')+'</section>'}).join('')+'</section>'}
+function imgFolder(k){return k.indexOf('editorial-')===0?'articles':k.slice(0,3)==='pl-'?'places':k.slice(0,2)==='c-'?'heroes':k.slice(0,2)==='f-'?'posters':'artifacts'}
+function imgHaveHTML(){var ks=Object.keys(IMG).sort(),folders=ks.some(function(k){return imgFolder(k)==='articles'})?IMG_FOLDERS.concat([['articles','Статьи']]):IMG_FOLDERS;return '<section id="img-have"><div class="sec-h"><h2>Мои картинки ('+ks.length+')</h2>'+(ks.length?'<button type="button" class="btn" data-img-clear>Удалить все</button>':'')+'</div>'+
+ folders.map(function(f){var sub=ks.filter(function(k){return imgFolder(k)===f[0]});return '<section class="img-folder"><h3>'+f[1]+' <span class="muted">('+sub.length+')</span></h3>'+(sub.length?'<div class="hgrid">'+sub.map(function(k){var base=k.split('--look-')[0],article=f[0]==='articles'&&window.KVMArticles&&window.KVMArticles.photoArticle(k),dest=article?'admin/articles?article='+article[0]:base.slice(0,3)==='pl-'?'p-'+base.slice(3):base;return '<div class="panel hcard"><img class="thumb" src="'+esc(IMG[k])+'" alt=""><span><b>'+esc(keyName(k))+'</b><a href="#'+dest+'">Открыть</a> · <button type="button" class="linkbtn" data-img-del="'+k+'">Убрать</button></span></div>'}).join('')+'</div>':'<p class="muted">Пока пусто.</p>')+'</section>'}).join('')+'</section>'}
 
 
 
@@ -760,14 +760,15 @@ function dirtyCount(){var n=0,a=OVR,b=PUB||{text:{},img:{},hide:{},nav:{},copy:{
 function saveDraft(){histPush();ADM.saveErr='';if(ADM.conflict){admBar();return}try{var js0=JSON.stringify(OVR);localStorage.setItem(DRAFT_KEY,js0);ADM.lastSaved=js0;ADM.savedAt=new Date()}catch(e){ADM.saveErr=(e&&e.name==='QuotaExceededError')?'не хватает места в браузере — опубликуйте или скачайте копию':'браузер не дал сохранить черновик';toast('Черновик не сохранён: '+ADM.saveErr)}admBar()}
 var DRAFT_KEY='kvm-draft:'+(location.pathname||'')+':v1';
 function draftRead(){try{var d=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');return d&&typeof d==='object'&&!Array.isArray(d)?normOvr(d):null}catch(e){return null}}
-function overrideEqual(a,b){return ['text','img','hide','nav','copy','spoilers'].every(function(k){return JSON.stringify(a[k]||{})===JSON.stringify(b[k]||{})})}
-function acceptPublished(pub){
+var OVERRIDE_FIELDS=['text','img','hide','nav','copy','spoilers','pos'];
+function overrideEqual(a,b){return OVERRIDE_FIELDS.every(function(k){return JSON.stringify(a[k]||{})===JSON.stringify(b[k]||{})})}
+function acceptPublished(pub,authoritative){
   var latest=normOvr(pub),base=PUB||normOvr({}),local=OVR,dirty=!overrideEqual(local,base);
-  if((latest.ts||0)<(base.ts||0))return;
+  if(!authoritative&&(latest.ts||0)<(base.ts||0))return;
   PUB=clone(latest);
   if(dirty){
     var merged=clone(latest);
-    ['text','img','hide','nav','copy','spoilers'].forEach(function(k){var keys={};
+    OVERRIDE_FIELDS.forEach(function(k){var keys={};
       Object.keys(base[k]||{}).concat(Object.keys(local[k]||{})).forEach(function(x){keys[x]=1});
       Object.keys(keys).forEach(function(x){
         if(JSON.stringify(local[k][x])===JSON.stringify(base[k][x]))return;
@@ -783,7 +784,7 @@ function rerender(){KEEP=true;var y=window.scrollY;route();window.scrollTo(0,y);
 
 // Keep source identity on the actual node; edited values are never used as keys.
 var COPY_NODES=new WeakMap(),COPY_ATTRS=new WeakMap();
-var COPY_SKIP='script,style,textarea,input,select,option,.ed-box,.blk-bar,.item-photo-controls,.imgone,.character-groups-editor,[data-spk],[data-sphide],.h6-page button,.h6-editor,.h6-admin,.map-adm,[data-drag],.nycmap,.smap,.ymap,.earthimg';
+var COPY_SKIP='script,style,textarea,input,select,option,.ed-box,.blk-bar,.item-photo-controls,.imgone,.character-groups-editor,[data-spk],[data-sphide],.h6-page button,.h6-editor,.h6-admin,[data-article-editor],.map-adm,[data-drag],.nycmap,.smap,.ymap,.earthimg';
 function copyScope(el){var a=el.closest('a[href^="#f-"],a[href^="#c-"],a[href^="#ep-"],a[href^="#a-"],a[href^="#p-"],a[href^="#w-"],a[href^="#l-"],a[href^="#e-"],a[href^="#r-"],a[href^="#o-"]');return a?a.getAttribute('href').slice(1):CUR}
 function copyKey(scope,text){return scope+'|'+text}
 function copyValue(scope,source){var local=OVR.copy[copyKey(scope,source)],all=OVR.copy[copyKey('*',source)];return local!==undefined?local:all!==undefined?all:source}
@@ -1000,7 +1001,7 @@ function admBar(){var b=document.getElementById('adm');if(!ADM.can){if(b)b.remov
   if(!b){b=document.createElement('div');b.id='adm';b.className='adm';document.body.appendChild(b)}
   var n=dirtyCount();
   if(ADM.guest){b.innerHTML='<span class="adm-t">Вы смотрите как гость</span><button type="button" data-adm="guest">Вернуться в админку</button>';return}
-  b.innerHTML='<span class="adm-t">Админка</span><button type="button" data-adm="edit" class="'+(ADM.edit?'on':'')+'">'+(ADM.edit?'✓ Режим правки':'✎ Править')+'</button><button type="button" data-adm="undo" title="Отменить (Ctrl+Z)"'+(HIST.length?'':' disabled')+'>↶</button><button type="button" data-adm="redo" title="Вернуть (Ctrl+Shift+Z)"'+(FUT.length?'':' disabled')+'>↷</button><a href="#images" class="adm-l">Картинки</a><button type="button" data-adm="settings">Разделы и блоки</button><button type="button" data-adm="guest">Как видит гость</button>'+(ADM.gh?'<button type="button" data-adm="logout">Выйти</button>':'<button type="button" data-adm="export">Скачать для GitHub</button>')+''+
+  b.innerHTML='<span class="adm-t">Админка</span><button type="button" data-adm="edit" class="'+(ADM.edit?'on':'')+'">'+(ADM.edit?'✓ Режим правки':'✎ Править')+'</button><button type="button" data-adm="undo" title="Отменить (Ctrl+Z)"'+(HIST.length?'':' disabled')+'>↶</button><button type="button" data-adm="redo" title="Вернуть (Ctrl+Shift+Z)"'+(FUT.length?'':' disabled')+'>↷</button><a href="#images" class="adm-l">Картинки</a><a href="#admin/articles" class="adm-l">Статьи</a><button type="button" data-adm="settings">Разделы и блоки</button><button type="button" data-adm="guest">Как видит гость</button>'+(ADM.gh?'<button type="button" data-adm="logout">Выйти</button>':'<button type="button" data-adm="export">Скачать для GitHub</button>')+''+
   '<span class="adm-s">'+(ADM.conflict?'⚠ Черновик изменён в другой вкладке — обновите страницу':ADM.saveErr?'⚠ '+esc(ADM.saveErr):(n?'Не опубликовано: '+n+(ADM.savedAt?' (черновик сохранён в '+String(ADM.savedAt.getHours()).padStart(2,'0')+':'+String(ADM.savedAt.getMinutes()).padStart(2,'0')+')':''):'Всё опубликовано'))+'</span><button type="button" data-adm="publish" class="pub"'+(n?'':' disabled')+'>Опубликовать</button>'+(n?'<button type="button" data-adm="discard" class="adm-x">Отменить</button>':'')}
 function settingsHTML(){var hid=Object.keys(OVR.hide).filter(function(k){return OVR.hide[k]===1});
   return '<div class="modal" id="admset" role="dialog" aria-modal="true" aria-label="Разделы и блоки"><div class="modal-c panel pad"><div class="sec-h"><h2>Разделы и блоки</h2><button type="button" class="btn" data-adm="close">Закрыть</button></div>'+
@@ -1172,6 +1173,7 @@ document.addEventListener('click',function(e){
     if(act==='texts'){closeModal();document.body.insertAdjacentHTML('beforeend',contentEditor());return}
     if(act==='settings'){var m1=document.getElementById('admset');if(m1)m1.remove();ADM.retFocus=at;document.body.insertAdjacentHTML('beforeend',settingsHTML());var mc=document.querySelector('#admset [data-adm="close"]');if(mc)mc.focus();return}
     if(act==='close'){closeModal();return}
+    if(act==='login'){openGhLogin();return}
     if(act==='guest'){ADM.guest=!ADM.guest;ADM.on=!ADM.guest;if(ADM.guest)ADM.edit=false;applyNav();admBar();rerender();return}
     if(act==='publish'){admPublish();return}
     if(act==='undo'){histGo(-1);return}
@@ -1346,14 +1348,21 @@ document.addEventListener('keydown',function(e){if(!ADM.can||ADM.guest)return;va
 var LKV=null;
 function lkMode(){return LKV||(window.innerWidth<640?'list':'graph')}
 // ---------- редактор на самом сайте (GitHub Pages) ----------
-var GH=null,PREV={};try{GH=JSON.parse(localStorage.getItem('kvm-gh')||'null')}catch(e){}
+var GH=null,PREV={},ARTICLE_PREV={};try{GH=JSON.parse(localStorage.getItem('kvm-gh')||'null')}catch(e){}
 function imgSrc(k){return PREV[k]||IMG[k]}
 function ghApi(path,opt){opt=opt||{};opt.headers=Object.assign({'Accept':'application/vnd.github+json','Authorization':'Bearer '+GH.token},opt.headers||{});
   return fetch('https://api.github.com/repos/'+GH.repo+path,opt).then(function(r){if(r.status===404&&(!opt.method||opt.method==='GET'))return null;if(!r.ok)return r.json().catch(function(){return {}}).then(function(j){throw new Error(j&&j.message?j.message:'GitHub ответил '+r.status)});return r.json()})}
 function ghGet(path){return ghApi('/contents/'+encodeURI(path)+'?ref='+encodeURIComponent(GH.branch))}
 function b64utf8(s){return btoa(unescape(encodeURIComponent(s)))}
 function utf8b64(b){return decodeURIComponent(escape(atob(b.replace(/\s/g,''))))}
-function ghPut(path,b64,msg){return ghGet(path).then(function(j){var body={message:msg,content:b64,branch:GH.branch};if(j&&j.sha)body.sha=j.sha;return ghApi('/contents/'+encodeURI(path),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})})}
+function ghWrite(path,b64,msg,previous){var body={message:msg,content:b64,branch:GH.branch};if(previous&&previous.sha)body.sha=previous.sha;
+  return ghApi('/contents/'+encodeURI(path),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})}
+function ghPut(path,b64,msg){return ghGet(path).then(function(previous){return ghWrite(path,b64,msg,previous)})}
+function ghPublishContent(json){return ghGet('content.json').then(function(previous){
+  if(previous&&previous.content){var latest=normOvr(JSON.parse(utf8b64(previous.content)));
+    if(!overrideEqual(latest,PUB)){acceptPublished(latest,true);throw {code:'на GitHub появились новые правки, черновик объединён'};}}
+  return ghWrite('content.json',b64utf8(json),'Публикация правок путеводителя',previous)
+})}
 function safeKey(k){return k.replace(/[^a-z0-9-]/gi,'_')}
 function ghLoginHTML(err){return '<div class="modal" id="admset" role="dialog" aria-modal="true" aria-label="Вход в редактор"><div class="modal-c panel pad"><div class="sec-h"><h2>Вход в редактор</h2><button type="button" class="btn" data-adm="close">Закрыть</button></div>'+
   '<p class="muted">Редактор сохраняет правки и картинки прямо в ваш репозиторий на GitHub. Данные для входа хранятся только в этом браузере.</p>'+(err?'<p class="ok-note" style="color:var(--red)">'+esc(err)+'</p>':'')+
@@ -1369,13 +1378,13 @@ function ghLogin(){var repo=(document.getElementById('ghRepo').value||'').trim()
     try{localStorage.setItem('kvm-gh',JSON.stringify(GH))}catch(e){}closeModal();ghEnable(true)}).catch(function(e){GH=null;openGhLogin('Не получилось войти: '+e.message)})}
 function openGhLogin(err){var m=document.getElementById('admset');if(m)m.remove();document.body.insertAdjacentHTML('beforeend',ghLoginHTML(err));var f=document.getElementById(GH&&GH.repo?'ghToken':'ghRepo');if(f)f.focus()}
 function ghEnable(fresh){if(window.KVMData&&!KVMData.has()){KVMData.all().then(function(){ghEnable(fresh)},function(e){toast('Не удалось загрузить данные редактора: '+(e&&e.message||'ошибка'))});return}ADM.can=true;ADM.on=true;ADM.gh=true;ADM.assets=null;
-  ADM.art={publish:function(x){if(typeof x==='string')return Promise.reject({code:'not_supported'});var json=x['content.json'].content;return ghPut('content.json',b64utf8(json),'Публикация правок путеводителя')}};
+  ADM.art={publish:function(x){if(typeof x==='string')return Promise.reject({code:'not_supported'});return ghPublishContent(x['content.json'].content)}};
   LASTSNAP=JSON.stringify(OVR);
   ghGet('content.json').then(function(j){if(j&&j.content)acceptPublished(JSON.parse(utf8b64(j.content)))}).catch(function(){});
   applyNav();admBar();rerender();if(fresh)toast('Вы вошли в редактор. Правки сохраняются в репозиторий '+GH.repo);ghMigrateCheck()}
 function ghLogout(){if(!confirm('Выйти из редактора на этом устройстве?'))return;try{localStorage.removeItem('kvm-gh')}catch(e){}GH=null;ADM.can=ADM.on=ADM.edit=ADM.gh=false;var b=document.getElementById('adm');if(b)b.remove();applyNav();rerender()}
 // картинки сразу уходят в репозиторий
-function ghImgUpload(key,dataUrl){var path='img/'+safeKey(key)+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8)+(/^data:image\/webp/.test(dataUrl)?'.webp':/^data:image\/png/.test(dataUrl)?'.png':'.jpg');PREV[key]=dataUrl;return ghPut(path,dataUrl.split(',')[1],'Картинка: '+keyName(key)).then(function(){OVR.img[key]=path+'?v='+Date.now();IMG=OVR.img;delete PREV[key];saveDraft();imgRefresh()}).catch(function(e){delete PREV[key];throw new Error('«'+keyName(key)+'»: '+e.message)})}
+function ghImgUpload(key,dataUrl){var path='img/'+safeKey(key)+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8)+(/^data:image\/webp/.test(dataUrl)?'.webp':/^data:image\/png/.test(dataUrl)?'.png':'.jpg');PREV[key]=dataUrl;return ghPut(path,dataUrl.split(',')[1],'Картинка: '+keyName(key)).then(function(){OVR.img[key]=path+'?v='+Date.now();IMG=OVR.img;if(key.indexOf('editorial-')===0)ARTICLE_PREV[key]={url:IMG[key],src:dataUrl};delete PREV[key];saveDraft();imgRefresh()}).catch(function(e){delete PREV[key];throw new Error('«'+keyName(key)+'»: '+e.message)})}
 function ghMigrateCheck(){var ks=Object.keys(OVR.img).filter(function(k){return /^data:image\//.test(OVR.img[k])});if(!ks.length)return;toast('Переношу '+ks.length+' встроенных картинок в репозиторий…');IMG_BUSY+=ks.length;imgRefresh();var ch=Promise.resolve();ks.forEach(function(k){ch=ch.then(function(){return imgEnqueue(function(){return ghImgUpload(k,OVR.img[k])}).catch(function(e){IMG_FAILED.push({name:keyName(k),error:e.message})}).then(function(){IMG_BUSY--;imgRefresh()})})});ch.then(function(){imgRefresh();toast(IMG_FAILED.length?'Часть картинок не перенесена — проверьте список ошибок.':'Картинки перенесены. Нажмите «Опубликовать».')})}
 // ---------- спойлеры: по умолчанию скрыты, текст не попадает в страницу до раскрытия ----------
 var SPO={mode:'off',ord:0};
@@ -1443,8 +1452,21 @@ function route(){
   else if(m){var OGI={};D.enc.orgs.forEach(function(o){OGI[o[0]]=o});var RCI={};D.enc.races.forEach(function(r){RCI[r[0]]=r});var AIX={};artAll().forEach(function(a){AIX[a.id]=a});var RTI={};(D.routes||[]).forEach(function(r){RTI[r[0]]=r});
     var src={o:[OGI,orgView],w:[RTI,routeView],f:[P,projectView],c:[C,charView],p:[PL,placeView],e:[EV,eventView],l:[LN,lineView],a:[AIX,artView],r:[RCI,raceView]}[m[1]],o=src[0][m[2]];if(o){html=src[1](o);title=m[1]==='p'?o.n:(o.t||o.n||o[1])}}
   else{var vh=h==='events'?'timeline':h;if(VIEWS[vh]){html=VIEWS[vh]();if(ENC_KEYS[vh])html=crumbEnc()+html;title=NAV6T[navFor(vh)]||''}}
+  if(h==='admin/articles'){
+    title='Редактор статей';
+    html='<h1>Редактор статей</h1>'+(ADM.on?
+      '<div data-article-editor></div>':ADM.guest?
+      '<p>Вернитесь в админку, чтобы редактировать статьи.</p>':
+      '<p>Войдите в редактор, чтобы менять статьи и фотографии.</p><button type="button" class="btn primary" data-adm="login">Войти</button>');
+  }
   if(html==null){html=notFound();title='Не найдено'}
   if(window.KVMHome6)window.KVMHome6.unmount();if(MAP_IMAGE_OBSERVER)MAP_IMAGE_OBSERVER.disconnect();main.innerHTML=html;lazyBg(main);lazyMapImages(main);applyCopy();document.querySelectorAll('header.top,footer').forEach(function(el){applyCopy(el)});applyBlocks();applyNav();if(h==='home'&&window.KVMHome6)window.KVMHome6.mount(home6Context());main.classList.remove('enter');void main.offsetWidth;main.classList.add('enter');document.title=(title&&h!=='home'?title+' — ':'')+'Путеводитель по КВМ';
+  var articleEditor=main.querySelector('[data-article-editor]');
+  if(articleEditor&&window.KVMArticles)window.KVMArticles.mountEditor(articleEditor,QP.article,OVR,function(key,text){
+    if(!ADM.on||ADM.conflict)return;
+    if(text===undefined)delete OVR.text[key];else OVR.text[key]=text;
+    saveDraft();
+  },function(key){var preview=ARTICLE_PREV[key];return preview&&preview.url===OVR.img[key]?preview.src:''});
   var nk=navFor(h);document.querySelectorAll('nav.tabs a').forEach(function(a){var on=a.getAttribute('href')==='#'+nk;a.classList.toggle('on',on);if(on)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
   if(!KEEP){if(NAVBACK&&SCROLL[h]!=null){var y0=SCROLL[h];requestAnimationFrame(function(){window.scrollTo(0,y0)})}else window.scrollTo(0,0)}closeSearch();
   if(h==='map'){initTree();initGlobe();MS.vb=D.map.regions[MS.region].slice(0,4);var svg=document.getElementById('kmap');svg.setAttribute('viewBox',MS.vb.join(' '));drawMarkers();if(ATLAS_NAV_TARGET)setTimeout(atlasFollowLink,60)}
