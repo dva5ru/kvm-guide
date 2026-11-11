@@ -588,3 +588,34 @@ main.wrap .panel.pad{padding:clamp(18px,2vw,24px)}
   .h6-page .h6-content-enter {animation:none!important}
   .h6-page .h6-hero .h6-portrait-img {transform:none}
 }
+
+
+/* Interior routes: viewport reveals replace the legacy eager grid animation.
+   Maps, atlases, overlays, content and interaction logic remain untouched. */
+@media (prefers-reduced-motion: no-preference) {
+  #main.kvm-site-motion-enabled .kvm-site-motion-item {
+    animation:none!important;
+    opacity:0;
+    transform:translate3d(0,19px,0);
+    transition:opacity .7s cubic-bezier(.2,.72,.2,1),transform .7s cubic-bezier(.2,.72,.2,1);
+    transition-delay:var(--kvm-motion-delay,0ms);
+  }
+  #main.kvm-site-motion-enabled .kvm-site-motion-item.kvm-site-motion-visible {
+    opacity:1;
+    transform:translate3d(0,0,0);
+  }
+}
+@media (max-width:760px) and (prefers-reduced-motion: no-preference) {
+  #main.kvm-site-motion-enabled .kvm-site-motion-item {
+    transform:translate3d(0,10px,0);
+    transition-duration:.52s;
+    transition-delay:0ms;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #main.kvm-site-motion-enabled .kvm-site-motion-item {
+    animation:none!important;
+    opacity:1;
+    transform:none;
+  }
+}
