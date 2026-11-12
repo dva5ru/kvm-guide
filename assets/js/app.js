@@ -1526,7 +1526,7 @@ function evLink(id){var e=EV[id];return e?'<a class="chip" href="#e-'+e.id+'">'+
 // ---------- новая структура: 6 разделов ----------
 var LEGACY={'routes-list':'watch',routes:'watch','thematic-routes':'watch',doomsday:'f-doomsday',rights:'catalog',quiz:'home',deaths:'home'};
 var ENC_KEYS={'sacred-timeline':1,map:1,lines:1,stones:1,'infinity-stones':1,artifacts:1,weapons:1,armor:1,materials:1,races:1,orgs:1,teams:1,universes:1};
-function navFor(h){if(h==='home')return 'home';if(h==='timeline'||h==='events'||/^e-/.test(h))return 'timeline';if(h==='catalog'||/^f-/.test(h)||/^ep-/.test(h)||/^fp-/.test(h))return 'catalog';
+function navFor(h){if(h==='articles'||/^article-(army|vision|visionquest|armor|civil-war|thanos|snap)$/.test(h))return 'articles';if(h==='home')return 'home';if(h==='timeline'||h==='events'||/^e-/.test(h))return 'timeline';if(h==='catalog'||/^f-/.test(h)||/^ep-/.test(h)||/^fp-/.test(h))return 'catalog';
   if(h==='heroes'||h==='links'||/^c-/.test(h))return 'heroes';if(h==='watch'||/^w-/.test(h))return 'watch';if(h==='encyclopedia'||ENC_KEYS[h]||/^[plaro]-/.test(h))return 'encyclopedia';return ''}
 function crumbEnc(){return '<a class="crumb" href="#encyclopedia">← Энциклопедия</a>'}
 function route(){
@@ -1544,7 +1544,10 @@ function route(){
   if(ENC_KEYS[h]&&OVR.nav[h]&&!ADM.on)h='encyclopedia';
   var back=STACK.length>1&&STACK[STACK.length-2]===h;if(CUR&&!KEEP)SCROLL[CUR]=window.scrollY;if(back)STACK.pop();else if(STACK[STACK.length-1]!==h)STACK.push(h);if(STACK.length>60)STACK.shift();CUR=h;NAVBACK=back;
   var html=null,title='',m=h.match(/^([fcpelarwo])-(.+)$/);
-  if(h.indexOf('ep-')===0&&EP_LOOKUP[h.slice(3)]){var x=EP_LOOKUP[h.slice(3)];html=episodeView(x.p,x.e,x.i);title=x.e[1]+' — '+x.p.t+' · '+x.e.meta.season+'×'+x.e[0]}
+  if(window.KVMArchivePages&&window.KVMArchivePages.isRoute(h)){
+    title=window.KVMArchivePages.label(h);html=window.KVMArchivePages.placeholder(h);
+  }
+  else if(h.indexOf('ep-')===0&&EP_LOOKUP[h.slice(3)]){var x=EP_LOOKUP[h.slice(3)];html=episodeView(x.p,x.e,x.i);title=x.e[1]+' — '+x.p.t+' · '+x.e.meta.season+'×'+x.e[0]}
   else if(m){var OGI={};D.enc.orgs.forEach(function(o){OGI[o[0]]=o});var RCI={};D.enc.races.forEach(function(r){RCI[r[0]]=r});var AIX={};artAll().forEach(function(a){AIX[a.id]=a});var RTI={};(D.routes||[]).forEach(function(r){RTI[r[0]]=r});
     var src={o:[OGI,orgView],w:[RTI,routeView],f:[P,projectView],c:[C,charView],p:[PL,placeView],e:[EV,eventView],l:[LN,lineView],a:[AIX,artView],r:[RCI,raceView]}[m[1]],o=src[0][m[2]];if(o){html=src[1](o);title=m[1]==='p'?o.n:(o.t||o.n||o[1])}}
   else{var vh=h==='events'?'timeline':h;if(VIEWS[vh]){html=VIEWS[vh]();if(ENC_KEYS[vh])html=crumbEnc()+html;title=NAV6T[navFor(vh)]||''}}
@@ -1557,6 +1560,7 @@ function route(){
   }
   if(html==null){html=notFound();title='Не найдено'}
   if(window.KVMHome6)window.KVMHome6.unmount();if(MAP_IMAGE_OBSERVER)MAP_IMAGE_OBSERVER.disconnect();main.innerHTML=html;lazyBg(main);lazyMapImages(main);applyCopy();document.querySelectorAll('header.top,footer').forEach(function(el){applyCopy(el)});applyBlocks();applyNav();if(h==='home'&&window.KVMHome6)window.KVMHome6.mount(home6Context());main.classList.remove('enter');void main.offsetWidth;main.classList.add('enter');document.title=(title&&h!=='home'?title+' — ':'')+'Архив КВМ';
+  if(window.KVMArchivePages&&window.KVMArchivePages.isRoute(h))window.KVMArchivePages.load(h,main,OVR,ADM);
   var articleEditor=main.querySelector('[data-article-editor]');
   if(articleEditor&&window.KVMArticles)window.KVMArticles.mountEditor(articleEditor,QP.article,OVR,function(key,text){
     if(!ADM.on||ADM.conflict)return;
