@@ -16,7 +16,6 @@ function setup() {
     return {ok:true, text:async()=>read(file)};
   };
   w.eval(editorialJS);
-  w.eval(readerJS);
   return view;
 }
 async function flush() {
