@@ -58,7 +58,7 @@
   var started=false;
   function boot(){
     var m=document.getElementById('main');
-    if(m)m.innerHTML='<p data-kvm-loading style="padding:24px;color:#596070">Загружаю путеводитель…</p>';
+    if(m)m.innerHTML='<p data-kvm-loading style="padding:24px;color:#596070">Загружаю Архив КВМ…</p>';
     var extra=editorWanted()?groups():[];
     Promise.all(manifest.files.map(getJSON)).then(function(parts){
       var all={},D={};
