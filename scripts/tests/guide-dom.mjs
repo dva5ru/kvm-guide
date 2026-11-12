@@ -7,6 +7,7 @@ export const html=guideHtml();
 const app=html.match(/<script id="kvm-app">([\s\S]*?)<\/script>/)[1];
 const spoilerIndex=readFileSync(new URL('../../assets/js/spoiler-index.js',import.meta.url),'utf8');
 const homepage=readFileSync(new URL('../../assets/js/home-v6.js',import.meta.url),'utf8');
+const archivePages=readFileSync(new URL('../../assets/js/archive-pages.js',import.meta.url),'utf8');
 export function loadGuide(options={}){
   const errors=[],vc=new VirtualConsole();
   vc.on('jsdomError',e=>errors.push(e.message));
@@ -29,6 +30,8 @@ export function loadGuide(options={}){
   assert.notEqual(instrumented,app,'only startup is replaced; all application listeners remain active');
   w.eval(spoilerIndex);
   w.eval(homepage);
+  w.fetch=async()=>({ok:false}); // Tests may override this with local fixtures.
+  w.eval(archivePages);
   w.eval(instrumented);
   const g=w.guide;
   g.go('home');

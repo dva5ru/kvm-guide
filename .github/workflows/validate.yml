@@ -17,6 +17,8 @@ jobs:
         run: npm ci --ignore-scripts
       - name: Check embedded JSON, JavaScript, and character connections
         run: node scripts/validate-guide.mjs
+      - name: Check integrated Archive KVM articles, legal screens and old links
+        run: node --test scripts/tests/archive-spa.test.mjs
       - name: Check PRO mode filters in catalog and chronology
         run: node --test scripts/tests/pro-mode.test.mjs
       - name: Check Agents of SHIELD seasons and timeline interleaving

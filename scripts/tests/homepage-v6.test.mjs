@@ -128,10 +128,10 @@ test('published analytic essays are linked from the homepage and illustrated by 
   const cards=[...doc.querySelectorAll('.h6-analysis-card')];
   assert.equal(cards.length,4,'four published essays featured on homepage');
   for(const slug of ['visionquest','thanos','snap','vision']){
-    assert.equal(doc.querySelectorAll('.h6-analysis-card-main[href="article-'+slug+'.html"]').length,1,'featured essay '+slug+' links to its own page');
+    assert.equal(doc.querySelectorAll('.h6-analysis-card-main[href="#article-'+slug+'"]').length,1,'featured essay '+slug+' links to its own page');
   }
   assert.equal(doc.querySelectorAll('.h6-analysis-card-planned').length,0,'no featured essay is incorrectly marked as a draft');
-  assert.ok(doc.querySelector('.h6-analysis a[href="articles.html"]'),'section links to essays hub');
+  assert.ok(doc.querySelector('.h6-analysis a[href="#articles"]'),'section links to essays hub');
   const hub=readFileSync(new URL('../../articles.html',import.meta.url),'utf8');
   assert.match(hub,/id="army"/,'original published article remains available');
   assert.match(hub,/Does the army know what's happening here/,'existing verified movie dialogue remains');
@@ -191,7 +191,7 @@ test('article editor saves a draft, uploads a cover and publishes the same chang
   assert.equal(draft.img['editorial-snap-cover'], 'img/editorial-snap-cover.webp?v=1');
 
   g.go('home');
-  const card = doc.querySelector('.h6-analysis-card-main[href="article-snap.html"]');
+  const card = doc.querySelector('.h6-analysis-card-main[href="#article-snap"]');
   assert.equal(card.querySelector('h3').textContent, 'Новый заголовок');
   assert.match(card.querySelector('img').src, /editorial-snap-cover\.webp/);
   click(w, doc.querySelector('[data-adm="publish"]'));
