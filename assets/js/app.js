@@ -387,8 +387,14 @@ function evGroup(y,lbl){return y>=5000?'Впереди':y>=4000?'Другие в
 
 
 // ---------- lines ----------
-function linesView(){return '<h1>Сюжетные линии</h1><p class="lead" style="margin-top:12px">Если хочется смотреть не всё подряд, а историю одного героя или темы — выберите линию.</p><div class="ptiles" style="margin-top:22px">'+
-  D.ln.map(function(l){var n=l.pr.length+l.ot.length;return '<a class="panel ptile" href="#l-'+l.id+'" style="border-left:8px solid '+l.col+'"><b>'+esc(l.n)+'</b><span>'+n+' '+plural(n,['проект','проекта','проектов'])+'</span></a>'}).join('')+'</div>'}
+function linesView(){
+  var entries=D.ln.map(function(l){
+    return directoryEntry(l.id,l.n,'#l-'+l.id,l.pr.concat(l.ot),[],l.col);
+  });
+  return directoryView('Сюжетные линии','Проследите историю героя, команды или целой саги по фильмам и сериалам.','Все сюжетные линии','Найти линию или проект',entries,[
+    ['infinity','Камни бесконечности','a-thanos-gauntlet'],['wanda','Ванда и Вижн','c-wanda'],['loki','Локи и УВИ','c-loki']
+  ]);
+}
 function lineView(l){function lst(ids){return '<ol class="path" style="margin-top:12px">'+ids.map(function(id){var p=P[id];return '<li>'+cover(p,'mini')+'<a href="#f-'+p.id+'"><b>'+esc(p.t)+'</b><span>'+esc(years(p))+', '+esc(D.k[p.k]).toLowerCase()+'</span></a>'+stBadge(p.s)+'</li>'}).join('')+'</ol>'}
   return '<button class="back" type="button" data-back>← Назад</button><h1>'+esc(l.n)+'</h1>'+(l.pr.length?'<section><h2>В КВМ по порядку событий</h2>'+lst(l.pr)+'</section>':'')+(l.ot.length?'<section><h2>'+(l.pr.length?'Связанное и вне КВМ':'По дате выхода')+'</h2>'+lst(l.ot)+'</section>':'')}
 
@@ -431,19 +437,37 @@ function linksView(){var ids=relIds(),top=Object.keys(ids).sort(function(a,b){re
 }
 function setLink(id){if(!C[id])return;LK.c=id;var g=document.getElementById('lk-graph');if(!g){location.hash='links';return}g.innerHTML=linkGraph();document.getElementById('lk-side').innerHTML=linkSide();document.querySelectorAll('#lk-top [data-lk]').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-lk')===id)});if(window.innerWidth<900)g.scrollIntoView({behavior:'smooth',block:'start'})}
 // ---------- команды ----------
-function teamsView(){return '<h1>Команды</h1>'+D.enc.teams.map(function(t){return '<section class="team"><div class="team-h" style="--c:'+t[2]+'"><h2>'+esc(t[1])+'</h2><p class="muted">'+esc(t[3])+'</p></div>'+
-  t[4].map(function(ph){return '<div class="phase panel">'+pLink(ph[1])+SPW([ph[1]],'<div class="ph-h"><b>'+esc(ph[0])+'</b></div><div class="mem">'+ph[2].split(',').filter(function(id){return C[id]}).map(function(id){return '<a class="mchip" href="#c-'+id+'">'+mono(C[id])+'<span>'+esc(short(id))+'</span></a>'}).join('')+'</div>')+(ph[3]?SPW([ph[1]],'<p class="muted" style="margin-top:10px">'+lk(ph[3],ctxP([ph[1]]))+'</p>'):'')+'</div>'}).join('')+'</section>'}).join('')}
+function teamsView(){
+  var entries=D.enc.teams.map(function(t){
+    var phases=t[4],projects=phases.map(function(ph){return ph[1]});
+    var members=phases.flatMap(function(ph){return ph[2].split(',')});
+    var entry=directoryEntry(t[0],t[1],'',projects,members,t[2]);
+    entry.meta=directoryCount(phases.length,['состав','состава','составов']);
+    entry.details='<p>'+esc(t[3])+'</p><div class="directory-phases">'+phases.map(function(ph){
+      var ids=[ph[1]],roster=ph[2].split(',').filter(function(id){return C[id]});
+      return '<div class="phase"><div class="ph-h"><b>'+esc(ph[0])+'</b>'+pLink(ph[1])+'</div>'+
+        SPW(ids,'<div class="mem">'+roster.map(function(id){return '<a class="mchip" href="#c-'+id+'">'+mono(C[id])+'<span>'+esc(short(id))+'</span></a>'}).join('')+'</div>')+
+        (ph[3]?SPW(ids,'<p class="muted">'+lk(ph[3],ctxP(ids))+'</p>'):'')+'</div>';
+    }).join('')+'</div>';
+    return entry;
+  });
+  return directoryView('Команды','Кто входил в команды КВМ и как менялись их составы от проекта к проекту.','Все команды','Найти команду, героя или проект',entries,[
+    ['avengers','Мстители','c-steve'],['guardians','Стражи Галактики','c-quill'],['ff','Фантастическая четвёрка','c-reed']
+  ],true);
+}
 // ---------- вселенные ----------
 function universesView(){var U=D.enc.universes,W=800,H=470,cx=400,cy=235,s='',others=U.slice(1);
   others.forEach(function(u,i){var a=i/others.length*Math.PI*2-Math.PI/2,x=cx+Math.cos(a)*300,y=cy+Math.sin(a)*185;
     s+='<path class="uv-l" d="M'+cx+' '+cy+' Q '+((cx+x)/2+Math.sin(a)*40).toFixed(1)+' '+((cy+y)/2-Math.cos(a)*40).toFixed(1)+' '+x.toFixed(1)+' '+y.toFixed(1)+'" stroke="'+u[2]+'" style="animation-delay:'+(i*0.06).toFixed(2)+'s"/>';
     s+='<g class="uv-n" data-scroll="uc-'+u[0]+'" aria-label="'+esc(u[1])+'" transform="translate('+x.toFixed(1)+' '+y.toFixed(1)+')" tabindex="0" role="button" style="animation-delay:'+(0.2+i*0.06).toFixed(2)+'s"><circle r="17" fill="'+u[2]+'"/><text y="34" text-anchor="middle">'+esc(u[1].split(' — ')[0].replace('Вселенная ','').replace('Человека-паука ',''))+'</text></g>'});
   s+='<g class="uv-n uv-c" data-scroll="uc-u616" aria-label="Земля-616" transform="translate('+cx+' '+cy+')" tabindex="0" role="button"><circle r="40" fill="'+U[0][2]+'"/><text y="6" text-anchor="middle" class="uv-ct">616</text><text y="62" text-anchor="middle">Основная вселенная</text></g>';
-  return '<h1>Вселенные</h1><p class="lead" style="margin-top:10px">Миры, которые есть в КВМ и рядом с ним. Нажмите на мир на схеме, чтобы перейти к нему.</p><div class="panel mapbox" style="margin-top:18px"><svg class="uvmap" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Схема вселенных">'+s+'</svg></div>'+
-  U.map(function(u){var pr=u[4].split(',').filter(Boolean);return '<section class="panel pad ucard" id="uc-'+u[0]+'" style="border-left:8px solid '+u[2]+'"><h2>'+esc(u[1])+'</h2>'+SPW(pr,'<p style="margin-top:8px;max-width:72ch">'+lk(u[3],ctxP(pr))+'</p>')+''+
+  return '<div class="directory">'+directoryHero('Вселенные','Какие Земли и миры показали в КВМ и как герои между ними перемещались.','К схеме вселенных','universe-map',[
+    {label:'Земля-616',image:'c-strange',target:'uc-u616'},{label:'Земля-828',image:'c-reed',target:'uc-u828'},{label:'УВИ и Цитадель',image:'pl-tva',target:'uc-utva'}
+  ])+'<section class="directory-section" id="universe-map" tabindex="-1"><h2>Схема вселенных</h2><p class="muted">Выберите мир на схеме, чтобы открыть его карточку.</p><div class="mapbox directory-universe-map"><svg class="uvmap" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Схема вселенных">'+s+'</svg></div></section>'+
+  U.map(function(u){var pr=u[4].split(',').filter(Boolean);return '<section class="panel pad ucard" id="uc-'+u[0]+'" tabindex="-1" style="border-left:8px solid '+u[2]+'"><h2>'+esc(u[1])+'</h2>'+SPW(pr,'<p style="margin-top:8px;max-width:72ch">'+lk(u[3],ctxP(pr))+'</p>')+''+
     '<h3 class="sub">Проекты ('+pr.length+')</h3>'+(u[0]==='u616'?'<p>Почти все фильмы и сериалы КВМ — смотрите <a href="#timeline">хронологию</a>.</p>':'<div class="chips">'+pr.map(pLink).join('')+'</div>')+
     '<h3 class="sub">Герои</h3>'+SPW(pr,'<div class="chips">'+u[5].split(',').filter(function(id){return C[id]}).map(function(id){return cLink(id)}).join('')+'</div>')+
-    '<h3 class="sub">Переходы между мирами</h3>'+SPW(pr,'<p style="max-width:72ch">'+lk(u[6],ctxP(pr))+'</p>')+'</section>'}).join('');
+    '<h3 class="sub">Переходы между мирами</h3>'+SPW(pr,'<p style="max-width:72ch">'+lk(u[6],ctxP(pr))+'</p>')+'</section>'}).join('')+'</div>';
 }
 // ---------- смерти ----------
 var DS={f:'all'};
@@ -1139,14 +1163,48 @@ function artPhoto(a,big){var url=imgSrc('a-'+a.id);return url?'<img class="art-p
 function artCard(a){var card='<a class="panel art-card" href="#a-'+a.id+'" style="--g:'+a.col+'">'+(artPhoto(a,0)||(a.stone?gem(a.col):'<span class="art-dot sm" style="--g:'+a.col+'"></span>'))+'<b>'+esc(a.n)+'</b>'+(a.sub?'<span>'+esc(a.sub)+'</span>':'')+'</a>';return ADM.on?'<div class="item-admin-card">'+card+'<div class="item-photo-controls">'+imgOneBtn('a-'+a.id)+'</div></div>':card}
 function itemCategory(id){return ITEM_CATS.filter(function(c){return c.id===id})[0]}
 function itemCategoryNav(current){return '<nav class="chips item-categories" aria-label="Категории предметов"><a class="chip" href="#stones"'+(!current?' aria-current="page"':'')+'>Все предметы</a>'+ITEM_CATS.filter(function(c){return !OVR.nav[c.route]||ADM.on}).map(function(c){return '<a class="chip" href="#'+c.route+'"'+(current===c.id?' aria-current="page"':'')+'>'+esc(c.name)+'</a>'}).join('')+'</nav>'}
-function itemCategoryView(id){var c=itemCategory(id);if(!c)return notFound();var items=artAll().filter(function(a){return a.category===id});return '<h1>'+esc(c.name)+'</h1><p class="lead" style="margin-top:10px">'+esc(c.lead)+'</p>'+itemCategoryNav(id)+'<p class="muted" style="margin-top:14px">Карточек: '+items.length+'</p><div class="gems">'+items.map(artCard).join('')+'</div>'}
-function stonesView(){var all=artAll();return '<h1>Предметы и материалы</h1><p class="lead" style="margin-top:10px">Артефакты, оружие, костюмы и вещества из экранных историй Marvel.</p>'+itemCategoryNav('')+ITEM_CATS.filter(function(c){return !OVR.nav[c.route]||ADM.on}).map(function(c){var items=all.filter(function(a){return a.category===c.id});return '<section><div class="sec-h"><h2><a href="#'+c.route+'">'+esc(c.name)+'</a></h2><span class="muted">'+items.length+' '+plural(items.length,['карточка','карточки','карточек'])+'</span></div><div class="gems">'+items.map(artCard).join('')+'</div></section>'}).join('')}
+var DIRECTORY_ITEMS={
+  stones:['space','time','reality'],artifacts:['tesseract','thanos-gauntlet','darkhold'],
+  weapons:['mjolnir','shield','stormbreaker'],armor:['iron-man-mark-3','hulkbuster','black-panther-suit'],
+  materials:['vibranium','adamantium','pym-particles']
+};
+function directoryItemGrid(items){
+  return '<div class="gems">'+items.map(function(a){
+    return '<div'+directorySearchAttr([a.n].concat(a.aliases))+'>'+artCard(a)+'</div>';
+  }).join('')+'</div>';
+}
+function itemsDirectory(current){
+  var cat=itemCategory(current),all=artAll();
+  var cats=ITEM_CATS.filter(function(c){return (ADM.on||!OVR.nav[c.route])&&(!cat||c.id===current)});
+  var items=all.filter(function(a){return cats.some(function(c){return c.id===a.category})});
+  var featured=cat?DIRECTORY_ITEMS[current]:['tesseract','mjolnir','iron-man-mark-3'];
+  var highlights=featured.map(function(id){
+    var a=items.find(function(item){return item.id===id});
+    return a&&{label:a.n,image:'a-'+a.id,href:'#a-'+a.id};
+  }).filter(Boolean);
+  var body=cat?directoryItemGrid(items):cats.map(function(c){
+    return '<section class="directory-item-group" data-directory-section><h3><a href="#'+c.route+'">'+esc(c.name)+'</a></h3>'+
+      directoryItemGrid(items.filter(function(a){return a.category===c.id}))+'</section>';
+  }).join('');
+  return '<div class="directory directory-items">'+directoryHero(cat?cat.name:'Предметы и материалы',cat?cat.lead:'Артефакты, оружие, костюмы и материалы КВМ.','К списку','directory-results',highlights)+
+    itemCategoryNav(current)+directoryResults('Каталог','Найти по названию',items.length,body)+'</div>';
+}
+function itemCategoryView(id){return itemsDirectory(id)}
+function stonesView(){return itemsDirectory('')}
 function artView(a){var pr=itemProjects(a).sort(function(x,y){return (P[x].ord||900)-(P[y].ord||900)}),cat=itemCategory(a.category),related=a.related.map(artGet).filter(Boolean);return '<button class="back" type="button" data-back>← Назад</button>'+(cat?'<p class="muted"><a href="#encyclopedia">Энциклопедия</a> / <a href="#'+cat.route+'">'+esc(cat.name)+'</a></p>':'')+'<div class="panel pad sdet" style="--g:'+a.col+';margin-top:14px"><div class="sdh">'+(artPhoto(a,1)||(a.stone?gem(a.col,1):'<span class="art-dot" style="--g:'+a.col+'"></span>'))+'<div><h1 style="font-size:clamp(28px,4vw,44px)">'+esc(a.n)+'</h1>'+(a.sub?'<p class="muted">'+esc(a.sub)+'</p>':'')+(a.context?'<p class="muted" style="margin-top:8px">'+esc(a.context)+'</p>':'')+B('a.about',a.id,'Описание','<p class="about" style="margin-top:8px">'+spField('art.'+a.id+'.ab',a.ab,pr,ctxP(pr))+'</p>')+(ADM.on?'<p style="margin-top:12px">'+imgOneBtn('a-'+a.id)+'</p>':'')+'</div></div>'+B('a.history',a.id,'История и появления','<h2 style="margin-top:22px">История и появления</h2>'+pathList(a.path,a.id))+'</div>'+(related.length?'<section><h2>Связанные предметы и материалы</h2><div class="gems">'+related.map(artCard).join('')+'</div></section>':'')+'<section><h2>Где появляется</h2><div class="grid" style="margin-top:14px">'+pr.map(card).join('')+'</div></section>'}
-function projectCount(ids){var n=String(ids||'').split(',').filter(Boolean).length;return n+' '+plural(n,['проект','проекта','проектов'])}
 function raceView(r){var mem=r[5].split(',').filter(function(x){return C[x]}),pr=r[6].split(',').filter(function(x){return P[x]});
   return '<button class="back" type="button" data-back>← Назад</button><h1>'+esc(r[1])+'</h1>'+(r[4]&&PL[r[4]]?'<div class="badges"><span class="muted">Родина:</span>'+plLink(r[4])+'</div>':'')+'<p class="about" style="margin-top:16px">'+spField('race.'+r[0],r[3],pr,ctxP(pr),r[0])+'</p>'+
   (mem.length?'<section><h2>Известные представители</h2>'+SPW(pr,'<div class="hgrid" style="margin-top:14px">'+mem.map(function(id){return hcard(C[id])}).join('')+'</div>')+'</section>':'')+(pr.length?'<section><h2>Где появляются</h2><div class="grid" style="margin-top:14px">'+pr.map(card).join('')+'</div></section>':'')}
-function racesView(){return '<h1>Расы и народы</h1><p class="lead" style="margin-top:10px">Инопланетяне, древние народы и необычные существа КВМ.</p><div class="ptiles" style="margin-top:20px">'+D.enc.races.map(function(r){return '<a class="panel ptile" href="#r-'+r[0]+'"><b>'+esc(r[1])+'</b><span>'+projectCount(r[6])+'</span></a>'}).join('')+'</div>'}
+function racesView(){
+  var entries=D.enc.races.map(function(r){
+    var entry=directoryEntry(r[0],r[1],'#r-'+r[0],r[6].split(','),r[5].split(','));
+    if(PL[r[4]]){entry.note=PL[r[4]].n;entry.terms.push(entry.note)}
+    return entry;
+  });
+  return directoryView('Расы и народы','Откуда родом народы КВМ, кто их представляет и в каких проектах их можно увидеть.','Все расы и народы','Найти народ, героя или проект',entries,[
+    ['kree','Кри','c-ronan'],['skrulls','Скруллы','c-talos'],['asgardians','Асгардцы','pl-asgard']
+  ]);
+}
 
 function relLabel(p){var r=String(p.r||''),now=new Date(),today=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
   if(!r)return 'Ожидается';var full=r.length>=10;if(full)return r<=today?'Вышел':'Премьера';var cut=today.slice(0,r.length);return r<cut?'Вышел':(r===cut?'Премьера':'Ожидается')}
@@ -1613,7 +1671,116 @@ function sacredView(){return '<h1>Священная линия времени</
  B('sacred.explain','sacred-timeline','Пояснение','<section class="panel pad"><h2>Что важно различать</h2><p>Ветвь времени — альтернативное развитие событий. Вселенная — отдельная реальность: это не всегда одно и то же. На схеме показан принцип управления, а не полная карта всех Земель.</p><p style="margin-top:12px"><a href="#universes">Справочник вселенных</a></p></section>')}
 
 // ---------- энциклопедия ----------
-function encView(){var all=artAll(),cats=[['sacred-timeline','Священная линия времени','До Канга, при УВИ и после второго сезона «Локи».','3 этапа'],['map','Карта и места','Где происходили события: Земля, космос и Девять миров.',D.pl.length+' мест'],['lines','Сюжетные линии','Истории отдельных героев и тем по порядку.',D.ln.length+' линий']].concat(ITEM_CATS.map(function(c){var count=all.filter(function(a){return a.category===c.id}).length;return [c.route,c.name,c.lead,count+' '+plural(count,['карточка','карточки','карточек'])]}),[['races','Расы','Кри, скруллы, Вечные, асгардцы и другие народы.',D.enc.races.length+' рас'],['orgs','Организации','Щ.И.Т., Гидра, УВИ, Красная комната и другие.',D.enc.orgs.length+' организаций'],['teams','Команды','Составы Мстителей, Стражей и других команд по годам.',D.enc.teams.length+' команд'],['universes','Вселенные','Основная вселенная, другие Земли и миры вне времени.',D.enc.universes.length+' миров']]);return '<h1>Энциклопедия</h1><p class="lead" style="margin-top:10px">Справочник по миру Marvel: места, предметы, материалы, народы и связи между вселенными.</p><div class="enc-grid">'+cats.filter(function(c){return !OVR.nav[c[0]]||ADM.on}).map(function(c){return '<a class="panel enc-card" href="#'+c[0]+'"><b>'+esc(c[1])+'</b><span>'+esc(c[2])+'</span><small class="muted">'+esc(c[3])+'</small></a>'}).join('')+'</div>'}
+function directoryCount(count,forms){return count+' '+plural(count,forms)}
+function directoryVisible(route){return ADM.on||!OVR.nav[route]}
+function directoryImage(key,eager){
+  var src=imgSrc(key);
+  return src?'<img src="'+esc(src)+'" alt="" decoding="async"'+(eager?'':' loading="lazy"')+'>':'';
+}
+function directoryHero(title,lead,action,target,highlights){
+  var art=highlights.map(function(h){
+    var open=h.href?'<a href="'+esc(h.href)+'"':'<button type="button" data-directory-jump="'+esc(h.target)+'"';
+    return open+' class="directory-slice">'+directoryImage(h.image,true)+'<span>'+esc(h.label)+'</span>'+(h.href?'</a>':'</button>');
+  }).join('');
+  return '<header class="directory-hero'+(art?'':' directory-hero--text')+'"><div class="directory-intro">'+
+    '<h1>'+esc(title)+'</h1><p>'+esc(lead)+'</p><button type="button" class="directory-cta" data-directory-jump="'+esc(target)+'">'+
+    esc(action)+' <span aria-hidden="true">↓</span></button></div>'+
+    (art?'<div class="directory-art">'+art+'</div>':'')+'</header>';
+}
+function directorySearchAttr(terms){
+  var values=terms.map(norm);
+  return ' data-directory-match="'+esc(values.concat(values.map(function(value){return value.replace(/ /g,'')})).join(' '))+'"';
+}
+function directoryResults(title,placeholder,total,body){
+  return '<section class="directory-section" id="directory-results" tabindex="-1"><div class="directory-toolbar">'+
+    '<div><h2>'+esc(title)+'</h2><p class="directory-count" data-directory-count role="status">'+total+' '+plural(total,['запись','записи','записей'])+'</p></div>'+
+    '<input type="search" data-directory-search placeholder="'+esc(placeholder)+'" aria-label="'+esc(placeholder)+'" aria-controls="directory-entries"></div>'+
+    '<div id="directory-entries">'+body+'</div><p class="directory-empty" data-directory-empty hidden>По этому запросу ничего не найдено.</p></section>';
+}
+function directoryEntry(id,name,href,projectIds,memberIds,color){
+  var projects=Array.from(new Set(projectIds)).map(function(id){return P[id]}).filter(Boolean);
+  var members=Array.from(new Set(memberIds)).map(function(id){return C[id]}).filter(Boolean);
+  var media=members.map(function(c){return 'c-'+c.id}).filter(imgSrc).slice(0,3);
+  if(!media.length){
+    var poster=projects.map(function(p){return 'f-'+p.id}).find(imgSrc);
+    if(poster)media.push(poster);
+  }
+  return {id:id,name:name,href:href,color:color||'#A31F32',media:media,
+    meta:directoryCount(projects.length,['проект','проекта','проектов']),note:projects.length?projects[0].t:'',
+    terms:[name].concat(projects.flatMap(function(p){return [p.t,p.en]}),members.flatMap(function(c){return [c.n,c.a]}))};
+}
+function directoryTile(entry){
+  var media=entry.media.map(function(key){return directoryImage(key)}).join('');
+  return '<span class="directory-tile-media" style="--tile-accent:'+esc(entry.color)+'" aria-hidden="true">'+
+    (media||'<b>'+esc(initials(entry.name))+'</b>')+'</span><span class="directory-tile-copy"><b>'+esc(entry.name)+'</b><small>'+esc(entry.meta)+
+    (entry.note?' <span aria-hidden="true">·</span> '+esc(entry.note):'')+'</small></span><span class="directory-arrow" aria-hidden="true"></span>';
+}
+function directoryView(title,lead,all,placeholder,entries,featured,expandable){
+  var highlights=featured.map(function(row){
+    var entry=entries.find(function(e){return e.id===row[0]});
+    return entry&&{label:row[1],image:row[2],href:entry.href,target:'directory-'+entry.id};
+  }).filter(Boolean);
+  var body='<div class="directory-grid'+(expandable?' directory-grid--teams':'')+'">'+entries.map(function(entry){
+    var match=directorySearchAttr(entry.terms),tile=directoryTile(entry);
+    if(!expandable)return '<a class="directory-tile" href="'+esc(entry.href)+'"'+match+'>'+tile+'</a>';
+    return '<details class="directory-team" id="directory-'+esc(entry.id)+'"'+match+'><summary class="directory-tile">'+tile+'</summary>'+
+      '<div class="directory-team-body">'+entry.details+'</div></details>';
+  }).join('')+'</div>';
+  return '<div class="directory">'+directoryHero(title,lead,'К списку','directory-results',highlights)+directoryResults(all,placeholder,entries.length,body)+'</div>';
+}
+function directoryFilter(input){
+  var section=input.closest('.directory-section'),words=norm(input.value).split(' ').filter(Boolean),count=0;
+  section.querySelectorAll('[data-directory-match]').forEach(function(row){
+    var terms=row.dataset.directoryMatch.split(' ');
+    row.hidden=!words.every(function(word){return terms.some(function(term){return term.startsWith(word)})});
+    if(!row.hidden)count++;
+  });
+  section.querySelectorAll('[data-directory-section]').forEach(function(group){group.hidden=!group.querySelector('[data-directory-match]:not([hidden])')});
+  section.querySelector('[data-directory-count]').textContent=directoryCount(count,['запись','записи','записей']);
+  section.querySelector('[data-directory-empty]').hidden=count>0;
+}
+document.addEventListener('input',function(e){if(e.target.hasAttribute('data-directory-search'))directoryFilter(e.target)});
+document.addEventListener('click',function(e){
+  var button=e.target.closest('[data-directory-jump]');if(!button)return;
+  var target=document.getElementById(button.dataset.directoryJump);if(!target)return;
+  var focus=target;
+  if(target.tagName==='DETAILS'){
+    if(target.hidden){var input=target.closest('.directory-section').querySelector('[data-directory-search]');input.value='';directoryFilter(input)}
+    target.open=true;focus=target.querySelector('summary');
+  }
+  focus.focus({preventScroll:true});
+  target.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});
+});
+function encView(){
+  var items=artAll(),groups=[
+    ['Команды и народы',[
+      ['teams','Команды','Составы Мстителей, Стражей и других команд.','c-steve'],
+      ['orgs','Организации','Щ.И.Т., Гидра, УВИ и другие фракции.','c-fury'],
+      ['races','Расы и народы','Кри, скруллы, Вечные и другие народы.','c-talos']
+    ]],
+    ['Предметы и материалы',ITEM_CATS.map(function(c){
+      var id=DIRECTORY_ITEMS[c.id][0];
+      return [c.route,c.name,directoryCount(items.filter(function(a){return a.category===c.id}).length,['предмет','предмета','предметов']),'a-'+id];
+    })],
+    ['Миры и истории',[
+      ['map','Карта и места','Земля, космос и Девять миров.','pl-wakanda'],
+      ['universes','Вселенные','Земля-616, другие Земли и миры вне времени.','c-strange'],
+      ['sacred-timeline','Священная линия времени','От контроля УВИ к древу временных ветвей.','pl-tva'],
+      ['lines','Сюжетные линии','Истории героев и саг по порядку событий.','c-wanda']
+    ]]
+  ];
+  var highlights=[['orgs','Организации','c-fury'],['artifacts','Артефакты','a-tesseract'],['map','Карта и места','pl-asgard']].filter(function(c){return directoryVisible(c[0])}).map(function(c){return {label:c[1],image:c[2],href:'#'+c[0]}});
+  var body=groups.map(function(group){
+    var rows=group[1].filter(function(c){return directoryVisible(c[0])});if(!rows.length)return '';
+    var allItems=group[1].length===ITEM_CATS.length&&directoryVisible('stones');
+    return '<section class="directory-section"><div class="directory-section-heading"><h2>'+esc(group[0])+'</h2>'+(allItems?'<a href="#stones">Все предметы ↗</a>':'')+'</div><div class="directory-grid">'+rows.map(function(c){
+      return '<a class="directory-tile" href="#'+c[0]+'"><span class="directory-tile-media" aria-hidden="true">'+(directoryImage(c[3])||'<b>'+esc(initials(c[1]))+'</b>')+'</span>'+
+        '<span class="directory-tile-copy"><b>'+esc(c[1])+'</b><small>'+esc(c[2])+'</small></span><span class="directory-arrow" aria-hidden="true"></span></a>';
+    }).join('')+'</div></section>';
+  }).join('');
+  return '<div class="directory">'+directoryHero('Энциклопедия','Команды, артефакты, народы и миры киновселенной Marvel.','К разделам','directory-sections',highlights)+
+    '<div id="directory-sections" tabindex="-1">'+body+'</div></div>';
+}
 function watchView(){return '<h1>Как смотреть</h1><div class="watch-ways">'+
   '<a class="panel watch-way" href="#timeline" data-go-tl="release"><b>По дате выхода</b><span>Стандартный вариант для первого знакомства: фильмы и сериалы в том порядке, в каком они выходили.</span></a>'+
   '<a class="panel watch-way" href="#timeline" data-go-tl="story"><b>По событиям</b><span>Для повторного просмотра: история КВМ по порядку событий, от Второй мировой до наших дней.</span></a>'+
@@ -1629,7 +1796,12 @@ ITEM_CATS.forEach(function(c){VIEWS[c.route]=function(){return itemCategoryView(
 function orgView(o){var pr=o[3].split(',').filter(function(x){return P[x]}),mem=o[4].split(',').filter(function(x){return C[x]});
   return '<button class="back" type="button" data-back>← Назад</button><h1>'+esc(o[1])+'</h1>'+'<p class="about" style="margin-top:16px">'+spField('org.'+o[0],o[2],pr,ctxP(pr),o[0])+'</p>'+
   (mem.length?'<section><h2>Известные участники</h2>'+SPW(pr,'<div class="hgrid" style="margin-top:14px">'+mem.map(function(id){return hcard(C[id])}).join('')+'</div>')+'</section>':'')+(pr.length?'<section><h2>Где появляется</h2><div class="grid" style="margin-top:14px">'+pr.map(card).join('')+'</div></section>':'')}
-function orgsView(){return '<h1>Организации</h1><p class="lead" style="margin-top:10px">Спецслужбы, тайные общества и другие организации КВМ.</p><div class="ptiles" style="margin-top:20px">'+D.enc.orgs.map(function(o){return '<a class="panel ptile" href="#o-'+o[0]+'"><b>'+esc(o[1])+'</b><span>'+projectCount(o[3])+'</span></a>'}).join('')+'</div>'}
+function orgsView(){
+  var entries=D.enc.orgs.map(function(o){return directoryEntry(o[0],o[1],'#o-'+o[0],o[3].split(','),o[4].split(','))});
+  return directoryView('Организации','Спецслужбы, тайные общества и фракции КВМ. Кто в них входит и где они появляются.','Все организации','Найти организацию, героя или проект',entries,[
+    ['shield','Щ.И.Т.','c-fury'],['hydra','Гидра','c-red-skull'],['tva','УВИ','c-mobius']
+  ]);
+}
 
 
 // All portraits for one character form a single gallery; other images stay standalone.
