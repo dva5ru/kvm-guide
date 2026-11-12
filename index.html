@@ -3,17 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Путеводитель по КВМ</title>
-<meta name="description" content="Путеводитель по киновселенной Marvel: хронология, герои, карта мест, ключевые события и что посмотреть перед «Мстителями: Судный день».">
+<title>Архив КВМ</title>
+<meta name="description" content="Архив КВМ — энциклопедия киновселенной Marvel: хронология, герои, карта мест, ключевые события и что посмотреть перед «Мстителями: Судный день».">
+<link rel="canonical" href="https://kvmarchive.ru/">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Путеводитель по КВМ">
-<meta property="og:title" content="Путеводитель по киновселенной Marvel">
+<meta property="og:site_name" content="Архив КВМ">
+<meta property="og:title" content="Архив КВМ — энциклопедия киновселенной Marvel">
 <meta property="og:description" content="Фильмы, сериалы, герои, хронология и связи киновселенной Marvel.">
-<meta property="og:url" content="https://dva5ru.github.io/kvm-guide/">
-<meta property="og:image" content="https://dva5ru.github.io/kvm-guide/assets/preview.png">
+<meta property="og:url" content="https://kvmarchive.ru/">
+<meta property="og:image" content="https://kvmarchive.ru/assets/preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Путеводитель по киновселенной Marvel">
+<meta property="og:image:alt" content="Архив КВМ — энциклопедия киновселенной Marvel">
 <meta property="og:locale" content="ru_RU">
 <meta name="twitter:card" content="summary_large_image">
 <script>window.kvmLoadFail=function(el){var m=document.getElementById("main");if(m)m.innerHTML="<div class=\"load-fail\" role=\"alert\" style=\"padding:24px;font:16px system-ui\"><h2>Не удалось загрузить сайт</h2><p>Проверьте подключение к интернету и обновите страницу.</p><p><button type=\"button\" onclick=\"location.reload()\">Обновить страницу</button></p></div>"};</script>
@@ -30,14 +31,16 @@
 <script src="assets/js/articles.js?v=vq261112a1"></script>
 <script src="assets/js/home-v6.js?v=vq261112b1"></script>
 <link rel="stylesheet" href="assets/css/pro-mode.css?v=4206da0368">
-<link rel="preload" as="script" href="assets/js/app.js?v=5d0ee771a0">
+<link rel="stylesheet" href="assets/css/archive-shell.css?v=02fac52183">
+<link rel="preload" as="script" href="assets/js/app.js?v=7be0dbfe55">
 </head>
 <body>
 <header class="top top-v6">
  <div class="wrap"><div class="top-row">
+   <a class="archive-brand main-archive-brand" href="#home" aria-label="Архив КВМ — главная">АРХИВ КВМ</a>
    <button type="button" class="nav-menu" id="h6-menu" aria-expanded="false" aria-controls="h6-nav">☰ Меню</button>
    <nav class="tabs" id="h6-nav" aria-label="Разделы">
-     <a href="#home">Главная</a><a href="#timeline">Хронология</a><a href="#catalog">Каталог</a><a href="#heroes">Герои</a><a href="#encyclopedia">Энциклопедия</a><a href="#watch">Как смотреть</a>
+     <a href="#home">Главная</a><a href="#timeline">Хронология</a><a href="#catalog">Каталог</a><a href="#heroes">Герои</a><a href="#encyclopedia">Энциклопедия</a><a href="#watch">Как смотреть</a><a href="articles.html">Разборы</a>
    </nav>
    <div class="top-tools">
      <div class="search" role="search"><input id="q" type="search" placeholder="Поиск" autocomplete="off" aria-label="Поиск по путеводителю" aria-controls="sres" aria-expanded="false"><div class="sres" id="sres" role="listbox"></div></div>
@@ -45,23 +48,13 @@
  </div></div>
 </header>
 <main id="main" class="wrap" tabindex="-1"></main>
-<footer class="legal-footer" aria-label="Правовая информация">
-  <div class="wrap legal-footer__inner">
-    <div class="legal-footer__notice">
-      <p><strong>Путеводитель по КВМ</strong> — независимый неофициальный фанатский справочник о киновселенной Marvel. Проект не связан с Marvel Studios, The Walt Disney Company и другими правообладателями и не одобрен ими.</p>
-      <p>Названия, персонажи, товарные знаки, постеры, кадры и другие материалы третьих лиц принадлежат соответствующим правообладателям. Права на оригинальные материалы справочника сохраняются за их авторами.</p>
-    </div>
-    <div class="legal-footer__bottom">
-      <span>© 2026 Путеводитель по КВМ</span>
-      <nav class="legal-footer__links" aria-label="Юридические ссылки">
-        <a href="legal.html#sources">Источники и права</a>
-        <a href="legal.html#rightsholders">Правообладателям</a>
-      </nav>
-    </div>
-  </div>
-</footer>
-<script type="application/json" id="kvm-data-files">{"order":["en","routes","alias","enc","geo","tl","sg","p","c","pl","ev","ln","studios","st","k","eras","dc","dcSet","dt","map","space","tree","versions","editions","appearances","appearanceSchemaVersion","episodes","episodeLegacyKeys","episodeLegacyPost","episodeSchemaVersion","characterAppearanceAliases","versionTitles"],"app":"assets/js/app.js?v=5d0ee771a0","files":[{"path":"data/projects.json","keys":["p"],"hash":"778d7af327"},{"path":"data/characters.json","keys":["c"],"hash":"350ba24cfa"},{"path":"data/appearances.json","keys":["appearanceSchemaVersion","appearances","characterAppearanceAliases"],"hash":"d7908dba2d"},{"path":"data/episodes.json","keys":["episodeSchemaVersion","episodes","episodeLegacyKeys","episodeLegacyPost"],"hash":"d2f9f6b3f5"},{"path":"data/places.json","keys":["pl"],"hash":"01015eaf2f"},{"path":"data/events.json","keys":["ev","tl"],"hash":"dc74d74fce"},{"path":"data/encyclopedia.json","keys":["enc"],"hash":"3c41b2c0de"},{"path":"data/catalog.json","keys":["ln","routes","sg","eras","studios","st","k","dc","dcSet","dt"],"hash":"b53a55e074"},{"path":"data/versions.json","keys":["versions","editions","versionTitles"],"hash":"952dc0f60d"},{"path":"data/search.json","keys":["alias","en"],"hash":"3370c5ae36"}],"lazy":{"details":[{"path":"data/appearance-details.json","merge":"appearance-details","hash":"81fff26b71"},{"path":"data/episode-details.json","merge":"episode-details","hash":"c15c51a5c6"}],"maps":[{"path":"data/maps.json","keys":["map","space","tree"],"hash":"ae3f35111d"}],"geo":[{"path":"data/geo.json","keys":["geo"],"hash":"391520e16b"}]}}</script>
+<footer class="archive-footer" aria-label="Правовая информация"><div class="archive-footer__inner">
+  <p><strong>Архив КВМ</strong> — независимый неофициальный фанатский справочник о киновселенной Marvel. Проект не связан с Marvel Studios, The Walt Disney Company и другими правообладателями и не одобрен ими.</p>
+  <p>Названия, персонажи, товарные знаки, постеры, кадры и другие материалы третьих лиц принадлежат соответствующим правообладателям. Права на оригинальные материалы сайта сохраняются за их авторами.</p>
+  <div class="archive-footer__bottom"><span>© 2026 Архив КВМ</span><nav class="archive-footer__links" aria-label="Юридические ссылки"><a href="./legal.html#sources">Источники и права</a><a href="./legal.html#rightsholders">Правообладателям</a></nav></div>
+</div></footer>
+<script type="application/json" id="kvm-data-files">{"order":["en","routes","alias","enc","geo","tl","sg","p","c","pl","ev","ln","studios","st","k","eras","dc","dcSet","dt","map","space","tree","versions","editions","appearances","appearanceSchemaVersion","episodes","episodeLegacyKeys","episodeLegacyPost","episodeSchemaVersion","characterAppearanceAliases","versionTitles"],"app":"assets/js/app.js?v=7be0dbfe55","files":[{"path":"data/projects.json","keys":["p"],"hash":"778d7af327"},{"path":"data/characters.json","keys":["c"],"hash":"350ba24cfa"},{"path":"data/appearances.json","keys":["appearanceSchemaVersion","appearances","characterAppearanceAliases"],"hash":"d7908dba2d"},{"path":"data/episodes.json","keys":["episodeSchemaVersion","episodes","episodeLegacyKeys","episodeLegacyPost"],"hash":"d2f9f6b3f5"},{"path":"data/places.json","keys":["pl"],"hash":"01015eaf2f"},{"path":"data/events.json","keys":["ev","tl"],"hash":"dc74d74fce"},{"path":"data/encyclopedia.json","keys":["enc"],"hash":"3c41b2c0de"},{"path":"data/catalog.json","keys":["ln","routes","sg","eras","studios","st","k","dc","dcSet","dt"],"hash":"b53a55e074"},{"path":"data/versions.json","keys":["versions","editions","versionTitles"],"hash":"952dc0f60d"},{"path":"data/search.json","keys":["alias","en"],"hash":"3370c5ae36"}],"lazy":{"details":[{"path":"data/appearance-details.json","merge":"appearance-details","hash":"81fff26b71"},{"path":"data/episode-details.json","merge":"episode-details","hash":"c15c51a5c6"}],"maps":[{"path":"data/maps.json","keys":["map","space","tree"],"hash":"ae3f35111d"}],"geo":[{"path":"data/geo.json","keys":["geo"],"hash":"391520e16b"}]}}</script>
 <script type="application/json" id="kvm-ovr">{}</script>
-<script id="kvm-loader" src="assets/js/data-loader.js?v=494588335e" onerror="window.kvmLoadFail&&kvmLoadFail(this)"></script>
+<script id="kvm-loader" src="assets/js/data-loader.js?v=37bafda1b1" onerror="window.kvmLoadFail&&kvmLoadFail(this)"></script>
 </body>
 </html>
