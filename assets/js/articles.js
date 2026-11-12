@@ -130,8 +130,8 @@
   }
 
   function articleId(href) {
-    if (href === '#army') return 'army';
-    return /(?:^|\/)article-([a-z-]+)\.html$/.exec(href || '')?.[1];
+    if (href === '#army' || href === '#article-army') return 'army';
+    return /(?:^|\/)article-([a-z-]+)\.html$/.exec(href || '')?.[1] || /^#article-([a-z-]+)$/.exec(href || '')?.[1];
   }
 
   function applyCards(overrides) {
@@ -258,9 +258,7 @@
     select.addEventListener('change', () => { location.hash = '#admin/articles?article=' + select.value; });
     selectLabel.append(select);
     const publicLink = create('a', 'Открыть опубликованную статью ↗', 'btn');
-    publicLink.href = files.get(id);
-    publicLink.target = '_blank';
-    publicLink.rel = 'noopener';
+    publicLink.href = '#article-' + id;
     const header = create('div', undefined, 'article-editor-head');
     header.append(selectLabel, publicLink);
     const status = create('p', 'Загружаю статью…', 'muted');
@@ -312,6 +310,6 @@
     });
   }
 
-  window.KVMArticles = {mountEditor, presentation, photoArticle: key => articles.find(([id]) => key.startsWith('editorial-' + id + '-'))};
+  window.KVMArticles = {mountEditor, presentation, applyArticle, applyCards, photoArticle: key => articles.find(([id]) => key.startsWith('editorial-' + id + '-'))};
   showPublished();
 })();
