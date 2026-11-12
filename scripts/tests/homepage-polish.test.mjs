@@ -9,7 +9,9 @@ const imageRegistry=JSON.parse(readFileSync(new URL('../../content.json',import.
 
 test('desktop header is left-aligned and search input is larger with equal-height controls',t=>{
   const s=loadGuide();t.after(s.close);
-  assert.equal(s.doc.querySelectorAll('.top-v6 nav.tabs a').length,6);
+  assert.equal(s.doc.querySelectorAll('.top-v6 nav.tabs a').length,7);
+  assert.equal(s.doc.querySelector('.top-v6 nav.tabs a[href="articles.html"]')?.textContent,'Разборы');
+  assert.equal(s.doc.querySelector('.top-v6 .main-archive-brand')?.textContent,'АРХИВ КВМ');
   assert.ok(s.doc.querySelector('#q'));
   assert.equal(s.doc.querySelector('#spoilBtn'),null);
   assert.equal(s.doc.querySelector('#themeBtn'),null);

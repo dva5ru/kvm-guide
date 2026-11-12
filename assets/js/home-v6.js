@@ -55,7 +55,7 @@
     return '<section class="h6-hero" aria-labelledby="h6-hero-heading"><div class="h6-hero-copy">'+
       '<span class="h6-eyebrow">ИСТОРИИ · ГЕРОИ · ВСЕЛЕННЫЕ</span>'+
       '<h1 id="h6-hero-heading">'+headline(ctx,'home6.hero.title','Киновселенная Marvel')+'</h1>'+
-      '<p class="h6-lead">'+headline(ctx,'home6.hero.lead','Путеводитель по фильмам, сериалам и героям Marvel. Выбирайте порядок просмотра, исследуйте истории и находите связи между событиями.')+'</p>'+
+      '<p class="h6-lead">'+headline(ctx,'home6.hero.lead','Энциклопедия фильмов, сериалов и героев Marvel. Выбирайте порядок просмотра, исследуйте истории и находите связи между событиями.')+'</p>'+
       '<div class="h6-actions"><a class="h6-button h6-button-red" href="#watch">Как начать смотреть</a><a class="h6-button h6-button-outline" href="#encyclopedia">Исследовать истории</a></div>'+
       '</div><div class="h6-hero-art" role="group" aria-label="Шесть оригинальных Мстителей">'+people.map(function(id,i){var c=ctx.C[id];if(!c)return '';return '<a class="h6-portrait h6-portrait-'+i+'" href="#c-'+esc(id)+'" aria-label="Открыть карточку: '+esc(c.n)+'">'+photoPanel(ctx,'c-'+id,c.n,'h6-portrait-img',i<2?'high':'eager')+'<span>'+esc(actorName(c))+'</span></a>'}).join('')+'</div></section>';
   }
@@ -232,7 +232,7 @@
   }
   function random(ctx){chooseRandom(ctx);return '<section class="h6-section h6-random">'+sectionTitle('Случайное открытие','','')+
     '<div class="h6-random-box" id="h6-random-content">'+randomContent(ctx)+'</div></section>'}
-  function footer(){return '<footer class="h6-footer"><a href="#home" aria-label="На главную">КВМ</a><span>Независимый путеводитель по киновселенной Marvel.</span><a href="#encyclopedia">Энциклопедия ↗</a></footer>'}
+  function footer(){return '<footer class="h6-footer"><a href="#home" aria-label="На главную">Архив КВМ</a><span>Независимая энциклопедия киновселенной Marvel.</span><a href="#encyclopedia">Энциклопедия ↗</a></footer>'}
   function tools(ctx){return ctx.ADM.edit?'<div class="h6-admin" aria-label="Настройки главной страницы">'+
     '<strong>Главная · концепция № 6</strong><button type="button" data-h6-edit="focus">Темы в фокусе</button><button type="button" data-h6-edit="picks">Выбор редакции</button><button type="button" data-h6-edit="heroes">Персонажи</button><button type="button" data-h6-edit="order">Порядок блоков</button></div>':''}
   function render(ctx){
