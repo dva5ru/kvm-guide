@@ -1904,7 +1904,7 @@ function watchView(){return '<h1>Как смотреть</h1><div class="watch-w
 // ---------- главная ----------
 function home6Context(){return {D:D,P:P,C:C,PL:PL,CANON:CANON,OVR:OVR,IMG:IMG,ADM:ADM,SPO:SPO,B:B,EH:EH,getT:getT,imgSrc:imgSrc,SPW:SPW,isSpoil:isSpoil,isHid:isHid,artAll:artAll,artGet:artGet,fdate:fdate,todayStr:todayStr,saveDraft:saveDraft,rerender:rerender}}
 function home(){return window.KVMHome6?window.KVMHome6.render(home6Context()):'<h1>Киновселенная Marvel</h1><p><a href="#watch">Как смотреть</a></p>'}
-var VIEWS={home:home,timeline:timeline,catalog:catalog,heroes:heroes,encyclopedia:encView,'sacred-timeline':sacredView,watch:watchView,map:mapView,lines:linesView,stones:stonesView,races:racesView,teams:teamsView,universes:universesView,links:linksView,images:imagesView,orgs:orgsView};
+var VIEWS={home:home,timeline:timeline,catalog:catalog,heroes:heroes,encyclopedia:encView,'post-credits':postCreditsView,'sacred-timeline':sacredView,watch:watchView,map:mapView,lines:linesView,stones:stonesView,races:racesView,teams:teamsView,universes:universesView,links:linksView,images:imagesView,orgs:orgsView};
 ITEM_CATS.forEach(function(c){VIEWS[c.route]=function(){return itemCategoryView(c.id)}});
 // ---------- организации ----------
 function orgView(o){var pr=o[3].split(',').filter(function(x){return P[x]}),mem=o[4].split(',').filter(function(x){return C[x]});
