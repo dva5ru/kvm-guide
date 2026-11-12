@@ -120,10 +120,10 @@
       {title:"Кто предал Вижна? Почему Мстители позволили разобрать своего товарища",desc:"Как М.Е.Ч. получил тело Вижна, почему Мстители не вмешались и что раскрыл «ВижнКвест».",img:"f-wandavision",label:"ОПУБЛИКОВАНО · ПРАВО · ВИЖН",href:"article-vision.html"}
     ];
     return '<section class="h6-section h6-analysis" aria-labelledby="h6-analysis-title">'+
-      '<div class="h6-section-title"><h2 id="h6-analysis-title">Вопросы без простых ответов</h2><a href="articles.html">Все разборы <span aria-hidden="true">↗</span></a></div>'+
+      '<div class="h6-section-title"><h2 id="h6-analysis-title">Вопросы без простых ответов</h2><a href="#articles">Все разборы <span aria-hidden="true">↗</span></a></div>'+
       '<p class="h6-section-sub">Не пересказываем сюжеты: исследуем спорные вопросы, сверяем реплики и сцены, отделяем факты от предположений.</p>'+
       '<div class="h6-analysis-grid">'+rows.map(function(x){
-        var id=x.href.slice('article-'.length,-'.html'.length);
+        var id=x.href.replace(/^#article-/, '');
         var edited=window.KVMArticles?window.KVMArticles.presentation(ctx.OVR,id):{};
         var title=edited.title||x.title,lead=edited.lead||x.desc;
         var photo=edited.cover?'<img class="h6-analysis-img" src="'+esc(edited.cover)+'" alt="'+esc(edited.coverAlt??title)+'" loading="lazy" decoding="async">':
