@@ -158,18 +158,49 @@ function characterAppearances(c){return c.app.filter(function(a){var p=P[a[0]];r
 var HERO_TEAM_GROUPS='|Мстители|Громовержцы|Стражи Галактики|Ревущие командос|Щ.И.Т.|Гидра|Дора Миладже|Опустошители|Кри|Скруллы|Чёрный орден|Десять колец|УВИ|Наблюдатели|Варианты Локи|Люди Икс|Фантастическая четвёрка|Вечные|Защитники|Кунь-Лунь|Государственная власть|';
 var HERO_WORLD_GROUPS='|Ваканда|Уэствью|Асгард|Космос|Мультивселенная|Другие вселенные|Адская кухня|Улицы Нью-Йорка|Вторая мировая|';
 function heroGroupKind(g){return HERO_TEAM_GROUPS.indexOf('|'+g+'|')>=0?'teams':HERO_WORLD_GROUPS.indexOf('|'+g+'|')>=0?'worlds':'themes'}
-function heroGroupSection(title,list,counts,expanded){if(!list.length)return '';list.sort(function(a,b){return a.localeCompare(b,'ru')});return '<details class="hero-group-panel"'+(expanded||list.indexOf(HS.g)>=0?' open':'')+'><summary>'+esc(title)+' <small>'+list.length+'</small></summary><div class="chips hero-group-items">'+list.map(function(g){return '<button type="button" class="chip'+(HS.g===g?' on':'')+'" data-hs-g="'+esc(g)+'">'+esc(g)+' <i>'+counts[g]+'</i></button>'}).join('')+'</div></details>'}
+function heroGroupButton(group,label,count){
+  var selected=HS.g===group;
+  return '<button type="button" class="chip'+(selected?' on':'')+'" data-hs-g="'+esc(group)+'" aria-pressed="'+selected+'" aria-controls="hs-list">'+
+    esc(label)+(count==null?'':' <i>'+count+'</i>')+'</button>';
+}
+function heroGroupSection(title,list,counts){
+  if(!list.length)return '';
+  list.sort(function(a,b){return a.localeCompare(b,'ru')});
+  return '<details name="hero-groups" class="hero-group-panel"'+(list.indexOf(HS.g)>=0?' open':'')+'><summary>'+esc(title)+' <small>'+list.length+'</small></summary>'+
+    '<div class="chips hero-group-items">'+list.map(function(group){return heroGroupButton(group,group,counts[group])}).join('')+'</div></details>';
+}
 
 var HS={g:'all',q:'',dm:false};
 function heroes(){
   var gs=Object.create(null);D.c.forEach(function(c){characterGroups(c).forEach(function(g){gs[g]=(gs[g]||0)+1})});
-  return '<h1>Герои</h1><p class="lead" style="margin-top:12px">Нажмите на героя, чтобы увидеть все его появления, камео и порядок просмотра.</p>'+
-  '<div class="ctrl"><label><input type="text" data-hs-q placeholder="Имя или актёр" value="'+esc(HS.q)+'" aria-label="Поиск героя"></label></div>'+
-  '<div class="hero-groups" role="group" aria-label="Группы персонажей"><div class="hero-group-all"><button type="button" class="chip'+(HS.g==='all'?' on':'')+'" data-hs-g="all">Все <i>'+D.c.length+'</i></button></div>'+heroGroupSection('Команды и фракции',Object.keys(gs).filter(function(g){return heroGroupKind(g)==='teams'}),gs,true)+heroGroupSection('Миры, места и эпохи',Object.keys(gs).filter(function(g){return heroGroupKind(g)==='worlds'}),gs,false)+heroGroupSection('Окружение и темы',Object.keys(gs).filter(function(g){return heroGroupKind(g)==='themes'}),gs,false)+'</div><div id="hs-list">'+hsList()+'</div>';
+  var groups=Object.keys(gs),list=hsMatches();
+  return '<div class="directory heroes-directory">'+directoryHero('Герои','Персонажи Marvel и их появления в фильмах и сериалах.','К каталогу','heroes-catalog',[
+    {label:'Ванда Максимофф',image:'c-wanda',href:'#c-wanda'},
+    {label:'Человек-паук',image:'c-peter',href:'#c-peter'},
+    {label:'Чёрная Пантера',image:'c-tchalla',href:'#c-tchalla'}
+  ])+'<section class="directory-section" id="heroes-catalog" tabindex="-1"><div class="directory-toolbar">'+
+    '<div><h2>Каталог героев</h2><p class="directory-count" id="hs-count" role="status">'+esc(hsCount(list.length))+'</p></div>'+
+    '<input type="search" data-hs-q placeholder="Имя героя или актёра" value="'+esc(HS.q)+'" aria-label="Поиск героя" aria-controls="hs-list"></div>'+
+    '<div class="hero-groups" role="group" aria-label="Группы персонажей">'+heroGroupButton('all','Все герои')+
+    heroGroupSection('Команды и фракции',groups.filter(function(g){return heroGroupKind(g)==='teams'}),gs)+
+    heroGroupSection('Миры, места и эпохи',groups.filter(function(g){return heroGroupKind(g)==='worlds'}),gs)+
+    heroGroupSection('Окружение и темы',groups.filter(function(g){return heroGroupKind(g)==='themes'}),gs)+
+    '</div><div id="hs-list">'+hsList(list)+'</div></section></div>';
 }
-function hsList(){var q=norm(HS.q),list=D.c.filter(function(c){return (HS.g==='all'||characterGroups(c).indexOf(HS.g)>=0)&&(!HS.dm||D.dcSet[c.id])&&(!q||norm(c.n+' '+c.a).indexOf(q)>=0)}).sort(function(a,b){return b.app.length-a.app.length});
-  if(!list.length)return '<div class="empty">Такого героя нет. Проверьте написание или выберите «Все».</div>';
-  return '<div class="hgrid">'+list.map(hcard).join('')+'</div>'}
+function hsMatches(){
+  var q=norm(HS.q);
+  return D.c.filter(function(c){return (HS.g==='all'||characterGroups(c).indexOf(HS.g)>=0)&&(!HS.dm||D.dcSet[c.id])&&(!q||norm(c.n+' '+c.a).indexOf(q)>=0)}).sort(function(a,b){return b.app.length-a.app.length});
+}
+function hsCount(count){return (HS.g==='all'?'':HS.g+' · ')+directoryCount(count,['персонаж','персонажа','персонажей'])}
+function hsList(list){
+  if(!list.length)return '<p class="directory-empty">Такого героя нет. Проверьте написание или выберите «Все герои».</p>';
+  return '<div class="hgrid">'+list.map(hcard).join('')+'</div>';
+}
+function hsRefresh(){
+  var list=hsMatches();
+  document.getElementById('hs-count').textContent=hsCount(list.length);
+  document.getElementById('hs-list').innerHTML=hsList(list);
+}
 function hcard(c){return '<a class="panel hcard" href="#c-'+c.id+'">'+mono(c)+'<span><b>'+esc(c.n)+'</b><span>'+esc(c.a)+'</span><span>'+characterAppearances(c).length+' '+plural(characterAppearances(c).length,['проект','проекта','проектов'])+''+'</span></span></a>'}
 
 
@@ -1278,7 +1309,11 @@ document.addEventListener('click',function(e){
   if(t.hasAttribute('data-tl-mode')){TL.mode=t.getAttribute('data-tl-mode');main.querySelectorAll('[data-tl-mode]').forEach(function(b){b.classList.toggle('on',b===t)});document.getElementById('tl-list').innerHTML=tlList();return}
   if(t.hasAttribute('data-ct-st')){var k=t.getAttribute('data-ct-st');CT.st[k]=CT.st[k]?0:1;t.classList.toggle('on',!!CT.st[k]);document.getElementById('ct-list').innerHTML=ctList();return}
   if(t.hasAttribute('data-ct-only')){var k2=t.getAttribute('data-ct-only');Object.keys(CT.st).forEach(function(x){CT.st[x]=x===k2?1:0});CT.studio='all';CT.kind='all';CT.q='';return}
-  if(t.hasAttribute('data-hs-g')){HS.g=t.getAttribute('data-hs-g');main.querySelectorAll('[data-hs-g]').forEach(function(b){b.classList.toggle('on',b===t)});document.getElementById('hs-list').innerHTML=hsList();return}
+  if(t.hasAttribute('data-hs-g')){
+    HS.g=t.getAttribute('data-hs-g');
+    main.querySelectorAll('[data-hs-g]').forEach(function(b){var active=b===t;b.classList.toggle('on',active);b.setAttribute('aria-pressed',active)});
+    hsRefresh();return;
+  }
   if(t.hasAttribute('data-lk-go')){LK.c=t.getAttribute('data-lk-go');return}
   if(t.hasAttribute('data-hs-goto')){HS.g=t.getAttribute('data-hs-goto');return}
   if(t.hasAttribute('data-mr')){zoomTo(t.getAttribute('data-mr'));return}
@@ -1296,7 +1331,7 @@ document.addEventListener('change',function(e){var t=e.target;
   else if(t.hasAttribute('data-ct-studio')){CT.studio=t.value;document.getElementById('ct-list').innerHTML=ctList()}
   else if(t.hasAttribute('data-ct-kind')){CT.kind=t.value;document.getElementById('ct-list').innerHTML=ctList()}
   else if(t.hasAttribute('data-ct-sort')){CT.sort=t.value;document.getElementById('ct-list').innerHTML=ctList()}
-  else if(t.hasAttribute('data-hs-dm')){HS.dm=t.checked;document.getElementById('hs-list').innerHTML=hsList()}
+  else if(t.hasAttribute('data-hs-dm')){HS.dm=t.checked;hsRefresh()}
   else if(t.name==='spm'){SPO.mode=t.value;if(SPO.mode==='upto'&&!SPO.ord)SPO.ord=+document.getElementById('spOrd').value;applySpoil()}
   else if(t.id==='spOrd'){SPO.ord=+t.value;SPO.mode='upto';var ru=document.querySelector('#spoilPanel input[value="upto"]');if(ru)ru.checked=true;applySpoil()}
   else if(t.hasAttribute('data-tlk')){TLV.kind=t.value;var tl=document.getElementById('tl-list');if(tl)tl.innerHTML=tlList()}
@@ -1316,7 +1351,7 @@ document.addEventListener('change',function(e){var t=e.target;
 document.addEventListener('input',function(e){var t=e.target;
   if(t.hasAttribute('data-unm-in')){var u=UNM[+t.getAttribute('data-unm-in')];if(u)u.target=t.value}
   else if(t.hasAttribute('data-ct-q')){CT.q=t.value;document.getElementById('ct-list').innerHTML=ctList()}
-  else if(t.hasAttribute('data-hs-q')){HS.q=t.value;document.getElementById('hs-list').innerHTML=hsList()}
+  else if(t.hasAttribute('data-hs-q')){HS.q=t.value;hsRefresh()}
 });
 
 // ---------- search ----------
