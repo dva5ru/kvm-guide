@@ -170,7 +170,7 @@
       applyArticle(article, overrides, id);
       if (id === 'army') applyCards(overrides);
       else {
-        document.title = heading(article).textContent + ' — KVM Guide';
+        document.title = heading(article).textContent + ' — Архив КВМ';
         const lead = value(overrides, id, 'lead');
         if (lead) document.querySelector('meta[name="description"]')?.setAttribute('content', lead);
       }
