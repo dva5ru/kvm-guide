@@ -67,6 +67,7 @@ function editionOnlyView(p){var original=P[p.editionOf],cx=ctxP([p.id]),K='p.'+p
 function announcedFilmView(p){var K='p.'+p.id+'.',info=p.announcement||{},facts=projectTimeFacts(p),cast=(p.cs||[]).filter(function(x){var a=AREG[p.id+'::'+x[0]];return a&&a.announcementStatus==='announced'&&a.announcementSource});return '<button class="back" type="button" data-back>← Назад</button><div class="dhead"><div class="cvcol">'+cover(p,'big')+imgOneBtn('f-'+p.id)+'</div><div class="info"><h1>'+EH(K+'t',p.t)+'</h1><div class="badges">'+stBadge(p.s)+'</div>'+B('p.facts',p.id,'Факты','<dl class="facts">'+facts.map(function(f){return '<div><dt>'+esc(f[0])+'</dt><dd>'+esc(f[1])+'</dd></div>'}).join('')+'</dl>')+'</div></div>'+
  '<section class="panel pad"><h2>Подтверждённые сведения</h2><p class="about">'+esc(info.summary||'Официальное описание сюжета и персонажи пока не раскрыты.')+'</p>'+''+'</section>'+
  (cast.length?'<section><h2>Объявленные персонажи ('+cast.length+')</h2><p class="muted">Заявлены до премьеры: это не экранные появления.</p><div class="chips">'+cast.map(function(row){return cPhotoLink(row[0])}).join('')+'</div></section>':'')+
+ B('p.doomsday',p.id,'Связи со сценами после титров',p.id==='doomsday'?doomsdayPostCreditsView():'')+
  B('p.franchise',p.id,'Фильмы серии',filmSeriesList(p,ctxP([p.id])));
 }
 function years(p){return p.re&&p.re!==p.y?p.y+'–'+p.re:p.y}
@@ -805,7 +806,7 @@ function withBaseData(fn){Object.keys(ORIG).forEach(function(k){var r=ref(k);if(
   fn();applyOVR()}
 // Какие группы данных нужны странице. Поиск, каталог, хронология и главная работают на основных данных.
 function dataNeeds(h){if(!window.KVMData)return [];if(ADM.can||ADM.edit)return KVMData.groups();
-  if(/^(f|c)-/.test(h)||h.indexOf('ep-')===0)return ['details'];if(h==='map')return ['maps','geo'];if(/^p-/.test(h))return ['maps'];return []}
+  if(/^(f|c)-/.test(h)||h.indexOf('ep-')===0)return ['details'];if(h==='map')return ['maps','geo'];if(h==='post-credits')return ['details'];if(/^p-/.test(h))return ['maps'];return []}
 function applyOVR(){Object.keys(ORIG).forEach(function(k){var r=ref(k);if(r)r[0][r[1]]=ORIG[k]});ORIG={};
   Object.keys(ORIGINAL_APPEARANCE_TEXT).forEach(function(id){AREG[id].description=ORIGINAL_APPEARANCE_TEXT[id]});ORIGINAL_APPEARANCE_TEXT={};
   Object.keys(OVR.text).forEach(function(k){var r=ref(k);if(!r)return;var parts=appearanceTextKey(k).split('.'),id=parts[0]==='c'&&parts[2]==='note'?parts.slice(3).join('.')+'::'+parts[1]:parts[0]==='project-appearance'?parts[1]+'::'+parts[2]:null;
@@ -950,12 +951,38 @@ function filmSeriesList(p,cx){
 }
 function episodeList(p,cx){if(!p.eps)return '';var seasons=[];p.eps.forEach(function(e){if(seasons.indexOf(e.meta.season)<0)seasons.push(e.meta.season)});return '<section class="eps"><h2>Серии <span class="muted">('+p.eps.length+')</span></h2>'+seasons.map(function(sn){return '<h3 style="margin-top:20px">Сезон '+sn+'</h3>'+p.eps.filter(function(e){return e.meta.season===sn}).map(function(e){return '<article class="ep"><div class="ep-n">'+e[0]+'</div><div><h3><a href="'+episodeHref(e)+'">'+esc(e[1])+'</a></h3>'+(e.meta.lead?'<p>'+(ADM.edit?E('episode.'+e.id+'.lead',e.meta.lead,cx):spField('episode.'+e.id+'.lead',e.meta.lead,[p.id],cx))+'</p>':'')+'<p class="muted">'+(e.meta.status==='released'?'Вышла':'Анонсирована')+(e.meta.date?' · '+fdate(e.meta.date):'')+'</p><p><a href="'+episodeHref(e)+'">Открыть серию →</a></p></div></article>'}).join('')}).join('')+'</section>'}
 
+var DOOMSDAY_POST_LINKS=[
+  {id:'thunderbolts',scene:0,tier:'direct'},{id:'ff-first-steps',scene:0,tier:'direct'},
+  {id:'endgame-encore',scene:0,tier:'direct'},{id:'endgame-encore',scene:1,tier:'direct'},
+  {id:'endgame-encore',scene:2,tier:'direct'},{id:'endgame-encore',scene:3,tier:'direct'},
+  {id:'visionquest',episode:'visionquest-s1-e8',scene:1,tier:'direct'},
+  {id:'bnw',scene:0,tier:'possible'},{id:'bnd',scene:0,tier:'possible'},
+  {id:'the-marvels',scene:0,tier:'possible'},{id:'dsmom',scene:0,tier:'possible'}
+];
+function postCreditReference(ref){
+  var p=P[ref.id],ep=p&&p.eps&&p.eps.find(function(e){return e.id===ref.episode});
+  var data=ep&&ep.meta&&ep.meta.post?ep.meta.post[ref.scene]:null;
+  var desc=data?data.text:p&&p.post&&p.post[ref.scene];
+  if(!p||!desc)return '';
+  var link=ep?'#ep-'+ep.id:'#f-'+p.id;
+  return '<li><a href="'+link+'">'+esc(p.t)+(ep?' · сезон '+ep.meta.season+', серия '+ep[0]:'')+'</a><p>'+esc(desc)+'</p></li>';
+}
+function doomsdayPostCreditsView(){
+  return '<section class="doomsday-post"><h2>Сцены других проектов, ведущие к «Судному дню»</h2>'+
+    '<p class="muted">Это события уже вышедших проектов, а не сцены будущего фильма.</p>'+
+    '<h3>Прямые сюжетные мостики</h3><ol class="postcredit-ref-list">'+DOOMSDAY_POST_LINKS.filter(function(x){return x.tier==='direct'}).map(postCreditReference).join('')+'</ol>'+
+    '<h3>Косвенные намёки</h3><p class="muted">Связаны с мультивселенной, но пока не подтверждают конкретные события «Судного дня».</p>'+
+    '<ol class="postcredit-ref-list">'+DOOMSDAY_POST_LINKS.filter(function(x){return x.tier==='possible'}).map(postCreditReference).join('')+'</ol>'+
+    '<p><a class="chip" href="#post-credits">Все сцены после титров КВМ</a></p></section>';
+}
 // ---------- страница проекта ----------
 function projectView(p){if(p.editionOf)return editionOnlyView(p);if(isFutureFilm(p))return announcedFilmView(p);var pg=p.id,cx=ctxP([p.id]),nb=chronoNeighbors(p),K='p.'+p.id+'.';
   var facts=projectTimeFacts(p).concat([['Студия',D.studios[p.st]],['Тип',D.k[p.k]+(p.sg?', сезон '+p.sn+' из '+D.sg[p.sg].length:'')]]);
   if(p.ord)facts.push(['Место в хронологии','№ '+p.ord+' из '+CANON.length+', эпоха «'+ERA[p.era].n+'»']);
-  var groups={};p.cs.forEach(function(a){var type=appearanceKind(p,a[0]);(groups[type]=groups[type]||[]).push(a[0])});
-  var who=APPEARANCE_ORDER.filter(function(type){return groups[type]}).map(function(type){var chips='<div class="chips">'+groups[type].map(function(id){return cPhotoLink(id)}).join('')+'</div>';return '<h3>'+APPEARANCE_LABELS[type]+' <span class="muted">('+groups[type].length+')</span></h3>'+(type==='credits'?SPW([p.id],chips):chips)}).join('');
+  var mainCast=p.cs.filter(function(a){return a[1]==='L'||a[1]==='M'}),otherCast=p.cs.filter(function(a){return a[1]!=='L'&&a[1]!=='M'});
+  function castGroups(rows){var groups={};rows.forEach(function(a){var type=appearanceKind(p,a[0]);(groups[type]=groups[type]||[]).push(a[0])});return APPEARANCE_ORDER.filter(function(type){return groups[type]}).map(function(type){return '<h3>'+APPEARANCE_LABELS[type]+' <span class="muted">('+groups[type].length+')</span></h3><div class="chips">'+groups[type].map(cPhotoLink).join('')+'</div>'}).join('')}
+  var who=(mainCast.length?'<h3>Основные персонажи <span class="muted">('+mainCast.length+')</span></h3><div class="chips">'+mainCast.map(function(a){return cPhotoLink(a[0])}).join('')+'</div>':'')+
+    (otherCast.length?'<details class="cast-more"><summary>Показать всех персонажей <span class="muted">('+p.cs.length+')</span></summary><div class="cast-more-content"><p class="muted">Второстепенные роли, эпизодические появления, камео и голоса.</p>'+castGroups(otherCast)+'</div></details>':'');
   var lines=p.ln.map(function(lid){var o=lineNeighbors(p,lid);if(!o)return '';return '<div class="lnrow"><a class="lname" href="#l-'+lid+'">'+esc(lnName(lid))+' <span class="muted">('+(o.i+1)+' из '+o.n+')</span></a><span>'+(o.prev?'<a href="#f-'+o.prev.id+'">← '+esc(o.prev.t)+'</a>':'<span class="muted">это начало</span>')+'</span><span class="nx">'+(o.next?'<a href="#f-'+o.next.id+'">'+esc(o.next.t)+' →</a>':'<span class="muted">пока последнее</span>')+'</span></div>'}).join('');
   var pre=(p.refs||[]).slice();if(!pre.length)p.ln.forEach(function(lid){var o=lineNeighbors(p,lid);if(o&&o.prev&&pre.indexOf(o.prev.id)<0)pre.push(o.prev.id)});
   var firsts=(p.firsts||[]).filter(function(f){return C[f[0]]}),eggs=D.enc.eggs[p.id]||[];
@@ -981,10 +1008,17 @@ function projectView(p){if(p.editionOf)return editionOnlyView(p);if(isFutureFilm
   B('p.places',pg,'Места',p.pl.length?'<h3 style="margin-top:26px">Места</h3><div class="chips" style="margin-top:10px">'+p.pl.map(plLink).join('')+'</div>':'')+
   B('p.events',pg,'Ключевые события',p.ev.length?'<h3 style="margin-top:26px">Ключевые события</h3><div class="chips" style="margin-top:10px">'+p.ev.map(evLink).join('')+'</div>':'')+'</div></div>';
 }
+function firstCharacterProject(c){
+  var seen=characterAppearances(c).map(function(a){return P[a[0]]}).filter(function(p){return p&&!p.editionOf&&p.s!=='soon'&&p.s!=='dev'&&!isFutureFilm(p)});
+  var mcu=seen.filter(function(p){return p.s==='canon'||p.s==='alt'}),pool=mcu.length?mcu:seen;
+  var marked=pool.filter(function(p){return (p.firsts||[]).some(function(x){return x[0]===c.id})});
+  var first=(marked.length?marked:pool).sort(function(a,b){return String(a.r||'9999').localeCompare(String(b.r||'9999'))})[0];
+  return {project:first||null,canonical:mcu.length>0};
+}
 // ---------- страница героя ----------
 function charView(c){var pg=c.id,K='c.'+c.id+'.',hcx=ctxP(c.app.map(function(a){return a[0]}));
   var shown=characterAppearances(c),inM=shown.filter(function(a){var p=P[a[0]];return MCU[p.s]&&a[1]!=='X'}),other=shown.filter(function(a){var p=P[a[0]];return !(MCU[p.s]&&a[1]!=='X')});
-  var first=D.p.filter(function(p){return (p.firsts||[]).some(function(f){return f[0]===c.id})})[0];
+  var debut=firstCharacterProject(c),first=debut.project;
   var evs=D.ev.filter(function(e){return e.ch.indexOf(c.id)>=0}),rels=relsOf(c.id);
   var plc={};c.app.forEach(function(a){if(/[LM]/.test(a[1]))P[a[0]].pl.forEach(function(x){plc[x]=(plc[x]||0)+1})});
   var plTop=Object.keys(plc).sort(function(a,b){return plc[b]-plc[a]}).slice(0,12);
@@ -992,7 +1026,7 @@ function charView(c){var pg=c.id,K='c.'+c.id+'.',hcx=ctxP(c.app.map(function(a){
   return '<button class="back" type="button" data-back>← Назад</button><div class="dhead">'+(imgSrc('c-'+c.id)?'<button type="button" class="portrait-trigger" data-zoom-key="c-'+c.id+'" aria-label="Увеличить фото персонажа">'+mono(c,true)+'</button>':mono(c,true))+'<div class="info"><h1>'+EH(K+'n',c.n)+'</h1>'+(c.a?'<div class="en">Исполнитель базовой версии: '+esc(c.a)+'</div>':'')+versionBar(c)+'<div class="badges">'+characterGroups(c).map(function(g){return '<a class="chip" href="#heroes" data-hs-goto="'+esc(g)+'">'+esc(g)+'</a>'}).join('')+'</div>'+characterGroupEditor(c)+
   B('c.about',pg,'Описание',charAbout(c,K,hcx))+
   (ADM.on?'<p style="margin-top:12px">'+imgOneBtn('c-'+c.id)+'</p>':'')+charLookGallery(c)+
-  B('c.first',pg,'Первое появление',first?'<p class="muted" style="margin-top:12px">Первое появление в КВМ: <a href="#f-'+first.id+'">«'+esc(first.t)+'»</a> ('+esc(first.y)+')</p>':'')+'</div></div>'+
+  B('c.first',pg,'Первое появление','<p class="character-debut">'+(first?(debut.canonical?'Первое появление в КВМ: ':'Первое появление на экране: ')+'<a href="#f-'+first.id+'">«'+esc(first.t)+'»</a> ('+esc(first.y)+')':'Экранное появление в вышедших проектах пока не подтверждено.')+'</p>')+'</div></div>'+
   '<div class="cols"><div>'+B('c.apps',pg,'Все появления в КВМ',inM.length?'<h2>Все появления в КВМ <span class="muted">('+inM.length+')</span></h2><p class="muted" style="margin:6px 0 10px">По порядку событий: что герой делает в каждом проекте.</p>'+apps(inM):'')+
   B('c.other',pg,'Связанные проекты и другие вселенные',other.length?'<h2 style="margin-top:32px">Связанные проекты и другие вселенные <span class="muted">('+other.length+')</span></h2><p class="muted" style="margin:6px 0 10px">Связанные сериалы, фильмы вне КВМ и другие реальности.</p>'+apps(other,1):'')+'</div>'+
   '<div>'+B('c.events',pg,'Ключевые события',evs.length?'<h3>Ключевые события</h3><div class="chips" style="margin-top:10px">'+evs.map(function(e){return evLink(e.id)}).join('')+'</div>':'')+
@@ -1241,7 +1275,7 @@ function relLabel(p){var r=String(p.r||''),now=new Date(),today=now.getFullYear(
   if(!r)return 'Ожидается';var full=r.length>=10;if(full)return r<=today?'Вышел':'Премьера';var cut=today.slice(0,r.length);return r<cut?'Вышел':(r===cut?'Премьера':'Ожидается')}
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&document.getElementById('globe')&&!GL.raf&&GL.visible!==false)GL.raf=requestAnimationFrame(glLoop)});
 // ---------- router ----------
-var VIEWS={routes:routesView,images:imagesView,stones:stonesView,races:racesView,links:linksView,teams:teamsView,universes:universesView,home:home,timeline:timeline,catalog:catalog,heroes:heroes,map:mapView,events:eventsView,lines:linesView};
+var VIEWS={routes:routesView,images:imagesView,stones:stonesView,races:racesView,links:linksView,teams:teamsView,universes:universesView,home:home,timeline:timeline,catalog:catalog,heroes:heroes,map:mapView,events:eventsView,lines:linesView,'post-credits':postCreditsView};
 var NAVKEY={f:'catalog',c:'heroes',p:'map',e:'events',l:'lines'};
 var STACK=[],SCROLL={},CUR=null,NAVBACK=false;
 
@@ -1525,7 +1559,7 @@ function charAbout(c,K,hcx){var pids=c.app.map(function(a){return a[0]});
 function evLink(id){var e=EV[id];return e?'<a class="chip" href="#e-'+e.id+'">'+esc(evName(e))+' <i>'+esc(e.w)+'</i></a>':''}
 // ---------- новая структура: 6 разделов ----------
 var LEGACY={'routes-list':'watch',routes:'watch','thematic-routes':'watch',doomsday:'f-doomsday',rights:'catalog',quiz:'home',deaths:'home'};
-var ENC_KEYS={'sacred-timeline':1,map:1,lines:1,stones:1,'infinity-stones':1,artifacts:1,weapons:1,armor:1,materials:1,races:1,orgs:1,teams:1,universes:1};
+var ENC_KEYS={'sacred-timeline':1,map:1,lines:1,stones:1,'infinity-stones':1,artifacts:1,weapons:1,armor:1,materials:1,races:1,orgs:1,teams:1,universes:1,'post-credits':1};
 function navFor(h){if(h==='articles'||/^article-(army|vision|visionquest|armor|civil-war|thanos|snap)$/.test(h))return 'articles';if(h==='home')return 'home';if(h==='timeline'||h==='events'||/^e-/.test(h))return 'timeline';if(h==='catalog'||/^f-/.test(h)||/^ep-/.test(h)||/^fp-/.test(h))return 'catalog';
   if(h==='heroes'||h==='links'||/^c-/.test(h))return 'heroes';if(h==='watch'||/^w-/.test(h))return 'watch';if(h==='encyclopedia'||ENC_KEYS[h]||/^[plaro]-/.test(h))return 'encyclopedia';return ''}
 function crumbEnc(){return '<a class="crumb" href="#encyclopedia">← Энциклопедия</a>'}
@@ -1790,6 +1824,46 @@ document.addEventListener('click',function(e){
   focus.focus({preventScroll:true});
   target.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});
 });
+function postCreditsProjects(){
+  return D.p.filter(function(p){return (p.s==='canon'||p.s==='alt')&&!isFutureFilm(p)}).map(function(p){
+    var episodes=(p.eps||[]).filter(function(e){return e.meta&&Array.isArray(e.meta.post)&&e.meta.post.length}),scenes=[];
+    if(episodes.length)episodes.forEach(function(e){e.meta.post.forEach(function(item){
+      scenes.push({text:item.text,placement:item.placement,href:episodeHref(e),episode:'Сезон '+e.meta.season+', серия '+e[0]});
+    })});
+    else if(Array.isArray(p.post))p.post.forEach(function(text,i){if(text&&!/^сцен нет[,.: ]/i.test(text))scenes.push({text:text,placement:'',href:'#f-'+p.id,episode:''})});
+    return {p:p,scenes:scenes,type:seriesKind(p)?'series':filmKind(p)?'film':'other'};
+  }).filter(function(x){return x.scenes.length}).sort(function(a,b){return String(b.p.r||'').localeCompare(String(a.p.r||''))||a.p.t.localeCompare(b.p.t,'ru')});
+}
+function postCreditsView(){
+  var rows=postCreditsProjects(),total=rows.reduce(function(n,x){return n+x.scenes.length},0),years={};
+  rows.forEach(function(x){var y=String(x.p.r||x.p.y).slice(0,4);(years[y]=years[y]||[]).push(x)});
+  var body=Object.keys(years).sort(function(a,b){return b.localeCompare(a)}).map(function(year){
+    return '<section class="pc-year" data-pc-year><h2>'+esc(year)+'</h2><div class="pc-projects">'+years[year].map(function(row){
+      var p=row.p,search=norm(p.t+' '+row.scenes.map(function(s){return s.text}).join(' '));
+      return '<details class="pc-project" data-pc-item data-pc-type="'+row.type+'" data-pc-search-text="'+esc(search)+'"><summary>'+
+        '<span class="pc-project-title">'+esc(p.t)+'</span><span class="pc-project-count">'+row.scenes.length+' '+plural(row.scenes.length,['сцена','сцены','сцен'])+'</span></summary>'+
+        '<div class="pc-scenes"><ol>'+row.scenes.map(function(s,i){return '<li><span class="pc-scene-kind">'+
+          (s.episode?esc(s.episode)+' · ':'')+(s.placement==='mid'?'В середине титров':s.placement==='end'?'После титров':'Сцена '+(i+1))+'</span>'+
+          '<p>'+esc(s.text)+'</p>'+(s.episode?'<a href="'+s.href+'">Открыть серию</a>':'')+'</li>'}).join('')+
+        '</ol><a class="chip" href="#f-'+p.id+'">Открыть проект</a></div></details>';
+    }).join('')+'</div></section>';
+  }).join('');
+  return '<div class="pc-view"><h1>Сцены после титров</h1><p class="lead">Бонусные сцены фильмов, сериалов, короткометражек и спецвыпусков КВМ. Откройте проект, чтобы прочитать описание.</p>'+
+    '<div class="pc-tools"><label>Поиск по сценам<input data-pc-search type="search" placeholder="Проект, персонаж, событие"></label>'+
+    '<label>Проекты<select data-pc-kind><option value="all">Все</option><option value="film">Фильмы</option><option value="series">Сериалы</option><option value="other">Короткометражки и спецвыпуски</option></select></label></div>'+
+    '<p class="muted" data-pc-count>'+rows.length+' '+plural(rows.length,['проект','проекта','проектов'])+' · '+total+' '+plural(total,['сцена','сцены','сцен'])+'</p>'+
+    '<div class="pc-results">'+body+'</div><p class="muted" data-pc-empty hidden>По такому запросу сцен не найдено.</p></div>';
+}
+function filterPostCredits(){
+  var input=document.querySelector('[data-pc-search]'),kind=document.querySelector('[data-pc-kind]');if(!input||!kind)return;
+  var term=norm(input.value),type=kind.value,count=0;
+  document.querySelectorAll('[data-pc-item]').forEach(function(node){var yes=(type==='all'||node.getAttribute('data-pc-type')===type)&&(!term||(node.getAttribute('data-pc-search-text')||'').indexOf(term)>=0);node.hidden=!yes;if(yes)count++});
+  document.querySelectorAll('[data-pc-year]').forEach(function(node){node.hidden=!node.querySelector('[data-pc-item]:not([hidden])')});
+  var label=document.querySelector('[data-pc-count]');if(label)label.textContent=count+' '+plural(count,['проект','проекта','проектов'])+' найдено';
+  var empty=document.querySelector('[data-pc-empty]');if(empty)empty.hidden=!!count;
+}
+document.addEventListener('input',function(e){if(e.target.matches('[data-pc-search]'))filterPostCredits()});
+document.addEventListener('change',function(e){if(e.target.matches('[data-pc-kind]'))filterPostCredits()});
 function encView(){
   var items=artAll(),groups=[
     ['Команды и народы',[
@@ -1805,7 +1879,8 @@ function encView(){
       ['map','Карта и места','Земля, космос и Девять миров.','pl-wakanda'],
       ['universes','Вселенные','Земля-616, другие Земли и миры вне времени.','c-strange'],
       ['sacred-timeline','Священная линия времени','От контроля УВИ к древу временных ветвей.','pl-tva'],
-      ['lines','Сюжетные линии','Истории героев и саг по порядку событий.','c-wanda']
+      ['lines','Сюжетные линии','Истории героев и саг по порядку событий.','c-wanda'],
+       ['post-credits','Сцены после титров','Бонусные сцены фильмов, сериалов и спецвыпусков.','c-doom']
     ]]
   ];
   var highlights=[['orgs','Организации','c-fury'],['artifacts','Артефакты','a-tesseract'],['map','Карта и места','pl-asgard']].filter(function(c){return directoryVisible(c[0])}).map(function(c){return {label:c[1],image:c[2],href:'#'+c[0]}});
@@ -1829,7 +1904,7 @@ function watchView(){return '<h1>Как смотреть</h1><div class="watch-w
 // ---------- главная ----------
 function home6Context(){return {D:D,P:P,C:C,PL:PL,CANON:CANON,OVR:OVR,IMG:IMG,ADM:ADM,SPO:SPO,B:B,EH:EH,getT:getT,imgSrc:imgSrc,SPW:SPW,isSpoil:isSpoil,isHid:isHid,artAll:artAll,artGet:artGet,fdate:fdate,todayStr:todayStr,saveDraft:saveDraft,rerender:rerender}}
 function home(){return window.KVMHome6?window.KVMHome6.render(home6Context()):'<h1>Киновселенная Marvel</h1><p><a href="#watch">Как смотреть</a></p>'}
-var VIEWS={home:home,timeline:timeline,catalog:catalog,heroes:heroes,encyclopedia:encView,'sacred-timeline':sacredView,watch:watchView,map:mapView,lines:linesView,stones:stonesView,races:racesView,teams:teamsView,universes:universesView,links:linksView,images:imagesView,orgs:orgsView};
+var VIEWS={home:home,timeline:timeline,catalog:catalog,heroes:heroes,encyclopedia:encView,'post-credits':postCreditsView,'sacred-timeline':sacredView,watch:watchView,map:mapView,lines:linesView,stones:stonesView,races:racesView,teams:teamsView,universes:universesView,links:linksView,images:imagesView,orgs:orgsView};
 ITEM_CATS.forEach(function(c){VIEWS[c.route]=function(){return itemCategoryView(c.id)}});
 // ---------- организации ----------
 function orgView(o){var pr=o[3].split(',').filter(function(x){return P[x]}),mem=o[4].split(',').filter(function(x){return C[x]});

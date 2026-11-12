@@ -200,3 +200,34 @@ main.wrap:has(.directory){max-width:1320px;padding-top:20px}
 @media(prefers-reduced-motion:reduce){
   .directory-slice img,.directory-tile{transition:none}
 }
+
+/* Сцены после титров и компактные списки персонажей */
+.cast-more{margin-top:16px;border:1px solid var(--soft);border-radius:var(--radius);background:var(--surface2)}
+.cast-more>summary{cursor:pointer;padding:12px 16px;font-weight:700}
+.cast-more[open]>summary{border-bottom:1px solid var(--soft)}
+.cast-more-content{padding:16px}
+.cast-more-content>h3{margin:18px 0 8px}
+.character-debut{margin-top:14px;padding:12px 14px;background:var(--surface2);border-left:4px solid var(--red);font-size:14px}
+.character-debut a{font-weight:700}
+.pc-view{max-width:1040px;margin:auto}
+.pc-view .lead{margin:12px 0 24px}
+.pc-tools{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0 12px}
+.pc-tools label{font-size:13px;font-weight:700;display:grid;gap:6px;flex:1 1 245px}
+.pc-tools input,.pc-tools select{width:100%;padding:12px;border:2px solid var(--line);background:var(--surface);border-radius:4px}
+.pc-results{margin-top:20px}
+.pc-year{margin:30px 0}.pc-year>h2{margin-bottom:12px}.pc-projects{display:grid;gap:10px}
+.pc-project{border:2px solid var(--line);background:var(--surface);box-shadow:3px 3px 0 var(--line);border-radius:var(--radius)}
+.pc-project>summary{display:flex;gap:16px;align-items:center;justify-content:space-between;cursor:pointer;padding:15px 18px;list-style:none}
+.pc-project>summary::-webkit-details-marker{display:none}
+.pc-project>summary:before{content:'+';font-size:22px;font-weight:700;color:var(--red);line-height:1}
+.pc-project[open]>summary:before{content:'−'}
+.pc-project-title{font-weight:700;flex:1}.pc-project-count{font-size:13px;color:var(--muted);white-space:nowrap}
+.pc-scenes{border-top:1px solid var(--soft);padding:12px 20px 20px}
+.pc-scenes ol{margin:0 0 14px;padding-left:25px}.pc-scenes li{padding:8px 0}
+.pc-scenes li+li{border-top:1px solid var(--soft)}.pc-scenes li p{margin:5px 0 4px}
+.pc-scene-kind{font-size:12px;color:var(--muted);font-weight:700}.pc-scenes li>a{font-size:13px}
+.doomsday-post{margin:24px 0 14px}.doomsday-post>h2{margin-bottom:10px}.doomsday-post>h3{margin:20px 0 8px}
+.postcredit-ref-list{margin:10px 0 16px;padding-left:24px;display:grid;gap:12px}.postcredit-ref-list li{padding-left:4px}
+.postcredit-ref-list a{font-weight:700}.postcredit-ref-list p{margin:4px 0 0}
+.pc-view [hidden],.pc-results [hidden]{display:none!important}
+@media(max-width:640px){.pc-project>summary{padding:12px;gap:9px}.pc-project-count{white-space:normal;text-align:right}.pc-scenes{padding:10px 12px 15px}}
