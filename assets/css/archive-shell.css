@@ -1,0 +1,40 @@
+/* Общая оболочка Архива КВМ: главная, разборы и юридическая информация */
+.archive-brand{display:inline-flex;align-items:center;justify-content:center;flex:none;white-space:nowrap;padding:9px 12px;background:#e2252b;color:#fff!important;text-decoration:none!important;font:600 21px/1.12 Oswald,"Arial Narrow",Arial,sans-serif;letter-spacing:.02em;border-radius:2px}
+.archive-brand:hover{background:#c51f27;color:#fff!important}
+.archive-brand:focus-visible,.archive-bar a:focus-visible,.archive-footer a:focus-visible{outline:2px solid #e2252b;outline-offset:4px}
+.archive-bar{position:sticky;top:0;z-index:50;background:#101114;border-bottom:1px solid #292a2e;color:#f7f7f8}
+.archive-bar__inner{width:min(1440px,100% - 48px);margin:auto;min-height:66px;display:flex;align-items:center;gap:16px;padding:10px 0}
+.archive-bar__nav{display:flex;flex:1;align-items:center;justify-content:center;gap:2px;min-width:0}
+.archive-bar__nav a{display:inline-flex;align-items:center;min-height:35px;padding:8px 9px;color:#dadbe0;text-decoration:none;white-space:nowrap;border-radius:2px;font:600 13px/1.2 Manrope,"Golos Text",Arial,sans-serif;transition:background .2s,color .2s}
+.archive-bar__nav a:hover{background:#32343a;color:#fff}
+.archive-bar__nav a[aria-current="page"]{background:#282a30;color:#fff}
+.archive-crumbs{width:min(1280px,100% - 56px);margin:0 auto;padding:24px 0 0;display:flex;align-items:center;flex-wrap:wrap;gap:9px;color:#747983;font:600 12px/1.45 Manrope,"Golos Text",Arial,sans-serif}
+.archive-crumbs a{color:#4d535f;text-decoration:none}
+.archive-crumbs a:hover{color:#cc2630}
+.archive-crumbs span[aria-hidden]{color:#9da2aa}
+.archive-footer{margin-top:auto;background:#fff;border-top:1px solid #d9dce1;color:#626772}
+.archive-footer__inner{width:min(1280px,100% - 56px);margin:0 auto;padding:28px 0 30px}
+.archive-footer p{font:400 13px/1.7 Manrope,"Golos Text",Arial,sans-serif;max-width:990px;margin:0 0 9px;color:#626772}
+.archive-footer p strong{color:#17191e}
+.archive-footer__bottom{margin-top:20px;padding-top:16px;border-top:1px solid #e0e2e6;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px 20px;font:500 12px/1.5 Manrope,"Golos Text",Arial,sans-serif}
+.archive-footer__links{display:flex;align-items:center;gap:12px 22px;flex-wrap:wrap}
+.archive-footer__links a{color:#404650;text-decoration:none}
+.archive-footer__links a:hover{color:#c5232e;text-decoration:underline;text-underline-offset:4px}
+body.archive-standalone{min-height:100vh;display:flex;flex-direction:column}
+body.archive-standalone>main{flex:1 0 auto;width:100%}
+.top-v6 .main-archive-brand{font-size:19px;min-height:36px;padding:8px 10px}
+@media(max-width:1180px) and (min-width:761px){.top-v6 .main-archive-brand{margin-right:auto}}
+@media(max-width:760px){
+ .archive-bar__inner{width:calc(100% - 32px);flex-direction:column;align-items:stretch;gap:8px;padding:11px 0 8px}
+ .archive-bar__inner>.archive-brand{align-self:flex-start}
+ .archive-bar__nav{justify-content:flex-start;overflow-x:auto;width:100%;padding:3px 0 6px;scrollbar-width:thin}
+ .archive-bar__nav a{min-height:36px;padding:7px 10px}
+ .top-v6 .top-row{grid-template-columns:minmax(0,1fr) auto}
+ .top-v6 .main-archive-brand{grid-column:1;grid-row:1;justify-self:start;align-self:center}
+ .top-v6 .nav-menu{display:inline-flex;align-items:center;justify-content:center;grid-column:2;grid-row:1;min-height:40px;height:40px}
+ .archive-crumbs,.archive-footer__inner{width:calc(100% - 32px)}
+ .archive-crumbs{padding-top:18px}
+ .archive-footer__bottom{align-items:flex-start;flex-direction:column}
+}
+@media(max-width:380px){.top-v6 .main-archive-brand{font-size:17px;padding:7px 9px}.archive-brand{font-size:19px}}
+@media(prefers-reduced-motion:reduce){.archive-bar__nav a{transition:none}}
