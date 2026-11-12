@@ -24,12 +24,15 @@ test('all 498 input rows have a disposition and each new place is linked recipro
     for(const r of p.sceneRefs||[]){
       assert.ok(p.pr.includes(r.projectId));
       for(const eid of r.episodeIds){const e=data.episodes[eid];assert.ok(e);assert.equal(e.projectId,r.projectId)}
-      if(r.projectId==='visionquest')for(const code of r.episodes)assert.ok(+code.slice(-2)<=7);
     }
   }
   assert.deepEqual(review.decisions.find(d=>d.row===123).placeIds,['bella-coola']);
   assert.equal(review.decisions.find(d=>d.row===128).placeIds.length,2);
   assert.equal(review.decisions.find(d=>d.row===436).placeIds.length,2);
+  for (const id of ['horton-estate', 'vision-mindspace', 'wundagore']) {
+    const refs = byId.get(id).sceneRefs.find(row => row.projectId === 'visionquest');
+    assert.ok(refs.episodeIds.includes('visionquest-s1-e8'), id);
+  }
 });
 
 test('only geolocated Earth places have GPS and projected map coordinates',()=>{

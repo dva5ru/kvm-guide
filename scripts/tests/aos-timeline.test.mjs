@@ -49,14 +49,14 @@ test('extended timeline interleaves 110 SHIELD episodes but official order remai
   const s=loadGuide();t.after(s.close);
   const {g,w,doc}=s;
   g.go('timeline');
-  assert.equal(doc.querySelectorAll('.aos-timeline-row').length,0,'official order untouched');
+  assert.equal(doc.querySelectorAll('.pro-series-split').length,0,'official order untouched');
   click(w,doc.querySelector('[data-pro-toggle="timeline"]'));
-  const chapters=[...doc.querySelectorAll('.aos-timeline-row')];
+  const chapters=[...doc.querySelectorAll('.pro-series-split')];
   assert.equal(chapters.length,10,'ten chronologically positioned chapter groups');
-  const links=[...doc.querySelectorAll('.aos-timeline-episodes a')].map(a=>a.getAttribute('href'));
+  const links=[...doc.querySelectorAll('.pro-series-split .tl-series-episode-list a')].map(a=>a.getAttribute('href'));
   assert.equal(links.length,110);
   assert.equal(new Set(links).size,110);
-  const first=doc.querySelector('.aos-timeline-row a[href="#ep-aos-1-s1-e1"]');
+  const first=doc.querySelector('.pro-series-split a[href="#ep-aos-1-s1-e1"]');
   assert.ok(first,'first episode linked in chronology');
   const season=doc.querySelector('[href="#f-aos-1"]');
   assert.ok(season,'season card linked');

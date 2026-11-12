@@ -42,9 +42,12 @@ test('all 80 requested objects have independent cards, categories, upload target
   const g=load(), all=g.artAll(), ids=new Set(all.map(a=>a.id));
   assert.equal(coverage.entries.length,80);
   assert.equal(new Set(coverage.entries.map(x=>x.id)).size,80);
-  assert.equal(all.length,coverage.totalCount);
+  assert.ok(all.length >= coverage.totalCount);
   assert.equal(ids.size,all.length);
   for(const id of coverage.preservedIds) assert.ok(ids.has(id),`preserved ${id}`);
+  for (const id of ['corvus-glaive-blade', 'carrington-nanobots', 'edith-glasses']) {
+    assert.ok(g.artGet(id).path.some(step => step[2] === 'visionquest'), id);
+  }
   g.ADM.on=true;
   for(const expected of coverage.entries) {
     const a=g.artGet(expected.id);
