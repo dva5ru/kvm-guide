@@ -126,8 +126,8 @@ test('hero stylesheet has subtle diagonal separators and slanted outer edges',()
 test('published analytic essays are linked from the homepage and illustrated by local media',t=>{
   const s=loadGuide();t.after(s.close);const {doc,errors}=s;
   const cards=[...doc.querySelectorAll('.h6-analysis-card')];
-  assert.equal(cards.length,3,'three published essays featured on homepage');
-  for(const slug of ['thanos','snap','vision']){
+  assert.equal(cards.length,4,'four published essays featured on homepage');
+  for(const slug of ['visionquest','thanos','snap','vision']){
     assert.equal(doc.querySelectorAll('.h6-analysis-card-main[href="article-'+slug+'.html"]').length,1,'featured essay '+slug+' links to its own page');
   }
   assert.equal(doc.querySelectorAll('.h6-analysis-card-planned').length,0,'no featured essay is incorrectly marked as a draft');
@@ -136,7 +136,7 @@ test('published analytic essays are linked from the homepage and illustrated by 
   assert.match(hub,/id="army"/,'original published article remains available');
   assert.match(hub,/Does the army know what's happening here/,'existing verified movie dialogue remains');
   assert.match(hub,/Граница канона/,'original article still distinguishes conjecture from canon');
-  for(const slug of ['vision','armor','civil-war','thanos','snap']){
+  for(const slug of ['visionquest','vision','armor','civil-war','thanos','snap']){
     assert.ok(hub.includes('article-'+slug+'.html'),'hub lists '+slug);
     const article=readFileSync(new URL('../../article-'+slug+'.html',import.meta.url),'utf8');
     assert.doesNotMatch(article,/Источники и метод|КОРОТКИЙ ОТВЕТ|медиатеки KVM Guide/,'essay '+slug+' omits editorial boilerplate');
@@ -174,7 +174,7 @@ test('article editor saves a draft, uploads a cover and publishes the same chang
   await settle();
 
   const editor = doc.querySelector('[data-article-editor]');
-  assert.equal(editor.querySelector('select').options.length, 6);
+  assert.equal(editor.querySelector('select').options.length, 7);
   const parts = [...editor.querySelectorAll('details')];
   assert.deepEqual(parts.slice(1).map(part => part.querySelector('summary').textContent),
     ['Капитан Марвел', 'Тор', 'Росомаха', 'Дэдпул', 'Вижн', 'Альтрон', 'Икарис', 'Грут', 'Адам Уорлок', 'Алая Ведьма']);
@@ -191,7 +191,7 @@ test('article editor saves a draft, uploads a cover and publishes the same chang
   assert.equal(draft.img['editorial-snap-cover'], 'img/editorial-snap-cover.webp?v=1');
 
   g.go('home');
-  const card = doc.querySelector('.h6-analysis-card[href="article-snap.html"]');
+  const card = doc.querySelector('.h6-analysis-card-main[href="article-snap.html"]');
   assert.equal(card.querySelector('h3').textContent, 'Новый заголовок');
   assert.match(card.querySelector('img').src, /editorial-snap-cover\.webp/);
   click(w, doc.querySelector('[data-adm="publish"]'));

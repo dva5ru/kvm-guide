@@ -46,9 +46,15 @@ test('KEVIN, VisionQuest identities, and alternate casts link to their own episo
   for (const id of ['white-vision','ultron','jarvis-ai','friday-ai','edith-ai','dum-e','u-ai','deedee-ai','jim-synthezoid','jocasta','lisa-molinari']) {
     assert.ok(appearance('visionquest',id)?.episodes.length, id);
   }
-  assert.equal(appearance('visionquest','vision'), undefined);
+  assert.deepEqual(appearance('visionquest','vision').episodes.map(e => [e.episodeId, e.kind]), [
+    ['visionquest-s1-e7', 'depiction']
+  ]);
   assert.equal(appearance('visionquest','deedee-ai').episodes[0].kind, 'voice');
   assert.equal(appearance('visionquest','jim-synthezoid').episodes.find(e => e.episodeId === 'visionquest-s1-e7').kind, 'on-screen');
+  assert.equal(appearance('cap1','jim-synthezoid').appearanceType, 'cameo');
+  assert.ok(appearance('visionquest','visionquest-handler').episodes.some(e => e.episodeId === 'visionquest-s1-e6'));
+  assert.ok(appearance('visionquest','lisa-molinari').episodes.some(e => e.episodeId === 'visionquest-s1-e2'));
+  assert.equal(appearance('visionquest','doom').episodes[0].segment, 'credits');
   assert.ok(appearance('ironheart','natalie-washington')?.episodes.length);
   assert.ok(appearance('ironheart','natalie')?.episodes.length);
   for (const id of ['kamala','kate','yelena','riri']) {
@@ -56,6 +62,25 @@ test('KEVIN, VisionQuest identities, and alternate casts link to their own episo
     assert.equal(appearance('marvel-zombies',id+'-zombies').delivery, 'voice');
     assert.equal(db.characterAppearanceAliases['marvel-zombies::'+id], id+'-zombies');
   }
+});
+
+test('VisionQuest timeline connects the 1939 flashback, the 1943 exhibit and the finale to their sources', t => {
+  const s = loadGuide();
+  t.after(s.close);
+  s.g.go('f-visionquest');
+  const main = s.doc.querySelector('main');
+  assert.match(main.querySelector('.facts').textContent, /≈2028/);
+  for (const id of ['horton-synthezoid', 'horton-exhibit', 'visionquest-ultravision', 'visionquest-family']) {
+    assert.ok(main.querySelector('.tlmini a[href="#e-' + id + '"]'), id);
+  }
+  s.g.go('e-horton-synthezoid');
+  assert.ok(main.querySelector('a[href="#ep-visionquest-s1-e7"]'));
+  s.g.go('e-visionquest-family');
+  assert.ok(main.querySelector('a[href="#ep-visionquest-s1-e8"]'));
+  s.g.go('ep-visionquest-s1-e8');
+  assert.ok(main.querySelector('a[href="#e-visionquest-family"]'));
+  assert.ok(main.querySelector('a[href="#p-wundagore"]'));
+  assert.deepEqual(s.errors, []);
 });
 
 test('season, episode, character and location pages give reciprocal links', t => {
