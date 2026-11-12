@@ -6,6 +6,15 @@
   <meta property="og:url" content="https://kvmarchive.ru/article-civil-war.html">
   <meta property="og:image" content="https://kvmarchive.ru/img/f-civil-war.jpg"><link rel="stylesheet" href="./assets/css/articles.css?v=62c643f2a6">
 <link rel="stylesheet" href="./assets/css/archive-shell.css?v=02fac52183"><script defer src="./assets/js/articles.js?v=69ff9c0a83"></script>
+<script>
+/* Existing public links remain valid; visitors now read the content inside the main Archive KVM site. */
+(function(){
+  var part=location.hash.slice(1),route='article-civil-war.html';
+  if(route==='articles'&&part==='army'){route='article-army';part=''}
+  var target='./#'+route+(part?'?section='+encodeURIComponent(part):'');
+  location.replace(target);
+})();
+</script>
 </head><body class="archive-standalone">
 <header class="archive-bar" aria-label="Шапка сайта"><div class="archive-bar__inner">
   <a class="archive-brand" href="./#home" aria-label="Архив КВМ — главная">АРХИВ КВМ</a>
