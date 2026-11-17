@@ -156,7 +156,7 @@ function characterGroupEditor(c){if(!ADM.edit)return '';return '<fieldset class=
 function saveCharacterGroups(cid,groups){if(!ADM.can||!ADM.on||!ADM.edit||!C[cid])return;var gs=cleanGroups(groups);if(!gs.length){toast('Оставьте хотя бы одну группу');rerender();return}setText('c.'+cid+'.groups',JSON.stringify(gs))}
 function characterAppearances(c){return c.app.filter(function(a){var p=P[a[0]];return !(p.editionOf&&c.app.some(function(old){return old[0]===p.editionOf}))})}
 
-var HERO_TEAM_GROUPS='|Мстители|Громовержцы|Стражи Галактики|Ревущие командос|Щ.И.Т.|Гидра|Дора Миладже|Опустошители|Кри|Скруллы|Чёрный орден|Десять колец|УВИ|Наблюдатели|Варианты Локи|Люди Икс|Фантастическая четвёрка|Вечные|Защитники|Кунь-Лунь|Государственная власть|';
+var HERO_TEAM_GROUPS='|Мстители|Громовержцы|Стражи Галактики|Ревущие командос|Щ.И.Т.|Гидра|Дора Миладже|Опустошители|Кри|Скруллы|Чёрный орден|Чёрные вдовы|Десять колец|УВИ|Наблюдатели|Варианты Локи|Люди Икс|Фантастическая четвёрка|Вечные|Защитники|Кунь-Лунь|Государственная власть|';
 var HERO_WORLD_GROUPS='|Ваканда|Уэствью|Асгард|Космос|Мультивселенная|Другие вселенные|Адская кухня|Улицы Нью-Йорка|Вторая мировая|';
 function heroGroupKind(g){return HERO_TEAM_GROUPS.indexOf('|'+g+'|')>=0?'teams':HERO_WORLD_GROUPS.indexOf('|'+g+'|')>=0?'worlds':'themes'}
 function heroGroupButton(group,label,count){
