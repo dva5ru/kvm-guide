@@ -16,6 +16,20 @@ const projects = new Map(db.p.map(p => [p.id, p]));
 const characters = new Map(db.c.map(c => [c.id, c]));
 const periodKinds = new Set(['main','flashback','epilogue','origin','future','credits','outside-time','time-travel','multiverse','new-footage']);
 const appearanceTypes = new Set(['main','episodic','cameo','voice','archival','credits']);
+const storyKinds = new Set(['mention','voice','memory','archive','offscreen','portrayal']);
+if(db.storyReferenceSchemaVersion!==1||!Array.isArray(db.storyReferences))throw Error('Missing story reference registry');
+const storyIds=new Set();
+for(const r of db.storyReferences){
+  if(!r.id||storyIds.has(r.id)||!projects.has(r.projectId)||!characters.has(r.characterId)||!storyKinds.has(r.kind)||typeof r.text!=='string'||r.text.trim().length<30||!/^https:\/\//.test(r.source||''))
+    throw Error('Invalid story reference: '+r.id);
+  if(r.episodeId&&db.episodes[r.episodeId]?.projectId!==r.projectId)throw Error('Story reference has broken episode: '+r.id);
+  if(/^aos-[1-7]$/.test(r.projectId))throw Error('SHIELD excluded from this story reference audit');
+  if(r.kind==='voice'&&!db.appearances.some(a=>a.projectId===r.projectId&&a.characterId===r.characterId&&a.appearanceType==='voice'))
+    throw Error('Voice reference is not linked to voice cast credit: '+r.id);
+  storyIds.add(r.id);
+}
+console.log('Validated:',storyIds.size,'sourced story connections with distinct mention/memory/voice classes');
+
 for (const p of db.p) {
   if (!p.release || p.release.date !== (p.r || null) || p.release.year !== (p.y || null) || !['day','month','year','unknown'].includes(p.release.precision)) throw Error('Invalid premiere metadata: '+p.id);
   if (!Array.isArray(p.periods) || p.periods.some(t => !periodKinds.has(t.kind) || typeof t.when !== 'string' || !t.when.trim() || typeof t.note !== 'string')) throw Error('Invalid project time periods: '+p.id);
