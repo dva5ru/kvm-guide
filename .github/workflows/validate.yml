@@ -35,6 +35,8 @@ jobs:
         run: node --test scripts/tests/interface-stage2.test.mjs
       - name: Check factual corrections and unified project and episode appearances
         run: node --test scripts/tests/facts-appearances.test.mjs
+      - name: Check full content audit, restored episodes and preserved identities
+        run: node --test scripts/tests/content-audit-2026.test.mjs
       - name: Check hybrid spoiler protection and static knowledge index
         run: node --test scripts/tests/spoiler-smart.test.mjs
       - name: Check generic episodes, WandaVision and legacy editing compatibility

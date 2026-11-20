@@ -4,7 +4,7 @@
 "sue":["sue","sue-2005","sue-2015"],
 "ben":["ben","ben-2005","ben-2015"],
 "doom":["doom","doom-2005","doom-2015"],
-"matt":["matt","matt-2003"],
+"matt":["matt","matt-2003","matt-yfnsm"],
 "fisk":["fisk","fisk-2003"],
 "bullseye":["bullseye","bullseye-2003"],
 "frank":["frank","frank-1989","frank-2004","frank-2008"],
@@ -58,7 +58,14 @@
 "rocket":["rocket","rocket-zombies"],
 "thor":["thor","thor-zombies"],
 "valkyrie":["valkyrie","valkyrie-zombies"],
-"khonshu":["khonshu","khonshu-zombies"]
+"khonshu":["khonshu","khonshu-zombies"],
+"billy":["billy","billy-838"],
+"tommy":["tommy","tommy-838"],
+"nico-minoru":["nico-minoru","nico-yfnsm"],
+"may":["may","may-yfnsm"],
+"doc-ock":["doc-ock","otto-yfnsm"],
+"tony":["tony","tony-yfnsm"],
+"ross":["ross","ross-yfnsm"]
 },
 "editions":{
 "deadpool-2":["deadpool-2","once-upon-a-deadpool"],
