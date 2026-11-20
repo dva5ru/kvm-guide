@@ -29,7 +29,8 @@ test('story references are distinct from screen appearances, sourced, linked and
 
 test('mention does not register a cameo in canonical project and episode casts',()=>{
   assert.ok(!db.appearances.some(a=>a.id==='hawkeye::natasha'));
-  assert.ok(!db.appearances.some(a=>a.id==='wakanda-forever::tchalla'));
+  assert.equal(db.appearances.find(a=>a.id==='wakanda-forever::tchalla')?.appearanceType,'archival');
+  assert.equal(db.appearances.find(a=>a.id==='ffh::tony')?.appearanceType,'archival');
   const pietro=db.appearances.find(a=>a.id==='wandavision::pietro');
   assert.ok(pietro);
   assert.ok(!pietro.episodes.some(e=>e.episodeId==='wandavision-s1-e3'));
