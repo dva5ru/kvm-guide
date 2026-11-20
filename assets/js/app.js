@@ -5,6 +5,22 @@ var P={},C={},PL={},EV={},LN={},ERA={};
 // Canonical episodes and appearances generate all legacy read models.
 if(D.appearanceSchemaVersion!==4||D.episodeSchemaVersion!==1)throw new Error('Missing episode registry');
 var PREG={},CREG={},AREG={},EREG={},EP_ALIAS={};D.epRoles={};D.appearanceCredits={};
+var STORY_REF_LABELS={mention:'Упоминание',voice:'Голос / реплика',memory:'Воспоминание',archive:'Архивные кадры',offscreen:'Закадровое влияние',portrayal:'Персонаж в постановке'};
+var STORY_REFS=Array.isArray(D.storyReferences)?D.storyReferences:[];
+function storyReferences(projectId,episodeId,characterId){
+  return STORY_REFS.filter(function(r){return (!projectId||r.projectId===projectId)&&(!characterId||r.characterId===characterId)&&(!episodeId||r.episodeId===episodeId)})
+}
+function storyReferenceList(rows){
+  return '<ul class="evlist story-references">'+rows.map(function(r){
+    var name=CREG[r.characterId]&&CREG[r.characterId].n||r.characterId;
+    var ep=r.episodeId&&D.episodes[r.episodeId];
+    var project=PREG[r.projectId];
+    return '<li><b>'+esc(STORY_REF_LABELS[r.kind]||r.kind)+'</b> · <a href="#c-'+esc(r.characterId)+'">'+esc(name)+'</a>'+
+      (project?'<span class="muted"> · <a href="#f-'+esc(project.id)+'">'+esc(project.t)+'</a></span>':'')+
+      (ep?' · <a href="#ep-'+esc(ep.id)+'">Сезон '+ep.season+', серия '+ep.number+'</a>':'')+
+      '<p>'+esc(r.text)+'</p><a href="'+esc(r.source)+'" target="_blank" rel="noopener noreferrer">Источник</a></li>'
+  }).join('')+'</ul>'
+}
 D.p.forEach(function(p){p.cs=[];p.eps=null;PREG[p.id]=p});
 D.c.forEach(function(c){c.app=[];c.notes={};CREG[c.id]=c});
 Object.keys(D.episodes).forEach(function(id){var meta=D.episodes[id],p=PREG[meta.projectId],e=[meta.number,'','',[]];
@@ -971,6 +987,7 @@ function episodeView(p,e,i){var meta=e.meta,K='episode.'+e.id+'.',prev=p.eps[i-1
     B('ep.changes',pg,'Что меняется',meta.changes.length?'<section><h2>Что меняется</h2>'+SPW([p.id],items('changes'))+'</section>':'')+
     B('ep.firsts',pg,'Первые появления',meta.firsts.length?'<section><h2>Первые появления и новые образы</h2>'+SPW([p.id],'<div class="chips">'+meta.firsts.map(cLink).join('')+'</div>')+'</section>':'')+
     B('ep.cast',pg,'Персонажи',e[3].length?'<section><h2>Персонажи ('+e[3].length+')</h2>'+SPW([p.id],cast)+'</section>':'')+
+    B('ep.story-references',pg,'Упоминания, голоса и влияние',storyReferences(p.id,e.id).length?'<section><h2>Упоминания, голоса и влияние</h2><p class="muted">Отдельный реестр: запись не означает нового экранного появления.</p>'+storyReferenceList(storyReferences(p.id,e.id))+'</section>':'')+
     B('ep.post',pg,'Сцены в титрах',meta.post!==null?'<section><h2>Сцены в титрах</h2>'+(meta.post.length?SPW([p.id],episodePost(meta)):episodePost(meta))+'</section>':'')+
     B('ep.connections',pg,'Связи',meta.connections.length?'<section><h2>Связи</h2>'+SPW([p.id],'<ul class="evlist">'+meta.connections.map(function(l,j){return '<li>'+episodeConnection(l)+' <span>'+E(K+'connections.'+j+'.text',l.text,cx)+'</span></li>'}).join('')+'</ul>')+'</section>':'')+
     sourceLinks(meta)+'<nav class="navpair" style="margin-top:25px" aria-label="Другие серии">'+(prev?'<a class="panel" href="'+episodeHref(prev)+'">← Сезон '+prev.meta.season+', серия '+prev[0]+'</a>':'<span></span>')+(next?'<a class="panel nx" href="'+episodeHref(next)+'">Сезон '+next.meta.season+', серия '+next[0]+' →</a>':'<span></span>')+'</nav>'
@@ -1035,6 +1052,7 @@ function projectView(p){if(p.editionOf)return editionOnlyView(p);if(isFutureFilm
   B('p.franchise',pg,'Фильмы серии',filmSeriesList(p,cx))+
   B('p.tl',pg,'События по хронологии',tlh?'<h2 style="margin-top:28px">События по хронологии</h2>'+'<ul class="tlmini">'+tlh+'</ul>':'')+
   B('p.who',pg,'Персонажи',who?'<div class="who" style="margin-top:28px"><h2>Персонажи</h2>'+(p.eps?SPW([p.id],who):who)+'</div>':'')+
+  B('p.story-references',pg,'Упоминания, воспоминания и влияние',storyReferences(p.id).length?'<section><h2 style="margin-top:28px">Упоминания, воспоминания и влияние</h2><p class="muted">Связи с героями, не подменяющие список экранных появлений. Указаны конкретные серии и источники.</p>'+storyReferenceList(storyReferences(p.id))+'</section>':'')+
   B('p.items',pg,'Предметы и материалы',projectItemList(p))+'</div>'+
   '<div>'+B('p.nav',pg,'Раньше и дальше по хронологии',p.ord?'<h3>Что смотреть дальше</h3>'+((p.next||[]).length?'<ul class="evlist nextl" style="margin:8px 0 12px">'+p.next.filter(function(id){return P[id]}).map(function(id){var q=P[id],sl=p.ln.filter(function(l){return q.ln.indexOf(l)>=0})[0];return '<li>'+pLink(id)+' <span class="muted">'+(sl?'продолжение линии «'+esc(lnName(sl))+'»':'опирается на события этого проекта')+'</span></li>'}).join('')+'</ul>':'')+'<div class="navpair" style="margin-top:10px">'+(nb[0]?'<a class="panel" href="#f-'+nb[0].id+'"><small>← Раньше по хронологии</small><b>'+esc(nb[0].t)+'</b></a>':'<span></span>')+(nb[1]?'<a class="panel nx" href="#f-'+nb[1].id+'"><small>Дальше по хронологии →</small><b>'+esc(nb[1].t)+'</b></a>':'<span></span>')+'</div>':'')+
   B('p.pre',pg,'Перед просмотром',pre.length?'<h3 style="margin-top:26px">Перед просмотром</h3><div class="chips" style="margin-top:10px">'+pre.slice(0,3).map(pLink).join('')+'</div>'+(pre.length>3?'<details class="more-d"><summary>Ещё '+(pre.length-3)+' '+plural(pre.length-3,['проект','проекта','проектов'])+'</summary><div class="chips" style="margin-top:8px">'+pre.slice(3).map(pLink).join('')+'</div></details>':''):(p.ord?'<h3 style="margin-top:26px">Перед просмотром</h3><p class="muted" style="font-size:15px;margin-top:6px">Можно смотреть без подготовки.</p>':''))+
@@ -1062,7 +1080,8 @@ function charView(c){var pg=c.id,K='c.'+c.id+'.',hcx=ctxP(c.app.map(function(a){
   (ADM.on?'<p style="margin-top:12px">'+imgOneBtn('c-'+c.id)+'</p>':'')+charLookGallery(c)+
   B('c.first',pg,'Первое появление','<p class="character-debut">'+(first?(debut.canonical?'Первое появление в КВМ: ':'Первое появление на экране: ')+'<a href="#f-'+first.id+'">«'+esc(first.t)+'»</a> ('+esc(first.y)+')':'Экранное появление в вышедших проектах пока не подтверждено.')+'</p>')+'</div></div>'+
   '<div class="cols"><div>'+B('c.apps',pg,'Все появления в КВМ',inM.length?'<h2>Все появления в КВМ <span class="muted">('+inM.length+')</span></h2><p class="muted" style="margin:6px 0 10px">По порядку событий: что герой делает в каждом проекте.</p>'+apps(inM):'')+
-  B('c.other',pg,'Связанные проекты и другие вселенные',other.length?'<h2 style="margin-top:32px">Связанные проекты и другие вселенные <span class="muted">('+other.length+')</span></h2><p class="muted" style="margin:6px 0 10px">Связанные сериалы, фильмы вне КВМ и другие реальности.</p>'+apps(other,1):'')+'</div>'+
+  B('c.other',pg,'Связанные проекты и другие вселенные',other.length?'<h2 style="margin-top:32px">Связанные проекты и другие вселенные <span class="muted">('+other.length+')</span></h2><p class="muted" style="margin:6px 0 10px">Связанные сериалы, фильмы вне КВМ и другие реальности.</p>'+apps(other,1):'')+
+  B('c.story-references',pg,'Персонажа упоминают и вспоминают',storyReferences(null,null,c.id).length?'<section><h2 style="margin-top:32px">Упоминания, воспоминания и закадровое влияние</h2><p class="muted">Эти записи не увеличивают число появлений героя в кадре.</p>'+storyReferenceList(storyReferences(null,null,c.id))+'</section>':'')+'</div>'+
   '<div>'+B('c.events',pg,'Ключевые события',evs.length?'<h3>Ключевые события</h3><div class="chips" style="margin-top:10px">'+evs.map(function(e){return evLink(e.id)}).join('')+'</div>':'')+
   B('c.links',pg,'Связи',rels.length?'<h3 style="margin-top:24px">Связи</h3><ul class="evlist" style="margin-top:8px">'+rels.slice(0,8).map(function(r){return '<li><span class="lg-dot" style="background:'+relDot(c.id,r.o,r)+'"></span><a href="#c-'+r.o+'">'+esc(short(r.o))+'</a> '+relLab(c.id,r.o,r.l)+'</li>'}).join('')+'</ul>'+(rels.length>8?'<details class="more-d"><summary>Ещё '+(rels.length-8)+' '+plural(rels.length-8,['связь','связи','связей'])+'</summary><ul class="evlist" style="margin-top:8px">'+rels.slice(8).map(function(r){return '<li><span class="lg-dot" style="background:'+relDot(c.id,r.o,r)+'"></span><a href="#c-'+r.o+'">'+esc(short(r.o))+'</a> '+relLab(c.id,r.o,r.l)+'</li>'}).join('')+'</ul></details>':'')+'<p style="margin-top:8px"><a href="#links" data-lk-go="'+c.id+'">Открыть на схеме связей</a></p>':'')+
   B('c.places',pg,'Места',plTop.length?'<h3 style="margin-top:24px">Места</h3><div class="chips" style="margin-top:10px">'+plTop.map(plLink).join('')+'</div>':'')+'</div></div>';
