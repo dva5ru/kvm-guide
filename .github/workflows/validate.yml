@@ -35,6 +35,8 @@ jobs:
         run: node --test scripts/tests/interface-stage2.test.mjs
       - name: Check factual corrections and unified project and episode appearances
         run: node --test scripts/tests/facts-appearances.test.mjs
+      - name: Check character mentions, memories, voice and archival cameos
+        run: node --test scripts/tests/story-references.test.mjs
       - name: Check full content audit, restored episodes and preserved identities
         run: node --test scripts/tests/content-audit-2026.test.mjs
       - name: Check hybrid spoiler protection and static knowledge index
