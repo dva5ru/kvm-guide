@@ -1,0 +1,4936 @@
+{
+  "asOf": "2026-11-21",
+  "method": "Automated data coverage analysis, NOT frame-by-frame viewing. All statuses require primary-footage verification.",
+  "scope": "Released main-canon film and television projects in the site registry; Agents of S.H.I.E.L.D. seasons 1–7 excluded.",
+  "thresholds": {
+    "projectPlotCharacters": 800,
+    "episodePlotCharacters": 350
+  },
+  "summary": {
+    "projects": 70,
+    "films": 39,
+    "liveActionSeries": 29,
+    "animatedSeries": 2,
+    "episodes": 288,
+    "episodesWithShortPlot": 131,
+    "projectsWithBriefPlot": 61,
+    "projectsWithMissingCast": 0,
+    "episodesWithMissingCast": 0,
+    "characterReferences": 19,
+    "sourcedArchivalCameosAdded": 2
+  },
+  "projects": [
+    {
+      "id": "eyes-of-wakanda",
+      "title": "Глаза Ваканды",
+      "kind": "anim",
+      "release": "2025-08-01",
+      "plotCharacters": 299,
+      "castCount": 7,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 4,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "cap1",
+      "title": "Первый мститель",
+      "kind": "film",
+      "release": "2011-07-22",
+      "plotCharacters": 599,
+      "castCount": 16,
+      "canonicalCameos": 3,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "captain-marvel",
+      "title": "Капитан Марвел",
+      "kind": "film",
+      "release": "2019-03-08",
+      "plotCharacters": 511,
+      "castCount": 17,
+      "canonicalCameos": 1,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "iron-man",
+      "title": "Железный человек",
+      "kind": "film",
+      "release": "2008-05-02",
+      "plotCharacters": 568,
+      "castCount": 15,
+      "canonicalCameos": 1,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "iron-man-2",
+      "title": "Железный человек 2",
+      "kind": "film",
+      "release": "2010-05-07",
+      "plotCharacters": 961,
+      "castCount": 15,
+      "canonicalCameos": 3,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "incredible-hulk",
+      "title": "Невероятный Халк",
+      "kind": "film",
+      "release": "2008-06-13",
+      "plotCharacters": 408,
+      "castCount": 10,
+      "canonicalCameos": 2,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "thor",
+      "title": "Тор",
+      "kind": "film",
+      "release": "2011-05-06",
+      "plotCharacters": 449,
+      "castCount": 18,
+      "canonicalCameos": 3,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "avengers",
+      "title": "Мстители",
+      "kind": "film",
+      "release": "2012-05-04",
+      "plotCharacters": 522,
+      "castCount": 19,
+      "canonicalCameos": 2,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "thor2",
+      "title": "Тор 2: Царство тьмы",
+      "kind": "film",
+      "release": "2013-11-08",
+      "plotCharacters": 926,
+      "castCount": 20,
+      "canonicalCameos": 2,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "iron-man-3",
+      "title": "Железный человек 3",
+      "kind": "film",
+      "release": "2013-05-03",
+      "plotCharacters": 473,
+      "castCount": 14,
+      "canonicalCameos": 1,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "cap2",
+      "title": "Первый мститель: Другая война",
+      "kind": "film",
+      "release": "2014-04-04",
+      "plotCharacters": 515,
+      "castCount": 25,
+      "canonicalCameos": 2,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "gotg",
+      "title": "Стражи Галактики",
+      "kind": "film",
+      "release": "2014-08-01",
+      "plotCharacters": 489,
+      "castCount": 22,
+      "canonicalCameos": 2,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "gotg2",
+      "title": "Стражи Галактики. Часть 2",
+      "kind": "film",
+      "release": "2017-05-05",
+      "plotCharacters": 996,
+      "castCount": 22,
+      "canonicalCameos": 2,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "i-am-groot",
+      "title": "Я есть Грут (сезоны 1–2)",
+      "kind": "anim",
+      "release": "2022-08-10",
+      "plotCharacters": 161,
+      "castCount": 3,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 10,
+      "shortEpisodePlots": 7,
+      "flags": [
+        "brief-overall-plot",
+        "episodes-with-short-plots"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-1",
+      "title": "Сорвиголова (сезон 1)",
+      "kind": "series",
+      "release": "2015-04-10",
+      "plotCharacters": 464,
+      "castCount": 21,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 13,
+      "shortEpisodePlots": 2,
+      "flags": [
+        "brief-overall-plot",
+        "episodes-with-short-plots"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-1",
+      "title": "Джессика Джонс (сезон 1)",
+      "kind": "series",
+      "release": "2015-11-20",
+      "plotCharacters": 284,
+      "castCount": 17,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 13,
+      "shortEpisodePlots": 13,
+      "flags": [
+        "brief-overall-plot",
+        "episodes-with-short-plots"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "aou",
+      "title": "Мстители: Эра Альтрона",
+      "kind": "film",
+      "release": "2015-05-01",
+      "plotCharacters": 672,
+      "castCount": 27,
+      "canonicalCameos": 2,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "ant-man",
+      "title": "Человек-муравей",
+      "kind": "film",
+      "release": "2015-07-17",
+      "plotCharacters": 522,
+      "castCount": 17,
+      "canonicalCameos": 4,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-2",
+      "title": "Сорвиголова (сезон 2)",
+      "kind": "series",
+      "release": "2016-03-18",
+      "plotCharacters": 360,
+      "castCount": 18,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 13,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-1",
+      "title": "Люк Кейдж (сезон 1)",
+      "kind": "series",
+      "release": "2016-09-30",
+      "plotCharacters": 382,
+      "castCount": 15,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 13,
+      "shortEpisodePlots": 13,
+      "flags": [
+        "brief-overall-plot",
+        "episodes-with-short-plots"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-1",
+      "title": "Железный кулак (сезон 1)",
+      "kind": "series",
+      "release": "2017-03-17",
+      "plotCharacters": 329,
+      "castCount": 10,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 13,
+      "shortEpisodePlots": 13,
+      "flags": [
+        "brief-overall-plot",
+        "episodes-with-short-plots"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "defenders",
+      "title": "Защитники",
+      "kind": "series",
+      "release": "2017-08-18",
+      "plotCharacters": 393,
+      "castCount": 19,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 8,
+      "shortEpisodePlots": 8,
+      "flags": [
+        "brief-overall-plot",
+        "episodes-with-short-plots"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "civil-war",
+      "title": "Первый мститель: Противостояние",
+      "kind": "film",
+      "release": "2016-05-06",
+      "plotCharacters": 618,
+      "castCount": 26,
+      "canonicalCameos": 2,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "black-widow",
+      "title": "Чёрная Вдова",
+      "kind": "film",
+      "release": "2021-07-09",
+      "plotCharacters": 601,
+      "castCount": 12,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "black-panther",
+      "title": "Чёрная Пантера",
+      "kind": "film",
+      "release": "2018-02-16",
+      "plotCharacters": 444,
+      "castCount": 17,
+      "canonicalCameos": 1,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "homecoming",
+      "title": "Человек-паук: Возвращение домой",
+      "kind": "film",
+      "release": "2017-07-07",
+      "plotCharacters": 485,
+      "castCount": 28,
+      "canonicalCameos": 3,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-1",
+      "title": "Каратель (сезон 1)",
+      "kind": "series",
+      "release": "2017-11-17",
+      "plotCharacters": 354,
+      "castCount": 15,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 13,
+      "shortEpisodePlots": 13,
+      "flags": [
+        "brief-overall-plot",
+        "episodes-with-short-plots"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "doctor-strange",
+      "title": "Доктор Стрэндж",
+      "kind": "film",
+      "release": "2016-11-04",
+      "plotCharacters": 487,
+      "castCount": 11,
+      "canonicalCameos": 1,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-2",
+      "title": "Джессика Джонс (сезон 2)",
+      "kind": "series",
+      "release": "2018-03-08",
+      "plotCharacters": 173,
+      "castCount": 15,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 13,
+      "shortEpisodePlots": 13,
+      "flags": [
+        "brief-overall-plot",
+        "episodes-with-short-plots"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-2",
+      "title": "Люк Кейдж (сезон 2)",
+      "kind": "series",
+      "release": "2018-06-22",
+      "plotCharacters": 160,
+      "castCount": 17,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 13,
+      "shortEpisodePlots": 13,
+      "flags": [
+        "brief-overall-plot",
+        "episodes-with-short-plots"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-2",
+      "title": "Железный кулак (сезон 2)",
+      "kind": "series",
+      "release": "2018-09-07",
+      "plotCharacters": 153,
+      "castCount": 7,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 10,
+      "shortEpisodePlots": 10,
+      "flags": [
+        "brief-overall-plot",
+        "episodes-with-short-plots"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-3",
+      "title": "Сорвиголова (сезон 3)",
+      "kind": "series",
+      "release": "2018-10-19",
+      "plotCharacters": 319,
+      "castCount": 17,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 13,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "ragnarok",
+      "title": "Тор: Рагнарёк",
+      "kind": "film",
+      "release": "2017-11-03",
+      "plotCharacters": 538,
+      "castCount": 18,
+      "canonicalCameos": 5,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-2",
+      "title": "Каратель (сезон 2)",
+      "kind": "series",
+      "release": "2019-01-18",
+      "plotCharacters": 157,
+      "castCount": 13,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 13,
+      "shortEpisodePlots": 13,
+      "flags": [
+        "brief-overall-plot",
+        "episodes-with-short-plots"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-3",
+      "title": "Джессика Джонс (сезон 3)",
+      "kind": "series",
+      "release": "2019-06-14",
+      "plotCharacters": 213,
+      "castCount": 14,
+      "canonicalCameos": 1,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 13,
+      "shortEpisodePlots": 13,
+      "flags": [
+        "brief-overall-plot",
+        "episodes-with-short-plots"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "amw",
+      "title": "Человек-муравей и Оса",
+      "kind": "film",
+      "release": "2018-07-06",
+      "plotCharacters": 918,
+      "castCount": 15,
+      "canonicalCameos": 1,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "infinity-war",
+      "title": "Мстители: Война бесконечности",
+      "kind": "film",
+      "release": "2018-04-27",
+      "plotCharacters": 587,
+      "castCount": 42,
+      "canonicalCameos": 2,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "endgame",
+      "title": "Мстители: Финал",
+      "kind": "film",
+      "release": "2019-04-26",
+      "plotCharacters": 615,
+      "castCount": 62,
+      "canonicalCameos": 10,
+      "archivalAppearances": 1,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "loki-1",
+      "title": "Локи (сезон 1)",
+      "kind": "series",
+      "release": "2021-06-09",
+      "plotCharacters": 661,
+      "castCount": 20,
+      "canonicalCameos": 1,
+      "archivalAppearances": 3,
+      "annotatedReferences": 4,
+      "episodes": 6,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "wandavision",
+      "title": "ВандаВижн",
+      "kind": "series",
+      "release": "2021-01-15",
+      "plotCharacters": 553,
+      "castCount": 25,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 2,
+      "episodes": 9,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "shang-chi",
+      "title": "Шан-Чи и легенда десяти колец",
+      "kind": "film",
+      "release": "2021-09-03",
+      "plotCharacters": 481,
+      "castCount": 16,
+      "canonicalCameos": 1,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "fws",
+      "title": "Сокол и Зимний солдат",
+      "kind": "series",
+      "release": "2021-03-19",
+      "plotCharacters": 547,
+      "castCount": 20,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 1,
+      "episodes": 6,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "ffh",
+      "title": "Человек-паук: Вдали от дома",
+      "kind": "film",
+      "release": "2019-07-02",
+      "plotCharacters": 1005,
+      "castCount": 20,
+      "canonicalCameos": 0,
+      "archivalAppearances": 1,
+      "annotatedReferences": 2,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "eternals",
+      "title": "Вечные",
+      "kind": "film",
+      "release": "2021-11-05",
+      "plotCharacters": 859,
+      "castCount": 19,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "nwh",
+      "title": "Человек-паук: Нет пути домой",
+      "kind": "film",
+      "release": "2021-12-17",
+      "plotCharacters": 686,
+      "castCount": 23,
+      "canonicalCameos": 3,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dsmom",
+      "title": "Доктор Стрэндж: В мультивселенной безумия",
+      "kind": "film",
+      "release": "2022-05-06",
+      "plotCharacters": 648,
+      "castCount": 18,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "hawkeye",
+      "title": "Соколиный глаз",
+      "kind": "series",
+      "release": "2021-11-24",
+      "plotCharacters": 454,
+      "castCount": 17,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 4,
+      "episodes": 6,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "moon-knight",
+      "title": "Лунный рыцарь",
+      "kind": "series",
+      "release": "2022-03-30",
+      "plotCharacters": 411,
+      "castCount": 13,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 6,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "wakanda-forever",
+      "title": "Чёрная Пантера: Ваканда навеки",
+      "kind": "film",
+      "release": "2022-11-11",
+      "plotCharacters": 1041,
+      "castCount": 17,
+      "canonicalCameos": 1,
+      "archivalAppearances": 1,
+      "annotatedReferences": 2,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "echo",
+      "title": "Эхо",
+      "kind": "series",
+      "release": "2024-01-09",
+      "plotCharacters": 320,
+      "castCount": 16,
+      "canonicalCameos": 1,
+      "archivalAppearances": 1,
+      "annotatedReferences": 0,
+      "episodes": 5,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "she-hulk",
+      "title": "Женщина-Халк: Адвокат",
+      "kind": "series",
+      "release": "2022-08-18",
+      "plotCharacters": 381,
+      "castCount": 29,
+      "canonicalCameos": 1,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 9,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "ms-marvel",
+      "title": "Мисс Марвел",
+      "kind": "series",
+      "release": "2022-06-08",
+      "plotCharacters": 431,
+      "castCount": 19,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 6,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "thor-lt",
+      "title": "Тор: Любовь и гром",
+      "kind": "film",
+      "release": "2022-07-08",
+      "plotCharacters": 519,
+      "castCount": 22,
+      "canonicalCameos": 7,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "ironheart",
+      "title": "Железное сердце",
+      "kind": "series",
+      "release": "2025-06-24",
+      "plotCharacters": 498,
+      "castCount": 18,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 6,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "quantumania",
+      "title": "Человек-муравей и Оса: Квантомания",
+      "kind": "film",
+      "release": "2023-02-17",
+      "plotCharacters": 448,
+      "castCount": 17,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "gotg3",
+      "title": "Стражи Галактики. Часть 3",
+      "kind": "film",
+      "release": "2023-05-05",
+      "plotCharacters": 531,
+      "castCount": 19,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 2,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "secret-invasion",
+      "title": "Секретное вторжение",
+      "kind": "series",
+      "release": "2023-06-21",
+      "plotCharacters": 427,
+      "castCount": 22,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 6,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "the-marvels",
+      "title": "Марвелы",
+      "kind": "film",
+      "release": "2023-11-10",
+      "plotCharacters": 490,
+      "castCount": 14,
+      "canonicalCameos": 1,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "loki-2",
+      "title": "Локи (сезон 2)",
+      "kind": "series",
+      "release": "2023-10-05",
+      "plotCharacters": 407,
+      "castCount": 15,
+      "canonicalCameos": 0,
+      "archivalAppearances": 1,
+      "annotatedReferences": 0,
+      "episodes": 6,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "deadpool-wolverine",
+      "title": "Дэдпул и Росомаха",
+      "kind": "film",
+      "release": "2024-07-26",
+      "plotCharacters": 544,
+      "castCount": 24,
+      "canonicalCameos": 3,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "agatha",
+      "title": "Агата: Всё это время",
+      "kind": "series",
+      "release": "2024-09-18",
+      "plotCharacters": 726,
+      "castCount": 20,
+      "canonicalCameos": 1,
+      "archivalAppearances": 0,
+      "annotatedReferences": 1,
+      "episodes": 9,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-ba-1",
+      "title": "Сорвиголова: Рождённый заново (сезон 1)",
+      "kind": "series",
+      "release": "2025-03-04",
+      "plotCharacters": 471,
+      "castCount": 19,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 9,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "bnw",
+      "title": "Капитан Америка: Новый мир",
+      "kind": "film",
+      "release": "2025-02-14",
+      "plotCharacters": 817,
+      "castCount": 14,
+      "canonicalCameos": 2,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "thunderbolts",
+      "title": "Громовержцы*",
+      "kind": "film",
+      "release": "2025-05-02",
+      "plotCharacters": 548,
+      "castCount": 9,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 1,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "ff-first-steps",
+      "title": "Фантастическая четвёрка: Первые шаги",
+      "kind": "film",
+      "release": "2025-07-25",
+      "plotCharacters": 618,
+      "castCount": 10,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "wonder-man",
+      "title": "Чудо-человек",
+      "kind": "series",
+      "release": "2026-01-27",
+      "plotCharacters": 545,
+      "castCount": 19,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 8,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-ba-2",
+      "title": "Сорвиголова: Рождённый заново (сезон 2)",
+      "kind": "series",
+      "release": "2026-03-24",
+      "plotCharacters": 369,
+      "castCount": 23,
+      "canonicalCameos": 1,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 8,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "bnd",
+      "title": "Человек-паук: Совершенно новый день",
+      "kind": "film",
+      "release": "2026-07-31",
+      "plotCharacters": 804,
+      "castCount": 10,
+      "canonicalCameos": 0,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "visionquest",
+      "title": "Квест Вижна",
+      "kind": "series",
+      "release": "2026-10-14",
+      "plotCharacters": 653,
+      "castCount": 27,
+      "canonicalCameos": 1,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 8,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "endgame-encore",
+      "title": "Мстители: Финал — Encore",
+      "kind": "film",
+      "release": "2026-09-25",
+      "plotCharacters": 615,
+      "castCount": 56,
+      "canonicalCameos": 15,
+      "archivalAppearances": 0,
+      "annotatedReferences": 0,
+      "episodes": 0,
+      "shortEpisodePlots": 0,
+      "flags": [
+        "brief-overall-plot"
+      ],
+      "screenVerified": false
+    }
+  ],
+  "episodes": [
+    {
+      "id": "wandavision-s1-e1",
+      "projectId": "wandavision",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 708,
+      "castCount": 6,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "wandavision-s1-e2",
+      "projectId": "wandavision",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 705,
+      "castCount": 9,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "wandavision-s1-e3",
+      "projectId": "wandavision",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 665,
+      "castCount": 8,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "wandavision-s1-e4",
+      "projectId": "wandavision",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 787,
+      "castCount": 7,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "wandavision-s1-e5",
+      "projectId": "wandavision",
+      "season": 1,
+      "number": 5,
+      "plotCharacters": 751,
+      "castCount": 12,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "wandavision-s1-e6",
+      "projectId": "wandavision",
+      "season": 1,
+      "number": 6,
+      "plotCharacters": 795,
+      "castCount": 12,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "wandavision-s1-e7",
+      "projectId": "wandavision",
+      "season": 1,
+      "number": 7,
+      "plotCharacters": 772,
+      "castCount": 10,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "wandavision-s1-e8",
+      "projectId": "wandavision",
+      "season": 1,
+      "number": 8,
+      "plotCharacters": 798,
+      "castCount": 11,
+      "sourceCount": 4,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "wandavision-s1-e9",
+      "projectId": "wandavision",
+      "season": 1,
+      "number": 9,
+      "plotCharacters": 685,
+      "castCount": 16,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "loki-1-s1-e1",
+      "projectId": "loki-1",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 681,
+      "castCount": 9,
+      "sourceCount": 5,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "loki-1-s1-e2",
+      "projectId": "loki-1",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 622,
+      "castCount": 8,
+      "sourceCount": 5,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "loki-1-s1-e3",
+      "projectId": "loki-1",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 654,
+      "castCount": 3,
+      "sourceCount": 5,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "loki-1-s1-e4",
+      "projectId": "loki-1",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 647,
+      "castCount": 12,
+      "sourceCount": 6,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "loki-1-s1-e5",
+      "projectId": "loki-1",
+      "season": 1,
+      "number": 5,
+      "plotCharacters": 693,
+      "castCount": 13,
+      "sourceCount": 6,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "loki-1-s1-e6",
+      "projectId": "loki-1",
+      "season": 1,
+      "number": 6,
+      "plotCharacters": 655,
+      "castCount": 8,
+      "sourceCount": 6,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "loki-2-s2-e1",
+      "projectId": "loki-2",
+      "season": 2,
+      "number": 1,
+      "plotCharacters": 625,
+      "castCount": 10,
+      "sourceCount": 5,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "loki-2-s2-e2",
+      "projectId": "loki-2",
+      "season": 2,
+      "number": 2,
+      "plotCharacters": 615,
+      "castCount": 9,
+      "sourceCount": 7,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "loki-2-s2-e3",
+      "projectId": "loki-2",
+      "season": 2,
+      "number": 3,
+      "plotCharacters": 605,
+      "castCount": 6,
+      "sourceCount": 6,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "loki-2-s2-e4",
+      "projectId": "loki-2",
+      "season": 2,
+      "number": 4,
+      "plotCharacters": 636,
+      "castCount": 13,
+      "sourceCount": 5,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "loki-2-s2-e5",
+      "projectId": "loki-2",
+      "season": 2,
+      "number": 5,
+      "plotCharacters": 636,
+      "castCount": 7,
+      "sourceCount": 7,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "loki-2-s2-e6",
+      "projectId": "loki-2",
+      "season": 2,
+      "number": 6,
+      "plotCharacters": 653,
+      "castCount": 12,
+      "sourceCount": 7,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "agatha-s1-e1",
+      "projectId": "agatha",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 657,
+      "castCount": 7,
+      "sourceCount": 6,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "agatha-s1-e2",
+      "projectId": "agatha",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 643,
+      "castCount": 7,
+      "sourceCount": 4,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "agatha-s1-e3",
+      "projectId": "agatha",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 641,
+      "castCount": 8,
+      "sourceCount": 5,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "agatha-s1-e4",
+      "projectId": "agatha",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 649,
+      "castCount": 7,
+      "sourceCount": 4,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "agatha-s1-e5",
+      "projectId": "agatha",
+      "season": 1,
+      "number": 5,
+      "plotCharacters": 659,
+      "castCount": 9,
+      "sourceCount": 4,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "agatha-s1-e6",
+      "projectId": "agatha",
+      "season": 1,
+      "number": 6,
+      "plotCharacters": 610,
+      "castCount": 9,
+      "sourceCount": 5,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "agatha-s1-e7",
+      "projectId": "agatha",
+      "season": 1,
+      "number": 7,
+      "plotCharacters": 641,
+      "castCount": 7,
+      "sourceCount": 4,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "agatha-s1-e8",
+      "projectId": "agatha",
+      "season": 1,
+      "number": 8,
+      "plotCharacters": 593,
+      "castCount": 5,
+      "sourceCount": 5,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "agatha-s1-e9",
+      "projectId": "agatha",
+      "season": 1,
+      "number": 9,
+      "plotCharacters": 580,
+      "castCount": 5,
+      "sourceCount": 5,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "eyes-of-wakanda-s1-e1",
+      "projectId": "eyes-of-wakanda",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 542,
+      "castCount": 2,
+      "sourceCount": 3,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "eyes-of-wakanda-s1-e2",
+      "projectId": "eyes-of-wakanda",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 561,
+      "castCount": 1,
+      "sourceCount": 3,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "eyes-of-wakanda-s1-e3",
+      "projectId": "eyes-of-wakanda",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 590,
+      "castCount": 2,
+      "sourceCount": 3,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "eyes-of-wakanda-s1-e4",
+      "projectId": "eyes-of-wakanda",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 617,
+      "castCount": 2,
+      "sourceCount": 3,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "i-am-groot-s1-e1",
+      "projectId": "i-am-groot",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 279,
+      "castCount": 1,
+      "sourceCount": 2,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "i-am-groot-s1-e2",
+      "projectId": "i-am-groot",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 378,
+      "castCount": 1,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "i-am-groot-s1-e3",
+      "projectId": "i-am-groot",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 355,
+      "castCount": 1,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "i-am-groot-s1-e4",
+      "projectId": "i-am-groot",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 329,
+      "castCount": 1,
+      "sourceCount": 2,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "i-am-groot-s1-e5",
+      "projectId": "i-am-groot",
+      "season": 1,
+      "number": 5,
+      "plotCharacters": 337,
+      "castCount": 2,
+      "sourceCount": 2,
+      "flags": [
+        "short-plot"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "i-am-groot-s2-e1",
+      "projectId": "i-am-groot",
+      "season": 2,
+      "number": 1,
+      "plotCharacters": 325,
+      "castCount": 1,
+      "sourceCount": 2,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "i-am-groot-s2-e2",
+      "projectId": "i-am-groot",
+      "season": 2,
+      "number": 2,
+      "plotCharacters": 315,
+      "castCount": 1,
+      "sourceCount": 2,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "i-am-groot-s2-e3",
+      "projectId": "i-am-groot",
+      "season": 2,
+      "number": 3,
+      "plotCharacters": 290,
+      "castCount": 1,
+      "sourceCount": 2,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "i-am-groot-s2-e4",
+      "projectId": "i-am-groot",
+      "season": 2,
+      "number": 4,
+      "plotCharacters": 308,
+      "castCount": 1,
+      "sourceCount": 2,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "i-am-groot-s2-e5",
+      "projectId": "i-am-groot",
+      "season": 2,
+      "number": 5,
+      "plotCharacters": 391,
+      "castCount": 2,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "fws-s1-e1",
+      "projectId": "fws",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 642,
+      "castCount": 10,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "fws-s1-e2",
+      "projectId": "fws",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 668,
+      "castCount": 9,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "fws-s1-e3",
+      "projectId": "fws",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 653,
+      "castCount": 8,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "fws-s1-e4",
+      "projectId": "fws",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 592,
+      "castCount": 9,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "fws-s1-e5",
+      "projectId": "fws",
+      "season": 1,
+      "number": 5,
+      "plotCharacters": 608,
+      "castCount": 9,
+      "sourceCount": 2,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "fws-s1-e6",
+      "projectId": "fws",
+      "season": 1,
+      "number": 6,
+      "plotCharacters": 638,
+      "castCount": 9,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "hawkeye-s1-e1",
+      "projectId": "hawkeye",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 618,
+      "castCount": 10,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "hawkeye-s1-e2",
+      "projectId": "hawkeye",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 582,
+      "castCount": 11,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "hawkeye-s1-e3",
+      "projectId": "hawkeye",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 625,
+      "castCount": 6,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "hawkeye-s1-e4",
+      "projectId": "hawkeye",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 599,
+      "castCount": 7,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "hawkeye-s1-e5",
+      "projectId": "hawkeye",
+      "season": 1,
+      "number": 5,
+      "plotCharacters": 618,
+      "castCount": 8,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "hawkeye-s1-e6",
+      "projectId": "hawkeye",
+      "season": 1,
+      "number": 6,
+      "plotCharacters": 618,
+      "castCount": 14,
+      "sourceCount": 2,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "moon-knight-s1-e1",
+      "projectId": "moon-knight",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 580,
+      "castCount": 5,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "moon-knight-s1-e2",
+      "projectId": "moon-knight",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 592,
+      "castCount": 4,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "moon-knight-s1-e3",
+      "projectId": "moon-knight",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 641,
+      "castCount": 6,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "moon-knight-s1-e4",
+      "projectId": "moon-knight",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 603,
+      "castCount": 4,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "moon-knight-s1-e5",
+      "projectId": "moon-knight",
+      "season": 1,
+      "number": 5,
+      "plotCharacters": 634,
+      "castCount": 6,
+      "sourceCount": 3,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "moon-knight-s1-e6",
+      "projectId": "moon-knight",
+      "season": 1,
+      "number": 6,
+      "plotCharacters": 591,
+      "castCount": 7,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "ms-marvel-s1-e1",
+      "projectId": "ms-marvel",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 642,
+      "castCount": 9,
+      "sourceCount": 2,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "ms-marvel-s1-e2",
+      "projectId": "ms-marvel",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 611,
+      "castCount": 8,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "ms-marvel-s1-e3",
+      "projectId": "ms-marvel",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 649,
+      "castCount": 10,
+      "sourceCount": 3,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "ms-marvel-s1-e4",
+      "projectId": "ms-marvel",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 592,
+      "castCount": 7,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "ms-marvel-s1-e5",
+      "projectId": "ms-marvel",
+      "season": 1,
+      "number": 5,
+      "plotCharacters": 634,
+      "castCount": 8,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "ms-marvel-s1-e6",
+      "projectId": "ms-marvel",
+      "season": 1,
+      "number": 6,
+      "plotCharacters": 577,
+      "castCount": 13,
+      "sourceCount": 2,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "she-hulk-s1-e1",
+      "projectId": "she-hulk",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 527,
+      "castCount": 5,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "she-hulk-s1-e2",
+      "projectId": "she-hulk",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 515,
+      "castCount": 8,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "she-hulk-s1-e3",
+      "projectId": "she-hulk",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 554,
+      "castCount": 10,
+      "sourceCount": 4,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "she-hulk-s1-e4",
+      "projectId": "she-hulk",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 529,
+      "castCount": 6,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "she-hulk-s1-e5",
+      "projectId": "she-hulk",
+      "season": 1,
+      "number": 5,
+      "plotCharacters": 534,
+      "castCount": 8,
+      "sourceCount": 4,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "she-hulk-s1-e6",
+      "projectId": "she-hulk",
+      "season": 1,
+      "number": 6,
+      "plotCharacters": 531,
+      "castCount": 7,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "she-hulk-s1-e7",
+      "projectId": "she-hulk",
+      "season": 1,
+      "number": 7,
+      "plotCharacters": 546,
+      "castCount": 8,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "she-hulk-s1-e8",
+      "projectId": "she-hulk",
+      "season": 1,
+      "number": 8,
+      "plotCharacters": 579,
+      "castCount": 7,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "she-hulk-s1-e9",
+      "projectId": "she-hulk",
+      "season": 1,
+      "number": 9,
+      "plotCharacters": 562,
+      "castCount": 12,
+      "sourceCount": 4,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "secret-invasion-s1-e1",
+      "projectId": "secret-invasion",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 609,
+      "castCount": 11,
+      "sourceCount": 4,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "secret-invasion-s1-e2",
+      "projectId": "secret-invasion",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 546,
+      "castCount": 11,
+      "sourceCount": 5,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "secret-invasion-s1-e3",
+      "projectId": "secret-invasion",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 601,
+      "castCount": 9,
+      "sourceCount": 4,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "secret-invasion-s1-e4",
+      "projectId": "secret-invasion",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 515,
+      "castCount": 8,
+      "sourceCount": 4,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "secret-invasion-s1-e5",
+      "projectId": "secret-invasion",
+      "season": 1,
+      "number": 5,
+      "plotCharacters": 549,
+      "castCount": 11,
+      "sourceCount": 4,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "secret-invasion-s1-e6",
+      "projectId": "secret-invasion",
+      "season": 1,
+      "number": 6,
+      "plotCharacters": 571,
+      "castCount": 10,
+      "sourceCount": 6,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "echo-s1-e1",
+      "projectId": "echo",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 526,
+      "castCount": 13,
+      "sourceCount": 5,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "echo-s1-e2",
+      "projectId": "echo",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 534,
+      "castCount": 8,
+      "sourceCount": 4,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "echo-s1-e3",
+      "projectId": "echo",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 516,
+      "castCount": 11,
+      "sourceCount": 4,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "echo-s1-e4",
+      "projectId": "echo",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 543,
+      "castCount": 5,
+      "sourceCount": 4,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "echo-s1-e5",
+      "projectId": "echo",
+      "season": 1,
+      "number": 5,
+      "plotCharacters": 492,
+      "castCount": 11,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "visionquest-s1-e1",
+      "projectId": "visionquest",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 513,
+      "castCount": 14,
+      "sourceCount": 5,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "visionquest-s1-e2",
+      "projectId": "visionquest",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 478,
+      "castCount": 10,
+      "sourceCount": 4,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "visionquest-s1-e3",
+      "projectId": "visionquest",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 468,
+      "castCount": 14,
+      "sourceCount": 6,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "visionquest-s1-e4",
+      "projectId": "visionquest",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 479,
+      "castCount": 13,
+      "sourceCount": 6,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "visionquest-s1-e5",
+      "projectId": "visionquest",
+      "season": 1,
+      "number": 5,
+      "plotCharacters": 480,
+      "castCount": 11,
+      "sourceCount": 5,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "visionquest-s1-e6",
+      "projectId": "visionquest",
+      "season": 1,
+      "number": 6,
+      "plotCharacters": 522,
+      "castCount": 14,
+      "sourceCount": 5,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "visionquest-s1-e7",
+      "projectId": "visionquest",
+      "season": 1,
+      "number": 7,
+      "plotCharacters": 564,
+      "castCount": 16,
+      "sourceCount": 6,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "visionquest-s1-e8",
+      "projectId": "visionquest",
+      "season": 1,
+      "number": 8,
+      "plotCharacters": 626,
+      "castCount": 14,
+      "sourceCount": 6,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "ironheart-s1-e1",
+      "projectId": "ironheart",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 569,
+      "castCount": 10,
+      "sourceCount": 3,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "ironheart-s1-e2",
+      "projectId": "ironheart",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 557,
+      "castCount": 9,
+      "sourceCount": 3,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "ironheart-s1-e3",
+      "projectId": "ironheart",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 520,
+      "castCount": 9,
+      "sourceCount": 3,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "ironheart-s1-e4",
+      "projectId": "ironheart",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 605,
+      "castCount": 9,
+      "sourceCount": 3,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "ironheart-s1-e5",
+      "projectId": "ironheart",
+      "season": 1,
+      "number": 5,
+      "plotCharacters": 484,
+      "castCount": 9,
+      "sourceCount": 3,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "ironheart-s1-e6",
+      "projectId": "ironheart",
+      "season": 1,
+      "number": 6,
+      "plotCharacters": 491,
+      "castCount": 6,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "wonder-man-s1-e1",
+      "projectId": "wonder-man",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 536,
+      "castCount": 6,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "wonder-man-s1-e2",
+      "projectId": "wonder-man",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 537,
+      "castCount": 6,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "wonder-man-s1-e3",
+      "projectId": "wonder-man",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 456,
+      "castCount": 6,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "wonder-man-s1-e4",
+      "projectId": "wonder-man",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 550,
+      "castCount": 4,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "wonder-man-s1-e5",
+      "projectId": "wonder-man",
+      "season": 1,
+      "number": 5,
+      "plotCharacters": 491,
+      "castCount": 6,
+      "sourceCount": 4,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "wonder-man-s1-e6",
+      "projectId": "wonder-man",
+      "season": 1,
+      "number": 6,
+      "plotCharacters": 510,
+      "castCount": 4,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "wonder-man-s1-e7",
+      "projectId": "wonder-man",
+      "season": 1,
+      "number": 7,
+      "plotCharacters": 459,
+      "castCount": 7,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "wonder-man-s1-e8",
+      "projectId": "wonder-man",
+      "season": 1,
+      "number": 8,
+      "plotCharacters": 531,
+      "castCount": 9,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-1-s1-e1",
+      "projectId": "dd-1",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 382,
+      "castCount": 5,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-1-s1-e2",
+      "projectId": "dd-1",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 349,
+      "castCount": 5,
+      "sourceCount": 2,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-1-s1-e3",
+      "projectId": "dd-1",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 383,
+      "castCount": 8,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-1-s1-e4",
+      "projectId": "dd-1",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 345,
+      "castCount": 7,
+      "sourceCount": 2,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-1-s1-e5",
+      "projectId": "dd-1",
+      "season": 1,
+      "number": 5,
+      "plotCharacters": 455,
+      "castCount": 7,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-1-s1-e6",
+      "projectId": "dd-1",
+      "season": 1,
+      "number": 6,
+      "plotCharacters": 384,
+      "castCount": 6,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-1-s1-e7",
+      "projectId": "dd-1",
+      "season": 1,
+      "number": 7,
+      "plotCharacters": 439,
+      "castCount": 5,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-1-s1-e8",
+      "projectId": "dd-1",
+      "season": 1,
+      "number": 8,
+      "plotCharacters": 445,
+      "castCount": 7,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-1-s1-e9",
+      "projectId": "dd-1",
+      "season": 1,
+      "number": 9,
+      "plotCharacters": 396,
+      "castCount": 5,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-1-s1-e10",
+      "projectId": "dd-1",
+      "season": 1,
+      "number": 10,
+      "plotCharacters": 371,
+      "castCount": 6,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-1-s1-e11",
+      "projectId": "dd-1",
+      "season": 1,
+      "number": 11,
+      "plotCharacters": 370,
+      "castCount": 6,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-1-s1-e12",
+      "projectId": "dd-1",
+      "season": 1,
+      "number": 12,
+      "plotCharacters": 373,
+      "castCount": 6,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-1-s1-e13",
+      "projectId": "dd-1",
+      "season": 1,
+      "number": 13,
+      "plotCharacters": 399,
+      "castCount": 8,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-2-s2-e1",
+      "projectId": "dd-2",
+      "season": 2,
+      "number": 1,
+      "plotCharacters": 492,
+      "castCount": 5,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-2-s2-e2",
+      "projectId": "dd-2",
+      "season": 2,
+      "number": 2,
+      "plotCharacters": 472,
+      "castCount": 8,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-2-s2-e3",
+      "projectId": "dd-2",
+      "season": 2,
+      "number": 3,
+      "plotCharacters": 510,
+      "castCount": 6,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-2-s2-e4",
+      "projectId": "dd-2",
+      "season": 2,
+      "number": 4,
+      "plotCharacters": 438,
+      "castCount": 5,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-2-s2-e5",
+      "projectId": "dd-2",
+      "season": 2,
+      "number": 5,
+      "plotCharacters": 526,
+      "castCount": 4,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-2-s2-e6",
+      "projectId": "dd-2",
+      "season": 2,
+      "number": 6,
+      "plotCharacters": 532,
+      "castCount": 6,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-2-s2-e7",
+      "projectId": "dd-2",
+      "season": 2,
+      "number": 7,
+      "plotCharacters": 515,
+      "castCount": 6,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-2-s2-e8",
+      "projectId": "dd-2",
+      "season": 2,
+      "number": 8,
+      "plotCharacters": 465,
+      "castCount": 7,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-2-s2-e9",
+      "projectId": "dd-2",
+      "season": 2,
+      "number": 9,
+      "plotCharacters": 497,
+      "castCount": 6,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-2-s2-e10",
+      "projectId": "dd-2",
+      "season": 2,
+      "number": 10,
+      "plotCharacters": 453,
+      "castCount": 6,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-2-s2-e11",
+      "projectId": "dd-2",
+      "season": 2,
+      "number": 11,
+      "plotCharacters": 403,
+      "castCount": 5,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-2-s2-e12",
+      "projectId": "dd-2",
+      "season": 2,
+      "number": 12,
+      "plotCharacters": 426,
+      "castCount": 7,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-2-s2-e13",
+      "projectId": "dd-2",
+      "season": 2,
+      "number": 13,
+      "plotCharacters": 417,
+      "castCount": 7,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-3-s3-e1",
+      "projectId": "dd-3",
+      "season": 3,
+      "number": 1,
+      "plotCharacters": 476,
+      "castCount": 8,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-3-s3-e2",
+      "projectId": "dd-3",
+      "season": 3,
+      "number": 2,
+      "plotCharacters": 505,
+      "castCount": 5,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-3-s3-e3",
+      "projectId": "dd-3",
+      "season": 3,
+      "number": 3,
+      "plotCharacters": 562,
+      "castCount": 6,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-3-s3-e4",
+      "projectId": "dd-3",
+      "season": 3,
+      "number": 4,
+      "plotCharacters": 530,
+      "castCount": 4,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-3-s3-e5",
+      "projectId": "dd-3",
+      "season": 3,
+      "number": 5,
+      "plotCharacters": 516,
+      "castCount": 7,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-3-s3-e6",
+      "projectId": "dd-3",
+      "season": 3,
+      "number": 6,
+      "plotCharacters": 473,
+      "castCount": 7,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-3-s3-e7",
+      "projectId": "dd-3",
+      "season": 3,
+      "number": 7,
+      "plotCharacters": 520,
+      "castCount": 5,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-3-s3-e8",
+      "projectId": "dd-3",
+      "season": 3,
+      "number": 8,
+      "plotCharacters": 417,
+      "castCount": 7,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-3-s3-e9",
+      "projectId": "dd-3",
+      "season": 3,
+      "number": 9,
+      "plotCharacters": 485,
+      "castCount": 9,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-3-s3-e10",
+      "projectId": "dd-3",
+      "season": 3,
+      "number": 10,
+      "plotCharacters": 459,
+      "castCount": 6,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-3-s3-e11",
+      "projectId": "dd-3",
+      "season": 3,
+      "number": 11,
+      "plotCharacters": 446,
+      "castCount": 7,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-3-s3-e12",
+      "projectId": "dd-3",
+      "season": 3,
+      "number": 12,
+      "plotCharacters": 453,
+      "castCount": 6,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-3-s3-e13",
+      "projectId": "dd-3",
+      "season": 3,
+      "number": 13,
+      "plotCharacters": 448,
+      "castCount": 7,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-ba-1-s1-e1",
+      "projectId": "dd-ba-1",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 521,
+      "castCount": 8,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-ba-1-s1-e2",
+      "projectId": "dd-ba-1",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 590,
+      "castCount": 7,
+      "sourceCount": 3,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-ba-1-s1-e3",
+      "projectId": "dd-ba-1",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 499,
+      "castCount": 4,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-ba-1-s1-e4",
+      "projectId": "dd-ba-1",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 591,
+      "castCount": 10,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-ba-1-s1-e5",
+      "projectId": "dd-ba-1",
+      "season": 1,
+      "number": 5,
+      "plotCharacters": 492,
+      "castCount": 2,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-ba-1-s1-e6",
+      "projectId": "dd-ba-1",
+      "season": 1,
+      "number": 6,
+      "plotCharacters": 483,
+      "castCount": 5,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-ba-1-s1-e7",
+      "projectId": "dd-ba-1",
+      "season": 1,
+      "number": 7,
+      "plotCharacters": 479,
+      "castCount": 5,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-ba-1-s1-e8",
+      "projectId": "dd-ba-1",
+      "season": 1,
+      "number": 8,
+      "plotCharacters": 431,
+      "castCount": 5,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-ba-1-s1-e9",
+      "projectId": "dd-ba-1",
+      "season": 1,
+      "number": 9,
+      "plotCharacters": 470,
+      "castCount": 6,
+      "sourceCount": 3,
+      "flags": [],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-ba-2-s2-e1",
+      "projectId": "dd-ba-2",
+      "season": 2,
+      "number": 1,
+      "plotCharacters": 506,
+      "castCount": 7,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-ba-2-s2-e2",
+      "projectId": "dd-ba-2",
+      "season": 2,
+      "number": 2,
+      "plotCharacters": 495,
+      "castCount": 8,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-ba-2-s2-e3",
+      "projectId": "dd-ba-2",
+      "season": 2,
+      "number": 3,
+      "plotCharacters": 521,
+      "castCount": 9,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-ba-2-s2-e4",
+      "projectId": "dd-ba-2",
+      "season": 2,
+      "number": 4,
+      "plotCharacters": 489,
+      "castCount": 7,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-ba-2-s2-e5",
+      "projectId": "dd-ba-2",
+      "season": 2,
+      "number": 5,
+      "plotCharacters": 471,
+      "castCount": 7,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-ba-2-s2-e6",
+      "projectId": "dd-ba-2",
+      "season": 2,
+      "number": 6,
+      "plotCharacters": 462,
+      "castCount": 9,
+      "sourceCount": 3,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-ba-2-s2-e7",
+      "projectId": "dd-ba-2",
+      "season": 2,
+      "number": 7,
+      "plotCharacters": 494,
+      "castCount": 9,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "dd-ba-2-s2-e8",
+      "projectId": "dd-ba-2",
+      "season": 2,
+      "number": 8,
+      "plotCharacters": 491,
+      "castCount": 10,
+      "sourceCount": 2,
+      "flags": [
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-1-s1-e1",
+      "projectId": "jj-1",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 256,
+      "castCount": 8,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-1-s1-e2",
+      "projectId": "jj-1",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 248,
+      "castCount": 10,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-1-s1-e3",
+      "projectId": "jj-1",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 234,
+      "castCount": 10,
+      "sourceCount": 11,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-1-s1-e4",
+      "projectId": "jj-1",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 261,
+      "castCount": 8,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-1-s1-e5",
+      "projectId": "jj-1",
+      "season": 1,
+      "number": 5,
+      "plotCharacters": 249,
+      "castCount": 6,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-1-s1-e6",
+      "projectId": "jj-1",
+      "season": 1,
+      "number": 6,
+      "plotCharacters": 267,
+      "castCount": 9,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-1-s1-e7",
+      "projectId": "jj-1",
+      "season": 1,
+      "number": 7,
+      "plotCharacters": 264,
+      "castCount": 10,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-1-s1-e8",
+      "projectId": "jj-1",
+      "season": 1,
+      "number": 8,
+      "plotCharacters": 288,
+      "castCount": 9,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-1-s1-e9",
+      "projectId": "jj-1",
+      "season": 1,
+      "number": 9,
+      "plotCharacters": 266,
+      "castCount": 12,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-1-s1-e10",
+      "projectId": "jj-1",
+      "season": 1,
+      "number": 10,
+      "plotCharacters": 247,
+      "castCount": 12,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-1-s1-e11",
+      "projectId": "jj-1",
+      "season": 1,
+      "number": 11,
+      "plotCharacters": 251,
+      "castCount": 6,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-1-s1-e12",
+      "projectId": "jj-1",
+      "season": 1,
+      "number": 12,
+      "plotCharacters": 258,
+      "castCount": 7,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-1-s1-e13",
+      "projectId": "jj-1",
+      "season": 1,
+      "number": 13,
+      "plotCharacters": 270,
+      "castCount": 8,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-2-s2-e1",
+      "projectId": "jj-2",
+      "season": 2,
+      "number": 1,
+      "plotCharacters": 278,
+      "castCount": 7,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-2-s2-e2",
+      "projectId": "jj-2",
+      "season": 2,
+      "number": 2,
+      "plotCharacters": 251,
+      "castCount": 9,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-2-s2-e3",
+      "projectId": "jj-2",
+      "season": 2,
+      "number": 3,
+      "plotCharacters": 235,
+      "castCount": 7,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-2-s2-e4",
+      "projectId": "jj-2",
+      "season": 2,
+      "number": 4,
+      "plotCharacters": 223,
+      "castCount": 9,
+      "sourceCount": 11,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-2-s2-e5",
+      "projectId": "jj-2",
+      "season": 2,
+      "number": 5,
+      "plotCharacters": 266,
+      "castCount": 11,
+      "sourceCount": 11,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-2-s2-e6",
+      "projectId": "jj-2",
+      "season": 2,
+      "number": 6,
+      "plotCharacters": 224,
+      "castCount": 8,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-2-s2-e7",
+      "projectId": "jj-2",
+      "season": 2,
+      "number": 7,
+      "plotCharacters": 250,
+      "castCount": 6,
+      "sourceCount": 7,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-2-s2-e8",
+      "projectId": "jj-2",
+      "season": 2,
+      "number": 8,
+      "plotCharacters": 244,
+      "castCount": 10,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-2-s2-e9",
+      "projectId": "jj-2",
+      "season": 2,
+      "number": 9,
+      "plotCharacters": 260,
+      "castCount": 8,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-2-s2-e10",
+      "projectId": "jj-2",
+      "season": 2,
+      "number": 10,
+      "plotCharacters": 214,
+      "castCount": 9,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-2-s2-e11",
+      "projectId": "jj-2",
+      "season": 2,
+      "number": 11,
+      "plotCharacters": 261,
+      "castCount": 6,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-2-s2-e12",
+      "projectId": "jj-2",
+      "season": 2,
+      "number": 12,
+      "plotCharacters": 227,
+      "castCount": 8,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-2-s2-e13",
+      "projectId": "jj-2",
+      "season": 2,
+      "number": 13,
+      "plotCharacters": 244,
+      "castCount": 9,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-3-s3-e1",
+      "projectId": "jj-3",
+      "season": 3,
+      "number": 1,
+      "plotCharacters": 246,
+      "castCount": 10,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-3-s3-e2",
+      "projectId": "jj-3",
+      "season": 3,
+      "number": 2,
+      "plotCharacters": 279,
+      "castCount": 6,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-3-s3-e3",
+      "projectId": "jj-3",
+      "season": 3,
+      "number": 3,
+      "plotCharacters": 228,
+      "castCount": 10,
+      "sourceCount": 11,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-3-s3-e4",
+      "projectId": "jj-3",
+      "season": 3,
+      "number": 4,
+      "plotCharacters": 221,
+      "castCount": 8,
+      "sourceCount": 11,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-3-s3-e5",
+      "projectId": "jj-3",
+      "season": 3,
+      "number": 5,
+      "plotCharacters": 230,
+      "castCount": 9,
+      "sourceCount": 11,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-3-s3-e6",
+      "projectId": "jj-3",
+      "season": 3,
+      "number": 6,
+      "plotCharacters": 201,
+      "castCount": 9,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-3-s3-e7",
+      "projectId": "jj-3",
+      "season": 3,
+      "number": 7,
+      "plotCharacters": 230,
+      "castCount": 8,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-3-s3-e8",
+      "projectId": "jj-3",
+      "season": 3,
+      "number": 8,
+      "plotCharacters": 226,
+      "castCount": 9,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-3-s3-e9",
+      "projectId": "jj-3",
+      "season": 3,
+      "number": 9,
+      "plotCharacters": 219,
+      "castCount": 9,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-3-s3-e10",
+      "projectId": "jj-3",
+      "season": 3,
+      "number": 10,
+      "plotCharacters": 209,
+      "castCount": 8,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-3-s3-e11",
+      "projectId": "jj-3",
+      "season": 3,
+      "number": 11,
+      "plotCharacters": 244,
+      "castCount": 7,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-3-s3-e12",
+      "projectId": "jj-3",
+      "season": 3,
+      "number": 12,
+      "plotCharacters": 256,
+      "castCount": 8,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "jj-3-s3-e13",
+      "projectId": "jj-3",
+      "season": 3,
+      "number": 13,
+      "plotCharacters": 231,
+      "castCount": 10,
+      "sourceCount": 12,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-1-s1-e1",
+      "projectId": "lc-1",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 227,
+      "castCount": 9,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-1-s1-e2",
+      "projectId": "lc-1",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 246,
+      "castCount": 8,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-1-s1-e3",
+      "projectId": "lc-1",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 212,
+      "castCount": 6,
+      "sourceCount": 7,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-1-s1-e4",
+      "projectId": "lc-1",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 225,
+      "castCount": 7,
+      "sourceCount": 6,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-1-s1-e5",
+      "projectId": "lc-1",
+      "season": 1,
+      "number": 5,
+      "plotCharacters": 222,
+      "castCount": 7,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-1-s1-e6",
+      "projectId": "lc-1",
+      "season": 1,
+      "number": 6,
+      "plotCharacters": 210,
+      "castCount": 8,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-1-s1-e7",
+      "projectId": "lc-1",
+      "season": 1,
+      "number": 7,
+      "plotCharacters": 216,
+      "castCount": 8,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-1-s1-e8",
+      "projectId": "lc-1",
+      "season": 1,
+      "number": 8,
+      "plotCharacters": 216,
+      "castCount": 6,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-1-s1-e9",
+      "projectId": "lc-1",
+      "season": 1,
+      "number": 9,
+      "plotCharacters": 216,
+      "castCount": 7,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-1-s1-e10",
+      "projectId": "lc-1",
+      "season": 1,
+      "number": 10,
+      "plotCharacters": 221,
+      "castCount": 7,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-1-s1-e11",
+      "projectId": "lc-1",
+      "season": 1,
+      "number": 11,
+      "plotCharacters": 223,
+      "castCount": 6,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-1-s1-e12",
+      "projectId": "lc-1",
+      "season": 1,
+      "number": 12,
+      "plotCharacters": 238,
+      "castCount": 6,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-1-s1-e13",
+      "projectId": "lc-1",
+      "season": 1,
+      "number": 13,
+      "plotCharacters": 208,
+      "castCount": 8,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-2-s2-e1",
+      "projectId": "lc-2",
+      "season": 2,
+      "number": 1,
+      "plotCharacters": 215,
+      "castCount": 11,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-2-s2-e2",
+      "projectId": "lc-2",
+      "season": 2,
+      "number": 2,
+      "plotCharacters": 206,
+      "castCount": 12,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-2-s2-e3",
+      "projectId": "lc-2",
+      "season": 2,
+      "number": 3,
+      "plotCharacters": 198,
+      "castCount": 13,
+      "sourceCount": 11,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-2-s2-e4",
+      "projectId": "lc-2",
+      "season": 2,
+      "number": 4,
+      "plotCharacters": 193,
+      "castCount": 11,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-2-s2-e5",
+      "projectId": "lc-2",
+      "season": 2,
+      "number": 5,
+      "plotCharacters": 237,
+      "castCount": 10,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-2-s2-e6",
+      "projectId": "lc-2",
+      "season": 2,
+      "number": 6,
+      "plotCharacters": 210,
+      "castCount": 9,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-2-s2-e7",
+      "projectId": "lc-2",
+      "season": 2,
+      "number": 7,
+      "plotCharacters": 244,
+      "castCount": 11,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-2-s2-e8",
+      "projectId": "lc-2",
+      "season": 2,
+      "number": 8,
+      "plotCharacters": 201,
+      "castCount": 10,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-2-s2-e9",
+      "projectId": "lc-2",
+      "season": 2,
+      "number": 9,
+      "plotCharacters": 220,
+      "castCount": 8,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-2-s2-e10",
+      "projectId": "lc-2",
+      "season": 2,
+      "number": 10,
+      "plotCharacters": 227,
+      "castCount": 6,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-2-s2-e11",
+      "projectId": "lc-2",
+      "season": 2,
+      "number": 11,
+      "plotCharacters": 207,
+      "castCount": 6,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-2-s2-e12",
+      "projectId": "lc-2",
+      "season": 2,
+      "number": 12,
+      "plotCharacters": 243,
+      "castCount": 6,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "lc-2-s2-e13",
+      "projectId": "lc-2",
+      "season": 2,
+      "number": 13,
+      "plotCharacters": 233,
+      "castCount": 7,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-1-s1-e1",
+      "projectId": "if-1",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 238,
+      "castCount": 5,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-1-s1-e2",
+      "projectId": "if-1",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 246,
+      "castCount": 5,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-1-s1-e3",
+      "projectId": "if-1",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 220,
+      "castCount": 7,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-1-s1-e4",
+      "projectId": "if-1",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 215,
+      "castCount": 7,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-1-s1-e5",
+      "projectId": "if-1",
+      "season": 1,
+      "number": 5,
+      "plotCharacters": 241,
+      "castCount": 6,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-1-s1-e6",
+      "projectId": "if-1",
+      "season": 1,
+      "number": 6,
+      "plotCharacters": 210,
+      "castCount": 6,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-1-s1-e7",
+      "projectId": "if-1",
+      "season": 1,
+      "number": 7,
+      "plotCharacters": 219,
+      "castCount": 7,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-1-s1-e8",
+      "projectId": "if-1",
+      "season": 1,
+      "number": 8,
+      "plotCharacters": 206,
+      "castCount": 6,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-1-s1-e9",
+      "projectId": "if-1",
+      "season": 1,
+      "number": 9,
+      "plotCharacters": 216,
+      "castCount": 9,
+      "sourceCount": 11,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-1-s1-e10",
+      "projectId": "if-1",
+      "season": 1,
+      "number": 10,
+      "plotCharacters": 207,
+      "castCount": 7,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-1-s1-e11",
+      "projectId": "if-1",
+      "season": 1,
+      "number": 11,
+      "plotCharacters": 203,
+      "castCount": 7,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-1-s1-e12",
+      "projectId": "if-1",
+      "season": 1,
+      "number": 12,
+      "plotCharacters": 215,
+      "castCount": 7,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-1-s1-e13",
+      "projectId": "if-1",
+      "season": 1,
+      "number": 13,
+      "plotCharacters": 246,
+      "castCount": 9,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-2-s2-e1",
+      "projectId": "if-2",
+      "season": 2,
+      "number": 1,
+      "plotCharacters": 218,
+      "castCount": 6,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-2-s2-e2",
+      "projectId": "if-2",
+      "season": 2,
+      "number": 2,
+      "plotCharacters": 201,
+      "castCount": 6,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-2-s2-e3",
+      "projectId": "if-2",
+      "season": 2,
+      "number": 3,
+      "plotCharacters": 229,
+      "castCount": 6,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-2-s2-e4",
+      "projectId": "if-2",
+      "season": 2,
+      "number": 4,
+      "plotCharacters": 220,
+      "castCount": 7,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-2-s2-e5",
+      "projectId": "if-2",
+      "season": 2,
+      "number": 5,
+      "plotCharacters": 211,
+      "castCount": 7,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-2-s2-e6",
+      "projectId": "if-2",
+      "season": 2,
+      "number": 6,
+      "plotCharacters": 224,
+      "castCount": 7,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-2-s2-e7",
+      "projectId": "if-2",
+      "season": 2,
+      "number": 7,
+      "plotCharacters": 219,
+      "castCount": 7,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-2-s2-e8",
+      "projectId": "if-2",
+      "season": 2,
+      "number": 8,
+      "plotCharacters": 211,
+      "castCount": 6,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-2-s2-e9",
+      "projectId": "if-2",
+      "season": 2,
+      "number": 9,
+      "plotCharacters": 229,
+      "castCount": 7,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "if-2-s2-e10",
+      "projectId": "if-2",
+      "season": 2,
+      "number": 10,
+      "plotCharacters": 214,
+      "castCount": 7,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-1-s1-e1",
+      "projectId": "punisher-1",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 220,
+      "castCount": 6,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-1-s1-e2",
+      "projectId": "punisher-1",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 235,
+      "castCount": 12,
+      "sourceCount": 12,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-1-s1-e3",
+      "projectId": "punisher-1",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 218,
+      "castCount": 11,
+      "sourceCount": 12,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-1-s1-e4",
+      "projectId": "punisher-1",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 215,
+      "castCount": 11,
+      "sourceCount": 11,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-1-s1-e5",
+      "projectId": "punisher-1",
+      "season": 1,
+      "number": 5,
+      "plotCharacters": 226,
+      "castCount": 11,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-1-s1-e6",
+      "projectId": "punisher-1",
+      "season": 1,
+      "number": 6,
+      "plotCharacters": 210,
+      "castCount": 11,
+      "sourceCount": 12,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-1-s1-e7",
+      "projectId": "punisher-1",
+      "season": 1,
+      "number": 7,
+      "plotCharacters": 217,
+      "castCount": 7,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-1-s1-e8",
+      "projectId": "punisher-1",
+      "season": 1,
+      "number": 8,
+      "plotCharacters": 208,
+      "castCount": 8,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-1-s1-e9",
+      "projectId": "punisher-1",
+      "season": 1,
+      "number": 9,
+      "plotCharacters": 210,
+      "castCount": 9,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-1-s1-e10",
+      "projectId": "punisher-1",
+      "season": 1,
+      "number": 10,
+      "plotCharacters": 200,
+      "castCount": 7,
+      "sourceCount": 7,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-1-s1-e11",
+      "projectId": "punisher-1",
+      "season": 1,
+      "number": 11,
+      "plotCharacters": 194,
+      "castCount": 9,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-1-s1-e12",
+      "projectId": "punisher-1",
+      "season": 1,
+      "number": 12,
+      "plotCharacters": 222,
+      "castCount": 8,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-1-s1-e13",
+      "projectId": "punisher-1",
+      "season": 1,
+      "number": 13,
+      "plotCharacters": 248,
+      "castCount": 9,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-2-s2-e1",
+      "projectId": "punisher-2",
+      "season": 2,
+      "number": 1,
+      "plotCharacters": 225,
+      "castCount": 5,
+      "sourceCount": 7,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-2-s2-e2",
+      "projectId": "punisher-2",
+      "season": 2,
+      "number": 2,
+      "plotCharacters": 209,
+      "castCount": 7,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-2-s2-e3",
+      "projectId": "punisher-2",
+      "season": 2,
+      "number": 3,
+      "plotCharacters": 224,
+      "castCount": 9,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-2-s2-e4",
+      "projectId": "punisher-2",
+      "season": 2,
+      "number": 4,
+      "plotCharacters": 216,
+      "castCount": 8,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-2-s2-e5",
+      "projectId": "punisher-2",
+      "season": 2,
+      "number": 5,
+      "plotCharacters": 213,
+      "castCount": 9,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-2-s2-e6",
+      "projectId": "punisher-2",
+      "season": 2,
+      "number": 6,
+      "plotCharacters": 203,
+      "castCount": 8,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-2-s2-e7",
+      "projectId": "punisher-2",
+      "season": 2,
+      "number": 7,
+      "plotCharacters": 231,
+      "castCount": 6,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-2-s2-e8",
+      "projectId": "punisher-2",
+      "season": 2,
+      "number": 8,
+      "plotCharacters": 227,
+      "castCount": 7,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-2-s2-e9",
+      "projectId": "punisher-2",
+      "season": 2,
+      "number": 9,
+      "plotCharacters": 184,
+      "castCount": 9,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-2-s2-e10",
+      "projectId": "punisher-2",
+      "season": 2,
+      "number": 10,
+      "plotCharacters": 224,
+      "castCount": 6,
+      "sourceCount": 8,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-2-s2-e11",
+      "projectId": "punisher-2",
+      "season": 2,
+      "number": 11,
+      "plotCharacters": 225,
+      "castCount": 10,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-2-s2-e12",
+      "projectId": "punisher-2",
+      "season": 2,
+      "number": 12,
+      "plotCharacters": 206,
+      "castCount": 8,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "punisher-2-s2-e13",
+      "projectId": "punisher-2",
+      "season": 2,
+      "number": 13,
+      "plotCharacters": 221,
+      "castCount": 10,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "defenders-s1-e1",
+      "projectId": "defenders",
+      "season": 1,
+      "number": 1,
+      "plotCharacters": 241,
+      "castCount": 14,
+      "sourceCount": 15,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "defenders-s1-e2",
+      "projectId": "defenders",
+      "season": 1,
+      "number": 2,
+      "plotCharacters": 215,
+      "castCount": 16,
+      "sourceCount": 15,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "defenders-s1-e3",
+      "projectId": "defenders",
+      "season": 1,
+      "number": 3,
+      "plotCharacters": 242,
+      "castCount": 10,
+      "sourceCount": 11,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "defenders-s1-e4",
+      "projectId": "defenders",
+      "season": 1,
+      "number": 4,
+      "plotCharacters": 225,
+      "castCount": 9,
+      "sourceCount": 9,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "defenders-s1-e5",
+      "projectId": "defenders",
+      "season": 1,
+      "number": 5,
+      "plotCharacters": 225,
+      "castCount": 18,
+      "sourceCount": 17,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "defenders-s1-e6",
+      "projectId": "defenders",
+      "season": 1,
+      "number": 6,
+      "plotCharacters": 224,
+      "castCount": 10,
+      "sourceCount": 10,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "defenders-s1-e7",
+      "projectId": "defenders",
+      "season": 1,
+      "number": 7,
+      "plotCharacters": 233,
+      "castCount": 14,
+      "sourceCount": 14,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    },
+    {
+      "id": "defenders-s1-e8",
+      "projectId": "defenders",
+      "season": 1,
+      "number": 8,
+      "plotCharacters": 241,
+      "castCount": 15,
+      "sourceCount": 15,
+      "flags": [
+        "short-plot",
+        "post-credits-unverified"
+      ],
+      "screenVerified": false
+    }
+  ]
+}
