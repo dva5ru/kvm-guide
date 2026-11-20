@@ -92,10 +92,11 @@ test('Stan Lee retains live-action cameos and excludes photographs, animation an
   const removed=['dd-1','dd-2','jj-1','jj-2','lc-1','lc-2','if-1','if-2','punisher-1','defenders','cloak-dagger','deadpool-2','once-upon-a-deadpool','venom-2','spider-verse-1','deadpool-wolverine'];
   for(const pid of removed){assert.ok(!g.D.appearances.some(a=>a.id===pid+'::stan-lee'),pid);assert.ok(!g.P[pid].cs.some(a=>a[0]==='stan-lee'),pid+' cast')}
   assert.ok(g.D.appearances.filter(a=>a.characterId==='stan-lee').every(a=>a.kind==='on-screen'));
-  g.go('c-stan-lee');assert.equal(s.doc.querySelectorAll('.cols .ah > a').length,40,'the 41st record is the hidden Endgame rerelease duplicate');
+  g.go('c-stan-lee');assert.equal(s.doc.querySelectorAll('.cols .ah > a[href^="#f-"]').length,41,'SHIELD season 1 is now linked separately; nested episode links and the rerelease are not counted');
+  assert.ok(g.D.appearances.find(a=>a.id==='aos-1::stan-lee').episodes.some(e=>e.episodeId==='aos-1-s1-e13'));
   for(const pid of removed)assert.equal(s.doc.querySelector('.cols a[href="#f-'+pid+'"]'),null,pid);
   assert.ok(!g.D.appearances.some(a=>a.characterId==='stan-lee'&&['blade-1','punisher-2','dd-3','wandavision','nwh','gotg3'].includes(a.projectId)),'deleted scenes, ambiguous portraits and dedications are not invented appearances');
   assert.match(g.C['stan-lee'].notes['black-panther'],/Т’Чаллы/);
   const audit=JSON.parse(readFileSync(new URL('../../audit/data/character-series-groups-2026-11-07.json',import.meta.url)));
-  assert.equal(audit.stanLeeLiveActionFilter.projects,g.C['stan-lee'].app.length);
+  assert.equal(audit.stanLeeLiveActionFilter.projects+1,g.C['stan-lee'].app.length,'one episode-bearing SHIELD season was added to the old snapshot');
 });

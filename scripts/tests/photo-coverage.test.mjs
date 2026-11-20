@@ -14,6 +14,7 @@ test('local portraits with exact character IDs are linked except the mislabeled 
 test('do not borrow a different universe or version image for a missing character',()=>{
   const report=auditPhotos();
   const missing=new Set(report.withoutFile.map(c=>c.id));
-  for(const id of ['wolverine','storm','groot-original','groot-what-if'])assert.ok(missing.has(id),id);
-  for(const id of ['bruce-2003','captain-carter','peter-b-parker','white-vision'])assert.ok(report.assigned.some(c=>c.id===id),id);
+  for(const id of ['wolverine','storm','groot-what-if'])assert.ok(missing.has(id),id);
+  // The original adult Groot has his own verified 2014 portrait.
+  for(const id of ['bruce-2003','captain-carter','peter-b-parker','white-vision','groot-original'])assert.ok(report.assigned.some(c=>c.id===id),id);
 });
