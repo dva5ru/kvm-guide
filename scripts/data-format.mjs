@@ -21,6 +21,7 @@ export const DATA_FILES=[
   ['data/catalog.json',['ln','routes','sg','eras','studios','st','k','dc','dcSet','dt']],
   ['data/versions.json',['versions','editions','versionTitles']],
   ['data/search.json',['alias','en']],
+  ['data/story-references.json',['storyReferenceSchemaVersion','storyReferences']],
 ];
 // Что грузится не сразу, а когда нужно: группа → файлы. Вид merge: keys — разделы целиком, иначе — подробности для уже загруженных записей.
 export const LAZY_FILES={
